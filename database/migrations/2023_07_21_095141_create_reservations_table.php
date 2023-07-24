@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('restaurant_id');
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->string('full_name', 100)->nullable();
+            $table->string('full_name', 100);
             $table->string('phone_number', 20)->nullable();
             $table->string('email', 100)->nullable();
             $table->decimal('deposit', 8, 2)->nullable();

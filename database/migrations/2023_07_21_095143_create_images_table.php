@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('images', function (Blueprint $table) {
             $table->id();
-            $table->boolean('first_image');
             $table->unsignedBigInteger('restaurant_id')->nullable();;
             $table->unsignedBigInteger('menu_id')->nullable();
             $table->unsignedBigInteger('product_id')->nullable();
             $table->string('image_url', 255);
+            $table->unsignedInteger('display_order')->default(0);
             $table->timestamps();
             $table->softDeletes();
             

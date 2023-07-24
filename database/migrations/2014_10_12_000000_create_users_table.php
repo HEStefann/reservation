@@ -17,8 +17,11 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->text('notes')->nullable();
+            $table->enum('role', ['owner', 'moderator', 'guest'])->default('guest');
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

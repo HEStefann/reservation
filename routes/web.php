@@ -29,3 +29,7 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+Route::get('/restaurant/register', function () {
+    return view('auth.restaurant-register');
+})->name('restaurant.register');

@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RestaurantController;
+use App\Http\Controllers\RestaurantSettingsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,6 +32,15 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('/restaurant/register', function () {
-    return view('auth.restaurant-register');
-})->name('restaurant.register');
+
+Route::get('/restaurant/register', [RestaurantController::class, 'create'])->name('restaurant.register');
+Route::post('/restaurant/register', [RestaurantController::class, 'store']);
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/restaurants/{restaurant}/settings', [RestaurantSettingsController::class, 'index'])->name('restaurant.settings');
+    Route::post('/restaurants/{restaurant}/update-info', [RestaurantSettingsController::class, 'updateInfo'])->name('restaurant.settings.update_info');
+    Route::post('/restaurants/{restaurant}/update-available-people', [RestaurantSettingsController::class, 'updateAvailablePeople'])->name('restaurant.settings.update_available_people');
+    Route::post('/restaurants/{restaurant}/update-operating-hours', [RestaurantSettingsController::class, 'updateOperatingHours'])->name('restaurant.settings.update_operating_hours');
+    Route::post('/restaurants/{restaurant}/update-operating-status', [RestaurantSettingsController::class, 'updateOperatingStatus'])->name('restaurant.settings.update_operating_status');
+    Route::post('/restaurants/{restaurant}/update-content', [RestaurantSettingsController::class, 'updateContent'])->name('restaurant.settings.update_content');
+});

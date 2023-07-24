@@ -11,6 +11,14 @@ class WorkingHour extends Model
 {
     use HasFactory, SoftDeletes;
     
+protected $fillable = [
+    'restaurant_id',
+    'work_date',
+    'opening_time',
+    'closing_time',
+    'default_working_time',
+];
+
     public function restaurant(): BelongsTo
     {
         return $this->belongsTo(Restaurant::class);

@@ -14,10 +14,12 @@ return new class extends Migration
         Schema::create('working_hours', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('restaurant_id');
-            $table->date('work_date');
+            $table->enum('day_of_week', ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']);
+            $table->date('work_date')->nullable();
             $table->time('opening_time');
             $table->time('closing_time');
-            $table->integer('number_people_serve')->nullable();
+            $table->boolean('default_working_time')->default(false);
+            $table->integer('available_people')->default(0);
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('restaurant_id')->references('id')->on('restaurants');

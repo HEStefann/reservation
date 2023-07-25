@@ -10,18 +10,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class WorkingHour extends Model
 {
     use HasFactory, SoftDeletes;
-    
-protected $fillable = [
-    'restaurant_id',
-    'work_date',
-    'opening_time',
-    'closing_time',
-    'default_working_time',
-];
+
+    protected $fillable = [
+        'restaurant_id',
+        'day_of_week', // Corrected column name
+        'opening_time',
+        'closing_time',
+        'default_working_time',
+    ];
 
     public function restaurant(): BelongsTo
     {
         return $this->belongsTo(Restaurant::class);
     }
 }
-

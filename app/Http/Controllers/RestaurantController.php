@@ -20,28 +20,31 @@ class RestaurantController extends Controller
      * Handle the restaurant registration process.
      */
 
-public function store(Request $request)
-{
-    $request->validate([
-        'title' => 'required|string|max:255',
-        'description' => 'nullable|string',
-        'opening_time' => 'required|array',
-        'closing_time' => 'required|array',
-    ]);
+    public function store(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'working_hours' => 'required|array',
+            'working_hours.*.day' => 'required|string|in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday',
+            'working_hours.*.opening_time' => 'required|date_format:H:i',
+            'working_hours.*.closing_time' => 'required|date_format:H:i',
+        ]);
 
-    // Create the restaurant for the logged-in user
-    $restaurant = Restaurant::create([
-        'title' => $request->title,
-        'description' => $request->description,
-    ]);
+        // Create the restaurant for the logged-in user
+        $restaurant = Restaurant::create([
+            'title' => $request->title,
+            'description' => $request->description,
+        ]);
 
-    // Define the days of the week in the desired order (Monday to Sunday)
-    $daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+        // Handle working hours
+        $workingHours = $request->input('working_hours');
+        $restaurant->saveWorkingHours($workingHours);
 
-    // Handle working hours
-    $restaurant->saveWorkingHours($daysOfWeek, $request->input('opening_time'), $request->input('closing_time'));
+        // Remove the dd statement below
+        // dd($request->input('working_hours'));
 
-    return redirect()->route('restaurant.settings', ['restaurant' => $restaurant->id]);
-}
+        return redirect()->route('restaurant.settings', ['restaurant' => $restaurant->id]);
+    }
 
 }

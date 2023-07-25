@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Log;
+
 
 class Restaurant extends Model
 {
@@ -77,28 +79,37 @@ class Restaurant extends Model
     // Method to convert time to 24-hour format
     private function convertTo24HourFormat($time)
     {
-        return date('H:i', strtotime($time));
+        return date('H:i', strtotime("2023-07-24 $time")); // Use a specific date for proper conversion
     }
+
+
+
+
 
     // Method to handle working hours
-    public function saveWorkingHours(array $daysOfWeek, array $openingTimes, array $closingTimes)
-{
-    foreach ($daysOfWeek as $day) {
-        $openingTime = isset($openingTimes[$day]) ? $this->convertTo24HourFormat($openingTimes[$day]) : null;
-        $closingTime = isset($closingTimes[$day]) ? $this->convertTo24HourFormat($closingTimes[$day]) : null;
+    public function saveWorkingHours(array $workingHours)
+    {
+        foreach ($workingHours as $day => $dayData) {
+            $openingTime = isset($dayData['opening_time']) ? $this->convertTo24HourFormat($dayData['opening_time']) : null;
+            $closingTime = isset($dayData['closing_time']) ? $this->convertTo24HourFormat($dayData['closing_time']) : null;
 
-        // Save working hours for each day
-        if ($openingTime !== null && $closingTime !== null) {
-            WorkingHour::create([
-                'restaurant_id' => $this->id,
-                'day_of_week' => $day,
-                'opening_time' => $openingTime,
-                'closing_time' => $closingTime,
-                'default_working_time' => true,
-            ]);
+            // Save working hours for each day
+            if ($openingTime !== null && $closingTime !== null) {
+                WorkingHour::create([
+                    'restaurant_id' => $this->id,
+                    'day_of_week' => $day, // Corrected to use $day instead of $dayData['day']
+                    'opening_time' => $openingTime,
+                    'closing_time' => $closingTime,
+                    'default_working_time' => true,
+                ]);
+            }
         }
     }
-}
+
+
+
+
+
 
     /**
      * Update the restaurant information.

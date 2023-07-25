@@ -17,19 +17,30 @@
                 required>{{ old('description') }}</textarea>
             <x-input-error :messages="$errors->get('description')" class="mt-2" />
         </div>
-
         <!-- Working Hours -->
         <div class="mt-4">
-            <x-input-label for="work_hours" :value="__('Working Hours')" />
+            <x-input-label for="working_hours" :value="__('Working Hours')" />
             <div>
-                @foreach (['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] as $day)
+                @php
+                    $daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+                @endphp
+                @foreach ($daysOfWeek as $day)
                     <label class="block text-white">{{ $day }}</label>
-                    <input type="time" name="opening_time[{{ $day }}]"
+                    <input type="hidden" name="working_hours[{{ $day }}][day]" value="{{ $day }}">
+                    <input type="time" name="working_hours[{{ $day }}][opening_time]"
                         class="form-input w-full text-black bg-white" required>
-                    <input type="time" name="closing_time[{{ $day }}]"
+                    <input type="time" name="working_hours[{{ $day }}][closing_time]"
                         class="form-input w-full text-black bg-white" required>
                 @endforeach
             </div>
+        </div>
+
+
+
+        </div>
+        </div>
+
+        </div>
         </div>
 
 

@@ -8,12 +8,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Log;
-
+use Illuminate\Support\Facades\Request;
 
 class Restaurant extends Model
 {
     use HasFactory, SoftDeletes;
+
     protected $fillable = [
         'title',
         'description',
@@ -22,6 +22,7 @@ class Restaurant extends Model
         'content_title',
         'short_description',
     ];
+
     protected $dates = ['deleted_at'];
 
     public function tags(): BelongsToMany
@@ -63,28 +64,58 @@ class Restaurant extends Model
     {
         return $this->hasMany(Moderator::class);
     }
+    public function updateInfo(array $data)
+    {
+        return $this->update([
+            'title' => $data['title'],
+            'description' => $data['description'],
+        ]);
+    }
 
-    // Define the methods to get the opening and closing times for each day
+    // Method to update the available number of people
+    public function updateAvailablePeople(int $availablePeople)
+    {
+        return $this->update([
+            'available_people' => $availablePeople,
+        ]);
+    }
+
+    // Method to update the operating status
+    public function updateOperatingStatus(string $operatingStatus)
+    {
+        return $this->update([
+            'operating_status' => $operatingStatus,
+        ]);
+    }
+
+    // Method to update content information
+    public function updateContent(array $data)
+    {
+        return $this->update([
+            'content_title' => $data['content_title'],
+            'short_description' => $data['short_description'],
+        ]);
+    }
+
+    // Method to get the opening time for a specific day
     public function getOpeningTime($day)
     {
         $workingHour = $this->workingHours->where('work_day', $day)->first();
         return $workingHour ? $workingHour->opening_time : null;
     }
 
+    // Method to get the closing time for a specific day
     public function getClosingTime($day)
     {
         $workingHour = $this->workingHours->where('work_day', $day)->first();
         return $workingHour ? $workingHour->closing_time : null;
     }
+
     // Method to convert time to 24-hour format
     private function convertTo24HourFormat($time)
     {
-        return date('H:i', strtotime("2023-07-24 $time")); // Use a specific date for proper conversion
+        return date('H:i', strtotime("2023-07-24 $time"));
     }
-
-
-
-
 
     // Method to handle working hours
     public function saveWorkingHours(array $workingHours)
@@ -93,76 +124,26 @@ class Restaurant extends Model
             $openingTime = isset($dayData['opening_time']) ? $this->convertTo24HourFormat($dayData['opening_time']) : null;
             $closingTime = isset($dayData['closing_time']) ? $this->convertTo24HourFormat($dayData['closing_time']) : null;
 
-            // Save working hours for each day
-            if ($openingTime !== null && $closingTime !== null) {
+            // Find the existing working hour for the current day (where default_working_time is true)
+            $workingHour = $this->workingHours()->where('day_of_week', $day)->where('default_working_time', true)->first();
+
+            if ($workingHour) {
+                // Update the existing working hour
+                $workingHour->update([
+                    'opening_time' => $openingTime,
+                    'closing_time' => $closingTime,
+                ]);
+            } else {
+                // Create a new working hour entry if it doesn't exist
                 WorkingHour::create([
                     'restaurant_id' => $this->id,
-                    'day_of_week' => $day, // Corrected to use $day instead of $dayData['day']
+                    'day_of_week' => $day,
                     'opening_time' => $openingTime,
                     'closing_time' => $closingTime,
                     'default_working_time' => true,
                 ]);
             }
         }
-    }
-
-
-
-
-
-
-    /**
-     * Update the restaurant information.
-     *
-     * @param array $data
-     * @return bool
-     */
-    public function updateRestaurantInfo(array $data)
-    {
-        return $this->update([
-            'title' => $data['title'],
-            'description' => $data['description'],
-        ]);
-    }
-
-    /**
-     * Update the available number of people for the restaurant.
-     *
-     * @param int $availablePeople
-     * @return bool
-     */
-    public function updateAvailablePeople(int $availablePeople)
-    {
-        return $this->update([
-            'available_people' => $availablePeople,
-        ]);
-    }
-
-    /**
-     * Update the operating status for the restaurant.
-     *
-     * @param string $operatingStatus
-     * @return bool
-     */
-    public function updateOperatingStatus(string $operatingStatus)
-    {
-        return $this->update([
-            'operating_status' => $operatingStatus,
-        ]);
-    }
-
-    /**
-     * Update the content information for the restaurant.
-     *
-     * @param array $data
-     * @return bool
-     */
-    public function updateContent(array $data)
-    {
-        return $this->update([
-            'content_title' => $data['content_title'],
-            'short_description' => $data['short_description'],
-        ]);
     }
     public function getDefaultWorkingHours()
     {

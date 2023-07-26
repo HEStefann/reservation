@@ -13,7 +13,7 @@ class WorkingHour extends Model
 
     protected $fillable = [
         'restaurant_id',
-        'day_of_week', // Corrected column name
+        'day_of_week',
         'opening_time',
         'closing_time',
         'default_working_time',
@@ -23,4 +23,13 @@ class WorkingHour extends Model
     {
         return $this->belongsTo(Restaurant::class);
     }
+    public function updateWorkingHours(array $data)
+{
+    $this->update([
+        'opening_time' => $data['opening_time'],
+        'closing_time' => $data['closing_time'],
+    ]);
+
+    return $this;
+}
 }

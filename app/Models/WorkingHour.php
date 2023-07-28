@@ -32,4 +32,8 @@ class WorkingHour extends Model
 
     return $this;
 }
+public static function convertTo24HourFormat($time)
+{
+    return date('H:i', strtotime($time));
+}
 }

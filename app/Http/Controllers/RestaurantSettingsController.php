@@ -13,6 +13,14 @@ class RestaurantSettingsController extends Controller
 {
     protected $restaurantService;
 
+    public function dashboard()
+    {
+        $reservedCount = Reservation::count();
+        $availableCount = DB::table('restaurants')->sum('available_people');
+
+        return view('dashboard', compact('reservedCount', 'availableCount'));
+    }
+
     public function __construct(RestaurantService $restaurantService)
     {
         $this->restaurantService = $restaurantService;
@@ -45,25 +53,25 @@ class RestaurantSettingsController extends Controller
     public function updateOperatingHours(Request $request, $restaurantId)
     {
         $restaurant = Restaurant::findOrFail($restaurantId);
-    
+
         foreach (['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] as $day) {
             $openingTime = $request->input("working_hours.$day.opening_time");
             $closingTime = $request->input("working_hours.$day.closing_time");
-    
+
             $data = [
                 'opening_time' => $openingTime,
                 'closing_time' => $closingTime,
             ];
-    
+
             $workingHour = $restaurant->workingHours()->where('day_of_week', $day)->first();
-    
+
             if ($workingHour) {
                 $workingHour->update($data);
             } else {
                 $restaurant->workingHours()->create($data);
             }
         }
-    
+
         return redirect()->back()->with('success', 'Operating hours updated successfully.');
     }
 

@@ -8,6 +8,8 @@ use App\Http\Controllers\RestaurantSettingsController;
 use App\Http\Controllers\RestaurantTagsController;
 use App\Http\Controllers\TagsController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,9 +26,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/user/restaurants', [UserController::class, 'index'])->name('user.restaurants');
+
+
+Route::get('/dashboard', [RestaurantController::class, 'dashboard'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -67,6 +73,11 @@ Route::middleware('auth')->group(function () {
         Route::put('/', [RestaurantSettingsCalendarController::class, 'updateWorkingHours'])->name('update');
     });
 });
+
+Route::get('/dashboard', [ReservationController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/reservations/create', [ReservationController::class, 'create'])->name('reservations.create');
+Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
+Route::get('/user/restaurants', [UserController::class, 'index'])->name('restaurants.index');
 
 
 

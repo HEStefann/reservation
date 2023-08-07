@@ -1,8 +1,8 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const prevMonthBtn = document.getElementById('prevMonthBtn');
-    const nextMonthBtn = document.getElementById('nextMonthBtn');
-    const currentMonthElement = document.querySelector('.month');
-    const currentYearElement = document.querySelector('.year');
+document.addEventListener("DOMContentLoaded", function () {
+    const prevMonthBtn = document.getElementById("prevMonthBtn");
+    const nextMonthBtn = document.getElementById("nextMonthBtn");
+    const currentMonthElement = document.querySelector(".month");
+    const currentYearElement = document.querySelector(".year");
 
     let currentDate = new Date();
 
@@ -11,84 +11,120 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch(url)
             .then((response) => response.json())
             .then((data) => {
-                currentMonthElement.textContent = data.month;
-                currentYearElement.textContent = data.year;
+                currentMonthElement.textContent = data["calendar"].month;
+                currentYearElement.textContent = data["calendar"].year;
 
-                const calendarContainer = document.querySelector('.calendar');
-                const daysContainer = document.createElement('div');
-                daysContainer.className = 'days';
+                const calendarContainer = document.querySelector(".calendar");
+                const daysContainer = document.createElement("div");
+                daysContainer.className = "days";
 
-                // Add day labels
-                const dayLabels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                const dayLabels = [
+                    "Sun",
+                    "Mon",
+                    "Tue",
+                    "Wed",
+                    "Thu",
+                    "Fri",
+                    "Sat",
+                ];
                 dayLabels.forEach((dayLabel) => {
-                    const dayLabelElement = document.createElement('span');
-                    dayLabelElement.className = 'day-label';
+                    const dayLabelElement = document.createElement("span");
+                    dayLabelElement.className = "day-label";
                     dayLabelElement.textContent = dayLabel;
                     daysContainer.appendChild(dayLabelElement);
                 });
 
-                data.days.forEach((day) => {
-                    const dayElement = document.createElement('span');
+                data["calendar"].days.forEach((day) => {
+                    const dayElement = document.createElement("span");
                     dayElement.className = `day ${day.class}`;
 
-                    const contentElement = document.createElement('span');
-                    contentElement.className = 'content';
+                    const contentElement = document.createElement("span");
+                    contentElement.className = "content";
                     contentElement.textContent = day.date;
 
                     dayElement.appendChild(contentElement);
                     daysContainer.appendChild(dayElement);
                     // Add click event listener to each day element
-                dayElement.addEventListener('click', () => {
-                    openModal(data.year, data.month, day.date);
-                });
-                        // Add a CSS class to the selected date
-        if (day.date === selectedDate) {
-            dayElement.classList.add('selected');
-        }
+                    dayElement.addEventListener("click", () => {
+                        openModal(
+                            data["calendar"].year,
+                            data["calendar"].month,
+                            day.date
+                        );
+                    });
                 });
 
-                calendarContainer.replaceChild(daysContainer, document.querySelector('.days'));
+                calendarContainer.replaceChild(
+                    daysContainer,
+                    document.querySelector(".days")
+                );
             })
-            .catch((error) => console.error('Error fetching calendar data:', error));
+            .catch((error) =>
+                console.error("Error fetching calendar data:", error)
+            );
     }
 
     function goToPreviousMonth() {
-        currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1);
+        currentDate = new Date(
+            currentDate.getFullYear(),
+            currentDate.getMonth() - 1,
+            1
+        );
         updateCalendar(currentDate);
     }
 
     function goToNextMonth() {
-        currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
+        currentDate = new Date(
+            currentDate.getFullYear(),
+            currentDate.getMonth() + 1,
+            1
+        );
         updateCalendar(currentDate);
     }
 
-    prevMonthBtn.addEventListener('click', goToPreviousMonth);
-    nextMonthBtn.addEventListener('click', goToNextMonth);
+    prevMonthBtn.addEventListener("click", goToPreviousMonth);
+    nextMonthBtn.addEventListener("click", goToNextMonth);
 
     updateCalendar(currentDate);
 
     function openModal(year, month, day) {
-        const modal = document.getElementById('workingHoursModal');
-        const selectedDateElement = modal.querySelector('#selectedDate');
-        const isWorkingInput = modal.querySelector('#isWorking');
-        const openingTimeInput = modal.querySelector('#openingTime');
-        const closingTimeInput = modal.querySelector('#closingTime');
-    
-        // Set the selected date in the modal
-        selectedDateElement.textContent = `${year} ${month} ${day}`;
-    
-        // Reset the form inputs
-        isWorkingInput.checked = false;
-        openingTimeInput.value = '';
-        closingTimeInput.value = '';
-    
-        // Show the modal
-        modal.classList.add('open');
-    }
-    
+        const modal = document.getElementById("workingHoursModal");
+        const selectedDateElement = modal.querySelector("#selectedDateSpan");
+        const isWorkingInput = modal.querySelector("#isWorking");
+        const openingTimeInput = modal.querySelector("#openingTime");
+        const closingTimeInput = modal.querySelector("#closingTime");
+        const availablePeopleInput = modal.querySelector("#availablePeople");
 
+        // Set the selected date in the modal
+        const date = `${year}-${month}-${day}`;
+        selectedDateElement.textContent = date;
+        selectedDate = date;
+        const selectedDateInput = modal.querySelector("#selectedDate");
+        selectedDateInput.value = date;
+
+        // Fetch the working hours for the selected date
+        const url = `/restaurant/${restaurantId}/working-hours/${date}`;
+        fetch(url)
+            .then((response) => response.json())
+            .then((data) => {
+                // Pre-fill the form inputs
+                isWorkingInput.value = data.is_working ? "true" : "false";
+                openingTimeInput.value = data.opening_time;
+                closingTimeInput.value = data.closing_time;
+                availablePeopleInput.value = data.available_people;
+            })
+            .catch((error) =>
+                console.error("Error fetching working hours:", error)
+            );
+
+        // Show the modal
+        modal.classList.add("open");
+    }
+
+    function closeModal() {
+        const modal = document.getElementById("workingHoursModal");
+        modal.classList.remove("open");
+    }
+
+    window.closeModal = closeModal;
 });
-function closeModal() {
-    const modal = document.getElementById('workingHoursModal');
-    modal.classList.remove('open');
-}

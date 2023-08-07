@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -57,7 +58,7 @@ class Restaurant extends Model
 
     public function images(): HasMany
     {
-        return $this->hasMany(Image::class);
+        return $this->hasMany(RestaurantImage::class);
     }
 
     public function moderators(): HasMany
@@ -148,5 +149,20 @@ class Restaurant extends Model
     public function getDefaultWorkingHours()
     {
         return $this->workingHours()->where('default_working_time', true)->get();
+    }
+
+    public function updateOrCreateWorkingHoursForDate($date, $data)
+    {
+        $workDate = Carbon::parse($date);
+    
+        $data['work_date'] = $workDate;
+        $data['day_of_week'] = $workDate->format('l');
+        $data['is_working'] = $data['is_working'] ? 1 : 0;
+        $data['available_people'] = $data['available_people'] ?? 0;
+    
+        $this->workingHours()->updateOrCreate(
+            ['work_date' => $workDate],
+            $data
+        );
     }
 }

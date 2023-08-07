@@ -17,6 +17,9 @@ class WorkingHour extends Model
         'opening_time',
         'closing_time',
         'default_working_time',
+        'work_date',
+        'is_working',
+        'available_people',
     ];
 
     public function restaurant(): BelongsTo

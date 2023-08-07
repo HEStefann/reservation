@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Tag extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $fillable = ['tag_name'];
+    protected $fillable = ['name'];
     public function restaurants(): BelongsToMany
     {
         return $this->belongsToMany(Restaurant::class, 'restaurant_tags');

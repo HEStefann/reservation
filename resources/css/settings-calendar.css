@@ -83,6 +83,16 @@
     justify-content: center;
     align-items: center;
 }
+.day.closed .content {
+    background-color: red;
+    color: white;
+}
+
+.day.short-hours .content {
+    background-color: yellow;
+    color: black;
+}
+
 
 /* MODAL */
 

@@ -1,4 +1,22 @@
+<?php
+use App\Http\Controllers\RestaurantSettingsCalendarController;
+?>
 <x-guest-layout>
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <div class="flex justify-between mb-4">
         <button id="permanentSettingsBtn" class="bg-gray-300 px-4 py-2 rounded">Permanent Settings</button>
         <button id="temporarySettingsBtn" class="bg-gray-300 px-4 py-2 rounded">Temporary Settings</button>
@@ -27,7 +45,7 @@
         <form method="POST"
             action="{{ route('restaurant.settings.update_available_people', ['restaurant' => $restaurant->id]) }}">
             @csrf
-            {{ method_field('POST') }}
+            @method('POST')
             <label class="block mt-4">
                 <span class="text-white">Available Number of People:</span>
                 <input type="number" name="available_people"
@@ -42,6 +60,7 @@
         <form method="POST"
             action="{{ route('restaurant.settings.update_operating_hours', ['restaurant' => $restaurant->id]) }}">
             @csrf
+            @method('POST')
             @php
                 $defaultWorkingHours = $restaurant->getDefaultWorkingHours();
             @endphp
@@ -69,29 +88,78 @@
             @endforeach
             <button type="submit" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">Save</button>
         </form>
-        
-        <!-- Modifying Operating Hours Confirmation - Modal -->
-        <!-- You can implement the modal here, as shown in the previous responses -->
 
+        <h2 class="text-white text-2xl font-bold mt-8">Images</h2>
+        <form method="POST" enctype="multipart/form-data"
+            action="{{ route('restaurant.image.upload', $restaurant) }}">
 
-        <!-- Image Uploading -->
-        <!-- You can implement the image uploading here, as shown in the previous responses -->
+            @csrf
+
+            <input type="file" name="images[]" multiple>
+
+            <button type="submit">Upload</button>
+
+        </form>
+        <!-- Display images -->
+        <div id="restaurant-images">
+            @php
+                $images = App\Models\RestaurantImage::where('restaurant_id', $restaurant->id)->get();
+            @endphp
+
+            @foreach ($images as $image)
+            <img src="{{ asset('storage/images/' . $image->image_url) }}">
+            @endforeach
+
+            {{-- @foreach ($restaurant->images as $image)
+                <img src="{{ asset('storage/' . $image->path) }}">
+            @endforeach --}}
+
+        </div>
+
+        @push('scripts')
+            <script>
+                const restaurantImages = document.getElementById('restaurant-images');
+
+                // Make images draggable
+                restaurantImages.addEventListener('dragstart', e => {
+                    e.dataTransfer.setData('text/plain', e.target.dataset.id);
+                });
+
+                // Handle drop to reorder
+                restaurantImages.addEventListener('drop', e => {
+                    const id = e.dataTransfer.getData('text');
+
+                    // Send request to controller to update order
+                });
+            </script>
+        @endpush
+        <h2 class="text-white text-2xl font-bold mt-8">Tags</h2>
+        <form method="POST" action="{{ route('restaurant.tags.update', $restaurant->id) }}">
+            @csrf
+            @foreach ($allTags as $tag)
+                <div class="mt-2">
+                    <label>
+                        <input type="checkbox" name="tags[]" value="{{ $tag->id }}"
+                            {{ $restaurant->tags->contains($tag->id) ? 'checked' : '' }}>
+                        {{ $tag->name }}
+                    </label>
+                </div>
+            @endforeach
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded mt-4">
+                Update Tags
+            </button>
+        </form>
+
     </div>
     {{-- TEMPORARY SETTINGS --}}
     <div id="temporarySettingsContainer" class="hidden">
         {{-- Calendar --}}
-        @php
-            $calendar = app('App\Http\Controllers\RestaurantSettingsCalendarController')->calendar();
-        @endphp
         <div class="calendar">
             <div class="month-year">
-                <span class="month">{{ $calendar['month'] }}</span>
-                <span class="year">{{ $calendar['year'] }}</span>
+                <span class="month"></span>
+                <span class="year"></span>
             </div>
             <div class="days">
-                @foreach (['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as $dayLabel)
-                    <span class="day-label">{{ $dayLabel }}</span>
-                @endforeach
             </div>
         </div>
 
@@ -99,27 +167,39 @@
             <button id="prevMonthBtn" class="bg-gray-300 px-4 py-2 rounded">Previous Month</button>
             <button id="nextMonthBtn" class="bg-gray-300 px-4 py-2 rounded">Next Month</button>
         </div>
-    <div id="workingHoursModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h2>Selected date: <span id="selectedDate"></span></h2>
-            <form action="{{ route('restaurant.settings.update_operating_hours', ['restaurant' => $restaurant->id]) }}" method="POST">
-                @csrf
-                <div class="form-group">
-                    <label for="isWorking">Is working?</label>
-                    <input type="checkbox" id="isWorking" name="is_working">
-                </div>
-                <div class="form-group">
-                    <label for="openingTime">Opening Time</label>
-                    <input type="time" id="openingTime" name="opening_time">
-                </div>
-                <div class="form-group">
-                    <label for="closingTime">Closing Time</label>
-                    <input type="time" id="closingTime" name="closing_time">
-                </div>
-                <button type="submit">Save</button>
-            </form>
+        <div id="workingHoursModal" class="modal">
+            <div class="modal-content">
+                <h2>Selected date: <span id="selectedDateSpan"></span></h2>
+                <form id="workingHoursForm" method="POST"
+                    action="{{ route('restaurant.working-hours.update', ['restaurant' => $restaurant->id]) }}">
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" id="selectedDate" name="selected_date">
+                    <div class="form-group">
+                        <label for="isWorking">Is working?</label>
+                        <select id="isWorking" name="is_working">
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="openingTime">Opening Time</label>
+                        <input type="time" id="openingTime" name="opening_time">
+                    </div>
+                    <div class="form-group">
+                        <label for="closingTime">Closing Time</label>
+                        <input type="time" id="closingTime" name="closing_time">
+                    </div>
+                    <div class="form-group">
+                        <label for="availablePeople">Available People</label>
+                        <input type="number" id="availablePeople" name="available_people">
+                    </div>
+                    <button type="submit">Save</button>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 </x-guest-layout>
+<script>
+    var restaurantId = "{{ $restaurant->id }}";
+</script>

@@ -6,6 +6,7 @@ use App\Http\Requests\StoreRestaurantImagesRequest;
 use App\Models\Restaurant;
 use App\Models\RestaurantImage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class RestaurantImageController extends Controller
 {
@@ -20,15 +21,23 @@ class RestaurantImageController extends Controller
         $images = $request->validated('images');
 
         foreach ($images as $image) {
+            $randomName = Str::random(20);
 
-            $imagePath = $image->store();
+            $imageName = $randomName . '.' . $image->getClientOriginalExtension();
+
+            $image->storeAs('public/images', $imageName);
+
+            while (RestaurantImage::where('image_url', $imageName)->exists()) {
+                $randomName = Str::random(20);
+                $imageName = $randomName . '.' . $image->getClientOriginalExtension();
+            }
 
             $restaurant->images()->create([
-                'image_url' => $imagePath
+                'image_url' => $imageName
             ]);
         }
 
-        return back()->with('success', 'Images uploaded successfully!');
+        return back()->with('success', 'Images uploaded!');
     }
 
     public function reorder(Request $request)

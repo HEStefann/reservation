@@ -106,13 +106,9 @@ use App\Http\Controllers\RestaurantSettingsCalendarController;
                 $images = App\Models\RestaurantImage::where('restaurant_id', $restaurant->id)->get();
             @endphp
 
-            @foreach ($images as $image)
-            <img src="{{ asset('storage/images/' . $image->image_url) }}">
+            @foreach ($restaurant->images as $image)
+                <img src="{{ asset('storage/images/' . $image->image_url) }}">
             @endforeach
-
-            {{-- @foreach ($restaurant->images as $image)
-                <img src="{{ asset('storage/' . $image->path) }}">
-            @endforeach --}}
 
         </div>
 
@@ -169,6 +165,7 @@ use App\Http\Controllers\RestaurantSettingsCalendarController;
         </div>
         <div id="workingHoursModal" class="modal">
             <div class="modal-content">
+                <button type="button" class="close" onclick="closeModal()">&times;</button>
                 <h2>Selected date: <span id="selectedDateSpan"></span></h2>
                 <form id="workingHoursForm" method="POST"
                     action="{{ route('restaurant.working-hours.update', ['restaurant' => $restaurant->id]) }}">

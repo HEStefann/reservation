@@ -15,7 +15,7 @@ class UpdateWorkingHoursRequest extends FormRequest
     public function prepareForValidation()
     {
         $this->merge([
-            'is_working' => $this->input('is_working', false),
+            'is_working' => $this->input('is_working') === 'true' ,
             'opening_time' => Carbon::parse($this->input('opening_time'))->format('H:i'),
             'closing_time' => Carbon::parse($this->input('closing_time'))->format('H:i'),
         ]);

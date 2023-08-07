@@ -98,7 +98,6 @@ document.addEventListener("DOMContentLoaded", function () {
         // Set the selected date in the modal
         const date = `${year}-${month}-${day}`;
         selectedDateElement.textContent = date;
-        selectedDate = date;
         const selectedDateInput = modal.querySelector("#selectedDate");
         selectedDateInput.value = date;
 
@@ -108,6 +107,13 @@ document.addEventListener("DOMContentLoaded", function () {
             .then((response) => response.json())
             .then((data) => {
                 // Pre-fill the form inputs
+                // Select the isWorking input
+                isWorkingInput.value = data.is_working ? "true" : "false";
+                if (data.is_working) {
+                    isWorkingInput.selectedIndex = 0;
+                } else {
+                    isWorkingInput.selectedIndex = 1;
+                }
                 isWorkingInput.value = data.is_working ? "true" : "false";
                 openingTimeInput.value = data.opening_time;
                 closingTimeInput.value = data.closing_time;

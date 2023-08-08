@@ -8,8 +8,8 @@
     <title>@yield('title', 'Restaurant')</title>
     @vite(['resources/css/app.css'])
 </head>
-<body style="background: url('{{ asset('/resources/assets/images/background-image-desktop.png') }}') no-repeat center center fixed;">
-    <main>
+<body class="bg-cover bg-center" style="background-image: url('{{ asset('/images/background-image-desktop.png') }}')">
+    <main class="h-full flex justify-center">
         @yield('content')
     </main>
 </body>

@@ -25,6 +25,11 @@ class User extends Authenticatable
         'password',
     ];
 
+    public function restaurants()
+    {
+        return $this->hasMany('App\Models\Restaurant');
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

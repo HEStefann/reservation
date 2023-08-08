@@ -12,7 +12,18 @@ class Reservation extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $dates = ['deleted_at'];
+    protected $fillable = [
+        'restaurant_id',
+        'user_id',
+        'full_name',
+        'phone_number',
+        'email',
+        'deposit',
+        'date',
+        'time',
+        'number_of_people',
+        'note'
+    ];
 
     public function restaurant(): BelongsTo
     {

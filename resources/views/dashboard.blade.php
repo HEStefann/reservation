@@ -73,12 +73,15 @@
                             </a>
                             <ul class="space-y-2 font-medium">
                                 <h3 class="font-medium text-lg text-gray-500 mb-2 px-3">Select a Restaurant:</h3>
-                                <select class="form-select mt-1 block w-full" id="restaurantSelect" onchange="updateReservations()">
-    <option value="all">All Restaurants</option>
-    @foreach ($restaurants as $restaurant)
-        <option value="{{ $restaurant->id }}">{{ $restaurant->title }}</option>
-    @endforeach
-</select>
+                                <select class="form-select mt-1 block w-full" id="restaurantSelect"
+                                    onchange="updateReservations()">
+                                    @foreach ($restaurants as $restaurant)
+                                        <option value="{{ $restaurant->id }}"
+                                            {{ $restaurantId == $restaurant->id ? 'selected' : '' }}>
+                                            {{ $restaurant->title }}
+                                        </option>
+                                    @endforeach
+                                </select>
                                 <li>
                                     <a href="#"
                                         class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
@@ -106,7 +109,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#"
+                                    <a href="{{ route('history') }}"
                                         class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                         <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
@@ -238,6 +241,12 @@
                         });
                         google.charts.setOnLoadCallback(drawChart);
 
+                        function getTimeDifference(date1, date2) {
+                            const diffInMs = Math.abs(date2 - date1);
+                            return diffInMs / (1000 * 60); // Convert milliseconds to minutes
+                        }
+
+
                         function drawChart() {
 
                             var reservedCount = {{ $reservedCount }};
@@ -260,6 +269,8 @@
                         let selectedRestaurant = null;
                         var calendarEl = document.getElementById('calendar');
                         var reservations = {!! $reservations !!};
+
+
 
                         var events = reservations.map(function(reservation) {
                             var startDate = new Date(reservation.date + 'T' + reservation.time);
@@ -308,6 +319,12 @@
                             // Get the selected restaurant from the dropdown
                             selectedRestaurant = document.getElementById('restaurantSelect').value;
 
+                            var url = 'http://127.0.0.1:8000/dashboard?restaurant_id=' + selectedRestaurant;
+
+
+
+
+
                             // Filter the events based on the selected restaurant
                             let filteredEvents = [];
                             if (selectedRestaurant === 'all') {
@@ -349,6 +366,7 @@
 
                             // Call drawChart again to update the pie chart based on the new data
                             drawChart();
+
                         }
 
                         // On document load, trigger the updateReservations function to initialize the calendar with all events

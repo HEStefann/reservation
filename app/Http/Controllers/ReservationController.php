@@ -55,6 +55,27 @@ class ReservationController extends Controller
         return view('dashboard', compact('reservations', 'restaurants', 'restaurantId', 'reservedCount', 'availableCount', 'availableSeats'));
     }
 
+    public function history(Request $request)
+    {
+        $selectedRestaurantId = $request->input('restaurant_id');
+        $restaurants = Restaurant::all();
+        $restaurantId = $selectedRestaurantId ?? $restaurants->first()->id;
+
+        $reservations = Reservation::where('restaurant_id', $restaurantId)->get();
+
+        // Calculate the total number of people reserved for the selected restaurant
+        $reservedCount = $reservations->sum('number_of_people');
+
+        // Get the specific restaurant's total available people
+        $restaurant = Restaurant::find($restaurantId);
+        $availableCount = $restaurant->available_people;
+
+        // Calculate the number of available seats for the specific restaurant
+        $availableSeats = $availableCount - $reservedCount;
+
+        return view('history', compact('reservations', 'restaurants', 'restaurantId', 'reservedCount', 'availableCount', 'availableSeats'));
+    }
+
     public function store(StoreReservationRequest $request)
     {
         $user = Auth::user();

@@ -28,6 +28,8 @@ Route::get('/', function () {
 
 Route::get('/user/restaurants', [UserController::class, 'index'])->name('user.restaurants');
 
+Route::get('/history', [ReservationController::class, 'history'])->name('history');
+
 
 Route::get('/dashboard', [RestaurantController::class, 'dashboard'])
     ->middleware(['auth', 'verified'])

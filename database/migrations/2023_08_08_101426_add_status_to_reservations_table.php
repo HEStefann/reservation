@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tags', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->timestamps();
-            $table->softDeletes();
+        Schema::table('reservations', function (Blueprint $table) {
+            $table->enum('status', ['accepted', 'declined', 'waiting'])
+                  ->default('waiting')
+                  ->after('id');
         });
     }
 
@@ -24,6 +23,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tags');
+        Schema::table('reservations', function (Blueprint $table) {
+            $table->dropColumn('status');
+        });
     }
 };

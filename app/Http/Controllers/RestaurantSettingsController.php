@@ -2,76 +2,90 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RestaurantSettingsRequest;
 use App\Models\Restaurant;
+use App\Models\Tag;
+use App\Services\RestaurantService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class RestaurantSettingsController extends Controller
 {
-    public function __construct()
+    protected $restaurantService;
+
+    public function dashboard()
     {
-        $this->middleware('auth'); // Apply authentication middleware to the controller
+        $reservedCount = Reservation::count();
+        $availableCount = DB::table('restaurants')->sum('available_people');
+
+        return view('dashboard', compact('reservedCount', 'availableCount'));
+    }
+
+    public function __construct(RestaurantService $restaurantService)
+    {
+        $this->restaurantService = $restaurantService;
     }
 
     public function index(Restaurant $restaurant)
     {
-        return view('restaurants.settings', compact('restaurant'));
-    }
+        $allTags = Tag::all();
 
-    public function updateInfo(Request $request, Restaurant $restaurant)
-    {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
+        return view('restaurant.settings', [
+            'restaurant' => $restaurant,
+            'allTags' => $allTags
         ]);
-
-        $restaurant->updateRestaurantInfo($request->only(['title', 'description']));
-
-        return redirect()->route('restaurant.settings.index', ['restaurant' => $restaurant->id])
-            ->with('success', 'Restaurant information updated successfully.');
     }
 
-    public function updateAvailablePeople(Request $request, Restaurant $restaurant)
+    public function updateInfo(RestaurantSettingsRequest $request, Restaurant $restaurant)
     {
-        $request->validate([
-            'available_people' => 'required|integer',
-        ]);
+        $this->restaurantService->updateInfo($restaurant, $request->validated());
 
-        $restaurant->updateAvailablePeople($request->input('available_people'));
-
-        return redirect()->route('restaurant.settings.index', ['restaurant' => $restaurant->id])
-            ->with('success', 'Available number of people updated successfully.');
+        return redirect()->back()->with('success', 'Restaurant information updated successfully.');
     }
 
-    public function updateOperatingHours(Request $request, Restaurant $restaurant)
+    public function updateAvailablePeople(RestaurantSettingsRequest $request, Restaurant $restaurant)
     {
-        // Move the logic for updating working hours here if necessary.
+        $this->restaurantService->updateAvailablePeople($restaurant, $request->validated());
 
-        return redirect()->route('restaurant.settings', ['restaurant' => $restaurant->id])
-            ->with('success', 'Operating hours updated successfully.');
+        return redirect()->back()->with('success', 'Available number of people updated successfully.');
     }
 
-    public function updateOperatingStatus(Request $request, Restaurant $restaurant)
+    public function updateOperatingHours(Request $request, $restaurantId)
     {
-        $request->validate([
-            'operating_status' => 'required|in:open,close',
-        ]);
+        $restaurant = Restaurant::findOrFail($restaurantId);
 
-        $restaurant->updateOperatingStatus($request->input('operating_status'));
+        foreach (['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] as $day) {
+            $openingTime = $request->input("working_hours.$day.opening_time");
+            $closingTime = $request->input("working_hours.$day.closing_time");
 
-        return redirect()->route('restaurant.settings', ['restaurant' => $restaurant->id])
-            ->with('success', 'Operating status updated successfully.');
+            $data = [
+                'opening_time' => $openingTime,
+                'closing_time' => $closingTime,
+            ];
+
+            $workingHour = $restaurant->workingHours()->where('day_of_week', $day)->first();
+
+            if ($workingHour) {
+                $workingHour->update($data);
+            } else {
+                $restaurant->workingHours()->create($data);
+            }
+        }
+
+        return redirect()->back()->with('success', 'Operating hours updated successfully.');
     }
 
-    public function updateContent(Request $request, Restaurant $restaurant)
+    public function updateOperatingStatus(RestaurantSettingsRequest $request, Restaurant $restaurant)
     {
-        $request->validate([
-            'content_title' => 'required|string|max:255',
-            'short_description' => 'nullable|string',
-        ]);
+        $this->restaurantService->updateOperatingStatus($restaurant, $request->validated());
 
-        $restaurant->updateContent($request->only(['content_title', 'short_description']));
+        return redirect()->back()->with('success', 'Operating status updated successfully.');
+    }
 
-        return redirect()->route('restaurant.settings', ['restaurant' => $restaurant->id])
-            ->with('success', 'Content updated successfully.');
+    public function updateContent(RestaurantSettingsRequest $request, Restaurant $restaurant)
+    {
+        $this->restaurantService->updateContent($restaurant, $request->validated());
+
+        return redirect()->back()->with('success', 'Content updated successfully.');
     }
 }

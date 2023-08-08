@@ -2,46 +2,42 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RestaurantRequest;
 use App\Models\Restaurant;
-use App\Models\WorkingHour;
+use App\Services\RestaurantService;
 use Illuminate\Http\Request;
 
 class RestaurantController extends Controller
 {
-    /**
-     * Display the restaurant registration form.
-     */
-    public function create()
+    protected $restaurantService;
+
+    public function dashboard()
     {
-        return view('restaurants.register');
+        // Fetch the restaurants from the database
+        $restaurants = Restaurant::all(); // You can modify this query based on your needs
+
+        // Other logic and variable assignments
+
+        return view('dashboard', [
+            'restaurants' => $restaurants, // Pass the $restaurants variable to the view
+            // Other variables you want to pass to the view
+        ]);
     }
 
-    /**
-     * Handle the restaurant registration process.
-     */
+    public function __construct(RestaurantService $restaurantService)
+    {
+        $this->restaurantService = $restaurantService;
+    }
 
-public function store(Request $request)
-{
-    $request->validate([
-        'title' => 'required|string|max:255',
-        'description' => 'nullable|string',
-        'opening_time' => 'required|array',
-        'closing_time' => 'required|array',
-    ]);
+    public function create()
+    {
+        return view('restaurant.register');
+    }
 
-    // Create the restaurant for the logged-in user
-    $restaurant = Restaurant::create([
-        'title' => $request->title,
-        'description' => $request->description,
-    ]);
+    public function store(RestaurantRequest $request)
+    {
+        $restaurant = $this->restaurantService->createRestaurant($request->validated());
 
-    // Define the days of the week in the desired order (Monday to Sunday)
-    $daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-
-    // Handle working hours
-    $restaurant->saveWorkingHours($daysOfWeek, $request->input('opening_time'), $request->input('closing_time'));
-
-    return redirect()->route('restaurant.settings', ['restaurant' => $restaurant->id]);
-}
-
+        return redirect()->route('restaurant.settings.index', ['restaurant' => $restaurant->id]);
+    }
 }

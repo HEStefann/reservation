@@ -4,14 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreReservationRequest;
 use App\Models\Reservation;
-use App\Models\Restaurant; // Don't forget to import the Restaurant model
+use App\Models\Restaurant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
-
-
-
 
 class ReservationController extends Controller
 {

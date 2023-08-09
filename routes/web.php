@@ -27,10 +27,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/user/restaurants', [UserController::class, 'index'])->name('user.restaurants');
-
-Route::get('/history', [ReservationController::class, 'history'])->name('history');
-
 Route::get('/dashboard', [RestaurantController::class, 'dashboard'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
@@ -54,13 +50,22 @@ Route::middleware('auth')->group(function () {
         Route::post('/update-operating-hours', [RestaurantSettingsController::class, 'updateOperatingHours'])->name('update_operating_hours');
         Route::post('/update-operating-status', [RestaurantSettingsController::class, 'updateOperatingStatus'])->name('update_operating_status');
         Route::post('/update-content', [RestaurantSettingsController::class, 'updateContent'])->name('update_content');
+
+        // Working hours routes
+        Route::prefix('/working-hours')->name('working-hours.')->group(function () {
+            Route::get('/{date}', [RestaurantSettingsCalendarController::class, 'getWorkingHoursForDate'])->name('get');
+            Route::put('/', [RestaurantSettingsCalendarController::class, 'updateWorkingHours'])->name('update');
+        });
+
+        // Restaurant images routes
+        Route::get('/images', [RestaurantImageController::class, 'index']);
+        Route::post('/images', [RestaurantImageController::class, 'upload'])->name('restaurant.image.upload');
+
+        // Restaurant tags route
+        Route::post('/tags', [RestaurantTagsController::class, 'update'])->name('restaurant.tags.update');
     });
 
-    Route::get('/restaurant/{restaurant}/images', [RestaurantImageController::class, 'index']);
-    Route::post('/restaurant/{restaurant}/images', [RestaurantImageController::class, 'upload'])->name('restaurant.image.upload');
-
     Route::resource('tags', TagsController::class);
-    Route::post('/restaurant/{restaurant}/tags', [RestaurantTagsController::class, 'update'])->name('restaurant.tags.update');
 
     Route::get('/calendar/{date?}', [RestaurantSettingsCalendarController::class, 'calendar']);
     Route::prefix('/restaurant/{restaurant}/working-hours')->name('restaurant.working-hours.')->group(function () {
@@ -75,3 +80,4 @@ Route::post('/reservations', [ReservationController::class, 'store'])->name('res
 Route::get('/user/restaurants', [UserController::class, 'index'])->name('restaurants.index');
 Route::delete('/reservations/{reservation}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
 Route::get('/reservations/update', [ReservationController::class, 'update'])->name('reservations.update');
+Route::get('/history', [ReservationController::class, 'history'])->name('history');

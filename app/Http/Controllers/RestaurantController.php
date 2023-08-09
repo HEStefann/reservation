@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RestaurantRequest;
+use App\Models\Moderator;
 use App\Models\Restaurant;
 use App\Services\RestaurantService;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class RestaurantController extends Controller
 {
@@ -36,7 +38,23 @@ class RestaurantController extends Controller
 
     public function store(RestaurantRequest $request)
     {
+        // Create restaurant
         $restaurant = $this->restaurantService->createRestaurant($request->validated());
+
+        // Get authenticated user
+        $user = Auth::user();
+
+        // Create moderator record  
+        Moderator::create([
+            'user_id' => $user->id,
+            'restaurant_id' => $restaurant->id,
+            'role' => 'owner'
+        ]);
+
+        // Update user role
+        DB::table('users')
+            ->where('id', $user->id)
+            ->update(['role' => 'moderator']);
 
         return redirect()->route('restaurant.settings.index', ['restaurant' => $restaurant->id]);
     }

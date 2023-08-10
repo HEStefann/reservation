@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
     @push('scripts')
@@ -13,6 +15,7 @@
                         crossorigin="anonymous">
 
 
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -130,17 +133,17 @@
 
     </aside>
 
-                    <main class="main-content">
-                        <div class="text-center">
-                            <button type="button"
-                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                                data-bs-toggle="modal" data-bs-target="#reservationModal">Create reservation</button>
-                        </div>
-                        <br>
-                        <div id="pie-chart" class="text-center"></div>
-                        <div id='calendar'>
-                        </div>
-                    </main>
+    <main class="main-content">
+        <div class="text-center">
+            <button type="button"
+                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                data-bs-toggle="modal" data-bs-target="#reservationModal">Create reservation</button>
+        </div>
+        <br>
+        <div id="pie-chart" class="text-center"></div>
+        <div id='calendar'>
+        </div>
+    </main>
 
     <div class="font-sans antialiased">
         <x-reservation-modal :restaurants="$restaurants"/>
@@ -155,147 +158,147 @@
         var calendarEl = document.getElementById('calendar');
         var reservations = {!! $reservations !!};
 
-                        var events = reservations.map(function(reservation) {
-                            var startDate = new Date(reservation.date + 'T' + reservation.time);
-                            var numberOfPeople = reservation.number_of_people;
-                            var peopleText = numberOfPeople === 1 ? 'Person' : 'People';
+        var events = reservations.map(function(reservation) {
+            var startDate = new Date(reservation.date + 'T' + reservation.time);
+            var numberOfPeople = reservation.number_of_people;
+            var peopleText = numberOfPeople === 1 ? 'Person' : 'People';
 
-                            return {
-                                title: reservation.time + ' ' + reservation.full_name + ', ' + numberOfPeople + ' ' + peopleText,
-                                start: startDate,
-                                description: reservation.date + reservation.phone_number + reservation.email,
-                                reservation: reservation, // Add the reservation object to the event
-                                status: reservation.reservation_status // Add the reservation status to the event
-                            };
-                        });
+            return {
+                title: reservation.time + ' ' + reservation.full_name + ', ' + numberOfPeople + ' ' + peopleText,
+                start: startDate,
+                description: reservation.date + reservation.phone_number + reservation.email,
+                reservation: reservation, // Add the reservation object to the event
+                status: reservation.reservation_status // Add the reservation status to the event
+            };
+        });
 
-                        var calendar = new FullCalendar.Calendar(calendarEl, {
-                            initialView: 'timeGridDay', // Set the initial view to show a single day
-                            slotDuration: '00:30:00', // Set the duration for each time slot (30 minutes)
-                            slotLabelInterval: {
-                                minutes: 30
-                            }, // Show slot labels every 30 minutes
-                            slotMinTime: '09:00:00', // Set the minimum time to start at 9:00 AM
-                            slotMaxTime: '21:00:00', // Set the maximum time to end at 9:00 PM
-                            headerToolbar: {
-                                left: 'prev,next today',
-                                center: 'title',
-                                right: 'timeGridDay' // Show only the daily view in the header
-                            },
-                            events: events,
-                            eventClick: function(info) {
-                                var reservation = info.event.extendedProps.reservation;
-                                showModal(reservation);
-                            }
-                        });
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'timeGridDay', // Set the initial view to show a single day
+            slotDuration: '00:30:00', // Set the duration for each time slot (30 minutes)
+            slotLabelInterval: {
+                minutes: 30
+            }, // Show slot labels every 30 minutes
+            slotMinTime: '09:00:00', // Set the minimum time to start at 9:00 AM
+            slotMaxTime: '21:00:00', // Set the maximum time to end at 9:00 PM
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'timeGridDay' // Show only the daily view in the header
+            },
+            events: events,
+            eventClick: function(info) {
+                var reservation = info.event.extendedProps.reservation;
+                showModal(reservation);
+            }
+        });
 
-                        calendar.render();
-
-
-                        function updateReservations() {
-                            // Get the selected restaurant from the dropdown
-                            selectedRestaurant = document.getElementById('restaurantSelect').value;
+        calendar.render();
 
 
+        function updateReservations() {
+            // Get the selected restaurant from the dropdown
+            selectedRestaurant = document.getElementById('restaurantSelect').value;
 
 
-                            // Filter the events based on the selected restaurant
-                            let filteredEvents = [];
-                            if (selectedRestaurant === 'all') {
-                                // If 'All Restaurants' is selected, show all events
-                                filteredEvents = events;
-                            } else {
-                                // Filter events based on the selected restaurant
-                                filteredEvents = events.filter(event => event.reservation.restaurant_id === Number(
-                                    selectedRestaurant));
-                            }
 
-                            // Modify the start and end properties of each event to include the time information
-                            filteredEvents = filteredEvents.map(event => {
-                                const startTime = new Date(event.start);
-                                const endTime = new Date(event.end);
-                                const startDateTime = new Date(event.reservation.date + ' ' + startTime
-                                    .toLocaleTimeString());
-                                return {
-                                    ...event,
-                                    start: startDateTime,
-                                };
-                            });
 
-                            // Destroy the current calendar instance
-                            calendar.destroy();
+            // Filter the events based on the selected restaurant
+            let filteredEvents = [];
+            if (selectedRestaurant === 'all') {
+                // If 'All Restaurants' is selected, show all events
+                filteredEvents = events;
+            } else {
+                // Filter events based on the selected restaurant
+                filteredEvents = events.filter(event => event.reservation.restaurant_id === Number(
+                    selectedRestaurant));
+            }
 
-                            // Initialize a new calendar instance with the filtered events and set the initialView to 'timeGridDay'
-                            calendar = new FullCalendar.Calendar(calendarEl, {
-                                initialView: 'timeGridDay', // Set the initial view to show a single day
-                                slotDuration: '00:30:00', // Set the duration for each time slot (30 minutes)
-                                slotLabelInterval: {
-                                    minutes: 30
-                                }, // Show slot labels every 30 minutes
-                                slotMinTime: '09:00:00', // Set the minimum time to start at 9:00 AM
-                                slotMaxTime: '21:00:00', // Set the maximum time to end at 9:00 PM
-                                headerToolbar: {
-                                    left: 'prev,next today',
-                                    center: 'title',
-                                    right: 'timeGridDay' // Show only the daily view in the header
-                                },
-                                views: {
-                                    timeGridDay: {
-                                        columnHeaderFormat: {
-                                            weekday: 'short',
-                                            month: 'numeric',
-                                            day: 'numeric',
-                                            omitCommas: true,
-                                        },
-                                    },
-                                },
-                                events: filteredEvents,
-                                eventClick: function(info) {
-                                    var reservation = info.event.extendedProps.reservation;
-                                    showModal(reservation);
-                                }
-                            });
+            // Modify the start and end properties of each event to include the time information
+            filteredEvents = filteredEvents.map(event => {
+                const startTime = new Date(event.start);
+                const endTime = new Date(event.end);
+                const startDateTime = new Date(event.reservation.date + ' ' + startTime
+                    .toLocaleTimeString());
+                return {
+                    ...event,
+                    start: startDateTime,
+                };
+            });
 
-                            // Render the updated calendar
-                            calendar.render();
+            // Destroy the current calendar instance
+            calendar.destroy();
+
+            // Initialize a new calendar instance with the filtered events and set the initialView to 'timeGridDay'
+            calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'timeGridDay', // Set the initial view to show a single day
+                slotDuration: '00:30:00', // Set the duration for each time slot (30 minutes)
+                slotLabelInterval: {
+                    minutes: 30
+                }, // Show slot labels every 30 minutes
+                slotMinTime: '09:00:00', // Set the minimum time to start at 9:00 AM
+                slotMaxTime: '21:00:00', // Set the maximum time to end at 9:00 PM
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'timeGridDay' // Show only the daily view in the header
+                },
+                views: {
+                    timeGridDay: {
+                        columnHeaderFormat: {
+                            weekday: 'short',
+                            month: 'numeric',
+                            day: 'numeric',
+                            omitCommas: true,
+                        },
+                    },
+                },
+                events: filteredEvents,
+                eventClick: function(info) {
+                    var reservation = info.event.extendedProps.reservation;
+                    showModal(reservation);
+                }
+            });
+
+            // Render the updated calendar
+            calendar.render();
 
             // Call drawChart again to update the pie chart based on the new data
             // drawChart();
 
-                        }
+        }
 
-                        // On document load, trigger the updateReservations function to initialize the calendar with all events
-                        document.addEventListener('DOMContentLoaded', function() {
-                            updateReservations();
-                        });
+        // On document load, trigger the updateReservations function to initialize the calendar with all events
+        document.addEventListener('DOMContentLoaded', function() {
+            updateReservations();
+        });
 
-                        // Call updateReservations function on the onchange event of the restaurant dropdown
-                        document.getElementById('restaurantSelect').addEventListener('change', updateReservations);
+        // Call updateReservations function on the onchange event of the restaurant dropdown
+        document.getElementById('restaurantSelect').addEventListener('change', updateReservations);
 
-                        function showModal(reservation) {
-                            const modalFullName = document.getElementById('modal-full-name');
-                            const modalPhoneNumber = document.getElementById('modal-phone-number');
-                            const modalEmail = document.getElementById('modal-email');
-                            const modalDeposit = document.getElementById('modal-deposit');
-                            const modalDate = document.getElementById('modal-date');
-                            const modalTime = document.getElementById('modal-time');
-                            const modalNumberOfPeople = document.getElementById('modal-number-of-people');
-                            const modalNote = document.getElementById('modal-note');
+        function showModal(reservation) {
+            const modalFullName = document.getElementById('modal-full-name');
+            const modalPhoneNumber = document.getElementById('modal-phone-number');
+            const modalEmail = document.getElementById('modal-email');
+            const modalDeposit = document.getElementById('modal-deposit');
+            const modalDate = document.getElementById('modal-date');
+            const modalTime = document.getElementById('modal-time');
+            const modalNumberOfPeople = document.getElementById('modal-number-of-people');
+            const modalNote = document.getElementById('modal-note');
 
-                            modalFullName.textContent = reservation.full_name;
-                            modalPhoneNumber.textContent = reservation.phone_number;
-                            modalEmail.textContent = reservation.email;
-                            modalDeposit.textContent = reservation.deposit;
-                            modalDate.textContent = reservation.date;
-                            modalTime.textContent = reservation.time;
-                            modalNumberOfPeople.textContent = reservation.number_of_people;
-                            modalNote.textContent = reservation.note ?? 'N/A';
+            modalFullName.textContent = reservation.full_name;
+            modalPhoneNumber.textContent = reservation.phone_number;
+            modalEmail.textContent = reservation.email;
+            modalDeposit.textContent = reservation.deposit;
+            modalDate.textContent = reservation.date;
+            modalTime.textContent = reservation.time;
+            modalNumberOfPeople.textContent = reservation.number_of_people;
+            modalNote.textContent = reservation.note ?? 'N/A';
 
-                            const myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
-                                keyboard: false
-                            });
-                            myModal.show();
-                        }
+            const myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
+                keyboard: false
+            });
+            myModal.show();
+        }
 
         function hideModal() {
             const myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
@@ -306,10 +309,10 @@
     </script>
     <script src="https://cdn.flowbite.com/assets/js/flowbite.js"></script>
 
-                    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
-                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
-                        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
-                    </script>
-                </body>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
+    </script>
+</body>
 
 </html>

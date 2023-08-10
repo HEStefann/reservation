@@ -81,3 +81,6 @@ Route::get('/user/restaurants', [UserController::class, 'index'])->name('restaur
 Route::delete('/reservations/{reservation}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
 Route::get('/reservations/update', [ReservationController::class, 'update'])->name('reservations.update');
 Route::get('/history', [ReservationController::class, 'history'])->name('history');
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::patch('/notifications/{notification}', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+

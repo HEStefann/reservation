@@ -8,9 +8,9 @@
         <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid/main.css" rel="stylesheet" />
     @endpush
 
-    <link rel="stylesheet" href="https://cdn.flowbite.com/assets/css/flowbite.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+                    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+                        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+                        crossorigin="anonymous">
 
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -130,17 +130,21 @@
 
     </aside>
 
-    <main class="main-content">
-        <div class="text-center">
-            <button type="button"
-                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                data-bs-toggle="modal" data-bs-target="#reservationModal">Create reservation</button>
-        </div>
-        <br>
-        {{-- <div id="pie-chart" class="text-center"></div> --}}
-        <div id='calendar'>
-        </div>
-    </main>
+                    <main class="main-content">
+                        <div class="text-center">
+
+                            <a href="{{ route('reservations.create') }}"
+                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Create
+                                reservation</a>
+                        </div>
+                        <br>
+                        <div id="pie-chart" class="text-center"></div>
+                        <div id='calendar'>
+                            <div></div>
+                        </div>
+                        </div>
+                        </div>
+                    </main>
 
     <div class="font-sans antialiased">
         <x-reservation-modal :restaurants="$restaurants"/>

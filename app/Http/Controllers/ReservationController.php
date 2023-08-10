@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreReservationRequest;
+use App\Models\Moderator;
+use App\Models\Notification;
 use App\Models\Reservation;
 use App\Models\Restaurant;
 use Illuminate\Http\Request;
@@ -46,8 +48,8 @@ class ReservationController extends Controller
 
         // Calculate the number of available seats for the specific restaurant
         $availableSeats = $availableCount - $reservedCount;
-
-        return view('dashboard', compact('reservations', 'restaurants', 'restaurantId', 'reservedCount', 'availableCount', 'availableSeats'));
+        $notifications = Notification::where('user_id', Auth::id())->get();
+        return view('dashboard', compact('reservations', 'restaurants', 'restaurantId', 'reservedCount', 'availableCount', 'availableSeats', 'notifications'));
     }
 
     public function edit(Request $request, $id)
@@ -118,6 +120,12 @@ class ReservationController extends Controller
             'time' => $request->input('time'),
             'number_of_people' => $request->input('number_of_people'),
             'note' => $request->input('note')
+        ]);
+        // Create a notification for the moderator of the restaurant
+        $moderator = Moderator::where('restaurant_id', $request->input('restaurant_id'))->first();
+        Notification::create([
+            'user_id' => $moderator->user_id,
+            'reservation_id' => $reservation->id,
         ]);
 
         return redirect()

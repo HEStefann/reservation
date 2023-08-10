@@ -13,15 +13,9 @@ class RestaurantController extends Controller
 
     public function dashboard()
     {
-        // Fetch the restaurants from the database
-        $restaurants = Restaurant::all(); // You can modify this query based on your needs
+        $restaurants = Restaurant::all();
 
-        // Other logic and variable assignments
-
-        return view('dashboard', [
-            'restaurants' => $restaurants, // Pass the $restaurants variable to the view
-            // Other variables you want to pass to the view
-        ]);
+        return view('dashboard', ['restaurants' => $restaurants]);
     }
 
     public function __construct(RestaurantService $restaurantService)

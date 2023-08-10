@@ -77,4 +77,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
     Route::get('/user/restaurants', [UserController::class, 'index'])->name('restaurants.index');
     Route::get('/history', [ReservationController::class, 'history'])->name('history');
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::patch('/notifications/{notification}', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+
 });

@@ -55,9 +55,25 @@ class ReservationController extends Controller
         return view('dashboard', compact('reservations', 'restaurants', 'restaurantId', 'reservedCount', 'availableCount', 'availableSeats'));
     }
 
+    public function edit(Request $request, $id)
+    {
+        $reservation = Reservation::findOrFail($id);
+
+        $reservation->update($request->all());
+
+        return redirect()->back()->with('success', 'Reservation updated!');
+    }
+
+    public function destroy(Reservation $reservation)
+    {
+        $reservation->delete();
+
+        return redirect()->route('dashboard')->with('success', 'Reservation deleted successfully');
+    }
+
     public function history(Request $request)
     {
-        $selectedRestaurantId = $request->input('restaurant_id');
+        $selectedRestaurantId = $request->query('restaurant_id');
         $restaurants = Restaurant::all();
         $restaurantId = $selectedRestaurantId ?? $restaurants->first()->id;
 
@@ -121,6 +137,20 @@ class ReservationController extends Controller
 
         // Pass the $restaurantId and $restaurant variables to the view
         return view('dashboard', compact('restaurantId', 'restaurant'));
+    }
+
+    // In your controller
+
+    public function calendar(Request $request)
+    {
+
+        $status = $request->input('status');
+
+        // Query reservations based on status
+        $reservations = Reservation::where('status', $status)->get();
+
+        // Pass reservations to calendar view
+        return view('calendar', compact('reservations'));
     }
 
 

@@ -89,18 +89,6 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#"
-                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                            <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                                aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                                viewBox="0 0 20 20">
-                                <path
-                                    d="m17.418 3.623-.018-.008a6.713 6.713 0 0 0-2.4-.569V2h1a1 1 0 1 0 0-2h-2a1 1 0 0 0-1 1v2H9.89A6.977 6.977 0 0 1 12 8v5h-2V8A5 5 0 1 0 0 8v6a1 1 0 0 0 1 1h8v4a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-4h6a1 1 0 0 0 1-1V8a5 5 0 0 0-2.582-4.377ZM6 12H4a1 1 0 0 1 0-2h2a1 1 0 0 1 0 2Z" />
-                            </svg>
-                            <span class="ml-2">Inbox</span>
-                        </a>
-                    </li>
-                    <li>
                         <a href="{{ route('history') }}"
                             class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                             <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -109,7 +97,7 @@
                                 <path
                                     d="M0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm14-7.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4Z" />
                             </svg>
-                            <span class="ml-2">History</span>
+                            <span class="ml-2">Reservations</span>
                         </a>
                     </li>
                     <li>
@@ -147,58 +135,137 @@
         </aside>
 
         <main class="main-content">
+
             <div>
                 <!-- Add your page content here -->
                 <h1>History</h1>
 
-                <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-56">
-                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                            <tr>
-                                <th scope="col" class="px-6 py-3">Full Name</th>
-                                <th scope="col" class="px-6 py-3">Phone Number</th>
-                                <th scope="col" class="px-6 py-3">Email</th>
-                                <th scope="col" class="px-6 py-3">Deposit</th>
-                                <th scope="col" class="px-6 py-3">Date</th>
-                                <th scope="col" class="px-6 py-3">Time</th>
-                                <th scope="col" class="px-6 py-3">Number of People</th>
-                                <th scope="col" class="px-6 py-3">Note</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($reservations as $reservation)
-                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                    <td class="px-6 py-4">{{ $reservation->full_name }}</td>
-                                    <td class="px-6 py-4">{{ $reservation->phone_number }}</td>
-                                    <td class="px-6 py-4">{{ $reservation->email }}</td>
-                                    <td class="px-6 py-4">{{ $reservation->deposit }}</td>
-                                    <td class="px-6 py-4">{{ $reservation->date }}</td>
-                                    <td class="px-6 py-4">{{ $reservation->time }}</td>
-                                    <td class="px-6 py-4">{{ $reservation->number_of_people }}</td>
-                                    <td class="px-6 py-4">{{ $reservation->note }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                <div class="flex justify-between mt-12">
+                    <div class="w-1/2">
+                        <input type="text" id="searchInput"
+                            placeholder="Search by name, phone, email, or number of people"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 mt-2"
+                            onkeydown="handleEnterKey(event)">
+                        <input type="date" id="dateInput"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 mt-2">
+
+                        <button id="searchButton" onclick="searchReservations()"
+                            class="px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 mt-2">
+                            Search
+                        </button>
+
+                    </div>
+                    <div>
+                    </div>
                 </div>
 
-            </div>
+                <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-6">
+                    <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-11">
+                        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                            <thead
+                                class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">Full Name</th>
+                                    <th scope="col" class="px-6 py-3">Phone Number</th>
+                                    <th scope="col" class="px-6 py-3">Email</th>
+                                    <th scope="col" class="px-6 py-3">Deposit</th>
+                                    <th scope="col" class="px-6 py-3">Date</th>
+                                    <th scope="col" class="px-6 py-3">Time</th>
+                                    <th scope="col" class="px-6 py-3">Number of People</th>
+                                    <th scope="col" class="px-6 py-3">Note</th>
+                                    <th scope="col" class="px-6 py-3">Restaurant</th>
+                                    <th scope="col" class="px-6 py-3">Status</th> <!-- New column for status -->
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @foreach ($reservations as $reservation)
+                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                                        data-restaurant-id="{{ $reservation->restaurant->id }}">
+                                        <td class="px-6 py-4">{{ $reservation->full_name }}</td>
+                                        <td class="px-6 py-4">{{ $reservation->phone_number }}</td>
+                                        <td class="px-6 py-4">{{ $reservation->email }}</td>
+                                        <td class="px-6 py-4">{{ $reservation->deposit }}</td>
+                                        <td class="px-6 py-4">{{ $reservation->date }}</td>
+                                        <td class="px-6 py-4">{{ $reservation->time }}</td>
+                                        <td class="px-6 py-4">{{ $reservation->number_of_people }}</td>
+                                        <td class="px-6 py-4">{{ $reservation->note }}</td>
+                                        <td class="px-6 py-4">{{ $reservation->restaurant->title }}</td>
+                                        <td class="px-6 py-4"
+                                            style="font-weight: bold; color: 
+        @switch($reservation->status)
+            @case('waiting')
+                orange
+                @break
+            @case('accepted')
+                green
+                @break
+            @case('declined')
+                red
+                @break
+            @default
+                black
+        @endswitch
+    ">
+                                            {{ $reservation->status }}
+                                        </td>
+                                        
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
 
 
 
 
 
 
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/flowbite.min.js"></script>
-            <script>
-                function updateReservations() {
-                    // Get the selected restaurant from the dropdown
-                    const selectedRestaurant = document.getElementById('restaurantSelect').value;
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/flowbite.min.js"></script>
+                <script>
+                    function handleEnterKey(event) {
+                        if (event.key === 'Enter') {
+                            searchReservations();
+                            event.preventDefault(); // Prevent form submission
+                        }
+                    }
 
-                    // Redirect to the history page with the selected restaurant ID as a query parameter
-                    window.location.href = "{{ route('history') }}?restaurant_id=" + selectedRestaurant;
-                }
-            </script>
+                    function updateReservations() {
+                        // Get the selected restaurant from the dropdown
+                        const selectedRestaurant = document.getElementById('restaurantSelect').value;
+
+                        // Redirect to the history page with the selected restaurant ID as a query parameter
+                        window.location.href = "{{ route('history') }}?restaurant_id=" + selectedRestaurant;
+                    }
+
+                    function searchReservations() {
+                        const searchValue = document.getElementById('searchInput').value.toLowerCase();
+                        const selectedDate = document.getElementById('dateInput').value;
+
+                        const reservationRows = document.querySelectorAll('tbody tr');
+
+                        reservationRows.forEach(row => {
+                            const fullName = row.querySelector('td:nth-child(1)').innerText.toLowerCase();
+                            const phoneNumber = row.querySelector('td:nth-child(2)').innerText.toLowerCase();
+                            const email = row.querySelector('td:nth-child(3)').innerText.toLowerCase();
+                            const numberOfPeople = row.querySelector('td:nth-child(7)').innerText.toLowerCase();
+                            const date = row.querySelector('td:nth-child(5)').innerText;
+
+                            if (
+                                (fullName.includes(searchValue) || phoneNumber.includes(searchValue) || email.includes(
+                                    searchValue) || numberOfPeople.includes(searchValue)) &&
+                                (selectedDate === '' || selectedDate === date)
+                            ) {
+                                row.style.display = 'table-row';
+                            } else {
+                                row.style.display = 'none';
+                            }
+                        });
+                    }
+                </script>
 
     </body>
 

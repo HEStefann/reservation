@@ -97,18 +97,6 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#"
-                                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                                        <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                                            viewBox="0 0 20 20">
-                                            <path
-                                                d="m17.418 3.623-.018-.008a6.713 6.713 0 0 0-2.4-.569V2h1a1 1 0 1 0 0-2h-2a1 1 0 0 0-1 1v2H9.89A6.977 6.977 0 0 1 12 8v5h-2V8A5 5 0 1 0 0 8v6a1 1 0 0 0 1 1h8v4a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-4h6a1 1 0 0 0 1-1V8a5 5 0 0 0-2.582-4.377ZM6 12H4a1 1 0 0 1 0-2h2a1 1 0 0 1 0 2Z" />
-                                        </svg>
-                                        <span class="ml-2">Inbox</span>
-                                    </a>
-                                </li>
-                                <li>
                                     <a href="{{ route('history') }}"
                                         class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                         <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -117,7 +105,7 @@
                                             <path
                                                 d="M0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm14-7.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4Z" />
                                         </svg>
-                                        <span class="ml-2">History</span>
+                                        <span class="ml-2">Reservations</span>
                                     </a>
                                 </li>
                                 <li>
@@ -152,17 +140,20 @@
                                 <!-- Add more sidebar items here -->
                             </ul>
                         </div>
+
                     </aside>
 
                     <main class="main-content">
                         <div class="text-center">
 
-                            <a href="{{ route('reservations.create') }}"
-                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Create
-                                reservation</a>
+                            <button type="button"
+                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                data-bs-toggle="modal" data-bs-target="#reservationModal">Create reservation</button>
+
                         </div>
                         <br>
                         <div id="pie-chart" class="text-center"></div>
+                        <div></div>
                         <div id='calendar'>
                             <div></div>
                         </div>
@@ -170,292 +161,519 @@
                         </div>
                     </main>
 
-                    <div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                        aria-hidden="true">
-                        <div class="modal-dialog">
-                            <!-- Modal content -->
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Reservation info</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body text-center">
-                                    <p><b>Full Name:</b> <span id="modal-full-name"></span></p>
-                                    <p><b>Phone Number:</b> <span id="modal-phone-number"></span></p>
-                                    <p><b>Email:</b> <span id="modal-email"></span></p>
-                                    <p><b>Deposit:</b> <span id="modal-deposit"></span></p>
-                                    <p><b>Date:</b> <span id="modal-date"></span> <span id="modal-time"></span></p>
-                                    <p><b>Number of People:</b> <span id="modal-number-of-people"></span></p>
-                                    <p><b>Note:</b> <span id="modal-note"></span></p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-warning text-dark"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary" id="editButton"
-                                        data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
+                    <body class="font-sans antialiased">
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
+                        @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+                        <div class="modal fade" id="reservationModal" tabindex="-1"
+                            aria-labelledby="reservationModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="reservationModalLabel">Make a Reservation</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form method="POST" action="{{ route('reservations.store') }}">
+                                            @csrf
+
+                                            <!-- Add the form fields for making a reservation here -->
+                                            <div class="mb-3">
+                                                <label for="restaurant_id" class="form-label">Restaurant</label>
+                                                <select id="restaurant_id" class="form-select" name="restaurant_id"
+                                                    required>
+                                                    @foreach ($restaurants as $restaurant)
+                                                        <option value="{{ $restaurant->id }}">{{ $restaurant->title }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                <div class="form-group row mt-5">
+                                                    <label for="full_name"
+                                                        class="col-md-4 col-form-label text-md-right">{{ __('Full Name') }}</label>
+
+                                                    <div class="col-md-6">
+                                                        <input id="full_name" type="text"
+                                                            class="form-control @error('full_name') is-invalid @enderror"
+                                                            name="full_name" value="{{ old('full_name') }}" required
+                                                            autocomplete="full_name" autofocus>
+
+                                                        @error('full_name')
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong>{{ $message }}</strong>
+                                                            </span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <label for="phone_number"
+                                                        class="col-md-4 col-form-label text-md-right">{{ __('Phone Number') }}</label>
+
+                                                    <div class="col-md-6">
+                                                        <input id="phone_number" type="text"
+                                                            class="form-control @error('phone_number') is-invalid @enderror"
+                                                            name="phone_number" value="{{ old('phone_number') }}"
+                                                            required autocomplete="phone_number" autofocus>
+
+                                                        @error('phone_number')
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong>{{ $message }}</strong>
+                                                            </span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <label for="email"
+                                                        class="col-md-4 col-form-label text-md-right">{{ __('Email') }}</label>
+
+                                                    <div class="col-md-6">
+                                                        <input id="email" type="email"
+                                                            class="form-control @error('email') is-invalid @enderror"
+                                                            name="email" value="{{ old('email') }}" required
+                                                            autocomplete="email" autofocus>
+
+                                                        @error('email')
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong>{{ $message }}</strong>
+                                                            </span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form-group row">
+                                                    <label for="date"
+                                                        class="col-md-4 col-form-label text-md-right">{{ __('Date') }}</label>
+
+                                                    <div class="col-md-6">
+                                                        <input id="date" type="date"
+                                                            class="form-control @error('date') is-invalid @enderror"
+                                                            name="date" value="{{ old('date') }}" required
+                                                            autocomplete="date" autofocus>
+
+                                                        @error('date')
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong>{{ $message }}</strong>
+                                                            </span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <label for="time"
+                                                        class="col-md-4 col-form-label text-md-right">{{ __('Time') }}</label>
+
+                                                    <div class="col-md-6">
+                                                        <input id="time" type="time"
+                                                            class="form-control @error('time') is-invalid @enderror"
+                                                            name="time" value="{{ old('time') }}" required
+                                                            autocomplete="time" autofocus>
+
+                                                        @error('time')
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong>{{ $message }}</strong>
+                                                            </span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <label for="number_of_people"
+                                                        class="col-md-4 col-form-label text-md-right">{{ __('Number of peoples') }}</label>
+
+                                                    <div class="col-md-6">
+                                                        <input id="number_of_people" type="number" min="1"
+                                                            class="form-control @error('number_of_people') is-invalid @enderror"
+                                                            name="number_of_people"
+                                                            value="{{ old('number_of_people') }}" required
+                                                            autocomplete="number_of_people" autofocus>
+
+                                                        @error('number_of_people')
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong>{{ $message }}</strong>
+                                                            </span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <label for="note"
+                                                        class="col-md-4 col-form-label text-md-right">{{ __('Note') }}</label>
+
+                                                    <div class="col-md-6">
+                                                        <textarea id="note" class="form-control @error('note') is-invalid @enderror" name="note" rows="4">{{ old('note') }}</textarea>
+
+                                                        @error('note')
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong>{{ $message }}</strong>
+                                                            </span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <label for="deposit"
+                                                        class="col-md-4 col-form-label text-md-right">{{ __('Deposit') }}</label>
+
+                                                    <div class="col-md-6">
+                                                        <input id="deposit" type="number" min="0"
+                                                            class="form-control @error('deposit') is-invalid @enderror"
+                                                            name="deposit" value="{{ old('deposit') }}" required
+                                                            autocomplete="deposit" autofocus>
+
+                                                        @error('deposit')
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong>{{ $message }}</strong>
+                                                            </span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row mb-0 mt-3">
+                                                    <div class="col-md-6 offset-md-4">
+                                                        <button type="submit" class="btn btn-primary text-dark">
+                                                            {{ __('Make Reservation') }}
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                        </div>
 
-                    <!-- Edit modal -->
-                    <div class="modal" id="editModal" tabindex="-1" aria-labelledby="editModalLabel"
-                        aria-hidden="true">
-                        <div class="modal-dialog">
-                            <!-- Modal content -->
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="editModalLabel">Edit Reservation</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <!-- Edit form goes here -->
-                                    <form id="editForm">
-                                        <div class="mb-3">
-                                            <label for="editFullNameInput" class="form-label">Full Name</label>
-                                            <input type="text" class="form-control" id="editFullNameInput">
-                                        </div>
-                                        <!-- More input fields for other reservation details go here -->
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-warning text-dark"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary" id="saveChangesButton">Save
-                                        changes</button>
+                        </div>
+
+                        <!-- Add more form fields for other reservation details here -->
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Make
+                                Reservation</button>
+                        </div>
+                        </form>
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+
+
+                        <div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <!-- Modal content -->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Reservation info</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                        <p><b>Full Name:</b> <span id="modal-full-name"></span></p>
+                                        <p><b>Phone Number:</b> <span id="modal-phone-number"></span></p>
+                                        <p><b>Email:</b> <span id="modal-email"></span></p>
+                                        <p><b>Deposit:</b> <span id="modal-deposit"></span></p>
+                                        <p><b>Date:</b> <span id="modal-date"></span> <span id="modal-time"></span>
+                                        </p>
+                                        <p><b>Number of People:</b> <span id="modal-number-of-people"></span></p>
+                                        <p><b>Note:</b> <span id="modal-note"></span></p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-warning text-dark"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary text-dark" id="editButton"
+                                            data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    </div>
-                    </div>
-                    </div>
-                    </div>
-                    </main>
-                    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
-                    <script type="text/javascript">
-                        google.charts.load('current', {
-                            'packages': ['corechart']
-                        });
-                        google.charts.setOnLoadCallback(drawChart);
 
-                        function getTimeDifference(date1, date2) {
-                            const diffInMs = Math.abs(date2 - date1);
-                            return diffInMs / (1000 * 60); // Convert milliseconds to minutes
-                        }
+                        <!-- Edit modal -->
+                        <div class="modal" id="editModal" tabindex="-1" aria-labelledby="editModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <!-- Modal content -->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="editModalLabel">Edit Reservation</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- Edit form goes here -->
+                                        <form id="editForm">
+                                            <div class="mb-3">
+                                                <label for="editFullNameInput" class="form-label">Full Name</label>
+                                                <input type="text" class="form-control" id="editFullNameInput">
+                                            </div>
+                                            <!-- More input fields for other reservation details go here -->
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-warning text-dark"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary" id="saveChangesButton">Save
+                                            changes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                        </main>
+                        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+                        <script type="text/javascript">
+                            google.charts.load('current', {
+                                'packages': ['corechart']
+                            });
+                            google.charts.setOnLoadCallback(drawChart);
 
-
-                        function drawChart() {
-
-                            var reservedCount = {{ $reservedCount }};
-                            var availableCount = {{ $availableCount }};
-                            var data = google.visualization.arrayToDataTable([
-                                ['Label', 'Count'],
-                                ['Reserved', reservedCount],
-                                ['Available', availableCount]
-                            ]);
-
-                            var options = {
-                                title: 'Capacity',
-                                is3D: false,
-                            };
-
-                            var chart = new google.visualization.PieChart(document.getElementById('pie-chart'));
-                            chart.draw(data, options);
-                        }
-
-                        let selectedRestaurant = null;
-                        var calendarEl = document.getElementById('calendar');
-                        var reservations = {!! $reservations !!};
-
-
-
-                        var events = reservations.map(function(reservation) {
-                            var startDate = new Date(reservation.date + 'T' + reservation.time);
-                            var numberOfPeople = reservation.number_of_people;
-                            var peopleText = numberOfPeople === 1 ? 'People' : 'Peoples';
-
-
-                            return {
-                                title: reservation.time + ' ' + reservation.full_name + ', ' + numberOfPeople + ' ' + peopleText,
-                                start: startDate,
-                                description: reservation.date + reservation.phone_number + reservation.email,
-                                reservation: reservation // Add the reservation object to the event
-                            };
-                        });
-
-
-                        var calendar = new FullCalendar.Calendar(calendarEl, {
-                            initialView: 'dayGrid',
-                            eventArrangement: "SideBySide",
-                            eventMargin: '10px', // Adjust the margin as needed
-                            headerToolbar: {
-                                left: 'prev,next today',
-                                center: 'title',
-                                right: 'dayGridMonth,timeGridWeek,timeGridDay'
-                            },
-                            views: {
-                                timeGrid: {
-                                    columnHeaderFormat: {
-                                        weekday: 'short',
-                                        month: 'numeric',
-                                        day: 'numeric',
-                                        omitCommas: true,
-                                    },
-                                },
-                            },
-                            events: events,
-                            eventClick: function(info) {
-                                var reservation = info.event.extendedProps.reservation;
-                                showModal(reservation);
-                            }
-                        });
-
-                        calendar.render();
-
-                        function updateReservations() {
-                            // Get the selected restaurant from the dropdown
-                            selectedRestaurant = document.getElementById('restaurantSelect').value;
-
-                            var url = 'http://127.0.0.1:8000/dashboard?restaurant_id=' + selectedRestaurant;
-
-
-
-
-
-                            // Filter the events based on the selected restaurant
-                            let filteredEvents = [];
-                            if (selectedRestaurant === 'all') {
-                                // If 'All Restaurants' is selected, show all events
-                                filteredEvents = events;
-                            } else {
-                                // Filter events based on the selected restaurant
-                                filteredEvents = events.filter(event => event.reservation.restaurant_id === Number(
-                                    selectedRestaurant));
+                            function getTimeDifference(date1, date2) {
+                                const diffInMs = Math.abs(date2 - date1);
+                                return diffInMs / (1000 * 60); // Convert milliseconds to minutes
                             }
 
-                            // Modify the start and end properties of each event to include the time information
-                            filteredEvents = filteredEvents.map(event => {
-                                const startTime = new Date(event.start);
-                                const endTime = new Date(event.end);
-                                const startDateTime = new Date(event.reservation.date + ' ' + startTime
-                                    .toLocaleTimeString());
+
+                            function drawChart() {
+
+                                var reservedCount = {{ $reservedCount }};
+                                var availableCount = {{ $availableCount }};
+                                var data = google.visualization.arrayToDataTable([
+                                    ['Label', 'Count'],
+                                    ['Reserved', reservedCount],
+                                    ['Available', availableCount]
+                                ]);
+
+                                var options = {
+                                    title: 'Capacity',
+                                    is3D: false,
+                                };
+
+                                var chart = new google.visualization.PieChart(document.getElementById('pie-chart'));
+                                chart.draw(data, options);
+                            }
+
+                            let selectedRestaurant = null;
+                            var calendarEl = document.getElementById('calendar');
+                            var reservations = {!! $reservations !!};
+
+
+
+                            var events = reservations.map(function(reservation) {
+                                var startDate = new Date(reservation.date + 'T' + reservation.time);
+                                var numberOfPeople = reservation.number_of_people;
+                                var peopleText = numberOfPeople === 1 ? 'Person' : 'People';
+
                                 return {
-                                    ...event,
-                                    start: startDateTime,
+                                    title: reservation.time + ' ' + reservation.full_name + ', ' + numberOfPeople + ' ' + peopleText,
+                                    start: startDate,
+                                    description: reservation.date + reservation.phone_number + reservation.email,
+                                    reservation: reservation, // Add the reservation object to the event
+                                    status: reservation.reservation_status // Add the reservation status to the event
                                 };
                             });
 
-                            // Destroy the current calendar instance
-                            calendar.destroy();
 
-                            // Initialize a new calendar instance with the filtered events and set the initialView to 'timeGridDay'
-                            calendar = new FullCalendar.Calendar(calendarEl, {
-                                initialView: 'dayGrid',
-                                events: filteredEvents,
+
+                            var calendar = new FullCalendar.Calendar(calendarEl, {
+                                initialView: 'timeGridDay', // Set the initial view to show a single day
+                                slotDuration: '00:30:00', // Set the duration for each time slot (30 minutes)
+                                slotLabelInterval: {
+                                    minutes: 30
+                                }, // Show slot labels every 30 minutes
+                                slotMinTime: '09:00:00', // Set the minimum time to start at 9:00 AM
+                                slotMaxTime: '21:00:00', // Set the maximum time to end at 9:00 PM
+                                headerToolbar: {
+                                    left: 'prev,next today',
+                                    center: 'title',
+                                    right: 'timeGridDay' // Show only the daily view in the header
+                                },
+                                events: events,
                                 eventClick: function(info) {
                                     var reservation = info.event.extendedProps.reservation;
                                     showModal(reservation);
                                 }
                             });
 
-                            // Render the updated calendar
                             calendar.render();
 
-                            // Call drawChart again to update the pie chart based on the new data
-                            drawChart();
 
-                        }
-
-                        // On document load, trigger the updateReservations function to initialize the calendar with all events
-                        document.addEventListener('DOMContentLoaded', function() {
-                            updateReservations();
-                        });
-
-                        // Call updateReservations function on the onchange event of the restaurant dropdown
-                        document.getElementById('restaurantSelect').addEventListener('change', updateReservations);
+                            function updateReservations() {
+                                // Get the selected restaurant from the dropdown
+                                selectedRestaurant = document.getElementById('restaurantSelect').value;
 
 
 
 
-                        function showModal(reservation) {
-                            const modalFullName = document.getElementById('modal-full-name');
-                            const modalPhoneNumber = document.getElementById('modal-phone-number');
-                            const modalEmail = document.getElementById('modal-email');
-                            const modalDeposit = document.getElementById('modal-deposit');
-                            const modalDate = document.getElementById('modal-date');
-                            const modalTime = document.getElementById('modal-time');
-                            const modalNumberOfPeople = document.getElementById('modal-number-of-people');
-                            const modalNote = document.getElementById('modal-note');
-
-                            modalFullName.textContent = reservation.full_name;
-                            modalPhoneNumber.textContent = reservation.phone_number;
-                            modalEmail.textContent = reservation.email;
-                            modalDeposit.textContent = reservation.deposit;
-                            modalDate.textContent = reservation.date;
-                            modalTime.textContent = reservation.time;
-                            modalNumberOfPeople.textContent = reservation.number_of_people;
-                            modalNote.textContent = reservation.note ?? 'N/A';
-
-                            const myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
-                                keyboard: false
-                            });
-                            myModal.show();
-                        }
-
-                        function hideModal() {
-                            const myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
-                                keyboard: false
-                            });
-                            myModal.hide();
-                        }
-
-                        document.getElementById('editButton').addEventListener('click', function() {
-                            // Get the reservation details from the modal
-                            var fullName = document.getElementById('modal-full-name').textContent;
-                            // Get more reservation details from the modal as needed
-
-                            // Fill the edit form with the reservation details
-                            document.getElementById('editFullNameInput').value = fullName;
-                            // Fill more input fields with other reservation details as needed
-                        });
-
-                        // Add an event listener to the save changes button
-                        document.getElementById('saveChangesButton').addEventListener('click', function() {
-                            // Get the updated reservation details from the edit form
-                            var updatedFullName = document.getElementById('editFullNameInput').value;
-                            // Get more updated reservation details from the edit form as needed
-
-                            // Update the reservation details in the modal
-                            document.getElementById('modal-full-name').textContent = updatedFullName;
-                            // Update more reservation details in the modal as needed
-
-                            // Update the reservation details in the events array
-                            for (var i = 0; i < events.length; i++) {
-                                if (events[i].reservation.full_name === fullName) {
-                                    events[i].reservation.full_name = updatedFullName;
-                                    // Update more reservation details in the events array as needed
-                                    break;
+                                // Filter the events based on the selected restaurant
+                                let filteredEvents = [];
+                                if (selectedRestaurant === 'all') {
+                                    // If 'All Restaurants' is selected, show all events
+                                    filteredEvents = events;
+                                } else {
+                                    // Filter events based on the selected restaurant
+                                    filteredEvents = events.filter(event => event.reservation.restaurant_id === Number(
+                                        selectedRestaurant));
                                 }
+
+                                // Modify the start and end properties of each event to include the time information
+                                filteredEvents = filteredEvents.map(event => {
+                                    const startTime = new Date(event.start);
+                                    const endTime = new Date(event.end);
+                                    const startDateTime = new Date(event.reservation.date + ' ' + startTime
+                                        .toLocaleTimeString());
+                                    return {
+                                        ...event,
+                                        start: startDateTime,
+                                    };
+                                });
+
+                                // Destroy the current calendar instance
+                                calendar.destroy();
+
+                                // Initialize a new calendar instance with the filtered events and set the initialView to 'timeGridDay'
+                                calendar = new FullCalendar.Calendar(calendarEl, {
+                                    initialView: 'timeGridDay', // Set the initial view to show a single day
+                                    slotDuration: '00:30:00', // Set the duration for each time slot (30 minutes)
+                                    slotLabelInterval: {
+                                        minutes: 30
+                                    }, // Show slot labels every 30 minutes
+                                    slotMinTime: '09:00:00', // Set the minimum time to start at 9:00 AM
+                                    slotMaxTime: '21:00:00', // Set the maximum time to end at 9:00 PM
+                                    headerToolbar: {
+                                        left: 'prev,next today',
+                                        center: 'title',
+                                        right: 'timeGridDay' // Show only the daily view in the header
+                                    },
+                                    views: {
+                                        timeGridDay: {
+                                            columnHeaderFormat: {
+                                                weekday: 'short',
+                                                month: 'numeric',
+                                                day: 'numeric',
+                                                omitCommas: true,
+                                            },
+                                        },
+                                    },
+                                    events: filteredEvents,
+                                    eventClick: function(info) {
+                                        var reservation = info.event.extendedProps.reservation;
+                                        showModal(reservation);
+                                    }
+                                });
+
+                                // Render the updated calendar
+                                calendar.render();
+
+                                // Call drawChart again to update the pie chart based on the new data
+                                drawChart();
+
                             }
 
-                            // Re-render the calendar
-                            calendar.refetchEvents();
+                            // On document load, trigger the updateReservations function to initialize the calendar with all events
+                            document.addEventListener('DOMContentLoaded', function() {
+                                updateReservations();
+                            });
 
-                            // Close the edit modal
-                            var editModal = bootstrap.Modal.getInstance(document.getElementById('editModal'));
-                            editModal.hide();
-                        });
-                    </script>
-                    <script src="https://cdn.flowbite.com/assets/js/flowbite.js"></script>
+                            // Call updateReservations function on the onchange event of the restaurant dropdown
+                            document.getElementById('restaurantSelect').addEventListener('change', updateReservations);
 
-                    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
-                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
-                        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
-                    </script>
 
-                </body>
+
+
+                            function showModal(reservation) {
+                                const modalFullName = document.getElementById('modal-full-name');
+                                const modalPhoneNumber = document.getElementById('modal-phone-number');
+                                const modalEmail = document.getElementById('modal-email');
+                                const modalDeposit = document.getElementById('modal-deposit');
+                                const modalDate = document.getElementById('modal-date');
+                                const modalTime = document.getElementById('modal-time');
+                                const modalNumberOfPeople = document.getElementById('modal-number-of-people');
+                                const modalNote = document.getElementById('modal-note');
+
+                                modalFullName.textContent = reservation.full_name;
+                                modalPhoneNumber.textContent = reservation.phone_number;
+                                modalEmail.textContent = reservation.email;
+                                modalDeposit.textContent = reservation.deposit;
+                                modalDate.textContent = reservation.date;
+                                modalTime.textContent = reservation.time;
+                                modalNumberOfPeople.textContent = reservation.number_of_people;
+                                modalNote.textContent = reservation.note ?? 'N/A';
+
+                                const myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
+                                    keyboard: false
+                                });
+                                myModal.show();
+                            }
+
+                            function hideModal() {
+                                const myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
+                                    keyboard: false
+                                });
+                                myModal.hide();
+                            }
+
+                            document.getElementById('editButton').addEventListener('click', function() {
+                                // Get the reservation details from the modal
+                                var fullName = document.getElementById('editFullNameInput').value;
+                                // Get more reservation details from the modal as needed
+
+                                // Fill the edit form with the reservation details
+                                document.getElementById('editFullNameInput').value = fullName;
+                                // Fill more input fields with other reservation details as needed
+                            });
+
+                            // Add an event listener to the save changes button
+                            document.getElementById('saveChangesButton').addEventListener('click', function() {
+                                // Get the updated reservation details from the edit form
+                                var updatedFullName = document.getElementById('editFullNameInput').value;
+                                // Get more updated reservation details from the edit form as needed
+
+                                // Update the reservation details in the modal
+                                document.getElementById('modal-full-name').textContent = updatedFullName;
+                                // Update more reservation details in the modal as needed
+
+                                // Update the reservation details in the events array
+                                for (var i = 0; i < events.length; i++) {
+                                    if (events[i].reservation.full_name === fullName) {
+                                        events[i].reservation.full_name = updatedFullName;
+                                        // Update more reservation details in the events array as needed
+                                        break;
+                                    }
+                                }
+
+                                // Re-render the calendar
+                                calendar.refetchEvents();
+
+                                // Close the edit modal
+                                var editModal = bootstrap.Modal.getInstance(document.getElementById('editModal'));
+                                editModal.hide();
+                            });
+                        </script>
+                        <script src="https://cdn.flowbite.com/assets/js/flowbite.js"></script>
+
+                        <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
+                        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+                            integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
+                        </script>
+
+                    </body>
 
                 </html>

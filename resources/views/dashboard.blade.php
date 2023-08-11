@@ -16,11 +16,7 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-    <!-- Your head content goes here -->
-
     <style>
-        /* Add custom styles for the sidebar */
         .sidebar {
             position: fixed;
             top: 0;
@@ -32,7 +28,6 @@
             border-right: 1px solid #1F2937;
             transition: transform 0.3s ease;
             padding: 2rem 0;
-            /* Adjust the top and bottom padding as needed */
         }
 
         /* Hide the sidebar on small screens */
@@ -52,7 +47,6 @@
         /* Main content styles */
         .main-content {
             margin-left: 30%;
-            /* Adjust the margin to match the sidebar width */
             padding: 2rem;
         }
     </style>
@@ -131,7 +125,6 @@
                         </button>
                     </form>
                 </li>
-                <!-- Add more sidebar items here -->
             </ul>
         </div>
 
@@ -150,18 +143,9 @@
     </main>
 
     <div class="font-sans antialiased">
-        <div class="modal fade" id="reservationModal" tabindex="-1" aria-labelledby="reservationModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="reservationModalLabel">Make a Reservation</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form method="POST" action="{{ route('reservations.store') }}">
-                            @csrf
+        <x-reservation-modal :restaurants="$restaurants"/>
 
+<<<<<<< HEAD
                             <!-- Add the form fields for making a reservation here -->
                             <div class="mb-3">
                                 <label for="restaurant_id" class="form-label">Restaurant</label>
@@ -378,6 +362,11 @@
                 </div>
             </div>
         </div>
+=======
+        <x-reservation-info-modal />
+        
+        <x-edit-reservation-modal />
+>>>>>>> 244c923aaa00edbaed12d922dae39d4f73e75717
     </div>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
     <script type="text/javascript">

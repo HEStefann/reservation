@@ -74,3 +74,4 @@ Route::get('/reservations/create', [ReservationController::class, 'create'])->na
 Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
 Route::get('/user/restaurants', [UserController::class, 'index'])->name('restaurants.index');
 Route::delete('/reservations/{reservation}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
+Route::get('/reservations/update', [ReservationController::class, 'update'])->name('reservations.update');

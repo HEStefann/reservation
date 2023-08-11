@@ -64,11 +64,13 @@ class ReservationController extends Controller
         return redirect()->back()->with('success', 'Reservation updated!');
     }
 
-    public function destroy(Reservation $reservation)
+    public function destroy($id)
     {
-        $reservation->delete();
 
-        return redirect()->route('dashboard')->with('success', 'Reservation deleted successfully');
+        // Delete reservation by ID
+        Reservation::destroy($id);
+
+        return response()->json(['success' => true]);
     }
 
     public function history(Request $request)
@@ -159,45 +161,45 @@ class ReservationController extends Controller
         return view('reservations.show', compact('reservation'));
     }
 
-    public function update(Request $request, Reservation $reservation)
+    public function update(Request $request, $id)
     {
-        $request->validate([
-            'full_name' => 'required|string|max:100',
-            'phone_number' => 'required|string|max:20',
+        $reservation = Reservation::findOrFail($id);
+
+        // Validate input
+        $this->validate($request, [
+            'full_name' => 'required|string|max:255',
+            'phone_number' => 'required|string|max:255',
             'email' => 'required|email|max:255',
-            'deposit' => 'required|numeric',
+            'deposit' => 'required|numeric|min:0',
             'date' => 'required|date',
-            'time' => 'required|string',
-            'number_of_people' => 'required|integer',
-            'note' => 'nullable|string|max:255',
+            'time' => 'required',
+            'number_of_people' => 'required|numeric|min:1',
+            'note' => 'nullable|string',
+            'status' => 'required|in:pending,confirmed,cancelled'
         ]);
 
-        $user = Auth::user(); // Get the authenticated user
-
-        $restaurant = Restaurant::findOrFail($reservation->restaurant_id);
-        $reservedCount = Reservation::where('restaurant_id', $restaurant->id)->where('id', '!=', $reservation->id)->sum('number_of_people');
-        $availableCount = $restaurant->available_people - $reservedCount;
-
+        // Check available seats
+        $availableCount = $reservation->restaurant->available_people;
         if ($request->input('number_of_people') > $availableCount) {
             return redirect()->back()->withErrors(['number_of_people' => 'Not enough available seats for the reservation']);
         }
 
-        // Update the reservation with the new details
-        $reservation->update([
-            'user_id' => $user->id, // Assign the user's ID to the reservation
-            'full_name' => $request->input('full_name'),
-            'phone_number' => $request->input('phone_number'),
-            'email' => $request->input('email'),
-            'deposit' => $request->input('deposit'),
-            'date' => $request->input('date'),
-            'time' => $request->input('time'),
-            'number_of_people' => $request->input('number_of_people'),
-            'note' => $request->input('note'),
-        ]);
+        // Update reservation details
+        $reservation->full_name = $request->input('full_name');
+        $reservation->phone_number = $request->input('phone_number');
+        $reservation->email = $request->input('email');
+        $reservation->deposit = $request->input('deposit');
+        $reservation->date = $request->input('date');
+        $reservation->time = $request->input('time');
+        $reservation->number_of_people = $request->input('number_of_people');
+        $reservation->note = $request->input('note');
+        $reservation->status = $request->input('status');
+        $reservation->save();
 
-        return redirect()->route('dashboard', ['reservation' => $reservation->id])
-            ->with('success', 'Reservation updated successfully');
+        return response('Reservation updated', 200);
     }
+
+
 
 
     // Add other methods for updating, deleting, or listing reservations if needed

@@ -158,6 +158,21 @@
                     <div>
                     </div>
                 </div>
+                @foreach ($reservations as $reservation)
+                    <div>
+                        <select name="status" id="status">
+                            <option value="waiting" {{ $reservation->status === 'waiting' ? 'selected' : '' }}>Waiting
+                            </option>
+                            <option value="accepted" {{ $reservation->status === 'accepted' ? 'selected' : '' }}>
+                                Accepted</option>
+                            <option value="declined" {{ $reservation->status === 'declined' ? 'selected' : '' }}>
+                                Declined</option>
+                            <!-- Add more status options if needed -->
+                        </select>
+                    </div>
+                @endforeach
+
+
 
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-6">
                     <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-11">
@@ -178,7 +193,7 @@
                                 </tr>
                             </thead>
 
-                            <tbody>
+                            <tbody id="reservationTableBody">
                                 @foreach ($reservations as $reservation)
                                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
                                         data-restaurant-id="{{ $reservation->restaurant->id }}">
@@ -209,7 +224,7 @@
     ">
                                             {{ $reservation->status }}
                                         </td>
-                                        
+
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -233,6 +248,26 @@
                         }
                     }
 
+                    function sortReservationsByDate() {
+                        const reservationTableBody = document.getElementById('reservationTableBody');
+                        const reservationRows = Array.from(reservationTableBody.querySelectorAll('tr'));
+
+                        reservationRows.sort((a, b) => {
+                            const dateA = new Date(a.querySelector('td:nth-child(5)').innerText);
+                            const dateB = new Date(b.querySelector('td:nth-child(5)').innerText);
+                            return dateB - dateA;
+                        });
+
+                        reservationTableBody.innerHTML = '';
+                        reservationRows.forEach(row => reservationTableBody.appendChild(row));
+                    }
+
+
+                    window.addEventListener('DOMContentLoaded', () => {
+                        sortReservationsByDate();
+                    });
+
+
                     function updateReservations() {
                         // Get the selected restaurant from the dropdown
                         const selectedRestaurant = document.getElementById('restaurantSelect').value;
@@ -244,8 +279,9 @@
                     function searchReservations() {
                         const searchValue = document.getElementById('searchInput').value.toLowerCase();
                         const selectedDate = document.getElementById('dateInput').value;
+                        const reservationTableBody = document.getElementById('reservationTableBody');
 
-                        const reservationRows = document.querySelectorAll('tbody tr');
+                        const reservationRows = Array.from(reservationTableBody.querySelectorAll('tr'));
 
                         reservationRows.forEach(row => {
                             const fullName = row.querySelector('td:nth-child(1)').innerText.toLowerCase();
@@ -264,6 +300,17 @@
                                 row.style.display = 'none';
                             }
                         });
+
+                        // Sort the rows by date in descending order
+                        reservationRows.sort((a, b) => {
+                            const dateA = new Date(a.querySelector('td:nth-child(5)').innerText);
+                            const dateB = new Date(b.querySelector('td:nth-child(5)').innerText);
+                            return dateB - dateA;
+                        });
+
+                        // Clear the existing table and append the sorted rows
+                        reservationTableBody.innerHTML = '';
+                        reservationRows.forEach(row => reservationTableBody.appendChild(row));
                     }
                 </script>
 

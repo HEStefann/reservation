@@ -144,7 +144,7 @@
                 data-bs-toggle="modal" data-bs-target="#reservationModal">Create reservation</button>
         </div>
         <br>
-        <div id="pie-chart" class="text-center"></div>
+        {{-- <div id="pie-chart" class="text-center"></div> --}}
         <div id='calendar'>
         </div>
     </main>
@@ -342,7 +342,7 @@
                     <p><b>Number of People:</b> <span id="modal-number-of-people"></span></p>
                     <p><b>Note:</b> <span id="modal-note"></span></p>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer d-block">
                     <button type="button" class="btn btn-warning text-dark" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary text-dark editButton" data-bs-toggle="modal"
                         data-bs-target="#editModal">Edit</button>
@@ -372,43 +372,15 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-warning text-dark" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="saveChangesButton">Save
-                        changes</button>
+
+                    <button type="button" class="btn btn-primary" id="saveChangesButton"
+                        onclick="saveChanges()">Save changes</button>
                 </div>
             </div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
     <script type="text/javascript">
-        google.charts.load('current', {
-            'packages': ['corechart']
-        });
-        google.charts.setOnLoadCallback(drawChart);
-
-        function getTimeDifference(date1, date2) {
-            const diffInMs = Math.abs(date2 - date1);
-            return diffInMs / (1000 * 60); // Convert milliseconds to minutes
-        }
-
-        function drawChart() {
-
-            var reservedCount = {{ $reservedCount }};
-            var availableCount = {{ $availableCount }};
-            var data = google.visualization.arrayToDataTable([
-                ['Label', 'Count'],
-                ['Reserved', reservedCount],
-                ['Available', availableCount]
-            ]);
-
-            var options = {
-                title: 'Capacity',
-                is3D: false,
-            };
-
-            var chart = new google.visualization.PieChart(document.getElementById('pie-chart'));
-            chart.draw(data, options);
-        }
-
         let selectedRestaurant = null;
         var calendarEl = document.getElementById('calendar');
         var reservations = {!! $reservations !!};
@@ -518,7 +490,7 @@
             calendar.render();
 
             // Call drawChart again to update the pie chart based on the new data
-            drawChart();
+            // drawChart();
 
         }
 
@@ -561,43 +533,6 @@
             });
             myModal.hide();
         }
-
-        document.getElementById('editButton').addEventListener('click', function() {
-            // Get the reservation details from the modal
-            var fullName = document.getElementById('editFullNameInput').value;
-            // Get more reservation details from the modal as needed
-
-            // Fill the edit form with the reservation details
-            document.getElementById('editFullNameInput').value = fullName;
-            // Fill more input fields with other reservation details as needed
-        });
-
-        // Add an event listener to the save changes button
-        document.getElementById('saveChangesButton').addEventListener('click', function() {
-            // Get the updated reservation details from the edit form
-            var updatedFullName = document.getElementById('editFullNameInput').value;
-            // Get more updated reservation details from the edit form as needed
-
-            // Update the reservation details in the modal
-            document.getElementById('modal-full-name').textContent = updatedFullName;
-            // Update more reservation details in the modal as needed
-
-            // Update the reservation details in the events array
-            for (var i = 0; i < events.length; i++) {
-                if (events[i].reservation.full_name === fullName) {
-                    events[i].reservation.full_name = updatedFullName;
-                    // Update more reservation details in the events array as needed
-                    break;
-                }
-            }
-
-            // Re-render the calendar
-            calendar.refetchEvents();
-
-            // Close the edit modal
-            var editModal = bootstrap.Modal.getInstance(document.getElementById('editModal'));
-            editModal.hide();
-        });
     </script>
     <script src="https://cdn.flowbite.com/assets/js/flowbite.js"></script>
 

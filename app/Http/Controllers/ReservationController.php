@@ -202,6 +202,51 @@ class ReservationController extends Controller
         return response('Reservation updated', 200);
     }
 
+    public function edit2(Reservation $reservation)
+    {
+        return view('reservations.edit', compact('reservation'));
+    }
+
+    public function update2(Request $request, $id)
+    {
+        $reservation = Reservation::findOrFail($id);
+
+        // Validate input
+        $this->validate($request, [
+            'full_name' => 'required|string|max:255',
+            'phone_number' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'deposit' => 'required|numeric|min:0',
+            'date' => 'required|date',
+            'time' => 'required',
+            'number_of_people' => 'required|numeric|min:1',
+            'note' => 'nullable|string',
+            'status' => 'required|in:pending,confirmed,cancelled'
+        ]);
+
+        // Check available seats
+        $availableCount = $reservation->restaurant->available_people;
+        if ($request->input('number_of_people') > $availableCount) {
+            return redirect()->back()->withErrors(['number_of_people' => 'Not enough available seats for the reservation']);
+        }
+
+        // Update reservation details
+        $reservation->full_name = $request->input('full_name');
+        $reservation->phone_number = $request->input('phone_number');
+        $reservation->email = $request->input('email');
+        $reservation->deposit = $request->input('deposit');
+        $reservation->date = $request->input('date');
+        $reservation->time = $request->input('time');
+        $reservation->number_of_people = $request->input('number_of_people');
+        $reservation->note = $request->input('note');
+        $reservation->status = $request->input('status');
+        $reservation->save();
+
+        $reservation->update($request->all());
+
+        return redirect()->route('reservations.index')->with('success', 'Reservation updated!');
+    }
+
 
 
 

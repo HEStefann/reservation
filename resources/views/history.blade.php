@@ -227,10 +227,10 @@
                                                 class="px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Edit</a>
                                         </td>
 
-                                        <td class="px-6 py-4">
+                                        <td>
                                             <div class="flex items-center space-x-2">
                                                 <button
-                                                    class="text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 px-3 py-1 delete-button"
+                                                    class=" px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 px-3 py-1 delete-button"
                                                     data-reservation-id="{{ $reservation->id }}">
                                                     Delete
                                                 </button>
@@ -277,22 +277,18 @@
                     });
 
                     function filterReservationsByStatus() {
-                        // Get the selected status from the dropdown
                         const selectedStatus = document.getElementById('statusFilter').value;
-
-                        // Get all the reservation rows in the table
                         const reservationTableBody = document.getElementById('reservationTableBody');
                         const reservationRows = Array.from(reservationTableBody.querySelectorAll('tr'));
 
-                        // Iterate through each row and decide whether to display or hide it
                         reservationRows.forEach(row => {
-                            const statusCell = row.querySelector('td:nth-child(10)'); // Cell containing status
+                            const statusCell = row.querySelector('td:nth-child(10)');
                             const status = statusCell.innerText.toLowerCase();
 
                             if (selectedStatus === '' || selectedStatus === status) {
-                                row.style.display = 'table-row'; // Display the row
+                                row.style.display = 'table-row';
                             } else {
-                                row.style.display = 'none'; // Hide the row
+                                row.style.display = 'none';
                             }
                         });
                     }
@@ -337,17 +333,11 @@
 
 
                     function searchReservations() {
-                        searchButtonClicked = true;
-
                         const searchValue = document.getElementById('searchInput').value.toLowerCase();
                         const selectedDate = document.getElementById('dateInput').value;
                         const reservationTableBody = document.getElementById('reservationTableBody');
 
                         const reservationRows = Array.from(reservationTableBody.querySelectorAll('tr'));
-
-                        if (!searchButtonClicked) {
-                            return; // Exit the function if the search button was not clicked
-                        }
 
                         reservationRows.forEach(row => {
                             const fullName = row.querySelector('td:nth-child(1)').innerText.toLowerCase();
@@ -366,18 +356,6 @@
                                 row.style.display = 'none';
                             }
                         });
-
-                        // Sort the rows by date in descending order
-                        reservationRows.sort((a, b) => {
-                            const dateA = new Date(Date.parse(a.querySelector('td:nth-child(5)').innerText));
-                            const dateB = new Date(Date.parse(b.querySelector('td:nth-child(5)').innerText));
-                            return dateB - dateA;
-                        });
-
-                        // Clear the existing table and append the sorted rows
-                        reservationTableBody.innerHTML = '';
-                        reservationRows.forEach(row => reservationTableBody.appendChild(row));
-                        filterReservationsByStatus();
                     }
                 </script>
 

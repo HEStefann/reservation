@@ -82,8 +82,8 @@ Route::patch('/notifications/{notification}', [NotificationController::class, 'm
 Route::get('/reservations/create', [ReservationController::class, 'create'])->name('reservations.create');
 Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
 Route::delete('/reservations/{reservation}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
-Route::get('/reservations/{id}', [ReservationController::class, 'show'])->name('reservations.show');
+Route::get('/reservations/{reservation}', [ReservationController::class, 'show'])->name('reservations.show');
 Route::get('/reservations/{reservation}/edit', [ReservationController::class, 'edit2'])->name('reservations.edit');
-Route::put('/reservations/{id}', [ReservationController::class, 'update2'])->name('reservations.update2');
-Route::put('/reservations/{id}/update2', [ReservationController::class, 'update2'])->name('reservations.update2');
+Route::put('/reservations/{reservation}', [ReservationController::class, 'update2'])->name('reservations.update2');
+Route::put('/reservations/{reservation}/update2', [ReservationController::class, 'update2'])->name('reservations.update2');
 Route::delete('/reservations/{reservation}', [ReservationController::class, 'destroy'])->name('reservations.destroy');

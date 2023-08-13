@@ -25,6 +25,8 @@ class Reservation extends Model
         'note'
     ];
 
+    
+
     public function restaurant()
     {
         return $this->belongsTo(Restaurant::class);

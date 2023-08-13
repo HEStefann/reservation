@@ -1,6 +1,15 @@
-<form method="POST" action="{{ route('reservations.update2', $reservation->id) }}">
+<form action="{{ route('reservations.update2', ['id' => $reservation->id]) }}" method="POST">
     @csrf
     @method('PUT')
+
+    <div class="form-group">
+        <label>Status</label>
+        <select name="status" id="status" class="form-control">
+            <option value="pending" {{ $reservation->status === 'pending' ? 'selected' : '' }}>Pending</option>
+            <option value="accepted" {{ $reservation->status === 'accepted' ? 'selected' : '' }}>Accepted</option>
+            <option value="declined" {{ $reservation->status === 'declined' ? 'selected' : '' }}>Declined</option>
+        </select>
+    </div>
 
     <div class="form-group">
         <label>Full Name</label>

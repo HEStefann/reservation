@@ -186,6 +186,7 @@
                                     <th scope="col" class="px-6 py-3">Restaurant</th>
                                     <th scope="col" class="px-6 py-3">Status</th> <!-- New column for status -->
                                     <th scope="col" class="px-6 py-3">Edit</th>
+                                    <th scope="col" class="px-6 py-3">Delete</th>
                                 </tr>
                             </thead>
 
@@ -226,6 +227,18 @@
                                                 class="px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Edit</a>
                                         </td>
 
+                                        <td class="px-6 py-4">
+                                            <div class="flex items-center space-x-2">
+                                                <button
+                                                    class="text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 px-3 py-1 delete-button"
+                                                    data-reservation-id="{{ $reservation->id }}">
+                                                    Delete
+                                                </button>
+                                            </div>
+                                        </td>
+
+
+
 
 
 
@@ -245,6 +258,24 @@
 
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/flowbite.min.js"></script>
                 <script>
+                    const deleteButtons = document.querySelectorAll('.delete-button');
+
+                    deleteButtons.forEach(button => {
+                        button.addEventListener('click', () => {
+                            const reservationId = button.getAttribute('data-reservation-id');
+
+                            if (confirm('Are you sure you want to delete this reservation?')) {
+                                fetch(`/reservations/${reservationId}`, {
+                                    method: 'DELETE',
+                                    headers: {
+                                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                    },
+                                })
+                            }
+                            updateReservations();
+                        });
+                    });
+
                     function filterReservationsByStatus() {
                         // Get the selected status from the dropdown
                         const selectedStatus = document.getElementById('statusFilter').value;

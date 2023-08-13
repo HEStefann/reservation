@@ -212,7 +212,7 @@ class ReservationController extends Controller
         return view('reservations.edit', compact('reservation'));
     }
 
-    public function update2(Request $request, $id, Reservation $reservation)
+    public function update2(Request $request, $id)
     {
         try {
             \Log::info($request->all()); // Log request data

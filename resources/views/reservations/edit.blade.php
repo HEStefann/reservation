@@ -1,4 +1,4 @@
-<form action="{{ route('reservations.update2', ['id' => $reservation->id]) }}" method="POST">
+<form action="{{ route('reservations.update2', ['id' => $reservation->id, 'reservation' => $reservation]) }}" method="POST">
     @csrf
     @method('PUT')
 

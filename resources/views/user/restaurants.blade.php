@@ -28,9 +28,11 @@
         <h3>UserLogo</h3>
     </nav>
 
-    <div class="w-20 h-20 relative">
-    <img class="img-fluid" src="https://www.diabetesfoodhub.org/system/user_files/Images/1837-diabetic-pecan-crusted-chicken-breast_JulAug20DF_clean-simple_061720.jpg" alt="">
-</div>
+    <div class="relative">
+        <img class="w-full h-full object-cover"
+            src="https://www.diabetesfoodhub.org/system/user_files/Images/1837-diabetic-pecan-crusted-chicken-breast_JulAug20DF_clean-simple_061720.jpg"
+            alt="">
+    </div>
 
     <div class="text-center mb-10 mt-14">
         @guest

@@ -16,14 +16,24 @@
 
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+<style>
 
+</style>
 
 <body>
-    <style>
-        body {
-            overflow: hidden;
-        }
-    </style>
+
+    <nav class="p-6 bg-white flex justify-between mb-6">
+        <h3>RevelApps</h3>
+        <h3></h3>
+        <h3>UserLogo</h3>
+    </nav>
+
+    <div class="relative">
+        <img class="w-full h-full object-cover"
+            src="https://www.diabetesfoodhub.org/system/user_files/Images/1837-diabetic-pecan-crusted-chicken-breast_JulAug20DF_clean-simple_061720.jpg"
+            alt="">
+    </div>
+
     <div class="text-center mb-10 mt-14">
         @guest
             <h3>Welcome, Please</h3>
@@ -67,7 +77,7 @@
         <div class="d-flex flex-wrap gap-5">
             <!-- Restaurants -->
             @foreach ($restaurants->take(3) as $restaurant)
-                <div class="max-w-md bg-white border border-gray-200 rounded-lg shadow-lg p-4" style="flex: 0 0 30%;">
+                <div class="w-max bg-white border border-gray-200 rounded-lg shadow-lg p-4" style="flex: 0 0 30%;">
                     <img class="rounded-t-lg w-70"
                         src="https://t3.ftcdn.net/jpg/03/24/73/92/360_F_324739203_keeq8udvv0P2h1MLYJ0GLSlTBagoXS48.jpg"
                         alt="" />
@@ -81,7 +91,8 @@
                         <span class="font-normal">{{ $restaurant->available_people }}</span>
                     </p>
                     <div class="text-right">
-                        <a href="#" class="mt-5 btn btn-warning">View Details</a>
+                        <a href="{{ route('user.restaurants.show', ['restaurant' => $restaurant->id]) }}"
+                            class="mt-5 btn btn-warning">View Details</a>
                     </div>
                 </div>
             @endforeach

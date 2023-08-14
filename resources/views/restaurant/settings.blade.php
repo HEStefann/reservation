@@ -6,13 +6,13 @@ use App\Http\Controllers\RestaurantSettingsCalendarController;
         <div class="alert alert-danger">
             <ul>
                 @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
+                    <li class="text-white">{{ $error }}</li>
                 @endforeach
             </ul>
         </div>
     @endif
     @if (session('success'))
-        <div class="alert alert-success">
+        <div class="alert alert-success text-white">
             {{ session('success') }}
         </div>
     @endif
@@ -91,13 +91,13 @@ use App\Http\Controllers\RestaurantSettingsCalendarController;
 
         <h2 class="text-white text-2xl font-bold mt-8">Images</h2>
         <form method="POST" enctype="multipart/form-data"
-            action="{{ route('restaurant.image.upload', $restaurant) }}">
+            action="{{ route('restaurant.settings.image.upload', $restaurant) }}">
 
             @csrf
 
-            <input type="file" name="images[]" multiple>
+            <input type="file" class="text-white"  name="images[]" multiple>
 
-            <button type="submit">Upload</button>
+            <button type="submit" class="text-white">Upload</button>
 
         </form>
         <!-- Display images -->
@@ -130,14 +130,14 @@ use App\Http\Controllers\RestaurantSettingsCalendarController;
             </script>
         @endpush
         <h2 class="text-white text-2xl font-bold mt-8">Tags</h2>
-        <form method="POST" action="{{ route('restaurant.tags.update', $restaurant->id) }}">
+        <form method="POST" action="{{ route('restaurant.settings.tags.update', $restaurant->id) }}">
             @csrf
             @foreach ($allTags as $tag)
                 <div class="mt-2">
                     <label>
                         <input type="checkbox" name="tags[]" value="{{ $tag->id }}"
                             {{ $restaurant->tags->contains($tag->id) ? 'checked' : '' }}>
-                        {{ $tag->name }}
+                        <span class="text-white">{{ $tag->name }}</span>
                     </label>
                 </div>
             @endforeach

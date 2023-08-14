@@ -10,6 +10,6 @@
             <input name="name" value="{{ $tag->name }}" class="form-control">
         </div>
 
-        <button type="submit" class="btn btn-primary">Update</button>
+        <button type="submit" class="btn btn-primary text-white">Update</button>
     </form>
 </x-guest-layout>

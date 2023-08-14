@@ -10,6 +10,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Moderator extends Model
 {
     use HasFactory, SoftDeletes;
+    protected $fillable = [
+        'user_id',
+        'restaurant_id',
+        'role'
+    ];
 
     public function restaurant(): BelongsTo
     {

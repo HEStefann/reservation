@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('reservations', function (Blueprint $table) {
-            $table->enum('status', ['accepted', 'declined', 'pending'])
-                  ->default('pending')
-                  ->after('id');
+        Schema::table('moderators', function (Blueprint $table) {
+            $table->enum('role', ['moderator', 'owner'])
+                ->after('user_id')
+                ->default('moderator');
         });
     }
 
@@ -23,8 +23,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('reservations', function (Blueprint $table) {
-            $table->dropColumn('status');
+        Schema::table('moderators', function (Blueprint $table) {
+            $table->dropColumn('role');
         });
     }
 };

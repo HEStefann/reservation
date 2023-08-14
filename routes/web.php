@@ -38,7 +38,12 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__ . '/auth.php';
+
 Route::middleware(['auth', 'ModeratorOrOwnerRole'])->group(function () {
+    Route::get('/restaurant/register', [RestaurantController::class, 'create'])->name('restaurant.register');
+    Route::post('/restaurant/register', [RestaurantController::class, 'store']);
+    Route::get('/user/restaurants/{restaurant}', [RestaurantController::class, 'show'])->name('user.restaurants.show');
+
     Route::prefix('/restaurant/{restaurant}')->name('restaurant.settings.')->group(function () {
         Route::get('/settings', [RestaurantSettingsController::class, 'index'])->name('index');
         Route::post('/update-info', [RestaurantSettingsController::class, 'updateInfo'])->name('update_info');
@@ -55,10 +60,10 @@ Route::middleware(['auth', 'ModeratorOrOwnerRole'])->group(function () {
 
         // Restaurant images routes
         Route::get('/images', [RestaurantImageController::class, 'index']);
-        Route::post('/images', [RestaurantImageController::class, 'upload'])->name('restaurant.image.upload');
+        Route::post('/images', [RestaurantImageController::class, 'upload'])->name('image.upload');
 
         // Restaurant tags route
-        Route::post('/tags', [RestaurantTagsController::class, 'update'])->name('restaurant.tags.update');
+        Route::post('/tags', [RestaurantTagsController::class, 'update'])->name('tags.update');
     });
 
     Route::resource('tags', TagsController::class);
@@ -68,15 +73,18 @@ Route::middleware(['auth', 'ModeratorOrOwnerRole'])->group(function () {
         Route::get('/{date}', [RestaurantSettingsCalendarController::class, 'getWorkingHoursForDate'])->name('get');
         Route::put('/', [RestaurantSettingsCalendarController::class, 'updateWorkingHours'])->name('update');
     });
-    Route::get('/dashboard', [ReservationController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
-    Route::get('/reservations/create', [ReservationController::class, 'create'])->name('reservations.create');
-    Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
-    Route::get('/user/restaurants', [UserController::class, 'index'])->name('restaurants.index');
-    Route::delete('/reservations/{reservation}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
-    Route::get('/reservations/update', [ReservationController::class, 'update'])->name('reservations.update');
-    Route::get('/history', [ReservationController::class, 'history'])->name('history');
-    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
-    Route::patch('/notifications/{notification}', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+Route::get('/dashboard', [ReservationController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/user/restaurants', [UserController::class, 'index'])->name('restaurants.index');
+Route::get('/history', [ReservationController::class, 'history'])->name('history');
+Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+Route::patch('/notifications/{notification}', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+Route::get('/reservations/create', [ReservationController::class, 'create'])->name('reservations.create');
+Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
+Route::delete('/reservations/{reservation}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
+Route::get('/reservations/{reservation}', [ReservationController::class, 'show'])->name('reservations.show');
+Route::get('/reservations/{reservation}/edit', [ReservationController::class, 'edit2'])->name('reservations.edit');
+Route::put('/reservations/{reservation}/update2', [ReservationController::class, 'update2'])->name('reservations.update2');
+Route::delete('/reservations/{reservation}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
 });
 Route::middleware(['auth', 'GuestRole'])->group(function () {
     Route::get('/index', function () {

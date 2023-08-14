@@ -9,6 +9,8 @@ use App\Models\Reservation;
 use App\Models\Restaurant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+
 
 class ReservationController extends Controller
 {
@@ -63,11 +65,14 @@ class ReservationController extends Controller
 
     public function destroy($id)
     {
+        // Find the reservation
+        $reservation = Reservation::findOrFail($id);
 
-        // Delete reservation by ID
-        Reservation::destroy($id);
+        // Delete the reservation
+        $reservation->delete();
 
-        return response()->json(['success' => true]);
+        // Redirect back to the reservations page with a success message
+        return redirect()->route('history')->with('success', 'Reservation deleted successfully.');
     }
 
     public function history(Request $request)
@@ -202,8 +207,56 @@ class ReservationController extends Controller
         return response('Reservation updated', 200);
     }
 
+    public function edit2(Reservation $reservation)
+    {
+        return view('reservations.edit', compact('reservation'));
+    }
 
+    public function update2(Request $request, $id)
+    {
+        try {
+            \Log::info($request->all()); // Log request data
 
+            $reservation = Reservation::findOrFail($id);
 
-    // Add other methods for updating, deleting, or listing reservations if needed
+            // Validate input
+            $this->validate($request, [
+                'full_name' => 'required|string|max:255',
+                'phone_number' => 'required|string|max:255',
+                'email' => 'required|email|max:255',
+                'deposit' => 'required|numeric|min:0',
+                'date' => 'required|date',
+                'time' => 'required',
+                'number_of_people' => 'required|numeric|min:1',
+                'note' => 'nullable|string',
+                'status' => 'required|in:pending,accepted,declined'
+            ]);
+
+            // Check available seats
+            $availableCount = $reservation->restaurant->available_people;
+            if ($request->input('number_of_people') > $availableCount) {
+                return redirect()->back()->withErrors(['number_of_people' => 'Not enough available seats for the reservation']);
+            }
+
+            $reservation->full_name = $request->input('full_name');
+            $reservation->phone_number = $request->input('phone_number');
+            $reservation->email = $request->input('email');
+            $reservation->deposit = $request->input('deposit');
+            $reservation->date = $request->input('date');
+            $reservation->time = $request->input('time');
+            $reservation->number_of_people = $request->input('number_of_people');
+            $reservation->note = $request->input('note');
+            $reservation->status = $request->input('status');
+            $reservation->save();
+
+            return redirect()->route('dashboard')->with('success', 'Reservation updated!');
+        } catch (\Exception $e) {
+            // Log the exception
+            \Log::error('Error updating reservation: ' . $e->getMessage());
+
+            return redirect()->back()->with('error', 'An error occurred while updating the reservation.');
+        }
+
+        // Add other methods for updating, deleting, or listing reservations if needed
+    }
 }

@@ -30,6 +30,13 @@ class RestaurantController extends Controller
         return view('restaurant.register');
     }
 
+    public function show($id)
+    {
+        $restaurant = Restaurant::findOrFail($id);
+
+        return view('user.showrestaurant', compact('restaurant'));
+    }
+
     public function store(RestaurantRequest $request)
     {
         // Create restaurant

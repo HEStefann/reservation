@@ -42,6 +42,8 @@ require __DIR__ . '/auth.php';
 Route::middleware('auth')->group(function () {
     Route::get('/restaurant/register', [RestaurantController::class, 'create'])->name('restaurant.register');
     Route::post('/restaurant/register', [RestaurantController::class, 'store']);
+    Route::get('/user/restaurants/{restaurant}', [RestaurantController::class, 'show'])->name('user.restaurants.show');
+
 
     Route::prefix('/restaurant/{restaurant}')->name('restaurant.settings.')->group(function () {
         Route::get('/settings', [RestaurantSettingsController::class, 'index'])->name('index');

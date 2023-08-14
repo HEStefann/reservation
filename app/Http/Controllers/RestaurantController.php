@@ -48,7 +48,7 @@ class RestaurantController extends Controller
         // Update user role
         DB::table('users')
             ->where('id', $user->id)
-            ->update(['role' => 'moderator']);
+            ->update(['role' => 'owner']);
 
         return redirect()->route('restaurant.settings.index', ['restaurant' => $restaurant->id]);
     }

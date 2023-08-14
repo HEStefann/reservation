@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class ModeratorRole
+class ModeratorOrOwnerRole
 {
     /**
      * Handle an incoming request.
@@ -17,11 +17,10 @@ class ModeratorRole
     public function handle(Request $request, Closure $next): Response
     {
         $user = Auth::user();
-
-        if ($user && $user->role == 'moderator') {
+        if ($user->role == 'moderator' || $user->role == 'owner') {
             return $next($request);
         }
-    
-        abort(403, 'Unauthorized action.');
+
+        return redirect('home');
     }
 }

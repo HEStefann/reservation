@@ -85,6 +85,7 @@ Route::get('/reservations/{reservation}', [ReservationController::class, 'show']
 Route::get('/reservations/{reservation}/edit', [ReservationController::class, 'edit2'])->name('reservations.edit');
 Route::put('/reservations/{reservation}/update2', [ReservationController::class, 'update2'])->name('reservations.update2');
 Route::delete('/reservations/{reservation}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
+Route::put('/reservations/{reservation}/status', [ReservationController::class, 'updateStatus'])->name('reservations.updateStatus'); 
 });
 Route::middleware(['auth', 'GuestRole'])->group(function () {
     Route::get('/index', function () {

@@ -31,6 +31,8 @@ class RestaurantRequest extends FormRequest
             'working_hours.*.opening_time' => 'required|date_format:H:i',
             'working_hours.*.closing_time' => 'required|date_format:H:i',
             'tags' => 'nullable|array',
+            'lat' => 'required|numeric',
+            'lng' => 'required|numeric'
         ];
     }
 }

@@ -28,28 +28,25 @@
         <h3>UserLogo</h3>
     </nav>
 
-    <div class="relative">
+    <div class="relative w-full h-72">
         <img class="w-full h-full object-cover"
-            src="https://www.diabetesfoodhub.org/system/user_files/Images/1837-diabetic-pecan-crusted-chicken-breast_JulAug20DF_clean-simple_061720.jpg"
+            src="https://www.escoffieronline.com/wp-content/uploads/2019/03/Chef-grating-cheese-over-a-white-plate-1024x682.jpg"
             alt="">
     </div>
 
-    <div class="text-center mb-10 mt-14">
-        @guest
-            <h3>Welcome, Please</h3>
-            <a href=""><b>Sign up</b></a>
-        @endguest
-
-        @auth
-            Hello {{ ucfirst(Auth::user()->name) }}
-        @endauth
-
+    <div class="text-center">
         <div class="mt-3 d-flex justify-content-center">
-            <input id="date" type="date" class="form-control w-40 text-center" name="date"
-                value="{{ old('date') }}" required autocomplete="date" autofocus>
+            <input placeholder="Restaurant" id="name" type="name" class="form-control w-40 text-center"
+                name="name" value="{{ old('name') }}" required autocomplete="date" autofocus>
         </div>
-
     </div>
+    <div class="text-center">
+        <div class="mt-3 d-flex justify-content-center">
+            <input placeholder="Location" id="name" type="name" class="form-control w-40 text-center"
+                name="name" value="{{ old('name') }}" required autocomplete="date" autofocus>
+        </div>
+    </div>
+    <br>
 
 
     <div id="app" class="d-flex justify-content-between align-items-center bg-slate-600 pt-20 pb-40 rounded">
@@ -122,7 +119,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/datepicker.min.js"></script>
-
 </body>
 
 

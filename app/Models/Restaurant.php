@@ -22,6 +22,8 @@ class Restaurant extends Model
         'operating_status',
         'content_title',
         'short_description',
+        'lat',
+        'lng',
     ];
 
     protected $dates = ['deleted_at'];

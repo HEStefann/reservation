@@ -42,7 +42,6 @@ require __DIR__ . '/auth.php';
 Route::middleware(['auth', 'ModeratorOrOwnerRole'])->group(function () {
     Route::get('/restaurant/register', [RestaurantController::class, 'create'])->name('restaurant.register');
     Route::post('/restaurant/register', [RestaurantController::class, 'store']);
-    Route::get('/user/restaurants/{restaurant}', [RestaurantController::class, 'show'])->name('user.restaurants.show');
 
     Route::prefix('/restaurant/{restaurant}')->name('restaurant.settings.')->group(function () {
         Route::get('/settings', [RestaurantSettingsController::class, 'index'])->name('index');
@@ -73,23 +72,24 @@ Route::middleware(['auth', 'ModeratorOrOwnerRole'])->group(function () {
         Route::get('/{date}', [RestaurantSettingsCalendarController::class, 'getWorkingHoursForDate'])->name('get');
         Route::put('/', [RestaurantSettingsCalendarController::class, 'updateWorkingHours'])->name('update');
     });
-Route::get('/dashboard', [ReservationController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
-Route::get('/user/restaurants', [UserController::class, 'index'])->name('restaurants.index');
-Route::get('/history', [ReservationController::class, 'history'])->name('history');
-Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
-Route::patch('/notifications/{notification}', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
-Route::get('/reservations/create', [ReservationController::class, 'create'])->name('reservations.create');
-Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
-Route::delete('/reservations/{reservation}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
-Route::get('/reservations/{reservation}', [ReservationController::class, 'show'])->name('reservations.show');
-Route::get('/reservations/{reservation}/edit', [ReservationController::class, 'edit2'])->name('reservations.edit');
-Route::put('/reservations/{reservation}/update2', [ReservationController::class, 'update2'])->name('reservations.update2');
-Route::delete('/reservations/{reservation}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
+    Route::get('/dashboard', [ReservationController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+    Route::get('/user/restaurants', [UserController::class, 'index'])->name('restaurants.index');
+    Route::get('/history', [ReservationController::class, 'history'])->name('history');
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::patch('/notifications/{notification}', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+    Route::get('/reservations/create', [ReservationController::class, 'create'])->name('reservations.create');
+    Route::delete('/reservations/{reservation}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
+    Route::get('/reservations/{reservation}', [ReservationController::class, 'show'])->name('reservations.show');
+    Route::get('/reservations/{reservation}/edit', [ReservationController::class, 'edit2'])->name('reservations.edit');
+    Route::put('/reservations/{reservation}/update2', [ReservationController::class, 'update2'])->name('reservations.update2');
+    Route::delete('/reservations/{reservation}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
+    Route::put('/reservations/{reservation}/status', [ReservationController::class, 'updateStatus'])->name('reservations.updateStatus'); 
 });
+// Ovie ruti se koristeni i od restorani i od korisnici
+Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
 Route::middleware(['auth', 'GuestRole'])->group(function () {
-    Route::get('/index', function () {
-        return view('user.index');
-    })->name('user.index');
+    Route::get('/index', [UserController::class, 'index'])->name('index');
     Route::get('/restaurant/register', [RestaurantController::class, 'create'])->name('restaurant.register');
     Route::post('/restaurant/register', [RestaurantController::class, 'store']);
+    Route::get('/user/restaurants/{restaurant}', [RestaurantController::class, 'show'])->name('user.restaurants.show');
 });

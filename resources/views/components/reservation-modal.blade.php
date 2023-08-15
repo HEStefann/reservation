@@ -10,21 +10,42 @@
                     @csrf
                     <div class="mb-3">
                         <label for="restaurant_id" class="form-label">Restaurant</label>
+                        {{-- @if ($restaurants instanceof \Illuminate\Database\Eloquent\Collection)
+                            <select id="restaurant_id" class="form-select" name="restaurant_id" required>
+
+                                @foreach ($restaurants as $restaurant)
+                                    <option value="{{ $restaurant->id }}">{{ $restaurant->title }}</option>
+                                @endforeach
+                            </select>
+                        @else
+                            <p>{{ $restaurants->title }} </p>
+                        @endif --}}
                         <select id="restaurant_id" class="form-select" name="restaurant_id" required>
-                            @foreach ($restaurants as $restaurant)
-                                <option value="{{ $restaurant->id }}">{{ $restaurant->title }}
-                                </option>
-                            @endforeach
+
+
+                            @if ($restaurants instanceof \Illuminate\Database\Eloquent\Collection)
+
+                                @foreach ($restaurants as $restaurant)
+                                    <option value="{{ $restaurant->id }}">{{ $restaurant->title }}</option>
+                                @endforeach
+                            @else
+                                <option value="{{ $restaurants->id }}">{{ $restaurants->title }}</option>
+
+                            @endif
                         </select>
+
+
                         <div class="form-group row mt-5">
                             <label for="full_name"
                                 class="col-md-4 col-form-label text-md-right">{{ __('Full Name') }}</label>
 
                             <div class="col-md-6">
-                                <input id="full_name" type="text"
+                                <input id="full_name"
+                                    value="{{ Auth::user()->role == 'guest' ? Auth::user()->name : '' }}" type="text"
                                     class="form-control @error('full_name') is-invalid @enderror" name="full_name"
                                     value="{{ old('full_name') }}" required autocomplete="full_name" autofocus>
 
+                                    date('')
                                 @error('full_name')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

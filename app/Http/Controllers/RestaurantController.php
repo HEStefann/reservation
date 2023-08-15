@@ -49,7 +49,9 @@ class RestaurantController extends Controller
         Moderator::create([
             'user_id' => $user->id,
             'restaurant_id' => $restaurant->id,
-            'role' => 'owner'
+            'role' => 'owner',
+            'lat' => $request->lat,
+            'lng' => $request->lng
         ]);
 
         // Update user role

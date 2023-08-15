@@ -260,4 +260,11 @@ class ReservationController extends Controller
 
         // Add other methods for updating, deleting, or listing reservations if needed
     }
+    public function updateStatus(Request $request, Reservation $reservation)
+    {
+        $reservation->status = $request->status;
+        $reservation->save();
+
+        return redirect()->back();
+    }
 }

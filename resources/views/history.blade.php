@@ -163,12 +163,95 @@
                         </button>
 
                     </div>
-                    <div>
-                    </div>
                 </div>
 
+                <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-6">
+                    <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-11">
+                        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                            <thead
+                                class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">Full Name</th>
+                                    <th scope="col" class="px-6 py-3">Phone Number</th>
+                                    <th scope="col" class="px-6 py-3">Email</th>
+                                    <th scope="col" class="px-6 py-3">Deposit</th>
+                                    <th scope="col" class="px-6 py-3">Date</th>
+                                    <th scope="col" class="px-6 py-3">Time</th>
+                                    <th scope="col" class="px-6 py-3">Number of People</th>
+                                    <th scope="col" class="px-6 py-3">Note</th>
+                                    <th scope="col" class="px-6 py-3">Restaurant</th>
+                                    <th scope="col" class="px-6 py-3">Status</th> <!-- New column for status -->
+                                    <th scope="col" class="px-6 py-3">Accept</th>
+                                    <th scope="col" class="px-6 py-3">Decline</th>
+                                </tr>
+                            </thead>
+                            <tbody id="reservationTableBody">
+                                @foreach ($reservations as $reservation)
+                                    @if ($reservation->status === 'pending')
+                                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                                            data-restaurant-id="{{ $reservation->restaurant->id }}">
+                                            <td class="px-6 py-4">{{ $reservation->full_name }}</td>
+                                            <td class="px-6 py-4">{{ $reservation->phone_number }}</td>
+                                            <td class="px-6 py-4">{{ $reservation->email }}</td>
+                                            <td class="px-6 py-4">{{ $reservation->deposit }}</td>
+                                            <td class="px-6 py-4">{{ $reservation->date }}</td>
+                                            <td class="px-6 py-4">{{ $reservation->time }}</td>
+                                            <td class="px-6 py-4">{{ $reservation->number_of_people }}</td>
+                                            <td class="px-6 py-4">{{ $reservation->note }}</td>
+                                            <td class="px-6 py-4">{{ $reservation->restaurant->title }}</td>
+                                            <td class="px-6 py-4"
+                                                style="font-weight: bold; color: 
+                                                @switch($reservation->status)
+                                                    @case('pending')
+                                                        orange
+                                                        @break
+                                                    @case('accepted')
+                                                        green
+                                                        @break
+                                                    @case('declined')
+                                                        red
+                                                        @break
+                                                    @default
+                                                        black
+                                                @endswitch
+                                            ">
+                                                {{ $reservation->status }}
+                                            </td>
+                                            <td>
+                                                <form method="POST"
+                                                    action="{{ route('reservations.updateStatus', $reservation->id) }}">
+                                                    @csrf
+                                                    @method('PUT')
 
+                                                    <input type="hidden" name="status" value="accepted">
 
+                                                    <button type="submit"
+                                                        class="px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-green-600 focus:outline-none focus:bg-blue-600">
+                                                        Accept
+                                                    </button>
+                                                </form>
+                                            </td>
+                                            <td>
+                                                <form method="POST"
+                                                    action="{{ route('reservations.updateStatus', $reservation->id) }}">
+                                                    @csrf
+                                                    @method('PUT')
+
+                                                    <input type="hidden" name="status" value="declined">
+
+                                                    <button type="submit"
+                                                        class="px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-red-600 focus:outline-none focus:bg-blue-600">
+                                                        Decline
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endif
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-6">
                     <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-11">
                         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -189,175 +272,163 @@
                                     <th scope="col" class="px-6 py-3">Delete</th>
                                 </tr>
                             </thead>
-
                             <tbody id="reservationTableBody">
                                 @foreach ($reservations as $reservation)
-                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                                        data-restaurant-id="{{ $reservation->restaurant->id }}">
-                                        <td class="px-6 py-4">{{ $reservation->full_name }}</td>
-                                        <td class="px-6 py-4">{{ $reservation->phone_number }}</td>
-                                        <td class="px-6 py-4">{{ $reservation->email }}</td>
-                                        <td class="px-6 py-4">{{ $reservation->deposit }}</td>
-                                        <td class="px-6 py-4">{{ $reservation->date }}</td>
-                                        <td class="px-6 py-4">{{ $reservation->time }}</td>
-                                        <td class="px-6 py-4">{{ $reservation->number_of_people }}</td>
-                                        <td class="px-6 py-4">{{ $reservation->note }}</td>
-                                        <td class="px-6 py-4">{{ $reservation->restaurant->title }}</td>
-                                        <td class="px-6 py-4"
-                                            style="font-weight: bold; color: 
-        @switch($reservation->status)
-            @case('pending')
-                orange
-                @break
-            @case('accepted')
-                green
-                @break
-            @case('declined')
-                red
-                @break
-            @default
-                black
-        @endswitch
-    ">
-                                            {{ $reservation->status }}
-                                        </td>
-
-                                        <td>
-                                            <a href="{{ route('reservations.edit', $reservation->id) }}"
-                                                class="px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Edit</a>
-                                        </td>
-
-                                        <td>
-                                            <div class="flex items-center space-x-2">
-                                                <button
-                                                    class=" px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 px-3 py-1 delete-button"
-                                                    data-reservation-id="{{ $reservation->id }}">
-                                                    Delete
-                                                </button>
-                                            </div>
-                                        </td>
-
-
-
-
-
-
-                                    </tr>
+                                    @if ($reservation->status !== 'pending')
+                                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                                            data-restaurant-id="{{ $reservation->restaurant->id }}">
+                                            <td class="px-6 py-4">{{ $reservation->full_name }}</td>
+                                            <td class="px-6 py-4">{{ $reservation->phone_number }}</td>
+                                            <td class="px-6 py-4">{{ $reservation->email }}</td>
+                                            <td class="px-6 py-4">{{ $reservation->deposit }}</td>
+                                            <td class="px-6 py-4">{{ $reservation->date }}</td>
+                                            <td class="px-6 py-4">{{ $reservation->time }}</td>
+                                            <td class="px-6 py-4">{{ $reservation->number_of_people }}</td>
+                                            <td class="px-6 py-4">{{ $reservation->note }}</td>
+                                            <td class="px-6 py-4">{{ $reservation->restaurant->title }}</td>
+                                            <td class="px-6 py-4"
+                                                style="font-weight: bold; color: 
+                                                @switch($reservation->status)
+                                                    @case('pending')
+                                                        orange
+                                                        @break
+                                                    @case('accepted')
+                                                        green
+                                                        @break
+                                                    @case('declined')
+                                                        red
+                                                        @break
+                                                    @default
+                                                        black
+                                                @endswitch
+                                            ">
+                                                {{ $reservation->status }}
+                                            </td>
+                                            <td>
+                                                <a href="{{ route('reservations.edit', $reservation->id) }}"
+                                                    class="px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Edit</a>
+                                            </td>
+                                            <td>
+                                                <div class="flex items-center space-x-2">
+                                                    <button
+                                                        class=" px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+                                                        data-reservation-id="{{ $reservation->id }}">
+                                                        Delete
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endif
                                 @endforeach
                             </tbody>
                         </table>
-
                     </div>
-
                 </div>
+            </div>
+        </main>
 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/flowbite.min.js"></script>
+        <script>
+            const deleteButtons = document.querySelectorAll('.delete-button');
 
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const reservationId = button.getAttribute('data-reservation-id');
 
-
-
-
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/flowbite.min.js"></script>
-                <script>
-                    const deleteButtons = document.querySelectorAll('.delete-button');
-
-                    deleteButtons.forEach(button => {
-                        button.addEventListener('click', () => {
-                            const reservationId = button.getAttribute('data-reservation-id');
-
-                            if (confirm('Are you sure you want to delete this reservation?')) {
-                                fetch(`/reservations/${reservationId}`, {
-                                    method: 'DELETE',
-                                    headers: {
-                                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                                    },
-                                })
-                            }
-                            updateReservations();
-                        });
-                    });
-
-                    function filterReservationsByStatus() {
-                        const selectedStatus = document.getElementById('statusFilter').value;
-                        const reservationTableBody = document.getElementById('reservationTableBody');
-                        const reservationRows = Array.from(reservationTableBody.querySelectorAll('tr'));
-
-                        reservationRows.forEach(row => {
-                            const statusCell = row.querySelector('td:nth-child(10)');
-                            const status = statusCell.innerText.toLowerCase();
-
-                            if (selectedStatus === '' || selectedStatus === status) {
-                                row.style.display = 'table-row';
-                            } else {
-                                row.style.display = 'none';
-                            }
-                        });
+                    if (confirm('Are you sure you want to delete this reservation?')) {
+                        fetch(`/reservations/${reservationId}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            },
+                        })
                     }
+                    updateReservations();
+                });
+            });
 
+            function filterReservationsByStatus() {
+                const selectedStatus = document.getElementById('statusFilter').value;
+                const reservationTableBody = document.getElementById('reservationTableBody');
+                const reservationRows = Array.from(reservationTableBody.querySelectorAll('tr'));
 
-                    function handleEnterKey(event) {
-                        if (event.key === 'Enter') {
-                            searchReservations();
-                            event.preventDefault(); // Prevent form submission
-                        }
+                reservationRows.forEach(row => {
+                    const statusCell = row.querySelector('td:nth-child(10)');
+                    const status = statusCell.innerText.toLowerCase();
+
+                    if (selectedStatus === '' || selectedStatus === status) {
+                        row.style.display = 'table-row';
+                    } else {
+                        row.style.display = 'none';
                     }
+                });
+            }
 
-                    function sortReservationsByDate() {
-                        const reservationTableBody = document.getElementById('reservationTableBody');
-                        const reservationRows = Array.from(reservationTableBody.querySelectorAll('tr'));
 
-                        reservationRows.sort((a, b) => {
-                            const dateA = new Date(a.querySelector('td:nth-child(5)').innerText);
-                            const dateB = new Date(b.querySelector('td:nth-child(5)').innerText);
-                            return dateB - dateA;
-                        });
+            function handleEnterKey(event) {
+                if (event.key === 'Enter') {
+                    searchReservations();
+                    event.preventDefault(); // Prevent form submission
+                }
+            }
 
-                        reservationTableBody.innerHTML = '';
-                        reservationRows.forEach(row => reservationTableBody.appendChild(row));
+            function sortReservationsByDate() {
+                const reservationTableBody = document.getElementById('reservationTableBody');
+                const reservationRows = Array.from(reservationTableBody.querySelectorAll('tr'));
+
+                reservationRows.sort((a, b) => {
+                    const dateA = new Date(a.querySelector('td:nth-child(5)').innerText);
+                    const dateB = new Date(b.querySelector('td:nth-child(5)').innerText);
+                    return dateB - dateA;
+                });
+
+                reservationTableBody.innerHTML = '';
+                reservationRows.forEach(row => reservationTableBody.appendChild(row));
+            }
+
+
+            window.addEventListener('DOMContentLoaded', () => {
+                sortReservationsByDate();
+            });
+
+
+            function updateReservations() {
+                // Get the selected restaurant from the dropdown
+                const selectedRestaurant = document.getElementById('restaurantSelect').value;
+
+                // Redirect to the history page with the selected restaurant ID as a query parameter
+                window.location.href = "{{ route('history') }}?restaurant_id=" + selectedRestaurant;
+            }
+
+            let searchButtonClicked = false;
+
+
+            function searchReservations() {
+                const searchValue = document.getElementById('searchInput').value.toLowerCase();
+                const selectedDate = document.getElementById('dateInput').value;
+                const reservationTableBody = document.getElementById('reservationTableBody');
+
+                const reservationRows = Array.from(reservationTableBody.querySelectorAll('tr'));
+
+                reservationRows.forEach(row => {
+                    const fullName = row.querySelector('td:nth-child(1)').innerText.toLowerCase();
+                    const phoneNumber = row.querySelector('td:nth-child(2)').innerText.toLowerCase();
+                    const email = row.querySelector('td:nth-child(3)').innerText.toLowerCase();
+                    const numberOfPeople = row.querySelector('td:nth-child(7)').innerText.toLowerCase();
+                    const date = row.querySelector('td:nth-child(5)').innerText;
+
+                    if (
+                        (fullName.includes(searchValue) || phoneNumber.includes(searchValue) || email.includes(
+                            searchValue) || numberOfPeople.includes(searchValue)) &&
+                        (selectedDate === '' || selectedDate === date)
+                    ) {
+                        row.style.display = 'table-row';
+                    } else {
+                        row.style.display = 'none';
                     }
-
-
-                    window.addEventListener('DOMContentLoaded', () => {
-                        sortReservationsByDate();
-                    });
-
-
-                    function updateReservations() {
-                        // Get the selected restaurant from the dropdown
-                        const selectedRestaurant = document.getElementById('restaurantSelect').value;
-
-                        // Redirect to the history page with the selected restaurant ID as a query parameter
-                        window.location.href = "{{ route('history') }}?restaurant_id=" + selectedRestaurant;
-                    }
-
-                    let searchButtonClicked = false;
-
-
-                    function searchReservations() {
-                        const searchValue = document.getElementById('searchInput').value.toLowerCase();
-                        const selectedDate = document.getElementById('dateInput').value;
-                        const reservationTableBody = document.getElementById('reservationTableBody');
-
-                        const reservationRows = Array.from(reservationTableBody.querySelectorAll('tr'));
-
-                        reservationRows.forEach(row => {
-                            const fullName = row.querySelector('td:nth-child(1)').innerText.toLowerCase();
-                            const phoneNumber = row.querySelector('td:nth-child(2)').innerText.toLowerCase();
-                            const email = row.querySelector('td:nth-child(3)').innerText.toLowerCase();
-                            const numberOfPeople = row.querySelector('td:nth-child(7)').innerText.toLowerCase();
-                            const date = row.querySelector('td:nth-child(5)').innerText;
-
-                            if (
-                                (fullName.includes(searchValue) || phoneNumber.includes(searchValue) || email.includes(
-                                    searchValue) || numberOfPeople.includes(searchValue)) &&
-                                (selectedDate === '' || selectedDate === date)
-                            ) {
-                                row.style.display = 'table-row';
-                            } else {
-                                row.style.display = 'none';
-                            }
-                        });
-                    }
-                </script>
+                });
+            }
+        </script>
 
     </body>
 

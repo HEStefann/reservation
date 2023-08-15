@@ -83,6 +83,7 @@ Route::middleware(['auth', 'ModeratorOrOwnerRole'])->group(function () {
     Route::get('/reservations/{reservation}/edit', [ReservationController::class, 'edit2'])->name('reservations.edit');
     Route::put('/reservations/{reservation}/update2', [ReservationController::class, 'update2'])->name('reservations.update2');
     Route::delete('/reservations/{reservation}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
+    Route::put('/reservations/{reservation}/status', [ReservationController::class, 'updateStatus'])->name('reservations.updateStatus'); 
 });
 // Ovie ruti se koristeni i od restorani i od korisnici
 Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');

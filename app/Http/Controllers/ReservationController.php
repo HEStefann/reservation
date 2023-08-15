@@ -113,7 +113,7 @@ class ReservationController extends Controller
                 ->back()
                 ->withErrors(['number_of_people' => 'Not enough available seats for this date and time']);
         }
-
+        $status = $user->role == 'owner' || $user->role == 'moderator' ? 'accepted' : 'pending';
         $reservation = Reservation::create([
             'user_id' => $user->id,
             'restaurant_id' => $request->input('restaurant_id'),
@@ -124,7 +124,8 @@ class ReservationController extends Controller
             'date' => $request->input('date'),
             'time' => $request->input('time'),
             'number_of_people' => $request->input('number_of_people'),
-            'note' => $request->input('note')
+            'note' => $request->input('note'),
+            'status' => $status
         ]);
         // Create a notification for the moderator of the restaurant
         $moderator = Moderator::where('restaurant_id', $request->input('restaurant_id'))->first();

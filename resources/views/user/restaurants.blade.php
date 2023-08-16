@@ -25,7 +25,8 @@
     <nav class="p-6 bg-white flex justify-between mb-6">
         <h3>RevelApps</h3>
         <h3></h3>
-        <h3>UserLogo</h3>
+        <a href="{{ route('profile.edit') }}">User Profile</a>
+
     </nav>
 
     <div class="relative w-full h-72">
@@ -34,17 +35,12 @@
             alt="">
     </div>
 
-    <div class="text-center">
-        <div class="mt-3 d-flex justify-content-center">
-            <input placeholder="Restaurant" id="name" type="name" class="form-control w-40 text-center"
-                name="name" value="{{ old('name') }}" required autocomplete="date" autofocus>
-        </div>
-    </div>
-    <div class="text-center">
-        <div class="mt-3 d-flex justify-content-center">
-            <input placeholder="Location" id="name" type="name" class="form-control w-40 text-center"
-                name="name" value="{{ old('name') }}" required autocomplete="date" autofocus>
-        </div>
+    <div class="d-flex justify-content-center">
+        <form action="{{ route('index') }}" method="GET" class="text-center mt-10">
+            <input placeholder="Restaurant" type="text" class="form-control w-40 text-center rounded-pill"
+                name="name" value="{{ $search }}" autocomplete="off" autofocus>
+            <button type="submit" class="btn btn-primary mt-2 text-black">Search</button>
+        </form>
     </div>
     <br>
 

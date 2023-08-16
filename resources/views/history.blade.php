@@ -166,6 +166,7 @@
                 </div>
 
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-6">
+                    <h1 class="font-bold">Pending reservations</h1>
                     <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-11">
                         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead
@@ -253,6 +254,7 @@
                     </div>
                 </div>
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-6">
+                    <h1 class="font-bold">Reservations</h1>
                     <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-11">
                         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead

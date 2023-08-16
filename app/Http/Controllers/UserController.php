@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Promotion;
 use Illuminate\Http\Request;
 use App\Models\Restaurant;
 use Illuminate\Support\Facades\Auth;
@@ -20,7 +21,14 @@ class UserController extends Controller
 
         $restaurants = $query->paginate(3);
 
-        return view('user.restaurants', ['restaurants' => $restaurants, 'search' => $search]);
+        // Fetch promotions (you might want to adjust this query based on your logic)
+        $promotions = Promotion::all();
+
+        return view('user.restaurants', [
+            'restaurants' => $restaurants,
+            'search' => $search,
+            'promotions' => $promotions,
+        ]);
     }
 
     public function favorite(Restaurant $restaurant)

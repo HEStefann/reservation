@@ -93,3 +93,5 @@ Route::middleware(['auth', 'GuestRole'])->group(function () {
     Route::post('/restaurant/register', [RestaurantController::class, 'store']);
     Route::get('/user/restaurants/{restaurant}', [RestaurantController::class, 'show'])->name('user.restaurants.show');
 });
+Route::post('/getNearestRestaurants', [RestaurantController::class, 'getNearestRestaurants']);
+

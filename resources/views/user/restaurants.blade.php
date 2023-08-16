@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <link rel="stylesheet" href="https://cdn.flowbite.com/assets/css/flowbite.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -27,7 +28,8 @@
         <h3></h3>
         <h3>UserLogo</h3>
     </nav>
-
+    <div id="nearestRestaurants"></div>
+    <button id="getLocationButton">Get My Location</button>
     <div class="relative w-full h-72">
         <img class="w-full h-full object-cover"
             src="https://www.escoffieronline.com/wp-content/uploads/2019/03/Chef-grating-cheese-over-a-white-plate-1024x682.jpg"
@@ -119,6 +121,51 @@
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/datepicker.min.js"></script>
+    <script>
+        document.getElementById('getLocationButton').addEventListener('click', function() {
+            // Check if the Geolocation API is supported
+            if (navigator.geolocation) {
+                // Get user's current location
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var latitude = position.coords.latitude;
+                    var longitude = position.coords.longitude;
+
+                    // Send user's location to the server
+                    fetch('/getNearestRestaurants', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                    .getAttribute('content')
+                            },
+                            body: JSON.stringify({
+                                latitude: latitude,
+                                longitude: longitude
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            // Display the nearest restaurants
+                            var nearestRestaurantsDiv = document.getElementById('nearestRestaurants');
+
+                            // Clear previous results
+                            nearestRestaurantsDiv.innerHTML = '';
+                            console.log(data);
+                            // Loop through the nearest restaurants and create a list
+                            data.forEach(function(restaurant) {
+                                var listItem = document.createElement('li');
+                                listItem.textContent = restaurant.title + ' - ' + restaurant.distance.toFixed(1) + ' km';
+                                nearestRestaurantsDiv.appendChild(listItem);
+                            });
+                        });
+                });
+            } else {
+                console.log('Geolocation is not supported by this browser.');
+            }
+        });
+    </script>
+
 </body>
 
 

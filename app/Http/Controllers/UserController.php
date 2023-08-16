@@ -9,14 +9,17 @@ use App\Models\Restaurant;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // Assuming you want to fetch and display restaurants associated with the user
-        $user = auth()->user(); // Get the authenticated user
+        $search = $request->input('name');
+        $query = Restaurant::query();
 
-        // Assuming you have a relationship set up between User and Restaurant models
-        $restaurants = Restaurant::paginate(3); // Paginate the results with 10 items per page
+        if ($search) {
+            $query->where('title', 'like', '%' . $search . '%');
+        }
 
-        return view('user.restaurants', compact('restaurants'));
+        $restaurants = $query->paginate(3);
+
+        return view('user.restaurants', ['restaurants' => $restaurants, 'search' => $search]);
     }
 }

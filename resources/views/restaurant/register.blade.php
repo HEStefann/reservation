@@ -55,6 +55,7 @@
                 @endforeach
             </div>
         </div>
+        <input type="text" id="placeSearch" placeholder="Search for a place" onkeydown="preventFormSubmit(event)">
         <div id="map" style="height: 500px;"></div>
         <input type="hidden" id="lat" name="lat">
         <input type="hidden" id="lng" name="lng">
@@ -67,24 +68,47 @@
             </button>
         </div>
     </form>
-    <input type="text" id="placeSearch" placeholder="Search for a place">
     <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBopOp_b1Mmr-_8iWcxjrNueAKsVgUoIMU&callback=initMap&libraries=places"></script>
-
-{{-- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script> --}}
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBopOp_b1Mmr-_8iWcxjrNueAKsVgUoIMU&callback=initMap&libraries=places">
+    </script>
     <script>
+            function preventFormSubmit(event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+        }
+    }
         let map;
         let marker;
+        let autocomplete;
 
         function initMap() {
             map = new google.maps.Map(document.getElementById("map"), {
-                zoom: 8
+                zoom: 14
             });
             map.addListener("click", (e) => {
                 placeMarker(e.latLng);
             });
-        }
 
+            const placeSearchInput = document.getElementById('placeSearch');
+            autocomplete = new google.maps.places.Autocomplete(placeSearchInput);
+            autocomplete.addListener('place_changed', () => {
+                const place = autocomplete.getPlace();
+
+                document.getElementById('lat').value = place.geometry.location.lat();
+                document.getElementById('lng').value = place.geometry.location.lng();
+
+                map.setCenter(place.geometry.location);
+                map.setZoom(16); // Adjust the zoom level as needed
+                if (!marker) {
+                marker = new google.maps.Marker({
+                    position: place.geometry.location,
+                    map: map
+                });
+            } else {
+                marker.setPosition(place.geometry.location);
+            }
+            });
+        }
 
         // Try HTML5 geolocation
         if (navigator.geolocation) {
@@ -125,20 +149,6 @@
             // Update hidden lat/lng fields
             document.getElementById("lat").value = latLng.lat();
             document.getElementById("lng").value = latLng.lng();
-
         }
-        
-const placeSearchInput = document.getElementById('placeSearch');
-
-const autocomplete = new google.maps.places.Autocomplete(placeSearchInput);
-autocomplete.addListener('place_changed', () => {
-  const place = autocomplete.getPlace();
-  
-  document.getElementById('lat').value = place.geometry.location.lat();
-  document.getElementById('lng').value = place.geometry.location.lng();
-
-  map.setCenter(place.geometry.location);
-  marker.setPosition(place.geometry.location);
-});
     </script>
 </x-guest-layout>

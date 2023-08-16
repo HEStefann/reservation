@@ -33,7 +33,8 @@ class RestaurantController extends Controller
 
     public function show($id)
     {
-        $restaurant = Restaurant::findOrFail($id);
+        // restaurant with reviews
+        $restaurant = Restaurant::with('reviews')->findOrFail($id);
 
         return view('user.showrestaurant', compact('restaurant'));
     }

@@ -2,6 +2,7 @@
 // web.php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\RestaurantImageController;
 use App\Http\Controllers\RestaurantSettingsCalendarController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\RestaurantTagsController;
 use App\Http\Controllers\TagsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -83,7 +85,12 @@ Route::middleware(['auth', 'ModeratorOrOwnerRole'])->group(function () {
     Route::get('/reservations/{reservation}/edit', [ReservationController::class, 'edit2'])->name('reservations.edit');
     Route::put('/reservations/{reservation}/update2', [ReservationController::class, 'update2'])->name('reservations.update2');
     Route::delete('/reservations/{reservation}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
-    Route::put('/reservations/{reservation}/status', [ReservationController::class, 'updateStatus'])->name('reservations.updateStatus'); 
+    Route::put('/reservations/{reservation}/status', [ReservationController::class, 'updateStatus'])->name('reservations.updateStatus');
+    Route::get('/restaurant/{restaurant}/promotions/create', [PromotionController::class, 'create'])->name('promotions.create');
+    Route::post('/restaurant/{restaurant}/promotions', [PromotionController::class, 'store'])->name('promotions.store');
+    Route::get('/restaurant/{restaurant}/promotions/{promotion}/edit', [PromotionController::class, 'edit'])->name('promotions.edit');
+    Route::put('/restaurant/{restaurant}/promotions/{promotion}', [PromotionController::class, 'update'])->name('promotions.update');
+    Route::delete('/restaurant/{restaurant}/promotions/{promotion}', [PromotionController::class, 'destroy'])->name('promotions.destroy');
 });
 // Ovie ruti se koristeni i od restorani i od korisnici
 Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
@@ -92,6 +99,10 @@ Route::middleware(['auth', 'GuestRole'])->group(function () {
     Route::get('/restaurant/register', [RestaurantController::class, 'create'])->name('restaurant.register');
     Route::post('/restaurant/register', [RestaurantController::class, 'store']);
     Route::get('/user/restaurants/{restaurant}', [RestaurantController::class, 'show'])->name('user.restaurants.show');
+    
 });
 Route::post('/getNearestRestaurants', [RestaurantController::class, 'getNearestRestaurants']);
-
+Route::post('/user/favorite/{restaurant}', [UserController::class, 'favorite'])->name('user.favorite');
+Route::get('/reservations', [ReservationController::class, 'userReservations'])->name('reservations.index');
+Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');

@@ -60,4 +60,27 @@ class User extends Authenticatable
     {
         return $this->hasMany(Review::class);
     }
+
+    public function favorites() 
+    {
+        return $this->belongsToMany(Restaurant::class, 'user_favorite_restaurants');
+    }
+    
+    public function favorite(Restaurant $restaurant)
+    {
+        // Add restaurant to user's favorites
+        $this->favorites()->attach($restaurant->id); 
+    }
+    
+    public function unfavorite(Restaurant $restaurant)
+    {
+        // Remove restaurant from user's favorites
+        $this->favorites()->detach($restaurant->id);
+    }
+    
+    public function isFavorite(Restaurant $restaurant)
+    {
+        // Check if restaurant is in user's favorites
+        return $this->favorites()->where('restaurant_id', $restaurant->id)->exists(); 
+    }
 }

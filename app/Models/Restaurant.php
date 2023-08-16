@@ -156,15 +156,19 @@ class Restaurant extends Model
     public function updateOrCreateWorkingHoursForDate($date, $data)
     {
         $workDate = Carbon::parse($date);
-    
+
         $data['work_date'] = $workDate;
         $data['day_of_week'] = $workDate->format('l');
         $data['is_working'] = $data['is_working'] ? 1 : 0;
         $data['available_people'] = $data['available_people'] ?? 0;
-    
+
         $this->workingHours()->updateOrCreate(
             ['work_date' => $workDate],
             $data
         );
+    }
+    public function favoritedBy() 
+    {
+        return $this->belongsToMany(User::class, 'user_favorite_restaurants');
     }
 }

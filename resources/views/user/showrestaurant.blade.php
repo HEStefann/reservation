@@ -38,6 +38,19 @@
                     data-bs-toggle="modal" data-bs-target="#reservationModal">Create reservation</button>
             </div>
 
+            <div>
+                <h3 class="text-lg font-semibold text-gray-900">Reviews</h3>
+                @foreach ($restaurant->reviews as $review)
+                <div class="bg-white p-6 rounded-lg shadow-md mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900">{{ $review->user->name }}</h3>
+                    <p class="text-gray-700">{{ $review->description }}</p>
+                    <p class="font-semibold text-gray-700">Rating: {{ $review->rating }}</p>
+                    </div>
+
+                    
+                @endforeach
+            </div>
+
             <x-reservation-modal :restaurants="$restaurant" />
 
             <x-reservation-info-modal />

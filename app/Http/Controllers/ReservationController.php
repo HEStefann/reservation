@@ -7,6 +7,7 @@ use App\Models\Moderator;
 use App\Models\Notification;
 use App\Models\Reservation;
 use App\Models\Restaurant;
+use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -215,48 +216,39 @@ class ReservationController extends Controller
 
     public function update2(Request $request, $id)
     {
-        try {
-            \Log::info($request->all()); // Log request data
+        $reservation = Reservation::findOrFail($id);
 
-            $reservation = Reservation::findOrFail($id);
+        // Validate input
+        $this->validate($request, [
+            'full_name' => 'required|string|max:255',
+            'phone_number' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'deposit' => 'required|numeric|min:0',
+            'date' => 'required|date',
+            'time' => 'required',
+            'number_of_people' => 'required|numeric|min:1',
+            'note' => 'nullable|string',
+            'status' => 'required|in:pending,accepted,declined'
+        ]);
 
-            // Validate input
-            $this->validate($request, [
-                'full_name' => 'required|string|max:255',
-                'phone_number' => 'required|string|max:255',
-                'email' => 'required|email|max:255',
-                'deposit' => 'required|numeric|min:0',
-                'date' => 'required|date',
-                'time' => 'required',
-                'number_of_people' => 'required|numeric|min:1',
-                'note' => 'nullable|string',
-                'status' => 'required|in:pending,accepted,declined'
-            ]);
-
-            // Check available seats
-            $availableCount = $reservation->restaurant->available_people;
-            if ($request->input('number_of_people') > $availableCount) {
-                return redirect()->back()->withErrors(['number_of_people' => 'Not enough available seats for the reservation']);
-            }
-
-            $reservation->full_name = $request->input('full_name');
-            $reservation->phone_number = $request->input('phone_number');
-            $reservation->email = $request->input('email');
-            $reservation->deposit = $request->input('deposit');
-            $reservation->date = $request->input('date');
-            $reservation->time = $request->input('time');
-            $reservation->number_of_people = $request->input('number_of_people');
-            $reservation->note = $request->input('note');
-            $reservation->status = $request->input('status');
-            $reservation->save();
-
-            return redirect()->route('dashboard')->with('success', 'Reservation updated!');
-        } catch (\Exception $e) {
-            // Log the exception
-            \Log::error('Error updating reservation: ' . $e->getMessage());
-
-            return redirect()->back()->with('error', 'An error occurred while updating the reservation.');
+        // Check available seats
+        $availableCount = $reservation->restaurant->available_people;
+        if ($request->input('number_of_people') > $availableCount) {
+            return redirect()->back()->withErrors(['number_of_people' => 'Not enough available seats for the reservation']);
         }
+
+        $reservation->full_name = $request->input('full_name');
+        $reservation->phone_number = $request->input('phone_number');
+        $reservation->email = $request->input('email');
+        $reservation->deposit = $request->input('deposit');
+        $reservation->date = $request->input('date');
+        $reservation->time = $request->input('time');
+        $reservation->number_of_people = $request->input('number_of_people');
+        $reservation->note = $request->input('note');
+        $reservation->status = $request->input('status');
+        $reservation->save();
+
+        return redirect()->route('dashboard')->with('success', 'Reservation updated!');
 
         // Add other methods for updating, deleting, or listing reservations if needed
     }
@@ -266,5 +258,11 @@ class ReservationController extends Controller
         $reservation->save();
 
         return redirect()->back();
+    }
+    public function userReservations()
+    {
+        $reservations = auth()->user()->reservations;
+
+        return view('user.reservations', compact('reservations'));
     }
 }

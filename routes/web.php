@@ -10,6 +10,7 @@ use App\Http\Controllers\RestaurantTagsController;
 use App\Http\Controllers\TagsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -92,6 +93,10 @@ Route::middleware(['auth', 'GuestRole'])->group(function () {
     Route::get('/restaurant/register', [RestaurantController::class, 'create'])->name('restaurant.register');
     Route::post('/restaurant/register', [RestaurantController::class, 'store']);
     Route::get('/user/restaurants/{restaurant}', [RestaurantController::class, 'show'])->name('user.restaurants.show');
+    
 });
 Route::post('/getNearestRestaurants', [RestaurantController::class, 'getNearestRestaurants']);
-
+Route::post('/user/favorite/{restaurant}', [UserController::class, 'favorite'])->name('user.favorite');
+Route::get('/reservations', [ReservationController::class, 'userReservations'])->name('reservations.index');
+Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');

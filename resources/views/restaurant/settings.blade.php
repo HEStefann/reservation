@@ -95,7 +95,7 @@ use App\Http\Controllers\RestaurantSettingsCalendarController;
 
             @csrf
 
-            <input type="file" class="text-white"  name="images[]" multiple>
+            <input type="file" class="text-white" name="images[]" multiple>
 
             <button type="submit" class="text-white">Upload</button>
 
@@ -195,8 +195,10 @@ use App\Http\Controllers\RestaurantSettingsCalendarController;
                 </form>
             </div>
         </div>
+        <script src="{{ asset('js/settingsView.js') }}"></script>
     </div>
 </x-guest-layout>
 <script>
     var restaurantId = "{{ $restaurant->id }}";
 </script>
+{{-- link this script resources\js\settingsView.js --}}

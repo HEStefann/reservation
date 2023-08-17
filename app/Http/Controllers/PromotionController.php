@@ -6,10 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Models\Promotion;
 use App\Models\Restaurant;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 use Illuminate\Support\Facades\Storage;
 
 class PromotionController extends Controller
 {
+    public function create(Request $request) :View
+    {
+        $restaurant = Restaurant::findOrFail($request->route('restaurant'));
+
+        return view('restaurant.promotioncreate', compact('restaurant'));
+    }
     public function store(Request $request, Restaurant $restaurant)
     {
         // Validate the request data

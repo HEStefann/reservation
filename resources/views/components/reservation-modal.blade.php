@@ -45,7 +45,6 @@
                                     class="form-control @error('full_name') is-invalid @enderror" name="full_name"
                                     value="{{ old('full_name') }}" required autocomplete="full_name" autofocus>
 
-                                    date('')
                                 @error('full_name')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

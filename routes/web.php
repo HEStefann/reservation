@@ -106,3 +106,6 @@ Route::post('/user/favorite/{restaurant}', [UserController::class, 'favorite'])-
 Route::get('/reservations', [ReservationController::class, 'userReservations'])->name('reservations.index');
 Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
+Route::get('/testing', function () {
+    return view('user.home');
+});

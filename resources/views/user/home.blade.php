@@ -9,6 +9,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
+
 <body>
     <x-navbar>
     </x-navbar>
@@ -18,6 +19,12 @@
             Seamless dining, reserved by you
         </p>
     </div>
+
+    <style>
+        body {
+            background-color: #FFFFFF
+        }
+    </style>
 
 
     <div class="m-[25px] flex flex-col gap-[10px]">
@@ -79,6 +86,61 @@
         </div>
     </div>
 
+
+
+    <div class="m-[26px] flex gap-[11px] overflow-scroll scrollbar-hide snap-x scroll-smooth snap-mandatory">
+        <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
+        <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
+        <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
+        <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
+        <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
+        <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
+        <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
+        <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
+        <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
+
+    </div>
+
+    <div class="m-[26px] flex gap-[48px] overflow-scroll snap-x scroll-smooth snap-mandatory">
+        <x-show-restaurant />
+        <x-show-restaurant />
+        <x-show-restaurant />
+        <x-show-restaurant />
+    </div>
+
+    <div class="m-[26px] flex gap-[48px] overflow-scroll snap-x scroll-smooth snap-mandatory">
+        <x-show-restaurant />
+        <x-show-restaurant />
+        <x-show-restaurant />
+        <x-show-restaurant />
+    </div>
+
+    <div class="m-[26px] mt-[105px] flex justify-center items-center">
+        <div class="flex items-center">
+            <div class="w-[338px] h-[185px] relative rounded-2xl bg-white"
+                style="box-shadow: 0px 20px 50px 0 rgba(0,0,0,0.1);">
+                <p
+                    class="absolute left-1/2 transform -translate-x-1/2 top-[85px] text-base font-semibold text-center text-[#343a40]">
+                    Easy reservation
+                </p>
+                <p class="absolute left-1/2 transform -translate-x-1/2 top-[121px] text-sm text-center text-[#343a40]">
+                    Free, express, 24/7
+                </p>
+                <div class="flex justify-start items-start absolute left-[152px] top-6">
+                    <svg width="35" height="35" viewBox="0 0 35 35" fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="flex-grow-0 flex-shrink-0 w-[35px] h-[35px] relative" preserveAspectRatio="none">
+                        <path
+                            d="M29.1666 4.37492H27.7083V1.45825H24.7916V4.37492H10.2083V1.45825H7.29163V4.37492H5.83329C4.22913 4.37492 2.91663 5.68742 2.91663 7.29159V30.6249C2.91663 32.2291 4.22913 33.5416 5.83329 33.5416H29.1666C30.7708 33.5416 32.0833 32.2291 32.0833 30.6249V7.29159C32.0833 5.68742 30.7708 4.37492 29.1666 4.37492ZM29.1666 30.6249H5.83329V11.6666H29.1666V30.6249Z"
+                            fill="black" fill-opacity="0.54"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
         document.getElementById("clearLocationButton").addEventListener("click", function() {

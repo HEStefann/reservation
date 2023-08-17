@@ -112,3 +112,6 @@ Route::get('/testing', function () {
 Route::get('/testing2', function () {
     return view('user.restaurantspage');
 });
+Route::get('/testing3', function () {
+    return view('user.restaurant');
+});

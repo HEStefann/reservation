@@ -11,8 +11,7 @@
 
 
 <body>
-    <x-navbar>
-    </x-navbar>
+    <x-navbar />
     <img src="{{ asset('/images/carousel-animate.png') }}" alt="carousel" class="w-full h-[234px] mt-[15px]">
     <div class="flex justify-center">
         <p class="w-[55.90%] text-center text-2xl font-medium text-[#343a40]">
@@ -28,8 +27,8 @@
 
 
     <div class="m-[25px] flex flex-col gap-[10px]">
+        {{-- Search Location --}}
         <div class="flex items-center relative">
-            {{-- Search Location --}}
             <svg viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"
                 class="w-[23.31px] h-6 absolute ml-[14px]" preserveAspectRatio="none">
                 <path
@@ -77,18 +76,31 @@
                 <path d="M1.22168 0.941406L15.7929 12.9588" stroke="#343A40"></path>
                 <path d="M15.793 0.941406L1.22176 12.9588" stroke="#343A40"></path>
             </svg>
-            {{-- End search location --}}
         </div>
+        {{-- End search restaurant --}}
         {{-- SEARCH BUTTON --}}
         <div class="flex justify-center items-center self-stretch flex-grow-0 flex-shrink-0 h-[42px] relative gap-2.5 px-4 py-3.5 rounded-[10px]"
             style="background: linear-gradient(132.41deg, #00487c 3.7%, #005fa4 97.14%);">
             <p class="flex-grow-0 flex-shrink-0 text-lg font-medium text-center text-white">Search</p>
         </div>
     </div>
+    <style>
+        .hide-scrollbar {
+            /* Hide the scrollbar */
+            scrollbar-width: none;
+            /* Firefox */
+            -ms-overflow-style: none;
+            /* IE and Edge */
+        }
 
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+            /* Chrome, Safari, and Opera */
+        }
+    </style>
 
-
-    <div class="m-[26px] flex gap-[11px] overflow-scroll scrollbar-hide snap-x scroll-smooth snap-mandatory">
+    <div
+        class="m-[26px] flex gap-[11px] overflow-scroll scrollbar-hide snap-x scroll-smooth snap-mandatory hide-scrollbar">
         <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
         <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
         <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
@@ -98,24 +110,75 @@
         <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
         <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
         <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
-
     </div>
-
-    <div class="m-[26px] flex gap-[48px] overflow-scroll snap-x scroll-smooth snap-mandatory">
+    <div class="flex justify-between ml-[26px] mr-[14px] mt-[64px]">
+        <div>
+            <p class="text-lg font-medium text-left text-[#343a40]">Nearby Restaurant</p>
+            <p class="w-[217px] text-xs text-left text-gray-500">Check your city nearby restaurant</p>
+        </div>
+        <div class="flex items-center">
+            <p class="text-xs font-medium text-left text-[#005fa4] mr-[5px]">
+                See All
+            </p>
+            <svg width="7" height="11" viewBox="0 0 7 11" fill="none" xmlns="http://www.w3.org/2000/svg"
+                class="" preserveAspectRatio="xMidYMid meet">
+                <path d="M1 0.761963L6 5.16096L1 9.55995" stroke="#005FA4" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+            </svg>
+        </div>
+    </div>
+    <div class="mt-[16px] flex gap-[48px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
         <x-show-restaurant />
         <x-show-restaurant />
         <x-show-restaurant />
         <x-show-restaurant />
     </div>
-
-    <div class="m-[26px] flex gap-[48px] overflow-scroll snap-x scroll-smooth snap-mandatory">
+    <div class="flex justify-between ml-[26px] mr-[14px] mt-[64px]">
+        <div>
+            <p class="text-lg font-medium text-left text-[#343a40]">Highly Rated</p>
+            <p class="w-[217px] text-xs text-left text-gray-500">Check highly rated restaurants</p>
+        </div>
+        <div class="flex items-center">
+            <p class="text-xs font-medium text-left text-[#005fa4] mr-[5px]">
+                See All
+            </p>
+            <svg width="7" height="11" viewBox="0 0 7 11" fill="none" xmlns="http://www.w3.org/2000/svg"
+                class="" preserveAspectRatio="xMidYMid meet">
+                <path d="M1 0.761963L6 5.16096L1 9.55995" stroke="#005FA4" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+            </svg>
+        </div>
+    </div>
+    <div class="mt-[16px] flex gap-[48px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
         <x-show-restaurant />
         <x-show-restaurant />
         <x-show-restaurant />
         <x-show-restaurant />
     </div>
-
-    <div class="m-[26px] mt-[105px] flex justify-center items-center">
+    <div class="flex justify-between ml-[26px] mr-[14px] mt-[64px]">
+        <div>
+            <p class="text-lg font-medium text-left text-[#343a40]">Recommended places</p>
+            <p class="w-[217px] text-xs text-left text-gray-500">Check highly rated restaurants</p>
+        </div>
+        <div class="flex items-center">
+            <p class="text-xs font-medium text-left text-[#005fa4] mr-[5px]">
+                See All
+            </p>
+            <svg width="7" height="11" viewBox="0 0 7 11" fill="none" xmlns="http://www.w3.org/2000/svg"
+                class="" preserveAspectRatio="xMidYMid meet">
+                <path d="M1 0.761963L6 5.16096L1 9.55995" stroke="#005FA4" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+            </svg>
+        </div>
+    </div>
+    <div class="mt-[16px] flex gap-[48px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
+        <x-show-restaurant />
+        <x-show-restaurant />
+        <x-show-restaurant />
+        <x-show-restaurant />
+    </div>
+    <p class="text-lg font-medium text-left text-[#343a40] ml-[26px] mt-[64px] mb-[16px]">How does it work?</p>
+    <div class="mx-[26px] flex justify-center items-center">
         <div class="flex items-center">
             <div class="w-[338px] h-[185px] relative rounded-2xl bg-white"
                 style="box-shadow: 0px 20px 50px 0 rgba(0,0,0,0.1);">
@@ -138,7 +201,24 @@
             </div>
         </div>
     </div>
-
+    <p class="text-lg font-medium text-left text-[#343a40] ml-[26px] mt-[64px] mb-[16px]">Are you a restauranter?</p>
+    <div class="mx-[26px] flex flex-col justify-center items-center object-cover">
+        <img src="{{ asset('images\Rectangle 395.png') }}" alt="">
+        <p class="text-xs font-light text-[#343a40] mt-[16px]">
+            We'll help you manage your guests with our easy-to-use restaurant booking software.
+            <br>
+            Partner with us or log in to start managing your clients.
+        </p>
+        <div class="flex justify-between w-full mt-[16px]">
+            <button
+                class="w-[143px] h-8 rounded-[10px] bg-[#005fa4] text-xs font-medium text-center text-white">Partner
+                with us</button>
+            <button
+                class="w-[169px] h-8 relative rounded-[10px] border border-[#005fa4] text-xs font-medium text-center text-[#005fa4]">Log
+                in to RevelApps</button>
+        </div>
+    </div>
+    <x-footer />
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 

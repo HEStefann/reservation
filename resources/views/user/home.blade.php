@@ -26,7 +26,7 @@
     </style>
 
 
-    <div class="m-[25px] flex flex-col gap-[10px]">
+    <div class="p-[25px] flex flex-col gap-[10px] sticky top-[40px] z-10 bg-white">
         {{-- Search Location --}}
         <div class="flex items-center relative">
             <svg viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"

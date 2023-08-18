@@ -128,14 +128,14 @@
 
                 /* The Close Button */
                 .close {
-                    color: white;
+                    color: black;
                     font-size: 28px;
                     font-weight: bold;
                 }
 
                 .close:hover,
                 .close:focus {
-                    color: #000;
+                    color: white;
                     text-decoration: none;
                     cursor: pointer;
                 }
@@ -148,9 +148,9 @@
 
                 <!-- Modal content -->
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <span class="close">&times;</span>
+                    <div class="modal-header flex justify-between items-center">
                         <h2>Modal Header</h2>
+                        <span class="close">&times;</span>
                     </div>
 
                 </div>

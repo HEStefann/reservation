@@ -1,5 +1,5 @@
 <div class="flex flex-col justify-start gap-[60px] px-5 py-4 bg-[#00487c] mt-[80px]">
-    <p class="w-[341px] text-sm text-white">
+    <p class="text-sm text-white">
         Explore and book your favorite restaurant with Revelapps
     </p>
     <div class="flex gap-[31px] justify-between">

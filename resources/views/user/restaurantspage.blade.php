@@ -24,8 +24,6 @@
         }
     </style>
     <div id="navBarz" class="bg-white pb-[22px] z-10">
-    {{-- <div class="bg-white pb-[22px] z-10 sticky top-0"> --}}
-
         <x-navbar />
         <div class="px-[26px] ">
             <div class="mt-[15px] mb-[20px] flex flex-col gap-[10px]">

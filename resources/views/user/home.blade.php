@@ -129,13 +129,13 @@
             </svg>
         </div>
     </div>
-    <div class="mt-[16px] flex gap-[48px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
+    <div class="mt-[16px] ml-[26px] flex pb-[64px] gap-[48px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
         <x-show-restaurant />
         <x-show-restaurant />
         <x-show-restaurant />
         <x-show-restaurant />
     </div>
-    <div class="flex justify-between ml-[26px] mr-[14px] mt-[64px]">
+    <div class="flex justify-between ml-[26px] mr-[14px]">
         <div>
             <p class="text-lg font-medium text-left text-[#343a40]">Highly Rated</p>
             <p class="text-xs text-left text-gray-500">Check highly rated restaurants</p>
@@ -151,13 +151,13 @@
             </svg>
         </div>
     </div>
-    <div class="mt-[16px] flex gap-[48px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
+    <div class="mt-[16px] ml-[26px] flex pb-[64px] gap-[48px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
         <x-show-restaurant />
         <x-show-restaurant />
         <x-show-restaurant />
         <x-show-restaurant />
     </div>
-    <div class="flex justify-between ml-[26px] mr-[14px] mt-[64px]">
+    <div class="flex justify-between ml-[26px] mr-[14px]">
         <div>
             <p class="text-lg font-medium text-left text-[#343a40]">Recommended places</p>
             <p class="text-xs text-left text-gray-500">Check highly rated restaurants</p>
@@ -173,14 +173,14 @@
             </svg>
         </div>
     </div>
-    <div class="mt-[16px] flex gap-[48px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
+    <div class="mt-[16px] ml-[26px] flex pb-[64px] gap-[48px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
         <x-show-restaurant />
         <x-show-restaurant />
         <x-show-restaurant />
         <x-show-restaurant />
     </div>
-    <p class="text-lg font-medium text-left text-[#343a40] ml-[26px] mt-[64px] mb-[16px]">How does it work?</p>
-    <div class="mx-[26px] flex justify-center items-center">
+    <p class="text-lg font-medium text-left text-[#343a40] ml-[26px] mb-[16px]">How does it work?</p>
+    <div class="mx-[26px] flex justify-center items-center pb-[64px]">
         <div class="flex items-center w-full">
             <div class="h-[185px] rounded-2xl bg-white w-full flex flex-col items-center justify-center"
                 style="box-shadow: 0px 20px 50px 0 rgba(0,0,0,0.1);">
@@ -203,7 +203,7 @@
             </div>
         </div>
     </div>
-    <p class="text-lg font-medium text-left text-[#343a40] ml-[26px] mt-[64px] mb-[16px]">Are you a restauranter?</p>
+    <p class="text-lg font-medium text-left text-[#343a40] ml-[26px] mb-[16px]">Are you a restauranter?</p>
     <div class="mx-[26px] flex flex-col justify-center items-center">
         <div class="h-[103px] w-full">
             <img src="{{ asset('images\Rectangle 395.png') }}" class="w-full h-full object-cover" alt="">

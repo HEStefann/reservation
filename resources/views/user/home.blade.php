@@ -12,7 +12,9 @@
 
 <body>
     <x-navbar />
-    <img src="{{ asset('/images/carousel-animate.png') }}" alt="carousel" class="w-full h-[234px] mt-[15px]">
+    <div class="h-[234px] w-full mt-[15px]">
+        <img src="{{ asset('/images/carousel-animate.png') }}" alt="carousel" class="w-full h-full object-cover">
+    </div>
     <div class="flex justify-center">
         <p class="w-[55.90%] text-center text-2xl font-medium text-[#343a40]">
             Seamless dining, reserved by you
@@ -114,7 +116,7 @@
     <div class="flex justify-between ml-[26px] mr-[14px] mt-[64px]">
         <div>
             <p class="text-lg font-medium text-left text-[#343a40]">Nearby Restaurant</p>
-            <p class="w-[217px] text-xs text-left text-gray-500">Check your city nearby restaurant</p>
+            <p class="text-xs text-left text-gray-500">Check your city nearby restaurant</p>
         </div>
         <div class="flex items-center">
             <p class="text-xs font-medium text-left text-[#005fa4] mr-[5px]">
@@ -136,7 +138,7 @@
     <div class="flex justify-between ml-[26px] mr-[14px] mt-[64px]">
         <div>
             <p class="text-lg font-medium text-left text-[#343a40]">Highly Rated</p>
-            <p class="w-[217px] text-xs text-left text-gray-500">Check highly rated restaurants</p>
+            <p class="text-xs text-left text-gray-500">Check highly rated restaurants</p>
         </div>
         <div class="flex items-center">
             <p class="text-xs font-medium text-left text-[#005fa4] mr-[5px]">
@@ -158,7 +160,7 @@
     <div class="flex justify-between ml-[26px] mr-[14px] mt-[64px]">
         <div>
             <p class="text-lg font-medium text-left text-[#343a40]">Recommended places</p>
-            <p class="w-[217px] text-xs text-left text-gray-500">Check highly rated restaurants</p>
+            <p class="text-xs text-left text-gray-500">Check highly rated restaurants</p>
         </div>
         <div class="flex items-center">
             <p class="text-xs font-medium text-left text-[#005fa4] mr-[5px]">
@@ -179,17 +181,10 @@
     </div>
     <p class="text-lg font-medium text-left text-[#343a40] ml-[26px] mt-[64px] mb-[16px]">How does it work?</p>
     <div class="mx-[26px] flex justify-center items-center">
-        <div class="flex items-center">
-            <div class="w-[338px] h-[185px] relative rounded-2xl bg-white"
+        <div class="flex items-center w-full">
+            <div class="h-[185px] rounded-2xl bg-white w-full flex flex-col items-center justify-center"
                 style="box-shadow: 0px 20px 50px 0 rgba(0,0,0,0.1);">
-                <p
-                    class="absolute left-1/2 transform -translate-x-1/2 top-[85px] text-base font-semibold text-center text-[#343a40]">
-                    Easy reservation
-                </p>
-                <p class="absolute left-1/2 transform -translate-x-1/2 top-[121px] text-sm text-center text-[#343a40]">
-                    Free, express, 24/7
-                </p>
-                <div class="flex justify-start items-start absolute left-[152px] top-6">
+                <div class="flex justify-start items-start">
                     <svg width="35" height="35" viewBox="0 0 35 35" fill="none"
                         xmlns="http://www.w3.org/2000/svg"
                         class="flex-grow-0 flex-shrink-0 w-[35px] h-[35px] relative" preserveAspectRatio="none">
@@ -198,12 +193,21 @@
                             fill="black" fill-opacity="0.54"></path>
                     </svg>
                 </div>
+                <p class="text-base font-semibold text-center text-[#343a40] mt-[26px] mb-[16px]">
+                    Easy reservation
+                </p>
+                <p class="text-sm text-center text-[#343a40]">
+                    Free, express, 24/7
+                </p>
+
             </div>
         </div>
     </div>
     <p class="text-lg font-medium text-left text-[#343a40] ml-[26px] mt-[64px] mb-[16px]">Are you a restauranter?</p>
-    <div class="mx-[26px] flex flex-col justify-center items-center object-cover">
-        <img src="{{ asset('images\Rectangle 395.png') }}" alt="">
+    <div class="mx-[26px] flex flex-col justify-center items-center">
+        <div class="h-[103px] w-full">
+            <img src="{{ asset('images\Rectangle 395.png') }}" class="w-full h-full object-cover" alt="">
+        </div>
         <p class="text-xs font-light text-[#343a40] mt-[16px]">
             We'll help you manage your guests with our easy-to-use restaurant booking software.
             <br>

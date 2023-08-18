@@ -13,7 +13,9 @@
     <x-navbar />
     {{-- public/images/mario-mesaglio-7BZzlV0Z9R4-unsplash 1.png --}}
     <div class="flex items-center">
-        <img src="{{ asset('/images/mario-mesaglio-7BZzlV0Z9R4-unsplash 1.png') }}" alt="mario mesaglio">
+        <div class="h-[200px] w-full">
+            <img class="w-full h-full" src="{{ asset('/images/mario-mesaglio-7BZzlV0Z9R4-unsplash 1.png') }}" alt="mario mesaglio">
+        </div>
         {{--  absolute flex  width: -webkit-fill-available; --}}
         <div class="absolute flex mx-[10px] w-[95%] justify-between">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"

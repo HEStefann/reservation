@@ -136,7 +136,7 @@
         </div>
     </div>
     {{-- <div class="mx-[26px] mt-[28px]"> --}}
-    <div class="mx-[26px] mt-[28px]">
+    <div class="mx-[26px] mt-[308px]">
         <p class="text-lg font-medium text-[#343a40] pb-[11px]">The Best Restaurants in Amsterdam</p>
         <p class="text-xs font-light text-left text-[#6b686b]">78 Restaurants</p>
         <x-search-restaurant />
@@ -148,18 +148,6 @@
     </div>
     <x-footer />
 
-    <script>
-        var prevScrollpos = window.pageYOffset;
-        window.onscroll = function() {
-            var currentScrollPos = window.pageYOffset;
-            if (prevScrollpos > currentScrollPos) {
-                document.getElementById("navBarz").style.top = "0";
-            } else {
-                document.getElementById("navBarz").style.top = "-240px";
-            }
-            prevScrollpos = currentScrollPos;
-        }
-    </script>
 
 </body>
 

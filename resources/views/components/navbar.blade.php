@@ -1,4 +1,4 @@
-<div class="flex content-center items-center justify-between mx-[26px]">
+<div class="flex content-center items-center justify-between top-0 bg-white sticky z-10 px-[26px]">
     {{-- on click redirect back --}}
     <a href="{{ url()->previous() }}">
         <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg"

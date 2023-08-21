@@ -99,7 +99,6 @@ Route::middleware(['auth', 'GuestRole'])->group(function () {
     Route::get('/restaurant/register', [RestaurantController::class, 'create'])->name('restaurant.register');
     Route::post('/restaurant/register', [RestaurantController::class, 'store']);
     Route::get('/user/restaurants/{restaurant}', [RestaurantController::class, 'show'])->name('user.restaurants.show');
-    
 });
 Route::post('/getNearestRestaurants', [RestaurantController::class, 'getNearestRestaurants']);
 Route::post('/user/favorite/{restaurant}', [UserController::class, 'favorite'])->name('user.favorite');
@@ -108,4 +107,11 @@ Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store
 Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
 Route::get('/testing', function () {
     return view('user.home');
+});
+
+Route::get('/testing2', function () {
+    return view('user.restaurantspage');
+});
+Route::get('/testing3', function () {
+    return view('user.restaurant');
 });

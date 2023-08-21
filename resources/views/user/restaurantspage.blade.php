@@ -23,9 +23,7 @@
             /* Transition effect when sliding down (and up) */
         }
     </style>
-    <div class="bg-white pb-[22px] z-10 fixed top-0 w-full">
-        {{-- <div class="bg-white pb-[22px] z-10 sticky top-0"> --}}
-
+    <div id="navBarz" class="bg-white pb-[22px] z-10">
         <x-navbar />
         <div class="px-[26px] ">
             <div class="mt-[15px] mb-[20px] flex flex-col gap-[10px]">

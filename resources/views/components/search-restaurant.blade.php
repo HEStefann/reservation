@@ -35,7 +35,7 @@
         </p>
     </div>
     <p class="text-[10px] font-light text-left text-[#343a40] mx-[25px]">French</p>
-    <div class="flex justify-between mx-[25px] items-center">
+    <div class="flex justify-between ml-[25px] mr-[16px] items-center">
         <p class="text-[8px] font-light text-left text-[#6b686b]">45$ average price</p>
         <div
             class="flex justify-center items-center w-[88px] h-[29px] relative overflow-hidden gap-2.5 px-6 py-2.5 rounded-[10px] bg-[#005fa4]">

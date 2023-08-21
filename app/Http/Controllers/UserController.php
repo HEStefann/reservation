@@ -19,12 +19,12 @@ class UserController extends Controller
             $query->where('title', 'like', '%' . $search . '%');
         }
 
-        $restaurants = $query->paginate(3);
+        $restaurants = Restaurant::all(); // Assuming you have a Restaurant model
 
         // Fetch promotions (you might want to adjust this query based on your logic)
         $promotions = Promotion::all();
 
-        return view('user.restaurants', [
+        return view('user.home', [
             'restaurants' => $restaurants,
             'search' => $search,
             'promotions' => $promotions,

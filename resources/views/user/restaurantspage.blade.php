@@ -13,7 +13,7 @@
 <body class="bg-gray-100">
     <style>
         #navBarz {
-            position: sticky;
+            position: sticky;   
             /* Make it stick/fixed */
             top: 0;
             /* Stay on top */

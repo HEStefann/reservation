@@ -95,7 +95,7 @@ Route::middleware(['auth', 'ModeratorOrOwnerRole'])->group(function () {
 // Ovie ruti se koristeni i od restorani i od korisnici
 Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
 Route::middleware(['auth', 'GuestRole'])->group(function () {
-    Route::get('/index', [UserController::class, 'index'])->name('index');
+    // Route::get('/testing', [UserController::class, 'index'])->name('user.home');
     Route::get('/restaurant/register', [RestaurantController::class, 'create'])->name('restaurant.register');
     Route::post('/restaurant/register', [RestaurantController::class, 'store']);
     Route::get('/user/restaurants/{restaurant}', [RestaurantController::class, 'show'])->name('user.restaurants.show');
@@ -105,9 +105,9 @@ Route::post('/user/favorite/{restaurant}', [UserController::class, 'favorite'])-
 Route::get('/reservations', [ReservationController::class, 'userReservations'])->name('reservations.index');
 Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
-Route::get('/testing', function () {
-    return view('user.home');
-});
+    Route::get('/testing', [UserController::class, 'index'])->name('user.home');
+
+
 
 Route::get('/testing2', function () {
     return view('user.restaurantspage');

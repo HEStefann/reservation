@@ -36,7 +36,7 @@ class RestaurantController extends Controller
         // restaurant with reviews
         $restaurant = Restaurant::with('reviews')->findOrFail($id);
 
-        return view('user.showrestaurant', compact('restaurant'));
+        return view('user.restaurant', compact('restaurant'));
     }
 
     public function store(RestaurantRequest $request)

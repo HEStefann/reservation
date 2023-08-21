@@ -37,13 +37,13 @@
             alt="">
     </div>
 
-    <div class="d-flex justify-content-center">
-        {{-- <form action="{{ route('index') }}" method="GET" class="text-center mt-10"> --}}
+    {{-- <div class="d-flex justify-content-center">
+        <form action="{{ route('index') }}" method="GET" class="text-center mt-10">
             <input placeholder="Restaurant" type="text" class="form-control w-40 text-center rounded-pill"
                 name="name" value="{{ $search }}" autocomplete="off" autofocus>
             <button type="submit" class="btn btn-primary mt-2 text-black">Search</button>
         </form>
-    </div>
+    </div> --}}
     <br>
 
     <div class="promotions">

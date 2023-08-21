@@ -31,6 +31,27 @@ class UserController extends Controller
         ]);
     }
 
+    public function page2(Request $request)
+    {
+        $search = $request->input('name');
+        $query = Restaurant::query();
+
+        if ($search) {
+            $query->where('title', 'like', '%' . $search . '%');
+        }
+
+        $restaurants = Restaurant::all(); // Assuming you have a Restaurant model
+
+        // Fetch promotions (you might want to adjust this query based on your logic)
+        $promotions = Promotion::all();
+
+        return view('user.restaurantspage', [
+            'restaurants' => $restaurants,
+            'search' => $search,
+            'promotions' => $promotions,
+        ]);
+    }
+
     public function favorite(Restaurant $restaurant)
     {
         // Get the authenticated user

@@ -194,7 +194,6 @@
         </svg>
     </div>
     <div class="mx-[26px] mb-[14px]">
-
         @foreach ($restaurant->reviews as $review)
             <div class="mb-[14px]">
                 <div id="ReviewsTab" class="w-[338px] h-[76px] relative"

@@ -131,10 +131,7 @@
     </div>
     <div
         class="mt-[16px] ml-[26px] flex pb-[64px] gap-[48px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
-        <x-show-restaurant />
-        <x-show-restaurant />
-        <x-show-restaurant />
-        <x-show-restaurant />
+        <x-show-restaurant :restaurants="$restaurants" />
     </div>
     <div class="flex justify-between ml-[26px] mr-[14px]">
         <div>
@@ -154,10 +151,7 @@
     </div>
     <div
         class="mt-[16px] ml-[26px] flex pb-[64px] gap-[48px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
-        <x-show-restaurant />
-        <x-show-restaurant />
-        <x-show-restaurant />
-        <x-show-restaurant />
+        <x-show-restaurant :restaurants="$restaurants" />
     </div>
     <div class="flex justify-between ml-[26px] mr-[14px]">
         <div>
@@ -177,10 +171,7 @@
     </div>
     <div
         class="mt-[16px] ml-[26px] flex pb-[64px] gap-[48px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
-        <x-show-restaurant />
-        <x-show-restaurant />
-        <x-show-restaurant />
-        <x-show-restaurant />
+        <x-show-restaurant :restaurants="$restaurants" />
     </div>
     <p class="text-lg font-medium text-left text-[#343a40] ml-[26px] mb-[16px]">How does it work?</p>
     <div class="mx-[26px] flex justify-center items-center pb-[64px]">

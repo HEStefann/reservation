@@ -12,8 +12,15 @@
 
 <body>
     <x-navbar />
-    <div class="h-[234px] w-full mt-[15px]">
-        <img src="{{ asset('/images/carousel-animate.png') }}" alt="carousel" class="w-full h-full object-cover">
+    <div class="sliki h-[234px] w-full mt-[15px]">
+        <div class="vrtac inline-flex">
+            <img src="{{ asset('/images/carousel-animate.png') }}" alt="carousel" class="carousel-image" />
+            <img src="{{ asset('images/gabriel-santos-gNa-eXVr_KQ-unsplash.png') }}" alt="carousel"
+                class="carousel-image" />
+            <img src="{{ asset('images/nick-karvounis-Ciqxn7FE4vE-unsplash.png') }}" alt="carousel"
+                class="carousel-image" />
+            <img src="{{ asset('/images/carousel-animate.png') }}" alt="carousel" class="carousel-image" />
+        </div>
     </div>
     <div class="flex justify-center">
         <p class="w-[55.90%] text-center text-2xl font-medium text-[#343a40]">
@@ -24,6 +31,55 @@
     <style>
         body {
             background-color: #FFFFFF
+        }
+
+        .sliki {
+            overflow: hidden;
+        }
+
+        .vrtac {
+            display: flex;
+            animation: slide 10s infinite;
+        }
+
+        .carousel-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        @keyframes slide {
+            0% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(0);
+            }
+
+            30% {
+                transform: translateX(-100%);
+            }
+
+            50% {
+                transform: translateX(-100%);
+            }
+
+            55% {
+                transform: translateX(-200%);
+            }
+
+            75% {
+                transform: translateX(-200%);
+            }
+
+            80% {
+                transform: translateX(-300%);
+            }
+
+            100% {
+                transform: translateX(-300%);
+            }
         }
     </style>
 

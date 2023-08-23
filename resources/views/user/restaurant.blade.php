@@ -300,7 +300,9 @@
             <path d="M1 1H339" stroke="#6B686B" stroke-opacity="0.5" stroke-linecap="round"></path>
         </svg>
     </div>
-    <div class="px-">
+    <div class="bg-[url('{{ asset('images/Rectangle 395.png') }}')] bg-cover bg-no-repeat w-full h-[165px]">
+    </div>
+    <div class="">
         <div class="flex justify-center items-center w-[338px] h-10 relative overflow-hidden gap-2.5 mx-6 py-2.5 rounded-[10px]"
             style="background: linear-gradient(143.6deg, #52d1ed -56.3%, #0f92cf 26.17%, #005fa4 83.39%);">
             <p class="flex-grow-0 flex-shrink-0 text-xl font-semibold text-left text-white">

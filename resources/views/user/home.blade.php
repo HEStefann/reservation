@@ -101,8 +101,8 @@
         }
     </style>
 
-    <div
-        class="m-[26px] flex gap-[11px] overflow-scroll scrollbar-hide snap-x scroll-smooth snap-mandatory hide-scrollbar">
+    <div id="image-scroll"
+        class="m-[26px] flex gap-[11px] overflow-x-scroll scrollbar-hide snap-x scroll-smooth snap-mandatory hide-scrollbar">
         <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
         <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
         <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
@@ -129,7 +129,8 @@
             </svg>
         </div>
     </div>
-    <div class="mt-[16px] ml-[26px] flex pb-[64px] gap-[48px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
+    <div
+        class="mt-[16px] ml-[26px] flex pb-[64px] gap-[48px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
         <x-show-restaurant />
         <x-show-restaurant />
         <x-show-restaurant />
@@ -151,7 +152,8 @@
             </svg>
         </div>
     </div>
-    <div class="mt-[16px] ml-[26px] flex pb-[64px] gap-[48px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
+    <div
+        class="mt-[16px] ml-[26px] flex pb-[64px] gap-[48px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
         <x-show-restaurant />
         <x-show-restaurant />
         <x-show-restaurant />
@@ -173,7 +175,8 @@
             </svg>
         </div>
     </div>
-    <div class="mt-[16px] ml-[26px] flex pb-[64px] gap-[48px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
+    <div
+        class="mt-[16px] ml-[26px] flex pb-[64px] gap-[48px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
         <x-show-restaurant />
         <x-show-restaurant />
         <x-show-restaurant />
@@ -234,6 +237,8 @@
         document.getElementById("clearRestaurantButton").addEventListener("click", function() {
             document.getElementById("searchRestaurant").value = "";
         });
+        // Set scroll position on load
+        document.getElementById('image-scroll').scrollLeft = 0;
     </script>
 </body>
 

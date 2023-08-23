@@ -101,8 +101,8 @@
         }
     </style>
 
-    <div
-        class="m-[26px] flex gap-[11px] overflow-scroll scrollbar-hide snap-x scroll-smooth snap-mandatory hide-scrollbar">
+    <div id="image-scroll"
+        class="m-[26px] flex gap-[11px] overflow-x-scroll scrollbar-hide snap-x scroll-smooth snap-mandatory hide-scrollbar">
         <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
         <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
         <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
@@ -228,6 +228,8 @@
         document.getElementById("clearRestaurantButton").addEventListener("click", function() {
             document.getElementById("searchRestaurant").value = "";
         });
+        // Set scroll position on load
+        document.getElementById('image-scroll').scrollLeft = 0;
     </script>
 </body>
 

@@ -139,12 +139,7 @@
     <div class="mx-[26px] mt-[308px]">
         <p class="text-lg font-medium text-[#343a40] pb-[11px]">The Best Restaurants in Amsterdam</p>
         <p class="text-xs font-light text-left text-[#6b686b]">78 Restaurants</p>
-        <x-search-restaurant />
-        <x-search-restaurant />
-        <x-search-restaurant />
-        <x-search-restaurant />
-        <x-search-restaurant />
-        <x-search-restaurant />
+        <x-search-restaurant :restaurants="$restaurants" />
     </div>
     <x-footer />
 

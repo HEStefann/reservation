@@ -26,7 +26,7 @@
     <nav class="p-6 bg-white flex justify-between mb-6">
         <h3>RevelApps</h3>
         <h3></h3>
-        <a href="{{ route('profile.edit') }}">User Profile</a>
+        {{-- <a href="{{ route('profile.edit') }}">User Profile</a> --}}
 
     </nav>
     <div id="nearestRestaurants"></div>
@@ -37,13 +37,13 @@
             alt="">
     </div>
 
-    <div class="d-flex justify-content-center">
+    {{-- <div class="d-flex justify-content-center">
         <form action="{{ route('index') }}" method="GET" class="text-center mt-10">
             <input placeholder="Restaurant" type="text" class="form-control w-40 text-center rounded-pill"
                 name="name" value="{{ $search }}" autocomplete="off" autofocus>
             <button type="submit" class="btn btn-primary mt-2 text-black">Search</button>
         </form>
-    </div>
+    </div> --}}
     <br>
 
     <div class="promotions">
@@ -116,7 +116,7 @@
                         <span class="font-normal">{{ $restaurant->available_people }}</span>
                     </p>
                     <div class="text-right">
-                        <a href="{{ route('user.restaurants.show', ['restaurant' => $restaurant->id]) }}"
+                        {{-- <a href="{{ route('user.restaurants.show', ['restaurant' => $restaurant->id]) }}" --}}
                             class="mt-5 btn btn-warning">View Details</a>
                         <form action="{{ route('user.favorite', ['restaurant' => $restaurant->id]) }}" method="POST">
                             @csrf

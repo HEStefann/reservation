@@ -102,7 +102,7 @@
                         <span class="font-normal">{{ $restaurant->available_people }}</span>
                     </p>
                     <div class="text-right">
-                        <a href="{{ route('user.restaurants.show', ['restaurant' => $restaurant->id]) }}"
+                        {{-- <a href="{{ route('user.restaurants.show', ['restaurant' => $restaurant->id]) }}" --}}
                             class="mt-5 btn btn-warning">View Details</a>
                     </div>
                 </div>

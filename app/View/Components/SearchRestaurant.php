@@ -8,19 +8,15 @@ use Illuminate\View\Component;
 
 class SearchRestaurant extends Component
 {
-    /**
-     * Create a new component instance.
-     */
-    public function __construct()
+    public $restaurants;
+
+    public function __construct($restaurants)
     {
-        //
+        $this->restaurants = $restaurants;
     }
 
-    /**
-     * Get the view / contents that represent the component.
-     */
     public function render(): View|Closure|string
     {
-        return view('components.search-restaurant');
+        return view('components.search-restaurant', ['restaurants' => $this->restaurants]);
     }
 }

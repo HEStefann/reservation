@@ -101,8 +101,8 @@
         }
     </style>
 
-    <div
-        class="m-[26px] flex gap-[11px] overflow-scroll scrollbar-hide snap-x scroll-smooth snap-mandatory hide-scrollbar">
+    <div id="image-scroll"
+        class="m-[26px] flex gap-[11px] overflow-x-scroll scrollbar-hide snap-x scroll-smooth snap-mandatory hide-scrollbar">
         <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
         <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
         <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
@@ -129,11 +129,9 @@
             </svg>
         </div>
     </div>
-    <div class="mt-[16px] ml-[26px] flex pb-[64px] gap-[48px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
-        <x-show-restaurant />
-        <x-show-restaurant />
-        <x-show-restaurant />
-        <x-show-restaurant />
+    <div
+        class="mt-[16px] ml-[26px] flex pb-[64px] gap-[48px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
+        <x-show-restaurant :restaurants="$restaurants" />
     </div>
     <div class="flex justify-between ml-[26px] mr-[14px]">
         <div>
@@ -151,11 +149,9 @@
             </svg>
         </div>
     </div>
-    <div class="mt-[16px] ml-[26px] flex pb-[64px] gap-[48px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
-        <x-show-restaurant />
-        <x-show-restaurant />
-        <x-show-restaurant />
-        <x-show-restaurant />
+    <div
+        class="mt-[16px] ml-[26px] flex pb-[64px] gap-[48px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
+        <x-show-restaurant :restaurants="$restaurants" />
     </div>
     <div class="flex justify-between ml-[26px] mr-[14px]">
         <div>
@@ -173,11 +169,9 @@
             </svg>
         </div>
     </div>
-    <div class="mt-[16px] ml-[26px] flex pb-[64px] gap-[48px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
-        <x-show-restaurant />
-        <x-show-restaurant />
-        <x-show-restaurant />
-        <x-show-restaurant />
+    <div
+        class="mt-[16px] ml-[26px] flex pb-[64px] gap-[48px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
+        <x-show-restaurant :restaurants="$restaurants" />
     </div>
     <p class="text-lg font-medium text-left text-[#343a40] ml-[26px] mb-[16px]">How does it work?</p>
     <div class="mx-[26px] flex justify-center items-center pb-[64px]">
@@ -234,6 +228,8 @@
         document.getElementById("clearRestaurantButton").addEventListener("click", function() {
             document.getElementById("searchRestaurant").value = "";
         });
+        // Set scroll position on load
+        document.getElementById('image-scroll').scrollLeft = 0;
     </script>
 </body>
 

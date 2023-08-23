@@ -33,22 +33,14 @@ class UserController extends Controller
 
     public function page2(Request $request)
     {
-        $search = $request->input('name');
-        $query = Restaurant::query();
+        $searchTerm = $request->input('searchRestaurant');
 
-        if ($search) {
-            $query->where('title', 'like', '%' . $search . '%');
-        }
-
-        $restaurants = Restaurant::all(); // Assuming you have a Restaurant model
-
-        // Fetch promotions (you might want to adjust this query based on your logic)
-        $promotions = Promotion::all();
+        $restaurants = Restaurant::where('title', 'LIKE', '%' . $searchTerm . '%')
+            ->get();
 
         return view('user.restaurantspage', [
             'restaurants' => $restaurants,
-            'search' => $search,
-            'promotions' => $promotions,
+            'searchTerm' => $searchTerm, // Pass the search term to the view
         ]);
     }
 

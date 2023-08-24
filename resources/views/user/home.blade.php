@@ -236,25 +236,143 @@
     </div>
     <p class="text-lg font-medium text-left text-[#343a40] ml-[26px] mb-[16px]">How does it work?</p>
     <div class="mx-[26px] flex justify-center items-center pb-[64px]">
-        <div class="flex items-center w-full">
-            <div class="h-[185px] rounded-2xl bg-white w-full flex flex-col items-center justify-center"
-                style="box-shadow: 0px 20px 50px 0 rgba(0,0,0,0.1);">
-                <div class="flex justify-start items-start">
-                    <svg width="35" height="35" viewBox="0 0 35 35" fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="flex-grow-0 flex-shrink-0 w-[35px] h-[35px] relative" preserveAspectRatio="none">
-                        <path
-                            d="M29.1666 4.37492H27.7083V1.45825H24.7916V4.37492H10.2083V1.45825H7.29163V4.37492H5.83329C4.22913 4.37492 2.91663 5.68742 2.91663 7.29159V30.6249C2.91663 32.2291 4.22913 33.5416 5.83329 33.5416H29.1666C30.7708 33.5416 32.0833 32.2291 32.0833 30.6249V7.29159C32.0833 5.68742 30.7708 4.37492 29.1666 4.37492ZM29.1666 30.6249H5.83329V11.6666H29.1666V30.6249Z"
-                            fill="black" fill-opacity="0.54"></path>
-                    </svg>
+        <div class="flex items-center w-full  overflow-x-scroll scrollbar-hide snap-x scroll-smooth snap-mandatory hide-scrollbar bg-red">
+            <div class="flex w-full flex-col items-center gap-[16px]">
+                <div class="h-[185px] rounded-2xl bg-white w-full flex flex-col items-center justify-center"
+                    style="box-shadow: 0px 20px 50px 0 rgba(0,0,0,0.1);">
+                    <div class="flex justify-start items-start">
+                        <svg width="35" height="35" viewBox="0 0 35 35" fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="flex-grow-0 flex-shrink-0 w-[35px] h-[35px] relative" preserveAspectRatio="none">
+                            <path
+                                d="M29.1666 4.37492H27.7083V1.45825H24.7916V4.37492H10.2083V1.45825H7.29163V4.37492H5.83329C4.22913 4.37492 2.91663 5.68742 2.91663 7.29159V30.6249C2.91663 32.2291 4.22913 33.5416 5.83329 33.5416H29.1666C30.7708 33.5416 32.0833 32.2291 32.0833 30.6249V7.29159C32.0833 5.68742 30.7708 4.37492 29.1666 4.37492ZM29.1666 30.6249H5.83329V11.6666H29.1666V30.6249Z"
+                                fill="black" fill-opacity="0.54"></path>
+                        </svg>
+                    </div>
+                    <p class="text-base font-semibold text-center text-[#343a40] mt-[26px] mb-[16px]">
+                        Easy reservation
+                    </p>
+                    <p class="text-sm text-center text-[#343a40]">
+                        Free, express, 24/7
+                    </p>
                 </div>
-                <p class="text-base font-semibold text-center text-[#343a40] mt-[26px] mb-[16px]">
-                    Easy reservation
-                </p>
-                <p class="text-sm text-center text-[#343a40]">
-                    Free, express, 24/7
-                </p>
-
+                <svg width="35" height="9" viewBox="0 0 35 9" fill="none"
+                    xmlns="http://www.w3.org/2000/svg" class="w-[35px] h-[9px]" preserveAspectRatio="none">
+                    <circle cx="4.5" cy="4.5" r="4.5" fill="url(#paint0_linear_682_3171)">
+                    </circle>
+                    <circle cx="17.5" cy="4.5" r="4.5" fill="#E2E2E2"></circle>
+                    <circle cx="30.5" cy="4.5" r="4.5" fill="#E2E2E2"></circle>
+                    <defs>
+                        <linearGradient id="paint0_linear_682_3171" x1="0" y1="0" x2="9"
+                            y2="9" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#52D1ED"></stop>
+                            <stop offset="1" stop-color="#005FA4"></stop>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+            <div class="flex w-full flex-col items-center gap-[16px]">
+                <div class="h-[185px] rounded-2xl bg-white w-full flex flex-col items-center justify-center"
+                    style="box-shadow: 0px 20px 50px 0 rgba(0,0,0,0.1);">
+                    <div class="flex justify-start items-start">
+                        <div class="flex justify-start items-start">
+                            <div class="flex justify-start items-center flex-grow-0 flex-shrink-0 relative">
+                                <svg width="30" height="30" viewBox="0 0 30 30" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="flex-grow-0 flex-shrink-0 w-[30px] h-[30px] relative"
+                                    preserveAspectRatio="xMidYMid meet">
+                                    <path
+                                        d="M15 22.2125L22.725 26.875L20.675 18.0875L27.5 12.175L18.5125 11.4125L15 3.125L11.4875 11.4125L2.5 12.175L9.325 18.0875L7.275 26.875L15 22.2125Z"
+                                        fill="#FC7F09"></path>
+                                </svg><svg width="30" height="30" viewBox="0 0 30 30" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="flex-grow-0 flex-shrink-0 w-[30px] h-[30px] relative"
+                                    preserveAspectRatio="xMidYMid meet">
+                                    <path
+                                        d="M15 22.2125L22.725 26.875L20.675 18.0875L27.5 12.175L18.5125 11.4125L15 3.125L11.4875 11.4125L2.5 12.175L9.325 18.0875L7.275 26.875L15 22.2125Z"
+                                        fill="#FC7F09"></path>
+                                </svg><svg width="30" height="30" viewBox="0 0 30 30" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="flex-grow-0 flex-shrink-0 w-[30px] h-[30px] relative"
+                                    preserveAspectRatio="xMidYMid meet">
+                                    <mask id="mask0_965_2471" style="mask-type:alpha" maskUnits="userSpaceOnUse"
+                                        x="0" y="0" width="30" height="30">
+                                        <path
+                                            d="M27.5 12.175L18.5125 11.4L15 3.125L11.4875 11.4125L2.5 12.175L9.325 18.0875L7.275 26.875L15 22.2125L22.725 26.875L20.6875 18.0875L27.5 12.175ZM15 19.875V8.25L17.1375 13.3L22.6125 13.775L18.4625 17.375L19.7125 22.725L15 19.875Z"
+                                            fill="black"></path>
+                                    </mask>
+                                    <g mask="url(#mask0_965_2471)">
+                                        <rect width="15" height="30" fill="#FC7F09"></rect>
+                                        <rect x="15" width="15" height="30" fill="black"
+                                            fill-opacity="0.23"></rect>
+                                    </g>
+                                </svg><svg width="30" height="30" viewBox="0 0 30 30" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="flex-grow-0 flex-shrink-0 w-[30px] h-[30px] relative"
+                                    preserveAspectRatio="xMidYMid meet">
+                                    <path
+                                        d="M27.5 12.175L18.5125 11.4L15 3.125L11.4875 11.4125L2.5 12.175L9.325 18.0875L7.275 26.875L15 22.2125L22.725 26.875L20.6875 18.0875L27.5 12.175ZM15 19.875L10.3 22.7125L11.55 17.3625L7.4 13.7625L12.875 13.2875L15 8.25L17.1375 13.3L22.6125 13.775L18.4625 17.375L19.7125 22.725L15 19.875Z"
+                                        fill="black" fill-opacity="0.23"></path>
+                                </svg><svg width="30" height="30" viewBox="0 0 30 30" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="flex-grow-0 flex-shrink-0 w-[30px] h-[30px] relative"
+                                    preserveAspectRatio="xMidYMid meet">
+                                    <path
+                                        d="M27.5 12.175L18.5125 11.4L15 3.125L11.4875 11.4125L2.5 12.175L9.325 18.0875L7.275 26.875L15 22.2125L22.725 26.875L20.6875 18.0875L27.5 12.175ZM15 19.875L10.3 22.7125L11.55 17.3625L7.4 13.7625L12.875 13.2875L15 8.25L17.1375 13.3L22.6125 13.775L18.4625 17.375L19.7125 22.725L15 19.875Z"
+                                        fill="black" fill-opacity="0.23"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-base font-semibold text-center text-[#343a40] mt-[31px] mb-[16px]">Best choice</p>
+                    <p class="text-sm text-center text-[#343a40]">Top selection of highest rated restaurants</p>
+                </div>
+                <svg width="35" height="9" viewBox="0 0 35 9" fill="none"
+                    xmlns="http://www.w3.org/2000/svg" class="w-[35px] h-[9px]" preserveAspectRatio="none">
+                    <circle cx="4.5" cy="4.5" r="4.5" fill="#E2E2E2"></circle>
+                    <circle cx="17.5" cy="4.5" r="4.5" fill="url(#paint0_linear_682_3184)">
+                    </circle>
+                    <circle cx="30.5" cy="4.5" r="4.5" fill="#E2E2E2"></circle>
+                    <defs>
+                        <linearGradient id="paint0_linear_682_3184" x1="13" y1="0" x2="22"
+                            y2="9" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#52D1ED"></stop>
+                            <stop offset="1" stop-color="#005FA4"></stop>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+            <div class="flex w-full flex-col items-center gap-[16px]">
+                <div class="h-[185px] rounded-2xl bg-white w-full flex flex-col items-center justify-center"
+                    style="box-shadow: 0px 20px 50px 0 rgba(0,0,0,0.1);">
+                    <div class="flex justify-start items-start relative">
+                        <svg width="35" height="35" viewBox="0 0 35 35" fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="flex-grow-0 flex-shrink-0 w-[35px] h-[35px] relative"
+                            preserveAspectRatio="xMidYMid meet">
+                            <path
+                                d="M17.5001 25.9152L26.5126 31.3548L24.1209 21.1027L32.0834 14.2048L21.598 13.3152L17.5001 3.64648L13.4022 13.3152L2.91675 14.2048L10.8792 21.1027L8.48758 31.3548L17.5001 25.9152Z"
+                                fill="black" fill-opacity="0.54"></path>
+                        </svg>
+                    </div>
+                    <p class="text-base font-semibold text-center text-[#343a40] mt-[26px] mb-[16px]">Special benefits
+                    </p>
+                    <p class="text-sm text-center text-[#343a40]">Various offers for many restaurants</p>
+                </div>
+                <svg width="35" height="9" viewBox="0 0 35 9" fill="none"
+                    xmlns="http://www.w3.org/2000/svg" class="w-[35px] h-[9px]" preserveAspectRatio="none">
+                    <circle cx="4.5" cy="4.5" r="4.5" fill="#E2E2E2"></circle>
+                    <circle cx="17.5" cy="4.5" r="4.5" fill="#E2E2E2"></circle>
+                    <circle cx="30.5" cy="4.5" r="4.5" fill="url(#paint0_linear_682_3210)">
+                    </circle>
+                    <defs>
+                        <linearGradient id="paint0_linear_682_3210" x1="26" y1="0" x2="35"
+                            y2="9" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#52D1ED"></stop>
+                            <stop offset="1" stop-color="#005FA4"></stop>
+                        </linearGradient>
+                    </defs>
+                </svg>
             </div>
         </div>
     </div>

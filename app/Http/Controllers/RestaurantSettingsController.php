@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RestaurantSettingsRequest;
+use App\Models\Reservation;
 use App\Models\Restaurant;
 use App\Models\Tag;
 use App\Services\RestaurantService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RestaurantSettingsController extends Controller
 {

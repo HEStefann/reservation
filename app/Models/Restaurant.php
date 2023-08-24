@@ -167,8 +167,14 @@ class Restaurant extends Model
             $data
         );
     }
-    public function favoritedBy() 
+    public function favoritedBy()
     {
         return $this->belongsToMany(User::class, 'user_favorite_restaurants');
+    }
+    public function scopeSearch($query, $term)
+    {
+        $term = strtolower($term);
+        return $query->whereRaw("LOWER(title) LIKE ?", ["%{$term}%"])
+            ->orWhereRaw("LOWER(description) LIKE ?", ["%{$term}%"]);
     }
 }

@@ -12,6 +12,19 @@
 
 <body class="bg-gray-100">
     <style>
+        .hide-scrollbar {
+            /* Hide the scrollbar */
+            scrollbar-width: none;
+            /* Firefox */
+            -ms-overflow-style: none;
+            /* IE and Edge */
+        }
+
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+            /* Chrome, Safari, and Opera */
+        }
+
         #navBarz {
             position: sticky;
             /* Make it stick/fixed */
@@ -83,20 +96,6 @@
                 </div>
                 {{-- End search restaurant --}}
             </div>
-            <style>
-                .hide-scrollbar {
-                    /* Hide the scrollbar */
-                    scrollbar-width: none;
-                    /* Firefox */
-                    -ms-overflow-style: none;
-                    /* IE and Edge */
-                }
-
-                .hide-scrollbar::-webkit-scrollbar {
-                    display: none;
-                    /* Chrome, Safari, and Opera */
-                }
-            </style>
             <div class="flex items-center gap-2 overflow-scroll relative hide-scrollbar">
                 <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg"
                     class="flex-grow-0 flex-shrink-0 w-6 h-6 relative" preserveAspectRatio="none">
@@ -136,13 +135,27 @@
         </div>
     </div>
     {{-- <div class="mx-[26px] mt-[28px]"> --}}
-    <div class="mx-[26px] mt-[308px]">
+    <div class="mx-[26px]">
         <p class="text-lg font-medium text-[#343a40] pb-[11px]">The Best Restaurants in Amsterdam</p>
         <p class="text-xs font-light text-left text-[#6b686b]">78 Restaurants</p>
-        <x-search-restaurant :restaurants="$restaurants" />
+        <div id="restaurants">
+            <x-search-restaurant :restaurants="$restaurants" />
+        </div>
     </div>
     <x-footer />
 
+    <script>
+        var prevScrollpos = window.pageYOffset;
+        window.onscroll = function() {
+            var currentScrollPos = window.pageYOffset;
+            if (prevScrollpos > currentScrollPos) {
+                document.getElementById("navBarz").style.top = "0";
+            } else {
+                document.getElementById("navBarz").style.top = "-240px";
+            }
+            prevScrollpos = currentScrollPos;
+        }
+    </script>
 
 </body>
 

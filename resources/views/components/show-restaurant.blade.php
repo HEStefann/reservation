@@ -63,16 +63,15 @@
             .then(data => {
                 // Get the first result from the response
                 const result = data.results[0];
-
                 // Get the formatted address from the result
                 const formattedAddress = result.formatted_address;
 
-                // Find the element with the restaurant-address class and update its class
-                const restaurantAddressElement = document.querySelector('.restaurant-address-{{ $restaurant->id }}');
-                restaurantAddressElement.classList.add('new-class');
+                // Select all elements with the class name and convert the HTMLCollection to an array
+                const restaurantAddressElements = Array.from(document.getElementsByClassName(
+                    'restaurant-address-{{ $restaurant->id }}'));
+                // Update the inner text of each element with the formatted address using map
+                restaurantAddressElements.map(element => element.innerText = formattedAddress);
 
-                // Update the inner text of the element with the formatted address
-                restaurantAddressElement.innerText = formattedAddress;
             })
             .catch(error => {
                 console.log("Error fetching the Google Maps API:", error);

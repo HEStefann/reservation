@@ -135,7 +135,7 @@
         </div>
     </div>
     {{-- <div class="mx-[26px] mt-[28px]"> --}}
-    <div class="mx-[26px]">
+    <div class="mx-[26px] mt-[28px]">
         <p class="text-lg font-medium text-[#343a40] pb-[11px]">The Best Restaurants in Amsterdam</p>
         <p class="text-xs font-light text-left text-[#6b686b]">78 Restaurants</p>
         <div id="restaurants">

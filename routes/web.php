@@ -1,6 +1,7 @@
 <?php
 // web.php
 
+use App\Http\Controllers\AdminRestaurantController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\RestaurantController;
@@ -111,3 +112,24 @@ Route::get('/testing3/{restaurant}', function ($restaurant) {
     return view('user.restaurant', ['restaurant' => $restaurant]);
 })->name('user.restaurant');
 Route::get('/testing3/{restaurant}', [RestaurantController::class, 'show'])->name('user.restaurant');
+// For admin restaurant controller crud for /restaurant
+// Show all restaurants
+Route::get('/restaurants', [AdminRestaurantController::class, 'index'])->name('admin.restaurants.index');
+
+// Show form to create a new restaurant  
+Route::get('/restaurants/create', [AdminRestaurantController::class, 'create'])->name('admin.restaurants.create');
+
+// Store new restaurant
+Route::post('/restaurants', [AdminRestaurantController::class, 'store'])->name('admin.restaurants.store');
+
+// Show single restaurant
+Route::get('/restaurants/{restaurant}', [AdminRestaurantController::class, 'show'])->name('admin.restaurants.show');
+
+// Show form to edit restaurant
+Route::get('/restaurants/{restaurant}/edit', [AdminRestaurantController::class, 'edit'])->name('admin.restaurants.edit');
+
+// Update restaurant
+Route::put('/restaurants/{restaurant}', [AdminRestaurantController::class, 'update'])->name('admin.restaurants.update');
+
+// Delete restaurant
+Route::delete('/restaurants/{restaurant}', [AdminRestaurantController::class, 'destroy'])->name('admin.restaurants.destroy');

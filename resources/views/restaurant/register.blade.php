@@ -26,6 +26,10 @@
             <x-input-error :messages="$errors->get('address')" class="mt-2" />
         </div>
 
+
+
+
+
         <!-- Available Number of People -->
         <div class="mt-4">
             <x-input-label for="available_people" :value="__('Available Number of People')" />

@@ -172,4 +172,10 @@ class Restaurant extends Model
     {
         return $this->belongsToMany(User::class, 'user_favorite_restaurants');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 }

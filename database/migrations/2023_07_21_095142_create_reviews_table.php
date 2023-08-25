@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('restaurant_id');
             $table->unsignedBigInteger('reservation_id')->nullable();
             $table->unsignedBigInteger('user_id');
-            $table->decimal('rating', 2, 1)->nullable();
+            $table->enum('rating', [1, 2, 3, 4, 5])->nullable();
             $table->text('description')->nullable();
             $table->enum('review_type', ['restaurant', 'reservation']);
             $table->timestamps();

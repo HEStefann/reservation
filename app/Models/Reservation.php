@@ -22,7 +22,8 @@ class Reservation extends Model
         'date',
         'time',
         'number_of_people',
-        'note'
+        'note',
+        'status'
     ];
 
     

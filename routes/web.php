@@ -1,6 +1,9 @@
 <?php
 // web.php
 
+use App\Http\Controllers\AdminReservationController;
+use App\Http\Controllers\AdminRestaurantController;
+use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\RestaurantController;
@@ -78,8 +81,7 @@ Route::middleware(['auth', 'ModeratorOrOwnerRole'])->group(function () {
     Route::get('/dashboard', [ReservationController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
     Route::get('/user/restaurants', [UserController::class, 'index'])->name('restaurants.index');
     Route::get('/history', [ReservationController::class, 'history'])->name('history');
-    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
-    Route::patch('/notifications/{notification}', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+
     Route::get('/reservations/create', [ReservationController::class, 'create'])->name('reservations.create');
     Route::delete('/reservations/{reservation}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
     Route::get('/reservations/{reservation}', [ReservationController::class, 'show'])->name('reservations.show');
@@ -87,6 +89,8 @@ Route::middleware(['auth', 'ModeratorOrOwnerRole'])->group(function () {
     Route::put('/reservations/{reservation}/update2', [ReservationController::class, 'update2'])->name('reservations.update2');
     Route::delete('/reservations/{reservation}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
     Route::put('/reservations/{reservation}/status', [ReservationController::class, 'updateStatus'])->name('reservations.updateStatus');
+    // reservation store
+    // Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
     Route::get('/restaurant/{restaurant}/promotions/create', [PromotionController::class, 'create'])->name('promotions.create');
     Route::post('/restaurant/{restaurant}/promotions', [PromotionController::class, 'store'])->name('promotions.store');
     Route::get('/restaurant/{restaurant}/promotions/{promotion}/edit', [PromotionController::class, 'edit'])->name('promotions.edit');
@@ -94,7 +98,7 @@ Route::middleware(['auth', 'ModeratorOrOwnerRole'])->group(function () {
     Route::delete('/restaurant/{restaurant}/promotions/{promotion}', [PromotionController::class, 'destroy'])->name('promotions.destroy');
 });
 // Ovie ruti se koristeni i od restorani i od korisnici
-Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
+Route::post('/restaurant/reservations/store', [ReservationController::class, 'store'])->name('reservations.store');
 Route::middleware(['auth', 'GuestRole'])->group(function () {
     // Route::get('/testing', [UserController::class, 'index'])->name('user.home');
     Route::get('/restaurant/register', [RestaurantController::class, 'create'])->name('restaurant.register');
@@ -112,7 +116,22 @@ Route::get('/testing3/{restaurant}', function ($restaurant) {
     return view('user.restaurant', ['restaurant' => $restaurant]);
 })->name('user.restaurant');
 Route::get('/testing3/{restaurant}', [RestaurantController::class, 'show'])->name('user.restaurant');
-Route::get('/testing', [UserRestaurantsController::class, 'search'])->name('user.search'); 
-// routes/web.php
-
 Route::get('/search-restaurants', [UserRestaurantsController::class, 'searchRestaurants'])->name('search.restaurants');
+// For admin restaurant controller crud for /restaurant
+Route::get('/restaurants', [AdminRestaurantController::class, 'index'])->name('admin.restaurants.index');
+Route::get('/restaurants/create', [AdminRestaurantController::class, 'create'])->name('admin.restaurants.create');
+Route::post('/restaurants', [AdminRestaurantController::class, 'store'])->name('admin.restaurants.store');
+Route::get('/restaurants/{restaurant}', [AdminRestaurantController::class, 'show'])->name('admin.restaurants.show');
+Route::get('/restaurants/{restaurant}/edit', [AdminRestaurantController::class, 'edit'])->name('admin.restaurants.edit');
+Route::put('/restaurants/{restaurant}', [AdminRestaurantController::class, 'update'])->name('admin.restaurants.update');
+Route::delete('/restaurants/{restaurant}', [AdminRestaurantController::class, 'destroy'])->name('admin.restaurants.destroy');
+Route::get('/reservations', [AdminReservationController::class, 'index'])->name('admin.reservations.index');
+Route::get('/reservations/{reservation}', [AdminReservationController::class, 'show'])->name('admin.reservations.show');
+Route::put('/reservations/{reservation}/update', [AdminReservationController::class, 'update'])->name('admin.reservations.update');
+Route::get('/reservations/{reservation}/edit', [AdminReservationController::class, 'edit'])->name('admin.reservations.edit');
+Route::post('/reservations', [AdminReservationController::class, 'store'])->name('admin.reservations.store');
+Route::delete('/reservations/{reservation}', [AdminReservationController::class, 'destroy'])->name('admin.reservations.destroy');
+Route::put('/reservations/{reservation}', [AdminReservationController::class, 'restore'])->name('admin.reservations.restore');
+Route::get('/users', [AdminUserController::class, 'index'])->name('admin.users.index');
+Route::get('/users/{user}', [AdminUserController::class, 'show'])->name('admin.users.show');
+Route::get('/testing', [UserRestaurantsController::class, 'search'])->name('user.search'); 

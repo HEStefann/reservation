@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserRestaurantsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -115,28 +116,15 @@ Route::get('/testing3/{restaurant}', function ($restaurant) {
     return view('user.restaurant', ['restaurant' => $restaurant]);
 })->name('user.restaurant');
 Route::get('/testing3/{restaurant}', [RestaurantController::class, 'show'])->name('user.restaurant');
+Route::get('/search-restaurants', [UserRestaurantsController::class, 'searchRestaurants'])->name('search.restaurants');
 // For admin restaurant controller crud for /restaurant
-// Show all restaurants
 Route::get('/restaurants', [AdminRestaurantController::class, 'index'])->name('admin.restaurants.index');
-
-// Show form to create a new restaurant  
 Route::get('/restaurants/create', [AdminRestaurantController::class, 'create'])->name('admin.restaurants.create');
-
-// Store new restaurant
 Route::post('/restaurants', [AdminRestaurantController::class, 'store'])->name('admin.restaurants.store');
-
-// Show single restaurant
 Route::get('/restaurants/{restaurant}', [AdminRestaurantController::class, 'show'])->name('admin.restaurants.show');
-
-// Show form to edit restaurant
 Route::get('/restaurants/{restaurant}/edit', [AdminRestaurantController::class, 'edit'])->name('admin.restaurants.edit');
-
-// Update restaurant
 Route::put('/restaurants/{restaurant}', [AdminRestaurantController::class, 'update'])->name('admin.restaurants.update');
-
-// Delete restaurant
 Route::delete('/restaurants/{restaurant}', [AdminRestaurantController::class, 'destroy'])->name('admin.restaurants.destroy');
-
 Route::get('/reservations', [AdminReservationController::class, 'index'])->name('admin.reservations.index');
 Route::get('/reservations/{reservation}', [AdminReservationController::class, 'show'])->name('admin.reservations.show');
 Route::put('/reservations/{reservation}/update', [AdminReservationController::class, 'update'])->name('admin.reservations.update');
@@ -144,7 +132,6 @@ Route::get('/reservations/{reservation}/edit', [AdminReservationController::clas
 Route::post('/reservations', [AdminReservationController::class, 'store'])->name('admin.reservations.store');
 Route::delete('/reservations/{reservation}', [AdminReservationController::class, 'destroy'])->name('admin.reservations.destroy');
 Route::put('/reservations/{reservation}', [AdminReservationController::class, 'restore'])->name('admin.reservations.restore');
-
-// route for admin user view
 Route::get('/users', [AdminUserController::class, 'index'])->name('admin.users.index');
 Route::get('/users/{user}', [AdminUserController::class, 'show'])->name('admin.users.show');
+Route::get('/testing', [UserRestaurantsController::class, 'search'])->name('user.search'); 

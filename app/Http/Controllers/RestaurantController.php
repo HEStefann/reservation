@@ -52,8 +52,6 @@ class RestaurantController extends Controller
             'user_id' => $user->id,
             'restaurant_id' => $restaurant->id,
             'role' => 'owner',
-            'lat' => $request->lat,
-            'lng' => $request->lng
         ]);
 
         // Update user role
@@ -67,17 +65,17 @@ class RestaurantController extends Controller
     {
         $latitude = $request->input('latitude');
         $longitude = $request->input('longitude');
-        
+
         // Calculate the bounding box coordinates for the 2km radius
         $earthRadius = 6371; // Earth's radius in kilometers
         $radius = 2; // Radius in kilometers
-        
+
         $minLatitude = $latitude - ($radius / $earthRadius) * (180 / pi());
         $maxLatitude = $latitude + ($radius / $earthRadius) * (180 / pi());
-        
+
         $minLongitude = $longitude - ($radius / $earthRadius) * (180 / pi()) / cos($latitude * (pi() / 180));
         $maxLongitude = $longitude + ($radius / $earthRadius) * (180 / pi()) / cos($latitude * (pi() / 180));
-        
+
         // Find the nearest restaurants within the bounding box coordinates
         $nearestRestaurants = Restaurant::select('title', 'lat', 'lng')
             ->whereBetween('lat', [$minLatitude, $maxLatitude])

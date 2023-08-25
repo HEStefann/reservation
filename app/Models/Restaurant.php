@@ -24,6 +24,7 @@ class Restaurant extends Model
         'short_description',
         'lat',
         'lng',
+        'address',
     ];
 
     protected $dates = ['deleted_at'];
@@ -171,10 +172,10 @@ class Restaurant extends Model
     {
         return $this->belongsToMany(User::class, 'user_favorite_restaurants');
     }
-    public function scopeSearch($query, $term)
+
+    public function user()
     {
-        $term = strtolower($term);
-        return $query->whereRaw("LOWER(title) LIKE ?", ["%{$term}%"])
-            ->orWhereRaw("LOWER(description) LIKE ?", ["%{$term}%"]);
+        return $this->belongsTo(User::class);
     }
+
 }

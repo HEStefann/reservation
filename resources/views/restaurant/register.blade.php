@@ -18,6 +18,18 @@
             <x-input-error :messages="$errors->get('description')" class="mt-2" />
         </div>
 
+        <!-- address -->
+        <div class="mt-4">
+            <x-input-label for="address" :value="__('address')" />
+            <textarea id="address" class="form-textarea mt-1 block w-full text-black bg-white rounded" name="address"
+                rows="5" required>{{ old('address') }}</textarea>
+            <x-input-error :messages="$errors->get('address')" class="mt-2" />
+        </div>
+
+
+
+
+
         <!-- Available Number of People -->
         <div class="mt-4">
             <x-input-label for="available_people" :value="__('Available Number of People')" />
@@ -72,11 +84,11 @@
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBopOp_b1Mmr-_8iWcxjrNueAKsVgUoIMU&callback=initMap&libraries=places">
     </script>
     <script>
-            function preventFormSubmit(event) {
-        if (event.keyCode === 13) {
-            event.preventDefault();
+        function preventFormSubmit(event) {
+            if (event.keyCode === 13) {
+                event.preventDefault();
+            }
         }
-    }
         let map;
         let marker;
         let autocomplete;
@@ -100,13 +112,13 @@
                 map.setCenter(place.geometry.location);
                 map.setZoom(16); // Adjust the zoom level as needed
                 if (!marker) {
-                marker = new google.maps.Marker({
-                    position: place.geometry.location,
-                    map: map
-                });
-            } else {
-                marker.setPosition(place.geometry.location);
-            }
+                    marker = new google.maps.Marker({
+                        position: place.geometry.location,
+                        map: map
+                    });
+                } else {
+                    marker.setPosition(place.geometry.location);
+                }
             });
         }
 

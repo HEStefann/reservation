@@ -2,15 +2,18 @@
 
 namespace Tests\Unit;
 
-use PHPUnit\Framework\TestCase;
+use App\Models\Restaurant;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
-    /**
-     * A basic test example.
-     */
-    public function test_that_true_is_true(): void
+    use RefreshDatabase;
+
+    public function test_example()
     {
-        $this->assertTrue(true);
+        $user = User::factory()->create(); // Create a User instance
+        $restaurant = Restaurant::factory()->create(); // Create a Restaurant instance
     }
 }

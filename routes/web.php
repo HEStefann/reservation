@@ -134,4 +134,3 @@ Route::delete('/reservations/{reservation}', [AdminReservationController::class,
 Route::put('/reservations/{reservation}', [AdminReservationController::class, 'restore'])->name('admin.reservations.restore');
 Route::get('/users', [AdminUserController::class, 'index'])->name('admin.users.index');
 Route::get('/users/{user}', [AdminUserController::class, 'show'])->name('admin.users.show');
-Route::get('/testing', [UserRestaurantsController::class, 'search'])->name('user.search'); 

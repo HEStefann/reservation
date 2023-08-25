@@ -24,6 +24,7 @@ class Restaurant extends Model
         'short_description',
         'lat',
         'lng',
+        'address',
     ];
 
     protected $dates = ['deleted_at'];
@@ -167,8 +168,14 @@ class Restaurant extends Model
             $data
         );
     }
-    public function favoritedBy() 
+    public function favoritedBy()
     {
         return $this->belongsToMany(User::class, 'user_favorite_restaurants');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 }

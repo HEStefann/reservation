@@ -12,6 +12,19 @@
 
 <body class="bg-gray-100">
     <style>
+        .hide-scrollbar {
+            /* Hide the scrollbar */
+            scrollbar-width: none;
+            /* Firefox */
+            -ms-overflow-style: none;
+            /* IE and Edge */
+        }
+
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+            /* Chrome, Safari, and Opera */
+        }
+
         #navBarz {
             position: sticky;
             /* Make it stick/fixed */
@@ -145,7 +158,7 @@
     </div>
     </div>
     {{-- <div class="mx-[26px] mt-[28px]"> --}}
-    <div class="mx-[26px] mt-[308px]">
+    <div class="mx-[26px] mt-[28px]">
         <p class="text-lg font-medium text-[#343a40] pb-[11px]">The Best Restaurants in Amsterdam</p>
         <p id="restaurantCount" class="text-xs font-light text-left text-[#6b686b]"></p>
         <x-search-restaurant :restaurants="$restaurants" />
@@ -153,6 +166,18 @@
 
     <x-footer />
 
+    <script>
+        var prevScrollpos = window.pageYOffset;
+        window.onscroll = function() {
+            var currentScrollPos = window.pageYOffset;
+            if (prevScrollpos > currentScrollPos) {
+                document.getElementById("navBarz").style.top = "0";
+            } else {
+                document.getElementById("navBarz").style.top = "-240px";
+            }
+            prevScrollpos = currentScrollPos;
+        }
+    </script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const searchInput = document.getElementById("searchRestaurant");

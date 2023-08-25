@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserRestaurantsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -111,3 +112,7 @@ Route::get('/testing3/{restaurant}', function ($restaurant) {
     return view('user.restaurant', ['restaurant' => $restaurant]);
 })->name('user.restaurant');
 Route::get('/testing3/{restaurant}', [RestaurantController::class, 'show'])->name('user.restaurant');
+Route::get('/testing', [UserRestaurantsController::class, 'search'])->name('user.search'); 
+// routes/web.php
+
+Route::get('/search-restaurants', [UserRestaurantsController::class, 'searchRestaurants'])->name('search.restaurants');

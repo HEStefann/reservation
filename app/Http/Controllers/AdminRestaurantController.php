@@ -63,18 +63,10 @@ class AdminRestaurantController extends Controller
      */
     public function update(Request $request, string $id)
     {
-
-        $this->validate($request, [
-            'title' => 'required',
-            'description' => 'required',
-            'rating' => 'required',
-            'available_people' => 'required',
-            // Add validation rules for all fields
-        ]);
-
         $restaurant = Restaurant::findOrFail($id);
 
         $restaurant->update($request->all());
+        return redirect()->back()->with('success', 'Restaurant updated successfully!');
     }
 
     /**
@@ -82,13 +74,10 @@ class AdminRestaurantController extends Controller
      */
     public function destroy(string $id)
     {
-
         $restaurant = Restaurant::findOrFail($id);
 
         $restaurant->delete();
 
-        // reddirec back with success message
         return redirect()->back()->with('success', 'Restaurant deleted successfully!');
-        
     }
 }

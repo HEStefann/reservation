@@ -22,9 +22,19 @@
             <p class="text-xs text-white">
                 Stay Connected
             </p>
-            <p class="text-xs text-white">instagram</p>
-            <p class="text-xs text-white">facebook</p>
-            <p class="text-xs text-white">linkedin</p>
+            <div class="flex gap-[12px]">
+
+            <div class="text-xs text-white w-[12px] h-[12px]">
+                <img class="w-full h-full" src="{{ asset('/images/instagram.png') }}" alt="instagram" />
+            </div>
+            <div class="text-xs text-white w-[12px] h-[12px]">
+                <img class="w-full h-full" src="{{ asset('images/facebook.png') }}" alt="facebook" />
+            </div>
+            <div class="text-xs text-white w-[12px] h-[12px]">
+                <img class="w-full h-full" src="{{ asset('images/linkedin.png') }}" alt="linkedin" />
+            </div>
+        </div>
+
         </div>
     </div>
 

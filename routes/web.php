@@ -1,8 +1,10 @@
 <?php
 // web.php
 
+use App\Http\Controllers\AdminModeratorsController;
 use App\Http\Controllers\AdminReservationController;
 use App\Http\Controllers\AdminRestaurantController;
+use App\Http\Controllers\AdminReviewController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PromotionController;
@@ -134,3 +136,21 @@ Route::delete('/reservations/{reservation}', [AdminReservationController::class,
 Route::put('/reservations/{reservation}', [AdminReservationController::class, 'restore'])->name('admin.reservations.restore');
 Route::get('/users', [AdminUserController::class, 'index'])->name('admin.users.index');
 Route::get('/users/{user}', [AdminUserController::class, 'show'])->name('admin.users.show');
+// admin.reviews.edit and destroy
+Route::get('/reviews', [AdminReviewController::class, 'index'])->name('admin.reviews.index');
+Route::get('/reviews/{review}', [AdminReviewController::class, 'show'])->name('admin.reviews.show');
+Route::get('/reviews/{review}/edit', [AdminReviewController::class, 'edit'])->name('admin.reviews.edit');
+Route::put('/reviews/{review}', [AdminReviewController::class, 'update'])->name('admin.reviews.update');
+Route::delete('/reviews/{review}', [AdminReviewController::class, 'destroy'])->name('admin.reviews.destroy');
+Route::put('/reviews/{review}', [AdminReviewController::class, 'restore'])->name('admin.reviews.restore');
+// admin.moderators.edit
+Route::get('/moderators', [AdminModeratorsController::class, 'index'])->name('admin.moderators.index');
+Route::get('/moderators/{moderator}', [AdminModeratorsController::class, 'show'])->name('admin.moderators.show');
+Route::get('/moderators/create', [AdminModeratorsController::class, 'create'])->name('admin.moderators.create');
+Route::put('/reviews/{review}', [AdminModeratorsController::class, 'edit'])->name('admin.moderators.edit');
+// destroy
+Route::delete('/moderators/{moderator}', [AdminModeratorsController::class, 'destroy'])->name('admin.moderators.destroy');
+// admin.moderators.update
+Route::put('/moderators/{moderator}', [AdminModeratorsController::class, 'update'])->name('admin.moderators.update');
+// admin.moderators.store
+Route::post('/moderators', [AdminModeratorsController::class, 'store'])->name('admin.moderators.store');

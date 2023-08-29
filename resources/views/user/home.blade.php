@@ -12,7 +12,7 @@
 
 <body>
     <x-navbar />
-    <div class="sliki h-[234px] w-full mt-[15px]">
+    <div class="sliki h-[234px] w-full">
         <div class="vrtac inline-flex">
             <img src="{{ asset('/images/carousel-animate.png') }}" alt="carousel" class="carousel-image" />
             <img src="{{ asset('images/gabriel-santos-gNa-eXVr_KQ-unsplash.png') }}" alt="carousel"
@@ -23,9 +23,8 @@
         </div>
     </div>
     <div class="flex justify-center">
-        <p class="w-[55.90%] text-center text-2xl font-medium text-[#343a40]">
-            Seamless dining, reserved by you
-        </p>
+        <div class="w-[218px] text-center text-neutral-700 text-2xl font-medium pt-[10px] pb-[14px]">Seamless dining,
+            reserved by you</div>
     </div>
 
     <style>
@@ -83,8 +82,8 @@
         }
     </style>
 
-    <form action="{{ route('user.restaurantspage') }}" method="GET">
-        <div class="p-[25px] flex flex-col gap-[10px] sticky top-[40px] z-10 bg-white">
+    <form action="{{ route('user.restaurantspage') }}" method="GET" class="sticky top-[45px] z-10">
+        <div class="px-[25px] pb-[24px] mb-[40px] flex flex-col gap-[10px] sticky top-[40px] z-10 bg-white">
             {{-- Search Location --}}
             <div class="flex items-center relative">
                 <svg viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -161,18 +160,29 @@
             /* Chrome, Safari, and Opera */
         }
     </style>
-
-    <div id="image-scroll"
-        class="m-[26px] flex gap-[11px] overflow-x-scroll scrollbar-hide snap-x scroll-smooth snap-mandatory hide-scrollbar">
-        <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
-        <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
-        <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
-        <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
-        <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
-        <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
-        <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
-        <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
-        <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
+    {{-- can you make on this --}}
+    <div class="flex flex-col gap-[18px] items-center">
+        <div id="image-scroll"
+            class="px-[26px] flex gap-[11px] overflow-x-scroll scrollbar-hide snap-x scroll-smooth snap-mandatory hide-scrollbar">
+            <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
+            <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
+            <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
+            <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
+            <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
+            <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
+            <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
+            <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
+            <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
+        </div>
+        <svg width="35" height="9" viewBox="0 0 35 9" fill="none" xmlns="http://www.w3.org/2000/svg"
+            class="w-[35px] h-[9px]" preserveAspectRatio="none">
+            <circle id="circle1" class="dots-promotions" cx="4.5" cy="4.5" r="4.5"
+                fill="#005FA4"></circle>
+            <circle id="circle2" class="dots-promotions" cx="17.5" cy="4.5" r="4.5"
+                fill="#E2E2E2"></circle>
+            <circle id="circle3" class="dots-promotions" cx="30.5" cy="4.5" r="4.5"
+                fill="#E2E2E2"></circle>
+        </svg>
     </div>
     <div class="flex justify-between ml-[26px] mr-[14px] mt-[64px]">
         <div>
@@ -191,7 +201,7 @@
         </div>
     </div>
     <div
-        class="mt-[16px] ml-[26px] flex pb-[64px] gap-[18px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
+        class="pt-[16px] pl-[26px] flex pb-[64px] gap-[18px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
         <x-show-restaurant :restaurants="$restaurants" />
     </div>
     <div class="flex justify-between ml-[26px] mr-[14px]">
@@ -211,7 +221,7 @@
         </div>
     </div>
     <div
-        class="mt-[16px] ml-[26px] flex pb-[64px] gap-[18px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
+        class="pt-[16px] pl-[26px] flex pb-[64px] gap-[18px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
         <x-show-restaurant :restaurants="$restaurants" />
     </div>
     <div class="flex justify-between ml-[26px] mr-[14px]">
@@ -231,14 +241,15 @@
         </div>
     </div>
     <div
-        class="mt-[16px] ml-[26px] flex pb-[64px] gap-[18px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
+        class="pt-[16px] pl-[26px] flex pb-[64px] gap-[18px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
         <x-show-restaurant :restaurants="$restaurants" />
     </div>
-    <p class="text-lg font-medium text-left text-[#343a40] ml-[26px] mb-[16px]">How does it work?</p>
-    <div class="mx-[26px] flex justify-center items-center pb-[64px]">
-        <div class="flex items-center w-full  overflow-x-scroll scrollbar-hide snap-x scroll-smooth snap-mandatory hide-scrollbar bg-red">
-            <div class="flex w-full flex-col items-center gap-[16px]">
-                <div class="h-[185px] rounded-2xl bg-white w-full flex flex-col items-center justify-center"
+    <p class="text-lg font-medium text-left text-[#343a40] ml-[26px]">How does it work?</p>
+    <div class="relative flex justify-center pt-[16px]">
+        <div id="howWorks"
+            class="flex px-[26px] gap-[26px] overflow-x-scroll scrollbar-hide snap-x scroll-smooth snap-mandatory hide-scrollbar pb-[89px]">
+            <div>
+                <div class="h-[185px] w-[338px] rounded-2xl bg-white flex flex-col items-center justify-center snap-center"
                     style="box-shadow: 0px 20px 50px 0 rgba(0,0,0,0.1);">
                     <div class="flex justify-start items-start">
                         <svg width="35" height="35" viewBox="0 0 35 35" fill="none"
@@ -256,23 +267,9 @@
                         Free, express, 24/7
                     </p>
                 </div>
-                <svg width="35" height="9" viewBox="0 0 35 9" fill="none"
-                    xmlns="http://www.w3.org/2000/svg" class="w-[35px] h-[9px]" preserveAspectRatio="none">
-                    <circle cx="4.5" cy="4.5" r="4.5" fill="url(#paint0_linear_682_3171)">
-                    </circle>
-                    <circle cx="17.5" cy="4.5" r="4.5" fill="#E2E2E2"></circle>
-                    <circle cx="30.5" cy="4.5" r="4.5" fill="#E2E2E2"></circle>
-                    <defs>
-                        <linearGradient id="paint0_linear_682_3171" x1="0" y1="0" x2="9"
-                            y2="9" gradientUnits="userSpaceOnUse">
-                            <stop stop-color="#52D1ED"></stop>
-                            <stop offset="1" stop-color="#005FA4"></stop>
-                        </linearGradient>
-                    </defs>
-                </svg>
             </div>
-            <div class="flex w-full flex-col items-center gap-[16px]">
-                <div class="h-[185px] rounded-2xl bg-white w-full flex flex-col items-center justify-center"
+            <div>
+                <div class="h-[185px] w-[338px] rounded-2xl bg-white flex flex-col items-center justify-center snap-center"
                     style="box-shadow: 0px 20px 50px 0 rgba(0,0,0,0.1);">
                     <div class="flex justify-start items-start">
                         <div class="flex justify-start items-start">
@@ -327,23 +324,9 @@
                     <p class="text-base font-semibold text-center text-[#343a40] mt-[31px] mb-[16px]">Best choice</p>
                     <p class="text-sm text-center text-[#343a40]">Top selection of highest rated restaurants</p>
                 </div>
-                <svg width="35" height="9" viewBox="0 0 35 9" fill="none"
-                    xmlns="http://www.w3.org/2000/svg" class="w-[35px] h-[9px]" preserveAspectRatio="none">
-                    <circle cx="4.5" cy="4.5" r="4.5" fill="#E2E2E2"></circle>
-                    <circle cx="17.5" cy="4.5" r="4.5" fill="url(#paint0_linear_682_3184)">
-                    </circle>
-                    <circle cx="30.5" cy="4.5" r="4.5" fill="#E2E2E2"></circle>
-                    <defs>
-                        <linearGradient id="paint0_linear_682_3184" x1="13" y1="0" x2="22"
-                            y2="9" gradientUnits="userSpaceOnUse">
-                            <stop stop-color="#52D1ED"></stop>
-                            <stop offset="1" stop-color="#005FA4"></stop>
-                        </linearGradient>
-                    </defs>
-                </svg>
             </div>
-            <div class="flex w-full flex-col items-center gap-[16px]">
-                <div class="h-[185px] rounded-2xl bg-white w-full flex flex-col items-center justify-center"
+            <div>
+                <div class="h-[185px] w-[338px] rounded-2xl bg-white flex flex-col items-center justify-center snap-center"
                     style="box-shadow: 0px 20px 50px 0 rgba(0,0,0,0.1);">
                     <div class="flex justify-start items-start relative">
                         <svg width="35" height="35" viewBox="0 0 35 35" fill="none"
@@ -359,34 +342,47 @@
                     </p>
                     <p class="text-sm text-center text-[#343a40]">Various offers for many restaurants</p>
                 </div>
-                <svg width="35" height="9" viewBox="0 0 35 9" fill="none"
-                    xmlns="http://www.w3.org/2000/svg" class="w-[35px] h-[9px]" preserveAspectRatio="none">
-                    <circle cx="4.5" cy="4.5" r="4.5" fill="#E2E2E2"></circle>
-                    <circle cx="17.5" cy="4.5" r="4.5" fill="#E2E2E2"></circle>
-                    <circle cx="30.5" cy="4.5" r="4.5" fill="url(#paint0_linear_682_3210)">
-                    </circle>
-                    <defs>
-                        <linearGradient id="paint0_linear_682_3210" x1="26" y1="0" x2="35"
-                            y2="9" gradientUnits="userSpaceOnUse">
-                            <stop stop-color="#52D1ED"></stop>
-                            <stop offset="1" stop-color="#005FA4"></stop>
-                        </linearGradient>
-                    </defs>
-                </svg>
             </div>
         </div>
+        <svg width="35" height="9" viewBox="0 0 35 9" fill="none" xmlns="http://www.w3.org/2000/svg"
+            class="w-[35px] h-[9px] absolute bottom-[64px]" preserveAspectRatio="none">
+            <circle class="indicator" cx="4.50012" cy="4.5" r="4.5"
+                fill="url(#paint0_linear_1107_8696)"></circle>
+            <circle class="indicator" cx="17.5001" cy="4.5" r="4.5"
+                fill="#E2E2E2"></circle>
+            <circle class="indicator" cx="30.5001" cy="4.5" r="4.5"
+                fill="#E2E2E2"></circle>
+            <defs>
+                <linearGradient id="paint0_linear_1107_8696" x1="0.00012207" y1="0" x2="9.00012"
+                    y2="9" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#52D1ED"></stop>
+                    <stop offset="1" stop-color="#005FA4"></stop>
+                </linearGradient>
+                <linearGradient id="paint1_linear_1107_8697" x1="13.0001" y1="0" x2="22.0001"
+                    y2="9" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#52D1ED"></stop>
+                    <stop offset="1" stop-color="#005FA4"></stop>
+                </linearGradient>
+                <linearGradient id="paint2_linear_1107_8698" x1="26.0001" y1="0" x2="35.0001"
+                    y2="9" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#52D1ED"></stop>
+                    <stop offset="1" stop-color="#005FA4"></stop>
+                </linearGradient>
+            </defs>
+        </svg>
     </div>
-    <p class="text-lg font-medium text-left text-[#343a40] ml-[26px] mb-[16px]">Are you a restauranter?</p>
+
+    <p class="text-lg font-medium text-left text-[#343a40] ml-[26px] mb-[26px]">Are you a restauranter?</p>
     <div class="mx-[26px] flex flex-col justify-center items-center">
         <div class="h-[103px] w-full">
             <img src="{{ asset('images\Rectangle 395.png') }}" class="w-full h-full object-cover" alt="">
         </div>
-        <p class="text-xs font-light text-[#343a40] mt-[16px]">
+        <p class="text-xs font-light text-[#343a40] my-[16px]">
             We'll help you manage your guests with our easy-to-use restaurant booking software.
             <br>
             Partner with us or log in to start managing your clients.
         </p>
-        <div class="flex justify-between w-full mt-[16px]">
+        <div class="flex justify-between w-full">
             <button
                 class="w-[143px] h-8 rounded-[10px] bg-[#005fa4] text-xs font-medium text-center text-white">Partner
                 with us</button>
@@ -408,7 +404,49 @@
             document.getElementById("searchRestaurant").value = "";
         });
         // Set scroll position on load
-        document.getElementById('image-scroll').scrollLeft = 0;
+        const imageScroll = document.getElementById('image-scroll');
+        document.addEventListener('DOMContentLoaded', () => {
+            imageScroll.scrollLeft = 0;
+        })
+        const circle1 = document.getElementById('circle1');
+        const circle2 = document.getElementById('circle2');
+        const circle3 = document.getElementById('circle3');
+
+        imageScroll.addEventListener('scroll', () => {
+            const scrollLeft = imageScroll.scrollLeft;
+            const imageWidth = imageScroll.clientWidth;
+            const imageIndex = Math.round(scrollLeft / imageWidth);
+            const totalImages = Math.ceil(imageScroll.scrollWidth / imageWidth);
+
+            circle1.setAttribute('fill', imageIndex === 0 ? '#005FA4' : '#E2E2E2');
+            circle2.setAttribute('fill', imageIndex > 0 && imageIndex < totalImages - 1 ? '#005FA4' : '#E2E2E2');
+            circle3.setAttribute('fill', imageIndex === totalImages - 1 ? '#005FA4' : '#E2E2E2');
+        });
+        const howWorksDiv = document.getElementById("howWorks");
+        // const circles = document.querySelectorAll("svg circle .indicator");
+        const circles = document.querySelectorAll(".indicator");
+        const svg = document.querySelector(".dotIndicator");
+
+        const gradientUrls = [
+            "url(#paint0_linear_1107_8696)",
+            "url(#paint1_linear_1107_8697)",
+            "url(#paint2_linear_1107_8698)"
+        ];
+
+        howWorksDiv.addEventListener("scroll", () => {
+            const scrollLeft = howWorksDiv.scrollLeft;
+            const divWidth = howWorksDiv.offsetWidth;
+            const totalDivs = document.querySelectorAll(".div").length;
+            const currentDiv = Math.floor((scrollLeft + divWidth / 2) / divWidth);
+
+            circles.forEach((circle, index) => {
+                if (index === currentDiv) {
+                    circle.setAttribute("fill", gradientUrls[index]);
+                } else {
+                    circle.setAttribute("fill", "#E2E2E2");
+                }
+            });
+        });
     </script>
 </body>
 

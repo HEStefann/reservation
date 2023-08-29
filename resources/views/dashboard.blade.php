@@ -67,11 +67,13 @@
             <ul class="space-y-2 font-medium">
                 <h3 class="font-medium text-lg text-gray-500 mb-2 px-3">Select a Restaurant:</h3>
                 <select class="form-select mt-1 block w-full" id="restaurantSelect" onchange="updateReservations()">
-                    @foreach ($restaurants as $restaurant)
+                    @foreach ($user->restaurants as $restaurant)
                         <option value="{{ $restaurant->id }}" {{ $restaurantId == $restaurant->id ? 'selected' : '' }}>
                             {{ $restaurant->title }}
                         </option>
                     @endforeach
+                </select>
+                
                 </select>
                 <li>
                     <a href="#"

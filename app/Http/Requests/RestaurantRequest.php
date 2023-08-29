@@ -33,7 +33,8 @@ class RestaurantRequest extends FormRequest
             'tags' => 'nullable|array',
             'lat' => 'required|numeric',
             'address' => 'required|string',
-            'lng' => 'required|numeric'
+            'lng' => 'required|numeric',
+            'user_id'=> 'required'
         ];
     }
 }

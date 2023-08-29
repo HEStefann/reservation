@@ -19,22 +19,24 @@ class ReservationController extends Controller
         return view('restaurant.reservation', compact('restaurants'));
     }
 
-    public function getAvailableSeats($date)
-    {
-        $restaurant = Restaurant::find($restaurantId);
-        $reservations = $restaurant->reservations()->whereDate('reservation_date', $date)->get();
+    public function getAvailableSeats($restaurantId, $date)
+{
+    $restaurant = Restaurant::find($restaurantId);
+    $reservations = $restaurant->reservations()->whereDate('reservation_date', $date)->get();
 
-        $reservedCount = $reservations->sum('reserved_people');
-        $availableCount = $restaurant->capacity - $reservedCount;
+    $reservedCount = $reservations->sum('reserved_people');
+    $availableCount = $restaurant->capacity - $reservedCount;
 
-        return response()->json([
-            'reservedCount' => $reservedCount,
-            'availableCount' => $availableCount
-        ]);
-    }
+    return response()->json([
+        'reservedCount' => $reservedCount,
+        'availableCount' => $availableCount
+    ]);
+}
+
 
     public function index()
     {
+        $user = Auth::user(); // Get the currently logged-in user
         $reservations = Reservation::all();
         $restaurants = Restaurant::all();
         $restaurantId = $restaurants->first()->id;
@@ -48,7 +50,7 @@ class ReservationController extends Controller
 
         // Calculate the number of available seats for the specific restaurant
         $availableSeats = $availableCount - $reservedCount;
-        return view('dashboard', compact('reservations', 'restaurants', 'restaurantId', 'reservedCount', 'availableCount', 'availableSeats'));
+        return view('dashboard', compact('reservations', 'restaurants', 'restaurantId', 'reservedCount', 'availableCount', 'availableSeats' , 'user'));
     }
 
     public function edit(Request $request, $id)

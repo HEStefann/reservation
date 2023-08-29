@@ -2,6 +2,9 @@
     <form method="POST" action="{{ route('restaurant.register') }}">
         @csrf
 
+        <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+
+
         <!-- Title -->
         <div>
             <x-input-label for="title" :value="__('Title')" />

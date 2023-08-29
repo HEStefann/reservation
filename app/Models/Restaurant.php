@@ -25,6 +25,7 @@ class Restaurant extends Model
         'lat',
         'lng',
         'address',
+        'user_id'
     ];
 
     protected $dates = ['deleted_at'];

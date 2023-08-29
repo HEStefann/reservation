@@ -15,4 +15,9 @@ class Tag extends Model
     {
         return $this->belongsToMany(Restaurant::class, 'restaurant_tags');
     }
+    // restaurant
+    public function restaurant()
+    {
+        return $this->belongsToMany(Restaurant::class, 'restaurant_tags');
+    }
 }

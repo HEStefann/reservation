@@ -154,3 +154,16 @@ Route::delete('/moderators/{moderator}', [AdminModeratorsController::class, 'des
 Route::put('/moderators/{moderator}', [AdminModeratorsController::class, 'update'])->name('admin.moderators.update');
 // admin.moderators.store
 Route::post('/moderators', [AdminModeratorsController::class, 'store'])->name('admin.moderators.store');
+
+
+
+// ova e napraena po dizajn user register
+Route::get('/registerviewuser', function () {
+    return view('register');
+});
+
+
+// ova e napraena po dizajn user register
+Route::get('/loginviewuser', function () {
+    return view('login');
+});

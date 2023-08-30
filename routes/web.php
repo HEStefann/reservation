@@ -167,3 +167,15 @@ Route::get('/registerviewuser', function () {
 Route::get('/loginviewuser', function () {
     return view('login');
 });
+
+
+// ova e napraven dizajn za restaurant login
+Route::get('/loginviewrestaurant', function () {
+    return view('restaurant.loginpage');
+});
+
+
+// ova e napraven dizajn za user profile
+Route::get('/userprofile', function () {
+    return view('userprofile');
+});

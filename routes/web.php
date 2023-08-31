@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserReservationController;
 use App\Http\Controllers\UserRestaurantsController;
 
 /*
@@ -119,7 +120,6 @@ Route::get('/testing3/{restaurant}', function ($restaurant) {
 })->name('user.restaurant');
 Route::get('/testing3/{restaurant}', [RestaurantController::class, 'show'])->name('user.restaurant');
 Route::get('/search-restaurants', [UserRestaurantsController::class, 'searchRestaurants'])->name('search.restaurants');
-// For admin restaurant controller crud for /restaurant
 Route::get('/restaurants', [AdminRestaurantController::class, 'index'])->name('admin.restaurants.index');
 Route::get('/restaurants/create', [AdminRestaurantController::class, 'create'])->name('admin.restaurants.create');
 Route::post('/restaurants', [AdminRestaurantController::class, 'store'])->name('admin.restaurants.store');
@@ -136,27 +136,19 @@ Route::delete('/reservations/{reservation}', [AdminReservationController::class,
 Route::put('/reservations/{reservation}', [AdminReservationController::class, 'restore'])->name('admin.reservations.restore');
 Route::get('/users', [AdminUserController::class, 'index'])->name('admin.users.index');
 Route::get('/users/{user}', [AdminUserController::class, 'show'])->name('admin.users.show');
-// admin.reviews.edit and destroy
 Route::get('/reviews', [AdminReviewController::class, 'index'])->name('admin.reviews.index');
 Route::get('/reviews/{review}', [AdminReviewController::class, 'show'])->name('admin.reviews.show');
 Route::get('/reviews/{review}/edit', [AdminReviewController::class, 'edit'])->name('admin.reviews.edit');
 Route::put('/reviews/{review}', [AdminReviewController::class, 'update'])->name('admin.reviews.update');
 Route::delete('/reviews/{review}', [AdminReviewController::class, 'destroy'])->name('admin.reviews.destroy');
 Route::put('/reviews/{review}', [AdminReviewController::class, 'restore'])->name('admin.reviews.restore');
-// admin.moderators.edit
 Route::get('/moderators', [AdminModeratorsController::class, 'index'])->name('admin.moderators.index');
 Route::get('/moderators/{moderator}', [AdminModeratorsController::class, 'show'])->name('admin.moderators.show');
 Route::get('/moderators/create', [AdminModeratorsController::class, 'create'])->name('admin.moderators.create');
 Route::put('/reviews/{review}', [AdminModeratorsController::class, 'edit'])->name('admin.moderators.edit');
-// destroy
 Route::delete('/moderators/{moderator}', [AdminModeratorsController::class, 'destroy'])->name('admin.moderators.destroy');
-// admin.moderators.update
 Route::put('/moderators/{moderator}', [AdminModeratorsController::class, 'update'])->name('admin.moderators.update');
-// admin.moderators.store
 Route::post('/moderators', [AdminModeratorsController::class, 'store'])->name('admin.moderators.store');
-
-
-
 // ova e napraena po dizajn user register
 Route::get('/registerviewuser', function () {
     return view('register');
@@ -179,3 +171,4 @@ Route::get('/loginviewrestaurant', function () {
 Route::get('/userprofile', function () {
     return view('userprofile');
 });
+Route::get('/reservation', [UserReservationController::class, 'index'])->name('reservation.index');

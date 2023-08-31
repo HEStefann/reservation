@@ -24,14 +24,14 @@ class UserController extends Controller
         // Fetch promotions (you might want to adjust this query based on your logic)
         $promotions = Promotion::all();
 
-        return view('user.home', [
+        return view('user.index', [
             'restaurants' => $restaurants,
             'search' => $search,
             'promotions' => $promotions,
         ]);
     }
 
-    public function page2(Request $request)
+    public function search(Request $request)
     {
         $searchTerm = $request->input('searchRestaurant');
 

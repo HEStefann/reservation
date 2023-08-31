@@ -31,22 +31,21 @@ use App\Http\Controllers\UserRestaurantsController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/', [UserController::class, 'index'])->name('user.home');
+Route::get('/search', [UserController::class, 'search'])->name('user.restaurantspage');
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Route::get('/dashboard', [RestaurantController::class, 'dashboard'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+// Route::middleware('auth')->group(function () {
+//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// });
 
-require __DIR__ . '/auth.php';
+// require __DIR__ . '/auth.php';
 
 Route::middleware(['auth', 'ModeratorOrOwnerRole'])->group(function () {
     Route::get('/restaurant/register', [RestaurantController::class, 'create'])->name('restaurant.register');
@@ -113,8 +112,6 @@ Route::post('/user/favorite/{restaurant}', [UserController::class, 'favorite'])-
 Route::get('/reservations', [ReservationController::class, 'userReservations'])->name('reservations.index');
 Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
-Route::get('/testing', [UserController::class, 'index'])->name('user.home');
-Route::get('/testing2', [UserController::class, 'page2'])->name('user.restaurantspage');
 Route::get('/testing3/{restaurant}', function ($restaurant) {
     return view('user.restaurant', ['restaurant' => $restaurant]);
 })->name('user.restaurant');
@@ -156,9 +153,9 @@ Route::get('/registerviewuser', function () {
 
 
 // ova e napraena po dizajn user register
-Route::get('/loginviewuser', function () {
+Route::get('/login', function () {
     return view('login');
-});
+})->name('login');
 
 
 // ova e napraven dizajn za restaurant login
@@ -170,5 +167,5 @@ Route::get('/loginviewrestaurant', function () {
 // ova e napraven dizajn za user profile
 Route::get('/userprofile', function () {
     return view('userprofile');
-});
+})->name('userprofile');
 Route::get('/reservation', [UserReservationController::class, 'index'])->name('reservation.index');

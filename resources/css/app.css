@@ -5,4 +5,23 @@
 
 body {
     font-family: 'Montserrat', sans-serif;
+    background-color: #ffffff;
+}
+
+.hide-scrollbar {
+    /* Hide the scrollbar */
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari, and Opera */
+}
+
+#navBar {
+    transition: top 0.3s;
+    /* Transition effect when sliding down (and up) */
 }

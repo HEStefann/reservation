@@ -58,8 +58,8 @@
         <div class="flex justify-between items-center">
             <a href="#" class="text-xs text-left text-black" onclick="changeStyle(this)">About</a>
             <a href="#menuSection" class="text-xs text-left text-black" onclick="changeStyle(this)">Menu</a>
-            <a href="#ReviewsTab" class="text-xs text-left text-black" onclick="changeStyle(this)">Reviews</a>
-            <a href="#" class="text-xs text-left text-black" onclick="changeStyle(this)">Contact</a>
+            <a href="#reviewsSection" class="text-xs text-left text-black" onclick="changeStyle(this)">Reviews</a>
+            <a href="#contactSection" class="text-xs text-left text-black" onclick="changeStyle(this)">Contact</a>
         </div>
         <div class="mt-[26px]">
             <p class="text-[28px] font-medium text-left text-[#343a40]">{{ $restaurant->title }}</p>
@@ -134,7 +134,7 @@
             </div>
         </div>
     </div>
-    <div class="mx-[26px] mb-[24px]">
+    <div id="menuSection" class="mx-[26px] mb-[24px] scroll-mt-[46px]">
         <svg width="340" height="2" viewBox="0 0 340 2" fill="none" xmlns="http://www.w3.org/2000/svg"
             preserveAspectRatio="none">
             <path d="M1 1H339" stroke="#6B686B" stroke-opacity="0.5" stroke-linecap="round"></path>
@@ -186,7 +186,7 @@
             <p class="text-xs font-medium text-left text-white">See full menu</p>
         </button>
     </div>
-    <div class="mx-[26px] mb-[24px]">
+    <div id="reviewsSection" class="mx-[26px] mb-[24px] scroll-mt-[46px]">
         <svg width="340" height="2" viewBox="0 0 340 2" fill="none" xmlns="http://www.w3.org/2000/svg"
             preserveAspectRatio="none">
             <path d="M1 1H339" stroke="#6B686B" stroke-opacity="0.5" stroke-linecap="round"></path>
@@ -284,7 +284,7 @@
 
         </div>
     </div>
-    <div class="mx-[26px] mb-[24px]">
+    <div id="contactSection" class="mx-[26px] mb-[24px] scroll-mt-[46px]">
         <svg width="340" height="2" viewBox="0 0 340 2" fill="none" xmlns="http://www.w3.org/2000/svg"
             preserveAspectRatio="none">
             <path d="M1 1H339" stroke="#6B686B" stroke-opacity="0.5" stroke-linecap="round"></path>
@@ -344,6 +344,7 @@
         </div>
     </div>
     <div class="mb-[73px]">
+        <a href="{{ route('reservation.index') }}">
         <div
             class="flex justify-center items-center h-10 relative overflow-hidden gap-2.5 mx-6 py-2.5 rounded-[10px]"
             style="background: linear-gradient(143.6deg, #52d1ed -56.3%, #0f92cf 26.17%, #005fa4 83.39%);">
@@ -351,6 +352,8 @@
                 Reserve a table
             </p>
         </div>
+    </a>
+
     </div>
     <style>
         /* The Modal (background) */

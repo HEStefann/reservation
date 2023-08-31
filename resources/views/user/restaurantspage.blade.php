@@ -1,7 +1,7 @@
 @extends('layouts.user')
 @section('title', 'RevelApps')
 @section('content')
-    <div class="px-[26px] mt-[24.5px]">
+    <div id="searchBar" class="px-[26px] z-10 sticky bg-white top-[46pxs] pb-[23px]">
         <form action="{{ route('user.restaurantspage') }}" method="GET">
             <div class="mt-[15px] mb-[20px] flex flex-col gap-[10px]">
                 {{-- Search Location --}}
@@ -62,12 +62,10 @@
             </div>
         </div>
     </div>
-    <div class="mx-[26px] mt-[14px]">
+    <div class="mx-[26px]">
         <p class="text-lg font-medium text-[#343a40] pb-[11px]">The Best Restaurants in Amsterdam</p>
         <p id="restaurantCount" class="text-xs font-light text-left text-[#6b686b]"></p>
-        @for ($i = 0; $i < 15; $i++)
             <x-search-restaurant :restaurants="$restaurants" />
-        @endfor
     </div>
 
     <script>
@@ -75,9 +73,11 @@
         window.onscroll = function() {
             var currentScrollPos = window.pageYOffset;
             if (prevScrollpos > currentScrollPos) {
-                document.getElementById("navBarz").style.top = "0";
+                document.getElementById("navBar").style.top = "0";
+                document.getElementById("searchBar").style.top = "46px";
             } else {
-                document.getElementById("navBarz").style.top = "-240px";
+                document.getElementById("navBar").style.top = "-240px";
+                document.getElementById("searchBar").style.top = "-240px";
             }
             prevScrollpos = currentScrollPos;
         }

@@ -1,5 +1,5 @@
 <div id="navBar"
-    class="flex content-center items-center justify-between w-full top-0 bg-white sticky z-10 px-[26px] mb-[14px]">
+    class="flex content-center items-center justify-between w-full top-0 bg-white sticky z-20 px-[26px] mb-[14px]">
     <a href="{{ url()->previous() }}" class="{{ url()->previous() == '/' ? 'hidden' : '' }}">
         <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg"
             class="flex-grow-0 flex-shrink-0 w-6 h-6" preserveAspectRatio="none">

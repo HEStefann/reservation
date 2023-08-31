@@ -46,16 +46,17 @@ class UserController extends Controller
 
     public function favorite(Restaurant $restaurant)
     {
-        // Get the authenticated user
+        // get user
         $user = Auth::user();
 
         // Check if the user has already favorited the restaurant
-        if ($user->favorites()->where('restaurant_id', $restaurant->id)->exists()) {
+        if ($user->isFavorite($restaurant)) {
             // Remove the restaurant from the user's favorites
-            $user->favorites()->detach($restaurant->id);
+            $user->unfavorite($restaurant);
         } else {
             // Add the restaurant to the user's favorites
-            $user->favorites()->attach($restaurant->id);
+            $user->favorite($restaurant);
+            
         }
 
         return redirect()->back();

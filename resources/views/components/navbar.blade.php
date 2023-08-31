@@ -1,6 +1,5 @@
-<div class="flex content-center items-center justify-between top-0 bg-white sticky z-10 px-[26px] mb-[14px]">
-    {{-- on click redirect back but if it is on /testing then hide element--}}
-    
+<div id="navBar"
+    class="flex content-center items-center justify-between w-full top-0 bg-white sticky z-20 px-[26px] mb-[14px]">
     <a href="{{ url()->previous() }}" class="{{ url()->previous() == '/' ? 'hidden' : '' }}">
         <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg"
             class="flex-grow-0 flex-shrink-0 w-6 h-6" preserveAspectRatio="none">
@@ -59,11 +58,14 @@
             d="M62.197 24.0519C62.672 25.456 63.4636 27.5169 63.9385 28.6493L64.8206 30.6875H66.0419H67.2632L68.1453 28.6493C68.6203 27.5169 69.4119 25.456 69.8868 24.0519L70.7689 21.5154H69.4571H68.1227L67.1502 24.5728C66.63 26.2486 66.1324 27.5622 66.0419 27.5169C65.9515 27.4716 65.4765 26.0901 65.0015 24.4595L64.1195 21.5154H62.7172H61.3149L62.197 24.0519Z"
             fill="#00487C"></path>
     </svg>
-    <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg"
-        class="flex-grow-0 flex-shrink-0 w-6 h-6 relative" preserveAspectRatio="xMidYMid meet">
-        <path
-            d="M19.6515 21.1659C20.2043 21.0507 20.5336 20.4722 20.2589 19.9788C19.6533 18.8912 18.6993 17.9354 17.4788 17.207C15.907 16.269 13.9812 15.7605 12 15.7605C10.0188 15.7605 8.09292 16.269 6.52112 17.207C5.30069 17.9354 4.34666 18.8912 3.74108 19.9788C3.46638 20.4722 3.79562 21.0507 4.34843 21.1659C9.39524 22.2177 14.6047 22.2177 19.6515 21.1659Z"
-            fill="#343A40"></path>
-        <circle cx="12" cy="8.7605" r="5" fill="#343A40"></circle>
-    </svg>
+    {{-- if user is loged in go to route userprofile else route login --}}
+    <a href="{{ Auth::check() ? route('user.profile') : route('login') }}">
+        <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg"
+            class="flex-grow-0 flex-shrink-0 w-6 h-6 relative" preserveAspectRatio="xMidYMid meet">
+            <path
+                d="M19.6515 21.1659C20.2043 21.0507 20.5336 20.4722 20.2589 19.9788C19.6533 18.8912 18.6993 17.9354 17.4788 17.207C15.907 16.269 13.9812 15.7605 12 15.7605C10.0188 15.7605 8.09292 16.269 6.52112 17.207C5.30069 17.9354 4.34666 18.8912 3.74108 19.9788C3.46638 20.4722 3.79562 21.0507 4.34843 21.1659C9.39524 22.2177 14.6047 22.2177 19.6515 21.1659Z"
+                fill="#343A40"></path>
+            <circle cx="12" cy="8.7605" r="5" fill="#343A40"></circle>
+        </svg>
+    </a>
 </div>

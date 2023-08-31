@@ -254,7 +254,7 @@
             const daysInMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
 
             let calendarHTML = `
-        <div class="grid justify-items-center grid-cols-7 gap-4 text-[#6b686b] uppercase text-[10px]">
+        <div class="grid justify-items-center grid-cols-7 gap-[8px] text-[#6b686b] uppercase text-[10px]">
             <div>Sun</div>
             <div>Mon</div>
             <div>Tue</div>
@@ -263,7 +263,7 @@
             <div>Fri</div>
             <div>Sat</div>
         </div>
-        <div class="grid justify-items-center grid-cols-7 gap-4">
+        <div class="grid justify-items-center grid-cols-7 gap-[8px]">
     `;
 
             for (let i = 0; i < startDay; i++) {

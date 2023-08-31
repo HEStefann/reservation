@@ -149,4 +149,26 @@ Route::put('/reviews/{review}', [AdminModeratorsController::class, 'edit'])->nam
 Route::delete('/moderators/{moderator}', [AdminModeratorsController::class, 'destroy'])->name('admin.moderators.destroy');
 Route::put('/moderators/{moderator}', [AdminModeratorsController::class, 'update'])->name('admin.moderators.update');
 Route::post('/moderators', [AdminModeratorsController::class, 'store'])->name('admin.moderators.store');
+// ova e napraena po dizajn user register
+Route::get('/registerviewuser', function () {
+    return view('register');
+});
+
+
+// ova e napraena po dizajn user register
+Route::get('/loginviewuser', function () {
+    return view('login');
+});
+
+
+// ova e napraven dizajn za restaurant login
+Route::get('/loginviewrestaurant', function () {
+    return view('restaurant.loginpage');
+});
+
+
+// ova e napraven dizajn za user profile
+Route::get('/userprofile', function () {
+    return view('userprofile');
+});
 Route::get('/reservation', [UserReservationController::class, 'index'])->name('reservation.index');

@@ -201,7 +201,7 @@
         </div>
     </div>
     <div
-        class="pt-[16px] pl-[26px] flex pb-[64px] gap-[18px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
+        class="pt-[16px] px-[26px] flex pb-[64px] gap-[18px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
         <x-show-restaurant :restaurants="$restaurants" />
     </div>
     <div class="flex justify-between ml-[26px] mr-[14px]">
@@ -221,7 +221,7 @@
         </div>
     </div>
     <div
-        class="pt-[16px] pl-[26px] flex pb-[64px] gap-[18px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
+        class="pt-[16px] px-[26px] flex pb-[64px] gap-[18px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
         <x-show-restaurant :restaurants="$restaurants" />
     </div>
     <div class="flex justify-between ml-[26px] mr-[14px]">
@@ -241,7 +241,7 @@
         </div>
     </div>
     <div
-        class="pt-[16px] pl-[26px] flex pb-[64px] gap-[18px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
+        class="pt-[16px] px-[26px] flex pb-[64px] gap-[18px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
         <x-show-restaurant :restaurants="$restaurants" />
     </div>
     <p class="text-lg font-medium text-left text-[#343a40] ml-[26px]">How does it work?</p>

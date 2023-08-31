@@ -36,9 +36,9 @@
             /* Transition effect when sliding down (and up) */
         }
     </style>
-    <div id="navBarz" class="bg-white pb-[22px] z-10">
+    <div id="navBarz" class="bg-white pb-[23px] z-10">
         <x-navbar />
-        <div class="px-[26px] ">
+        <div class="px-[26px] mt-[24.5px]">
             <form action="{{ route('user.restaurantspage') }}" method="GET">
                 <div class="mt-[15px] mb-[20px] flex flex-col gap-[10px]">
                     {{-- Search Location --}}
@@ -54,7 +54,7 @@
                         </svg>
                         <input id="searchLocation" type="text"
                             class="w-full pl-[52px] h-12 rounded-[10px] bg-white border border-[#6b686b]"
-                            placeholder="3583 RJ Utrecht, Neth...">
+                            placeholder="Amsterdam, Neth...">
                         <svg id="clearLocationButton" width="17" height="14" viewBox="0 0 17 14" fill="none"
                             xmlns="http://www.w3.org/2000/svg"
                             class="w-[14.57px] h-[12.02px] absolute mr-[18px] right-0"
@@ -65,7 +65,7 @@
                     </div>
                     {{-- End search location --}}
                     {{-- Search restaurant --}}
-                    <div class="flex items-center relative">
+                    {{-- <div class="flex items-center relative">
                         <svg viewBox="0 0 29 23" fill="none" xmlns="http://www.w3.org/2000/svg"
                             class="w-[23.31px] h-6 absolute ml-[14px]" preserveAspectRatio="xMidYMid meet">
                             <g clip-path="url(#clip0_693_3130)">
@@ -96,12 +96,7 @@
                             <path d="M1.22168 0.941406L15.7929 12.9588" stroke="#343A40"></path>
                             <path d="M15.793 0.941406L1.22176 12.9588" stroke="#343A40"></path>
                         </svg>
-                    </div>
-                    <button type="submit"
-                        class="hidden justify-center items-center self-stretch flex-grow-0 flex-shrink-0 h-[42px] relative gap-2.5 px-4 py-3.5 rounded-[10px]"
-                        style="background: linear-gradient(132.41deg, #00487c 3.7%, #005fa4 97.14%);">
-                        <p class="flex-grow-0 flex-shrink-0 text-lg font-medium text-center text-white">Search</p>
-                    </button>
+                    </div> --}}
                     {{-- End search restaurant --}}
             </form>
         </div>
@@ -157,8 +152,7 @@
         </div>
     </div>
     </div>
-    {{-- <div class="mx-[26px] mt-[28px]"> --}}
-    <div class="mx-[26px] mt-[28px]">
+    <div class="mx-[26px] mt-[14px]">
         <p class="text-lg font-medium text-[#343a40] pb-[11px]">The Best Restaurants in Amsterdam</p>
         <p id="restaurantCount" class="text-xs font-light text-left text-[#6b686b]"></p>
         <x-search-restaurant :restaurants="$restaurants" />

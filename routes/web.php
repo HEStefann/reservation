@@ -172,3 +172,25 @@ Route::get('/userprofile', function () {
     return view('userprofile');
 });
 Route::get('/reservation', [UserReservationController::class, 'index'])->name('reservation.index');
+
+
+// ova e napraven dizajn za forgot password
+Route::get('/forgotpassword', function () {
+    return view('forgotpassword');
+});
+
+// ova e napraven dizajn za reset password
+Route::get('/resetpassword', function () {
+    return view('resetpassword');
+});
+
+// ova e narpaven dizajn za edit personal info
+
+Route::get('/editpersonalinfo', function () {
+    return view('editpersonalinfo');
+})->name('editpersonalinfo');
+
+// ova e napraven dizajn za user favourites
+Route::get('/userfavourites', function () {
+    return view('userfavourites');
+})->name('userfavourites');

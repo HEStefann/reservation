@@ -58,7 +58,7 @@
                 <div class="mx-[16px] flex">
                     <p class="text-[15px] text-[#343a40]">Personal information</p>
                 </div>
-                <a href="" class="ml-auto">
+                <a href="{{ route('editpersonalinfo') }}" class="ml-auto">
                     <svg width="10" height="21" viewBox="0 0 10 21" fill="none"
                         xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
                         <path d="M1.13281 1L9.32414 10.5L1.13281 20" stroke="#FC7F09"></path>
@@ -127,7 +127,7 @@
                 <div class="mx-[16px] flex">
                     <p class="text-[15px] text-[#343a40]">Favourites</p>
                 </div>
-                <a href="" class="ml-auto">
+                <a href="{{ route('userfavourites') }}" class="ml-auto">
                     <svg width="10" height="21" viewBox="0 0 10 21" fill="none"
                         xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
                         <path d="M1.13281 1L9.32414 10.5L1.13281 20" stroke="#FC7F09"></path>
@@ -137,7 +137,7 @@
         </div>
     </div>
 
-    <div class="mx-[26px] mt-[48.4px]">
+    {{-- <div class="mx-[26px] mt-[48.4px]">
         <h1 class="text-lg font-medium text-left text-[#343a40]">Legal information</h1>
         <div class="rounded-[5px] bg-white shadow-2xl p-[26px] mt-[26px] ">
             <div class="flex mb-[10px]">
@@ -184,7 +184,7 @@
                 </a>
             </div>
         </div>
-    </div>
+    </div> --}}
 
 
     <x-footer />

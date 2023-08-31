@@ -17,7 +17,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): View
     {
-        return view('auth.login');
+        return view('login');
     }
 
     /**
@@ -32,7 +32,8 @@ class AuthenticatedSessionController extends Controller
         if ($user->role == 'owner' || $user->role == 'moderator') {
             return redirect()->intended('/dashboard');
         } else {
-            return redirect()->intended('index');
+            $redirect = $request->input('redirect'); // Get the redirect URL from the form
+            return redirect($redirect);
         }
     }
 

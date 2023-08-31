@@ -8,15 +8,15 @@ use Illuminate\View\Component;
 
 class ShowRestaurant extends Component
 {
-    public $restaurants;
+    public $restaurant;
 
-    public function __construct($restaurants)
+    public function __construct($restaurant)
     {
-        $this->restaurants = $restaurants;
+        $this->restaurant = $restaurant;
     }
 
     public function render(): View|Closure|string
     {
-        return view('components.show-restaurant', ['restaurants' => $this->restaurants]);
+        return view('components.show-restaurant', ['restaurant' => $this->restaurant]);
     }
 }

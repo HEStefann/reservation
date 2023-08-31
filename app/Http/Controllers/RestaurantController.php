@@ -77,22 +77,19 @@ class RestaurantController extends Controller
         $maxLongitude = $longitude + ($radius / $earthRadius) * (180 / pi()) / cos($latitude * (pi() / 180));
 
         // Find the nearest restaurants within the bounding box coordinates
-        $nearestRestaurants = Restaurant::select('title', 'lat', 'lng')
-            ->whereBetween('lat', [$minLatitude, $maxLatitude])
+        $nearestRestaurants = Restaurant::whereBetween('lat', [$minLatitude, $maxLatitude])
             ->whereBetween('lng', [$minLongitude, $maxLongitude])
             ->get();
-
-        // Calculate the distance for each restaurant
-        $nearestRestaurants->each(function ($restaurant) use ($latitude, $longitude) {
-            $restaurant->distance = $this->calculateDistance($latitude, $longitude, $restaurant->lat, $restaurant->lng);
-        });
 
         // Check if any restaurants were found
         if ($nearestRestaurants->isEmpty()) {
             // Handle the scenario when no restaurants are found
             return response()->json(['message' => 'No restaurants found']);
         }
-
+        // Calculate the distance for each restaurant
+        $nearestRestaurants->each(function ($restaurant) use ($latitude, $longitude) {
+            $restaurant->distance = $this->calculateDistance($latitude, $longitude, $restaurant->lat, $restaurant->lng);
+        });
         return response()->json($nearestRestaurants);
     }
 

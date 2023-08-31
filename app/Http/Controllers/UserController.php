@@ -12,12 +12,12 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        $search = $request->input('name');
-        $query = Restaurant::query();
+        // $search = $request->input('name');
+        // $query = Restaurant::query();
 
-        if ($search) {
-            $query->where('title', 'like', '%' . $search . '%');
-        }
+        // if ($search) {
+        //     $query->where('title', 'like', '%' . $search . '%');
+        // }
 
         $restaurants = Restaurant::all(); // Assuming you have a Restaurant model
 
@@ -26,7 +26,7 @@ class UserController extends Controller
 
         return view('user.index', [
             'restaurants' => $restaurants,
-            'search' => $search,
+            // 'search' => $search,
             'promotions' => $promotions,
         ]);
     }

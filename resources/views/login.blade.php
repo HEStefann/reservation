@@ -19,15 +19,16 @@
                 </p>
             </div>
         </div>
-        <form class="flex flex-col" method="POST" action="{{ route('login') }}">
+        <form class="flex flex-col" method="POST" action="{{ route('login', ['redirect' => url()->previous()]) }}">
             @csrf
+
             <p class=" text-base text-left text-[#343a40] mb-[8px]">Email</p>
-            <input class="w-full rounded-lg bg-[#f3f7fb] border border-[#d4d7e3] mb-[18px]" type="text"
+            <input name="email" class="w-full rounded-lg bg-[#f3f7fb] border border-[#d4d7e3] mb-[18px]" type="text"
                 name="" id="">
             <div class="w-full justify-center" x-data="{ show: false }">
                 <p class=" text-base text-left text-[#343a40] mb-[8px]">Password</p>
                 <div class="relative">
-                    <input placeholder="Enter your password" :type="show ? 'text' : 'password'"
+                    <input name="password" placeholder="Enter your password" :type="show ? 'text' : 'password'"
                         class="w-full rounded-lg bg-[#f3f7fb] border border-[#d4d7e3] text-[#8897ad]" />
                     <div class="absolute inset-y-0 right-0 pr-3 flex items-center leading-5">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -69,7 +70,10 @@
         <div>
             <p class="text-base text-center">
                 <span class="text-base text-center text-[#313957]">Don’t you have an account?
-                </span><span class="flex-grow-0 flex-shrink-0 text-base text-center text-[#005fa4]">Register</span>
+                </span>
+                <a href="{{ route('register') }}">
+                    <span class="flex-grow-0 flex-shrink-0 text-base text-center text-[#005fa4]">Register</span>
+                </a>
             </p>
         </div>
 

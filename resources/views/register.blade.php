@@ -10,6 +10,34 @@
 </head>
 
 <body class="min-h-screen flex justify-center items-center">
+    {{-- if error or success --}}
+    @if (Session::has('error'))
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+            <strong class="font-bold">Error!</strong>
+            <span class="block sm:inline">{{ Session::get('error') }}</span>
+            <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                <svg class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20">
+                    <title>Close</title>
+                    <path
+                        d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
+                </svg>
+            </span>
+        </div>
+    @elseif (Session::has('success'))
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+            <strong class="font-bold">Success!</strong>
+            <span class="block sm:inline">{{ Session::get('success') }}</span>
+            <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                <svg class="fill-current h-6 w-6 text-green-500" role="button" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20">
+                    <title>Close</title>
+                    <path
+                        d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
+                </svg>
+            </span>
+        </div>
+    @endif
     <div class="mx-[26px] align-center content-center flex flex-col gap-[48px]">
         <div class="flex items-center justify-center flex-col">
             <div>
@@ -23,14 +51,14 @@
             @csrf
             <p class=" text-base text-left text-[#343a40] mb-[8px]">Name</p>
             <input class="w-full rounded-lg bg-[#f3f7fb] border border-[#d4d7e3] mb-[18px]" type="text"
-                name="" id="">
+                name="name" id="">
             <p class=" text-base text-left text-[#343a40] mb-[8px]">Email</p>
             <input class="w-full rounded-lg bg-[#f3f7fb] border border-[#d4d7e3] mb-[18px]" type="text"
-                name="" id="">
+                name="email" id="">
             <div class="w-full justify-center" x-data="{ show: false }">
                 <p class=" text-base text-left text-[#343a40] mb-[8px]">Password</p>
                 <div class="relative">
-                    <input placeholder="Enter your password" :type="show ? 'text' : 'password'"
+                    <input name="password" placeholder="Enter your password" :type="show ? 'text' : 'password'"
                         class="w-full rounded-lg bg-[#f3f7fb] border border-[#d4d7e3] text-[#8897ad]" />
                     <div class="absolute inset-y-0 right-0 pr-3 flex items-center leading-5">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -60,9 +88,9 @@
                 </div>
             </div>
             <div class="w-full justify-center mt-[18px]" x-data="{ show: false }">
-                <p class=" text-base text-left text-[#343a40] mb-[8px]">Password</p>
+                <p class=" text-base text-left text-[#343a40] mb-[8px]">Confirm Password</p>
                 <div class="relative">
-                    <input placeholder="Enter your password" :type="show ? 'text' : 'password'"
+                    <input name="password_confirmation" placeholder="Enter your password" :type="show ? 'text' : 'password'"
                         class="w-full rounded-lg bg-[#f3f7fb] border border-[#d4d7e3] text-[#8897ad]" />
                     <div class="absolute inset-y-0 right-0 pr-3 flex items-center leading-5">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -98,7 +126,10 @@
         <div>
             <p class="text-base text-center">
                 <span class="text-base text-center text-[#313957]">Already have an account?
-                </span><span class="flex-grow-0 flex-shrink-0 text-base text-center text-[#005fa4]">Log in</span>
+                </span>
+                <a href="{{ route('login') }}">
+                    <span class="flex-grow-0 flex-shrink-0 text-base text-center text-[#005fa4]">Log in</span>
+                </a>
             </p>
         </div>
 

@@ -81,7 +81,6 @@
         </div>
     </form>
 
-    {{-- can you make on this --}}
     <div class="flex flex-col gap-[18px] items-center">
         <div id="image-scroll"
             class="px-[26px] flex gap-[11px] overflow-x-scroll scrollbar-hide snap-x scroll-smooth snap-mandatory hide-scrollbar">
@@ -123,7 +122,9 @@
     </div>
     <div
         class="pt-[16px] px-[26px] flex pb-[64px] gap-[18px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
-            <x-show-restaurant :restaurants="$restaurants" />
+        {{-- <x-show-restaurant :restaurants="$nearestRestaurants" /> --}}
+        {{-- Give it here with --}}
+        <div id="nearestRestaurants"></div>
     </div>
     <div class="flex justify-between ml-[26px] mr-[14px]">
         <div>
@@ -143,7 +144,9 @@
     </div>
     <div
         class="pt-[16px] px-[26px] flex pb-[64px] gap-[18px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
-            <x-show-restaurant :restaurants="$restaurants" />
+        @foreach ($restaurants as $restaurant)
+            <x-show-restaurant :restaurant="$restaurant" />
+        @endforeach
     </div>
     <div class="flex justify-between ml-[26px] mr-[14px]">
         <div>
@@ -163,7 +166,9 @@
     </div>
     <div
         class="pt-[16px] px-[26px] flex pb-[64px] gap-[18px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
-            <x-show-restaurant :restaurants="$restaurants" />
+        @foreach ($restaurants as $restaurant)
+            <x-show-restaurant :restaurant="$restaurant" />
+        @endforeach
     </div>
     <p class="text-lg font-medium text-left text-[#343a40] ml-[26px]">How does it work?</p>
     <div class="relative flex justify-center pt-[16px]">
@@ -312,6 +317,80 @@
 @endsection
 @push('scripts')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.js" defer></script>
     <script src="{{ asset('js/index.js') }}"></script>
+    <script>
+        // Get the user's current location
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    var latitude = position.coords.latitude;
+                    var longitude = position.coords.longitude;
+
+                    // Fetch nearest restaurants
+                    fetch('/getNearestRestaurants', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]') ? document
+                                    .querySelector('meta[name="csrf-token"]').getAttribute('content') : null
+                            },
+                            body: JSON.stringify({
+                                latitude: latitude,
+                                longitude: longitude
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            // Handle the case when no restaurants are found
+                            if (!Array.isArray(data)) {
+                                console.log('No restaurants found.');
+                                return;
+                            }
+
+                            // Display the nearest restaurants
+                            var nearestRestaurantsDiv = document.getElementById('nearestRestaurants');
+
+                            // Clear previous results
+                            nearestRestaurantsDiv.innerHTML = '';
+
+                            // Loop through the nearest restaurants and create ShowRestaurant components
+                            data.forEach(function(restaurant) {
+                                // Use the PHP Blade syntax to render the component on the server-side
+                                var showRestaurantElement = document.createElement('div');
+                                showRestaurantElement.innerHTML = `
+                                <?php
+                                echo view('components.show-restaurant', ['restaurant' => $restaurant])->render();
+                                ?>
+                            `;
+
+                                // Append the showRestaurantElement to the nearestRestaurantsDiv
+                                nearestRestaurantsDiv.appendChild(showRestaurantElement);
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error fetching nearest restaurants:', error);
+                        });
+                },
+                function(error) {
+                    console.error('Error getting current location:', error);
+                }
+            );
+        } else {
+            console.error('Geolocation is not supported by this browser.');
+        }
+    </script>
+<script>
+  function handleButtonClick(restaurantId) {
+    event.preventDefault(); // Prevent the default behavior
+
+    // Handle the button click action here
+    // You can perform any desired actions or trigger additional JavaScript code
+
+    // Optionally, you can manually navigate to the link specified in the `<a>` tag using JavaScript
+    window.location.href = '/user/favorite/' + restaurantId;
+  }
+  </script>
 @endpush
 @section('footer', '')

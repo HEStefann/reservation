@@ -45,7 +45,7 @@ Route::get('/dashboard', [RestaurantController::class, 'dashboard'])
 //     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 // });
 
-// require __DIR__ . '/auth.php';
+require __DIR__ . '/auth.php';
 
 Route::middleware(['auth', 'ModeratorOrOwnerRole'])->group(function () {
     Route::get('/restaurant/register', [RestaurantController::class, 'create'])->name('restaurant.register');
@@ -108,7 +108,7 @@ Route::middleware(['auth', 'GuestRole'])->group(function () {
     Route::get('/user/restaurants/{restaurant}', [RestaurantController::class, 'show'])->name('user.restaurants.show');
 });
 Route::post('/getNearestRestaurants', [RestaurantController::class, 'getNearestRestaurants']);
-Route::post('/user/favorite/{restaurant}', [UserController::class, 'favorite'])->name('user.favorite');
+Route::get('/user/favorite/{restaurant}', [UserController::class, 'favorite'])->name('user.favorite');
 Route::get('/reservations', [ReservationController::class, 'userReservations'])->name('reservations.index');
 Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
@@ -146,17 +146,6 @@ Route::put('/reviews/{review}', [AdminModeratorsController::class, 'edit'])->nam
 Route::delete('/moderators/{moderator}', [AdminModeratorsController::class, 'destroy'])->name('admin.moderators.destroy');
 Route::put('/moderators/{moderator}', [AdminModeratorsController::class, 'update'])->name('admin.moderators.update');
 Route::post('/moderators', [AdminModeratorsController::class, 'store'])->name('admin.moderators.store');
-// ova e napraena po dizajn user register
-Route::get('/registerviewuser', function () {
-    return view('register');
-});
-
-
-// ova e napraena po dizajn user register
-Route::get('/login', function () {
-    return view('login');
-})->name('login');
-
 
 // ova e napraven dizajn za restaurant login
 Route::get('/loginviewrestaurant', function () {
@@ -167,7 +156,7 @@ Route::get('/loginviewrestaurant', function () {
 // ova e napraven dizajn za user profile
 Route::get('/userprofile', function () {
     return view('userprofile');
-})->name('userprofile');
+})->name('user.profile');
 Route::get('/reservation', [UserReservationController::class, 'index'])->name('reservation.index');
 
 

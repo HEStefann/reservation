@@ -152,11 +152,8 @@ Route::get('/loginviewrestaurant', function () {
     return view('restaurant.loginpage');
 });
 
+Route::get('/userprofile', [UserController::class, 'show'])->name('user.profile');
 
-// ova e napraven dizajn za user profile
-Route::get('/userprofile', function () {
-    return view('userprofile');
-})->name('user.profile');
 Route::get('/reservation', [UserReservationController::class, 'index'])->name('reservation.index');
 
 
@@ -172,11 +169,8 @@ Route::get('/resetpassword', function () {
 
 // ova e narpaven dizajn za edit personal info
 
-Route::get('/editpersonalinfo', function () {
-    return view('editpersonalinfo');
-})->name('editpersonalinfo');
+Route::get('/editpersonalinfo', [UserController::class, 'edit'])->name('editpersonalinfo');
+Route::put('/user/update', [UserController::class, 'update'])->name('user.update');
 
-// ova e napraven dizajn za user favourites
-Route::get('/userfavourites', function () {
-    return view('userfavourites');
-})->name('userfavourites');
+Route::get('/userfavourites', [UserController::class, 'favourites'])->name('userfavourites');
+

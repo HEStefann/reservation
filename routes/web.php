@@ -109,7 +109,7 @@ Route::middleware(['auth', 'GuestRole'])->group(function () {
 });
 Route::post('/getNearestRestaurants', [RestaurantController::class, 'getNearestRestaurants']);
 Route::get('/user/favorite/{restaurant}', [UserController::class, 'favorite'])->name('user.favorite');
-Route::get('/reservations', [ReservationController::class, 'userReservations'])->name('reservations.index');
+// Route::get('/reservations', [ReservationController::class, 'userReservations'])->name('reservations.index');
 Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
 Route::get('/testing3/{restaurant}', function ($restaurant) {
@@ -153,8 +153,8 @@ Route::get('/loginviewrestaurant', function () {
 });
 
 Route::get('/userprofile', [UserController::class, 'show'])->name('user.profile');
-
-Route::get('/reservation', [UserReservationController::class, 'index'])->name('reservation.index');
+// reservation', [UserReservationController::class, 'index with id
+Route::get('/reservation/{restaurantId}', [UserReservationController::class, 'index'])->name('user.reservation');
 
 
 // ova e napraven dizajn za forgot password

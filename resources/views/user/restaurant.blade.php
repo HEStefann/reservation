@@ -344,7 +344,7 @@
         </div>
     </div>
     <div class="mb-[73px]">
-        <a href="{{ route('reservation.index', ['restaurant' => $restaurant->id]) }}">
+        <a href="{{ route('user.reservation', $restaurant->id) }}">
             <div class="flex justify-center items-center h-10 relative overflow-hidden gap-2.5 mx-6 py-2.5 rounded-[10px]"
                 style="background: linear-gradient(143.6deg, #52d1ed -56.3%, #0f92cf 26.17%, #005fa4 83.39%);">
                 <p class="flex-grow-0 flex-shrink-0 text-xl font-semibold text-left text-white">

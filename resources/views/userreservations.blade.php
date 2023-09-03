@@ -7,8 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </head>
 
 
@@ -23,7 +21,7 @@
             </div>
             <div class="font-medium flex-grow">
                 <div class="text-[28px] text-[#343a40] flex items-center justify-between">
-                    <p class="flex m-0">{{ $user->name }}</p>
+                    <p class="flex">{{ $user->name }}</p>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                         xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" preserveAspectRatio="none">
                         <path
@@ -31,7 +29,7 @@
                             stroke="#FC7F09" stroke-linecap="round" stroke-linejoin="round"></path>
                     </svg>
                 </div>
-                <p class="text-[15px] font-extralight text-[#343a40] m-0">
+                <p class="text-[15px] font-extralight text-[#343a40]">
                     {{ $user->email }}
                 </p>
             </div>
@@ -39,7 +37,7 @@
     </div>
 
     <div class="mx-[26px] mt-[48.4px]">
-        <h1 class="text-lg font-medium text-[#343a40] m-0">{{ count($reservations) ? 'My reservations' : 'No reservations found' }}</h1>
+        <h1 class="text-lg font-medium text-[#343a40]">{{ count($reservations) ? 'My reservations' : 'No reservations found' }}</h1>
         <div class="mt-[28px] flex flex-col gap-[20px]">
             @if (count($reservations))
                 @foreach ($reservations as $reservation)
@@ -58,7 +56,7 @@
                                             d="M0 4.84144C0 2.16481 2.90643 0 6.5 0C10.0936 0 13 2.16481 13 4.84144C13 8.47252 6.5 12.8267 6.5 12.8267C6.5 12.8267 0 8.47252 0 4.84144ZM4.17773 4.84132C4.17773 3.88638 5.21707 3.11224 6.49916 3.11224C7.32853 3.11224 8.09489 3.4418 8.50958 3.97678C8.92426 4.51176 8.92426 5.17089 8.50958 5.70587C8.09489 6.24085 7.32853 6.57041 6.49916 6.57041C5.21707 6.57041 4.17773 5.79627 4.17773 4.84132Z"
                                             fill="#FC7F09"></path>
                                     </svg>
-                                    <p class="m-0 text-[8px]">{{ $reservation->restaurant->address }}</p>
+                                    <p class="text-[8px]">{{ $reservation->restaurant->address }}</p>
                                 </div>
                                 <div class="flex text-[#343a40] gap-[12.5px]">
                                     <svg width="13" height="13" viewBox="0 0 13 14" fill="none"
@@ -74,7 +72,7 @@
                                         <path d="M9.75 1L9.75 3.05263" stroke="#FC7F09" stroke-width="2"
                                             stroke-linecap="round"></path>
                                     </svg>
-                                    <p class="m-0 text-[8px]">{{ $reservation->date }}</p>
+                                    <p class="text-[8px]">{{ date('l, jS M Y', strtotime($reservation->date)) }}</p>
                                 </div>
                                 <div class="flex text-[#343a40] gap-[12.5px]">
                                     <svg width="13" height="13" viewBox="0 0 13 13" fill="none"
@@ -86,7 +84,7 @@
                                         <path d="M6.33789 4.15039V6.87565L8.14432 7.78406" stroke="white"
                                             stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
                                     </svg>
-                                    <p class="m-0 text-[8px]">{{ $reservation->time }}</p>
+                                    <p class="text-[8px]">{{ date('H:i', strtotime($reservation->time)) }}</p>
                                 </div>
                                 <div class="flex text-[#343a40] gap-[12.5px]">
                                     <svg width="13" height="13" viewBox="0 0 13 13" fill="none"
@@ -97,7 +95,7 @@
                                         <ellipse cx="6.49949" cy="3.40476" rx="3.76316" ry="3.40476"
                                             fill="#FC7F09"></ellipse>
                                     </svg>
-                                    <p class="m-0 text-[8px]">{{ $reservation->number_of_people }}</p>
+                                    <p class="text-[8px]">{{ $reservation->number_of_people }}</p>
                                 </div>
                             </div>
                         </div>

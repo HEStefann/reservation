@@ -126,10 +126,15 @@ class ReservationController extends Controller
             'note' => $request->input('note'),
             'status' => $status
         ]);
-
-        return redirect()
+        if($user->role == 'owner' || $user->role == 'moderator'){
+            return redirect()
             ->route('dashboard', ['reservation' => $reservation->id])
             ->with('success', 'Reservation created successfully');
+        }else{
+            return redirect()
+            ->route('user.home')
+            ->with('success', 'Reservation created successfully');
+        }
     }
 
 

@@ -39,11 +39,24 @@
 
 <body class="min-h-screen flex flex-col">
     <x-navbar />
+    {{-- print errors --}}
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <form method="POST" action="{{ route('reservations.store') }}">
         @csrf
 
         <div class="mx-[26px] flex flex-grow flex-col">
             <p class="text-xl font-semibold text-left text-[#343a40]">Your Reservation</p>
+            {{-- input restaurant id hidden --}}
+            <input type="hidden" name="restaurant_id" value="{{ $restaurant->id }}">
             <div class="flex mt-[19px]">
                 <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"
                     preserveAspectRatio="none">
@@ -91,17 +104,14 @@
                     <div id="calendar" class="calendar flex flex-col gap-[18px]">
                     </div>
 
-                    <div class="flex mt-[28px] mb-[16px]">
+                    {{-- <div class="flex mt-[28px] mb-[16px]">
                         <p
                             class="text-base font-medium text-left text-[#343a40] underline underline-offset-2 decoration-[#FC7F09]">
                             Selected Date
                         </p>
                     </div>
-                    <p id="selectedDate" class="text-[14px] font-semibold text-[#343a40]"></p>
-                    <input type="hidden" name="date" id="selectedDateInput">
-
-
-
+                    <p id="selectedDate" class="text-[14px] font-semibold text-[#343a40]"></p> --}}
+                    <input type="date" name="date" class="hidden" id="selectedDateInput">
                 </div>
             </div>
             <div class="flex mt-[28px]">
@@ -119,12 +129,15 @@
                     Pick your time
                 </p>
             </div>
+            <input type="hidden" name="time" id="selectedTimeInput">
             <div class="mt-[14px] grid grid-cols-4 gap-[15px]">
                 @for ($i = 12; $i < 24; $i++)
                     <button type="button"
-                        class="selectable-button text-base rounded-[10px] bg-[#fff5ec] text-[#343a40] px-[14px] py-[10px]">{{ $i }}:00</button>
+                        class="selectable-button text-base rounded-[10px] bg-[#fff5ec] text-[#343a40] px-[14px] py-[10px] time-button"
+                        data-time="{{ $i }}:00">{{ $i }}:00</button>
                     <button type="button"
-                        class="selectable-button text-base rounded-[10px] bg-[#fff5ec] text-[#343a40] px-[14px] py-[10px]">{{ $i }}:30</button>
+                        class="selectable-button text-base rounded-[10px] bg-[#fff5ec] text-[#343a40] px-[14px] py-[10px] time-button"
+                        data-time="{{ $i }}:30">{{ $i }}:30</button>
                 @endfor
             </div>
 
@@ -146,6 +159,7 @@
                 <button type="button" id="decrementButton"
                     class="w-7 h-7 rounded-lg bg-[#fff5ec] border-[0.3px] border-[#fc7f09]">-</button>
                 <p id="numberOfPeople" class="text-[22px] text-[#343a40]">2</p>
+                <input type="hidden" name="number_of_people" id="numberOfPeopleInput" value="2">
                 <button type="button" id="incrementButton"
                     class="w-7 h-7 rounded-lg bg-[#fff5ec] border-[0.3px] border-[#fc7f09]">+</button>
             </div>
@@ -162,7 +176,7 @@
                 </p>
             </div>
             <div>
-                <textarea name="notes" class="w-full min-h-[69px] rounded-lg bg-[#fff5ec] text-[10px] text-basis leading-[12px]"
+                <textarea name="note" class="w-full min-h-[69px] rounded-lg bg-[#fff5ec] text-[10px] text-basis leading-[12px]"
                     id="notes" cols="30"></textarea>
             </div>
             <div class="flex mt-[28px] mb-[16px]">
@@ -363,21 +377,13 @@
 
 
         function updateSelectedDate(date) {
-            const selectedDateElement = document.getElementById('selectedDate');
+            const yyyy = date.getFullYear();
+            let mm = date.getMonth() + 1; // Months are 0-based
+            let dd = date.getDate();
+            if (mm < 10) mm = '0' + mm;
+            if (dd < 10) dd = '0' + dd;
+            const formattedDate = yyyy + '-' + mm + '-' + dd;
             const selectedDateInput = document.getElementById('selectedDateInput');
-
-            // Define the months to be used in the format
-            const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September",
-                "October", "November", "December"
-            ];
-
-            const day = date.getDate();
-            const month = months[date.getMonth()];
-            const year = date.getFullYear();
-
-            const formattedDate = `${day} ${month} ${year}`;
-
-            selectedDateElement.textContent = formattedDate;
             selectedDateInput.value = formattedDate;
         }
 
@@ -407,7 +413,7 @@
             const selectedDateAttribute = selectedDay.getAttribute('data-date');
             const selectedDate = new Date(selectedDateAttribute);
             const currentDate = new Date();
-
+            currentDate.setHours(0, 0, 0, 0);
             // Check if the selected date is today or in the future
             if (selectedDate >= currentDate) {
                 // Remove any existing selected-day class from other days
@@ -438,18 +444,21 @@
         const incrementButton = document.getElementById('incrementButton');
         const decrementButton = document.getElementById('decrementButton');
         const numberOfPeople = document.getElementById('numberOfPeople');
+        const numberOfPeopleInput = document.getElementById('numberOfPeopleInput');
 
         let currentNumber = 2;
 
         incrementButton.addEventListener('click', function() {
             currentNumber++;
             numberOfPeople.textContent = currentNumber;
+            numberOfPeopleInput.value = currentNumber;
         });
 
         decrementButton.addEventListener('click', function() {
             if (currentNumber > 1) {
                 currentNumber--;
                 numberOfPeople.textContent = currentNumber;
+                numberOfPeopleInput.value = currentNumber;
             }
         });
 
@@ -470,7 +479,17 @@
             button.addEventListener('click', handleButtonClick);
         });
     </script>
+    <script>
+        const timeButtons = document.querySelectorAll('.time-button');
 
+        timeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const selectedTime = button.getAttribute('data-time');
+                const selectedTimeInput = document.getElementById('selectedTimeInput');
+                selectedTimeInput.value = selectedTime;
+            });
+        });
+    </script>
 
 
 

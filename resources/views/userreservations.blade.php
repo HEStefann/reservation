@@ -15,52 +15,51 @@
 <body class="h-full w-full bg-white">
     <x-navbar />
 
-
     <div class="m-[26px] mt-[48.4px]">
         <div class="flex items-center space-x-4">
-            <img class="rounded-circle" style="width: 100px; height:100px;"
+            <div class="w-[114px] h-[100px]">
+                <img class="rounded-circle" style="width: 100px; height:100px;"
                 src="https://mdbcdn.b-cdn.net/img/new/avatars/9.webp" alt="">
-            <div class="font-medium">
-                <p class="text-[28px] text-left text-[#343a40] mb-0">
-                    <span class="flex items-center">
-                        {{ $user->name }}
+            </div>
+            <div class="font-medium flex-grow">
+                <div class="text-[28px] text-[#343a40] flex items-center justify-between">
+                        <p class="flex m-0">{{ $user->name }}</p>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 ml-[64px]" preserveAspectRatio="none">
+                            xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" preserveAspectRatio="none">
                             <path
                                 d="M22.5 5.25L18.75 1.5L3.75 16.5L2.25 21.75L7.5 20.25L22.5 5.25ZM15.75 4.5L19.5 8.25L15.75 4.5ZM3.75 16.5L7.5 20.25L3.75 16.5Z"
                                 stroke="#FC7F09" stroke-linecap="round" stroke-linejoin="round"></path>
                         </svg>
-                    </span>
-                </p>
-                <p class="mb-0 w-[177px] h-[25px] text-[15px] font-extralight text-left text-[#343a40]">
+                </div>
+                <p class="text-[15px] font-extralight text-[#343a40] m-0">
                     {{ $user->email }}
                 </p>
             </div>
         </div>
     </div>
 
-
     <div class="mx-[26px] mt-[48.4px]">
-        <h1 class="text-lg font-medium text-left text-[#343a40]">Reservations</h1>
-        <div class="mt-[28px]">
+        <h1 class="text-lg font-medium text-[#343a40] m-0">Reservations</h1>
+        <div class="mt-[28px] flex flex-col gap-[20px]">
             @foreach ($reservations as $reservation)
-                <div class="flex flex-col">
+                <div class="flex flex-col p-[10px] bg-white rounded-lg gap-[6px]" style="box-shadow: 0px 20px 50px 0 rgba(0,0,0,0.1);"
+                >
                     <div class="rounded-t-lg h-[103.3px] w-full">
-                        <img src="image-3.jpeg" class="w-full h-full object-cover" />
+                        {{-- <img src="image-3.jpeg" class="w-full h-full object-cover" /> --}}
                     </div>
                     <div class="text-[#343a40]">
-                        <p class="text-sm font-medium text-left ">Chicken Biryani</p>
-                        <div class="flex flex-col">
-                            <div class="flex text-[#343a40]">
+                        <p class="text-sm font-medium mb-[7.8px]">{{ $reservation->restaurant->title }}</p>
+                        <div class="flex flex-col gap-[7px]">
+                            <div class="flex text-[#343a40] gap-[12.5px]">
                                 <svg width="13" height="13" viewBox="0 0 13 13" fill="none"
                                     xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
                                     <path fill-rule="evenodd" clip-rule="evenodd"
                                         d="M0 4.84144C0 2.16481 2.90643 0 6.5 0C10.0936 0 13 2.16481 13 4.84144C13 8.47252 6.5 12.8267 6.5 12.8267C6.5 12.8267 0 8.47252 0 4.84144ZM4.17773 4.84132C4.17773 3.88638 5.21707 3.11224 6.49916 3.11224C7.32853 3.11224 8.09489 3.4418 8.50958 3.97678C8.92426 4.51176 8.92426 5.17089 8.50958 5.70587C8.09489 6.24085 7.32853 6.57041 6.49916 6.57041C5.21707 6.57041 4.17773 5.79627 4.17773 4.84132Z"
                                         fill="#FC7F09"></path>
                                 </svg>
-                                <p class="text-[8px] text-left">Ambrosia Hotel &#x26; Restaurant</p>
+                                <p class="m-0 text-[8px]">{{ $reservation->restaurant->address }}</p>
                             </div>
-                            <div class="flex text-[#343a40]">
+                            <div class="flex text-[#343a40] gap-[12.5px]">
                                 <svg width="13" height="13" viewBox="0 0 13 14" fill="none"
                                     xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
                                     <path
@@ -74,9 +73,9 @@
                                     <path d="M9.75 1L9.75 3.05263" stroke="#FC7F09" stroke-width="2"
                                         stroke-linecap="round"></path>
                                 </svg>
-                                <p class="text-[8px] text-left">Wednesday, 25th Sep 2021</p>
+                                <p class="m-0 text-[8px]">{{ $reservation->date }}</p>
                             </div>
-                            <div class="flex text-[#343a40]">
+                            <div class="flex text-[#343a40] gap-[12.5px]">
                                 <svg width="13" height="13" viewBox="0 0 13 13" fill="none"
                                     xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
                                     <rect width="13" height="13" rx="5" fill="#FC7F09"></rect>
@@ -86,9 +85,9 @@
                                     <path d="M6.33789 4.15039V6.87565L8.14432 7.78406" stroke="white" stroke-width="1.5"
                                         stroke-linecap="round" stroke-linejoin="round"></path>
                                 </svg>
-                                <p class="text-[8px] text-left">06:00-06:30PM</p>
+                                <p class="m-0 text-[8px]">{{ $reservation->time }}</p>
                             </div>
-                            <div class="flex text-[#343a40]">
+                            <div class="flex text-[#343a40] gap-[12.5px]">
                                 <svg width="13" height="13" viewBox="0 0 13 13" fill="none"
                                     xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
                                     <path
@@ -97,7 +96,7 @@
                                     <ellipse cx="6.49949" cy="3.40476" rx="3.76316" ry="3.40476"
                                         fill="#FC7F09"></ellipse>
                                 </svg>
-                                <p class="text-[8px] text-left">2 People</p>
+                                <p class="m-0 text-[8px]">{{ $reservation->number_of_people }}</p>
                             </div>
                         </div>
                     </div>

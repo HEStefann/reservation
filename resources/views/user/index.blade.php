@@ -308,64 +308,122 @@
             <button class="w-full h-8 rounded-[10px] bg-[#005fa4] text-xs font-medium text-center text-white">Partner
                 with us</button>
         </div>
-    @endsection
-    @push('scripts')
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.js" defer></script>
-        <script src="{{ asset('js/index.js') }}"></script>
-        <script>
-            // Get the user's current location
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    function(position) {
-                        var latitude = position.coords.latitude;
-                        var longitude = position.coords.longitude;
+    </div>
 
-                        // Fetch nearest restaurants
-                        fetch('/getNearestRestaurants', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'Accept': 'application/json',
-                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]') ? document
-                                        .querySelector('meta[name="csrf-token"]').getAttribute('content') : null
-                                },
-                                body: JSON.stringify({
-                                    latitude: latitude,
-                                    longitude: longitude
-                                })
+    @if (Session::has('reservation_success'))
+        <div x-data="{ showModal: true }" x-show="showModal" class="fixed inset-0 flex items-center justify-center z-50">
+            <!-- Modal backdrop -->
+            <div x-on:click.away="showModal = false" class="fixed inset-0 bg-black opacity-50 z-40"></div>
+
+            <!-- Modal content -->
+            <div class="w-[338px] h-[268px] relative overflow-hidden rounded-lg bg-white shadow-lg z-50">
+                <svg width="35" height="38" viewBox="0 0 35 38" fill="none"
+                    xmlns="http://www.w3.org/2000/svg" class="w-[35px] h-[35px] absolute left-5 top-[119px]"
+                    preserveAspectRatio="none">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M12.8965 28.8871C15.0248 27.8277 25 22.3633 25 13.0059C25 6.1023 19.4036 0.505859 12.5 0.505859C5.59644 0.505859 0 6.1023 0 13.0059C0 22.3633 9.97517 27.8277 12.1035 28.8871C12.3586 29.014 12.6414 29.014 12.8965 28.8871ZM12.5 18.363C15.4587 18.363 17.8571 15.9645 17.8571 13.0059C17.8571 10.0472 15.4587 7.64872 12.5 7.64872C9.54133 7.64872 7.14286 10.0472 7.14286 13.0059C7.14286 15.9645 9.54133 18.363 12.5 18.363Z"
+                        fill="white"></path>
+                </svg>
+
+                <div class="w-3 h-3 absolute left-[346px] top-[22.44px]"></div>
+
+                <p
+                    class="w-[203px] h-[46px] absolute left-[68px] top-[127px] text-lg font-semibold text-center text-[#005fa4]">
+                    Reservation request successfully sent
+                </p>
+
+                <svg width="85" height="85" viewBox="0 0 85 85" fill="none"
+                    xmlns="http://www.w3.org/2000/svg" class="w-[85px] h-[85px] absolute left-[126px] top-[30px]"
+                    preserveAspectRatio="none">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M42.5002 74.3757C60.104 74.3757 74.3752 60.1045 74.3752 42.5007C74.3752 24.8968 60.104 10.6257 42.5002 10.6257C24.8963 10.6257 10.6252 24.8968 10.6252 42.5007C10.6252 60.1045 24.8963 74.3757 42.5002 74.3757ZM42.5002 77.9173C62.0608 77.9173 77.9168 62.0613 77.9168 42.5007C77.9168 22.94 62.0608 7.08398 42.5002 7.08398C22.9395 7.08398 7.0835 22.94 7.0835 42.5007C7.0835 62.0613 22.9395 77.9173 42.5002 77.9173Z"
+                        fill="#005FA4"></path>
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M61.3951 28.7928C61.7434 29.1076 61.9526 29.5478 61.9765 30.0167C62.0004 30.4855 61.8371 30.9447 61.5226 31.2933L37.8713 57.4325L23.5701 43.7812C23.2489 43.453 23.0678 43.0129 23.065 42.5537C23.0621 42.0946 23.2377 41.6523 23.5547 41.3201C23.8717 40.9879 24.3054 40.7919 24.7641 40.7733C25.2229 40.7547 25.671 40.9151 26.0138 41.2206L37.6836 52.3591L58.8964 28.9186C59.0525 28.7461 59.2411 28.606 59.4514 28.5064C59.6616 28.4068 59.8895 28.3496 60.1218 28.3381C60.3542 28.3266 60.5866 28.361 60.8056 28.4393C61.0247 28.5176 61.2262 28.6384 61.3986 28.7946L61.3951 28.7928Z"
+                        fill="#005FA4"></path>
+                </svg>
+
+                <p class="w-[282px] absolute left-[25px] top-[197px] text-xs text-left text-gray-600">
+                    Note: Your request for table reservation was sent, you will get a confirmation e-mail with the
+                    reservation details.
+                </p>
+
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
+                    xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 absolute left-[306px] top-[18px]"
+                    preserveAspectRatio="none">
+                    <path d="M13 1L1 13" stroke="#343A40" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round"></path>
+                    <path d="M1 1L13 13" stroke="#343A40" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round"></path>
+                </svg>
+            </div>
+        </div>
+    @endif
+
+
+
+
+
+
+
+@endsection
+@push('scripts')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.js" defer></script>
+    <script src="{{ asset('js/index.js') }}"></script>
+    <script>
+        // Get the user's current location
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    var latitude = position.coords.latitude;
+                    var longitude = position.coords.longitude;
+
+                    // Fetch nearest restaurants
+                    fetch('/getNearestRestaurants', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]') ? document
+                                    .querySelector('meta[name="csrf-token"]').getAttribute('content') : null
+                            },
+                            body: JSON.stringify({
+                                latitude: latitude,
+                                longitude: longitude
                             })
-                            .then(response => response.json())
-                            .then(data => {
-                                // Handle the case when no restaurants are found
-                                if (!Array.isArray(data)) {
-                                    console.log('No restaurants found.');
-                                    return;
-                                }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            // Handle the case when no restaurants are found
+                            if (!Array.isArray(data)) {
+                                console.log('No restaurants found.');
+                                return;
+                            }
 
-                                // Display the nearest restaurants
-                                var nearestRestaurantsDiv = document.getElementById('nearestRestaurants');
+                            // Display the nearest restaurants
+                            var nearestRestaurantsDiv = document.getElementById('nearestRestaurants');
 
-                                // Clear previous results
-                                nearestRestaurantsDiv.innerHTML = '';
+                            // Clear previous results
+                            nearestRestaurantsDiv.innerHTML = '';
 
-                                // Loop through the nearest restaurants and create ShowRestaurant components
-                                data.forEach(function(restaurant) {
-                                    // Use the PHP Blade syntax to render the component on the server-side
-                                    var showRestaurantElement = document.createElement('div');
-                                    showRestaurantElement.innerHTML = `
+                            // Loop through the nearest restaurants and create ShowRestaurant components
+                            data.forEach(function(restaurant) {
+                                // Use the PHP Blade syntax to render the component on the server-side
+                                var showRestaurantElement = document.createElement('div');
+                                showRestaurantElement.innerHTML = `
                                 <?php
                                 echo view('components.show-restaurant', ['restaurant' => $restaurant])->render();
                                 ?>
                             `;
 
-                                    // Append the showRestaurantElement to the nearestRestaurantsDiv
-                                    nearestRestaurantsDiv.appendChild(showRestaurantElement);
-                                });
-                            })
-                            .catch(error => {
-                                console.error('Error fetching nearest restaurants:', error);
+                                // Append the showRestaurantElement to the nearestRestaurantsDiv
+                                nearestRestaurantsDiv.appendChild(showRestaurantElement);
                             });
+                        })
+                        .catch(error => {
+                            console.error('Error fetching nearest restaurants:', error);
+                        });
                 },
                 function(error) {
                     console.error('Error getting current location:', error);
@@ -374,8 +432,7 @@
         } else {
             console.error('Geolocation is not supported by this browser.');
         }
-    </script>
-    <script>
+
         function handleButtonClick(restaurantId) {
             event.preventDefault(); // Prevent the default behavior
             window.location.href = '/user/favorite/' + restaurantId;

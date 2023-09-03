@@ -40,14 +40,30 @@
 <body class="min-h-screen flex flex-col">
     <x-navbar />
     @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+        <div class="bg-red-100 border-t-4 border-red-400 rounded-b text-red-700 px-4 py-3 shadow-md" role="alert">
+            <div class="flex">
+                <div class="py-1">
+                    <svg class="fill-current h-6 w-6 text-red-500 mr-4" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20">
+                        <path
+                            d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" />
+                    </svg>
+                </div>
+                <div>
+                    <p class="font-bold">Reservation Error</p>
+                    <ul class="text-sm">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
         </div>
     @endif
+
+
+
+
 
     <form method="POST" action="{{ route('user.reservation.store') }}">
         @csrf
@@ -132,13 +148,13 @@
             </div>
 
             <div class="flex mt-[28px] mb-[16px]">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    preserveAspectRatio="none">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                    xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
                     <path
                         d="M9.5 8.5C11.1569 8.5 12.5 7.15685 12.5 5.5C12.5 3.84315 11.1569 2.5 9.5 2.5C7.84315 2.5 6.5 3.84315 6.5 5.5C6.5 7.15685 7.84315 8.5 9.5 8.5Z"
                         stroke="#343A40" stroke-linecap="round"></path>
-                    <path d="M15 16.5V14.5C15 11.402 12.505 8.5 9.5 8.5C6.494 8.5 4 11.402 4 14.5V16.5" stroke="#343A40"
-                        stroke-linecap="round"></path>
+                    <path d="M15 16.5V14.5C15 11.402 12.505 8.5 9.5 8.5C6.494 8.5 4 11.402 4 14.5V16.5"
+                        stroke="#343A40" stroke-linecap="round"></path>
                 </svg>
                 <p
                     class="text-base font-medium text-left text-[#343a40] underline underline-offset-2 decoration-[#FC7F09]">
@@ -478,50 +494,6 @@
         timeButtons.forEach(button => {
             button.addEventListener('click', () => {
                 const selectedTime = button.getAttribute('data-time');
-                const selectedTimeInput = document.getElementById('selectedTimeInput');
-                selectedTimeInput.value = selectedTime;
-            });
-        });
-
-        const timeButtons = document.querySelectorAll('.time-button');
-
-        timeButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const selectedTime = button.getAttribute('data-time');
-                const selectedDateTime = new Date();
-                const [hours, minutes] = selectedTime.split(':');
-                selectedDateTime.setHours(parseInt(hours, 10), parseInt(minutes, 10), 0, 0);
-
-                const currentDateTime = new Date();
-
-                // Check if the selected time is in the past
-                if (selectedDateTime <= currentDateTime) {
-                    alert('Please select a time that is in the future.');
-                    return;
-                }
-
-                const selectedTimeInput = document.getElementById('selectedTimeInput');
-                selectedTimeInput.value = selectedTime;
-            });
-        });
-
-        const timeButtons = document.querySelectorAll('.time-button');
-
-        timeButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const selectedTime = button.getAttribute('data-time');
-                const selectedDateTime = new Date();
-                const [hours, minutes] = selectedTime.split(':');
-                selectedDateTime.setHours(parseInt(hours, 10), parseInt(minutes, 10), 0, 0);
-
-                const currentDateTime = new Date();
-
-                // Check if the selected time is in the past
-                if (selectedDateTime <= currentDateTime) {
-                    alert('Please select a time that is in the future.');
-                    return;
-                }
-
                 const selectedTimeInput = document.getElementById('selectedTimeInput');
                 selectedTimeInput.value = selectedTime;
             });

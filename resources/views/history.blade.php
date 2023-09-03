@@ -306,10 +306,10 @@
                                             ">
                                                 {{ $reservation->status }}
                                             </td>
-                                            <td>
+                                            {{-- <td>
                                                 <a href="{{ route('reservations.edit', $reservation->id) }}"
                                                     class="px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Edit</a>
-                                            </td>
+                                            </td> --}}
                                             <td>
                                                 <div class="flex items-center space-x-2">
                                                     <button

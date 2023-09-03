@@ -34,6 +34,11 @@ class Restaurant extends Model
     {
         return $this->belongsToMany(Tag::class, 'restaurant_tags', 'restaurant_id', 'tag_id');
     }
+    
+    public function restaurantTag()
+    {
+        return $this->hasOne(RestaurantTag::class)->where('main_cuisine', 'true')->with('tag');
+    }
 
     public function workingHours(): HasMany
     {
@@ -69,6 +74,7 @@ class Restaurant extends Model
     {
         return $this->hasMany(Moderator::class);
     }
+
     public function updateInfo(array $data)
     {
         return $this->update([
@@ -178,5 +184,28 @@ class Restaurant extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function averagePrice()
+    {
+        $menu = $this->menus()->where('active', 1)->first();
 
+        if (!$menu) {
+            return null;
+        }
+
+        $products = $menu->products()->where('active', 1)->get();
+
+        if ($products->isEmpty()) {
+            return null;
+        }
+
+        $totalPrice = 0;
+        $totalProducts = 0;
+
+        foreach ($products as $product) {
+            $totalPrice += $product->price;
+            $totalProducts++;
+        }
+
+        return $totalPrice / $totalProducts;
+    }
 }

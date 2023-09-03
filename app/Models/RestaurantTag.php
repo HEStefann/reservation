@@ -9,4 +9,12 @@ class RestaurantTag extends Model
 {
     use HasFactory;
     public $timestamps = false;
+    public function restaurant()
+    {
+        return $this->belongsTo(Restaurant::class);
+    }
+    public function tag()
+    {
+        return $this->belongsTo(Tag::class);
+    }
 }

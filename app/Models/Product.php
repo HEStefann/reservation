@@ -10,20 +10,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Product extends Model
 {
     use HasFactory;
-    
-    public function menu(): BelongsTo
-    {
-        return $this->belongsTo(Menu::class);
-    }
 
-    public function restaurant(): BelongsTo
+    public function category()
     {
-        return $this->belongsTo(Menu::class)->with('restaurant');
+        return $this->belongsTo(Category::class);
     }
 
     public function images(): HasMany
     {
         return $this->hasMany(Image::class);
     }
-
 }

@@ -5,7 +5,6 @@
                 <img src="{{ asset('images/Rectangle 404.png') }}"
                     class="w-full h-full rounded-tl-lg rounded-tr-lg  object-cover" />
                 @if (Auth::check())
-
                     <button class="absolute right-[3.32px] top-[6.87px]" onclick="handleButtonClick({{ $restaurant->id }})">
                         @if (Auth::user()->isFavorite($restaurant))
                             <svg width="16" height="14" viewBox="0 0 16 14" fill="none"
@@ -74,25 +73,26 @@
                                     fill="#FC7F09"></path>
                             </svg>
                             <div>
-
-                                <p class="text-[8px] text-left text-[#6b686b]">
-                                    <span class="text-[8px] text-left text-[#6b686b]">Ambrosia Hotel
-                                        &#x26;</span><br /><span
-                                        class="text-[8px] text-left text-[#6b686b]">Restaurant</span>
+                                <p class="text-[8px] text-[#6b686b]">
+                                    {{ $restaurant->address }}
                                 </p>
-                                <p class="text-[6px] text-left text-[#6b686b]">American</p>
-                                <p class="text-[6px] font-light text-left text-[#6b686b]">45$ average price</p>
+                                <p class="text-[6px] text-left text-[#6b686b]">{{ $restaurant->restaurantTag->tag->name ?? ''}}</p>
+                                @if ($restaurant->average_price)
+                                <p class="text-[6px] font-light text-left text-[#6b686b]">{{ $restaurant->average_price }}$ average price</p>
+                                @endif
                             </div>
                         </div>
                     </div>
                     <div class="flex gap-[2px]">
+                        @if ($restaurant->rating)
                         <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
                             xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
                             <path
                                 d="M5 0L6.12257 3.45492H9.75528L6.81636 5.59017L7.93893 9.04508L5 6.90983L2.06107 9.04508L3.18364 5.59017L0.244718 3.45492H3.87743L5 0Z"
                                 fill="#FC7F09" fill-opacity="0.74"></path>
                         </svg>
-                        <p class="text-[8px] font-medium text-left text-[#6b686b]">9.2</p>
+                        <p class="text-[8px] font-medium text-left text-[#6b686b]">{{ $restaurant->rating }}</p>
+                        @endif
                     </div>
                 </div>
             </div>

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('restaurant_id');
             $table->string('title', 100);
             $table->text('description')->nullable();
+            $table->enum('active', ['true', 'false'])->default('true');
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('restaurant_id')->references('id')->on('restaurants');

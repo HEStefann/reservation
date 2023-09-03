@@ -173,5 +173,5 @@ Route::get('/editpersonalinfo', [UserController::class, 'edit'])->name('editpers
 Route::put('/user/update', [UserController::class, 'update'])->name('user.update');
 
 Route::get('/userfavourites', [UserController::class, 'favourites'])->name('userfavourites');
-Route::get('/userreservations', [UserController::class, 'reservations'])->name('userreservations');
+Route::get('/userreservations', [UserController::class, 'reservations'])->name('user.reservations');
 

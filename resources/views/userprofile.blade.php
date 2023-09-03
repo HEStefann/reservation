@@ -104,7 +104,7 @@
                 <div class="mx-[16px] flex">
                     <p class="text-[15px] text-[#343a40]">My reservations</p>
                 </div>
-                <a href="" class="ml-auto">
+                <a href="{{ route('user.reservations') }}" class="ml-auto">
                     <svg width="10" height="21" viewBox="0 0 10 21" fill="none"
                         xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
                         <path d="M1.13281 1L9.32414 10.5L1.13281 20" stroke="#FC7F09"></path>

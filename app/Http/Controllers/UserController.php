@@ -95,4 +95,12 @@ public function update(ProfileUpdateRequest $request)
 
         return redirect()->back();
     }
+
+    // userreservations
+    public function reservations()
+    {
+        $user = auth()->user(); // Get the currently authenticated user
+        $reservations = $user->reservations;
+        return view('userreservations', compact('user', 'reservations'));
+    }
 }

@@ -60,11 +60,11 @@
                 <div class="flex flex-col gap-[18px] px-6 py-[18px] rounded-lg"
                     style="box-shadow: 0px 20px 50px 0 rgba(0,0,0,0.1);">
                     <div class="flex gap-[22px]">
-                        <button disabled id="todayButton" type="button" id="todayButton"
+                        <button id="todayButton" type="button" id="todayButton"
                             class="text-[#005fa4] w-[50%] font-medium h-7 rounded-[10px] border border-[#005fa4]">
                             Today
                         </button>
-                        <button disabled id="tomorrowButton" type="button" id="tomorrowButton"
+                        <button id="tomorrowButton" type="button" id="tomorrowButton"
                             class="text-[#005fa4] w-[50%] font-medium h-7 rounded-[10px] border border-[#005fa4]">
                             Tomorrow
                         </button>
@@ -90,6 +90,7 @@
                     </div>
                     <div id="calendar" class="calendar flex flex-col gap-[18px]">
                     </div>
+
                     <div class="flex mt-[28px] mb-[16px]">
                         <p
                             class="text-base font-medium text-left text-[#343a40] underline underline-offset-2 decoration-[#FC7F09]">
@@ -142,10 +143,10 @@
                 </p>
             </div>
             <div class="flex items-center gap-[8px]">
-                <button id="decrementButton"
+                <button type="button" id="decrementButton"
                     class="w-7 h-7 rounded-lg bg-[#fff5ec] border-[0.3px] border-[#fc7f09]">-</button>
                 <p id="numberOfPeople" class="text-[22px] text-[#343a40]">2</p>
-                <button id="incrementButton"
+                <button type="button" id="incrementButton"
                     class="w-7 h-7 rounded-lg bg-[#fff5ec] border-[0.3px] border-[#fc7f09]">+</button>
             </div>
             <div class="flex mt-[28px] mb-[16px]">
@@ -236,7 +237,12 @@
         </div>
     </form>
 
+
+
     <x-footer />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
         const todayButton = document.getElementById('todayButton');
         const tomorrowButton = document.getElementById('tomorrowButton');
@@ -259,8 +265,6 @@
             nextMonthDate.setMonth(nextMonthDate.getMonth() + 1);
             updateCalendar(nextMonthDate);
         });
-
-
 
         // Get the current date
         const currentDate = new Date();
@@ -307,46 +311,33 @@
             const daysInMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
 
             let calendarHTML = `
-        <div class="grid justify-items-center grid-cols-7 gap-[8px] text-[#6b686b] uppercase text-[10px]">
-            <div>Sun</div>
-            <div>Mon</div>
-            <div>Tue</div>
-            <div>Wed</div>
-            <div>Thu</div>
-            <div>Fri</div>
-            <div>Sat</div>
-        </div>
-        <div class="grid justify-items-center grid-cols-7 gap-[8px]">
-    `;
+            <div class="grid justify-items-center grid-cols-7 gap-[8px] text-[#6b686b] uppercase text-[10px]">
+                <div>Sun</div>
+                <div>Mon</div>
+                <div>Tue</div>
+                <div>Wed</div>
+                <div>Thu</div>
+                <div>Fri</div>
+                <div>Sat</div>
+            </div>
+            <div class="grid justify-items-center grid-cols-7 gap-[8px]">
+        `;
 
             for (let i = 1; i <= daysInMonth; i++) {
                 const dayElement = document.createElement('div');
                 dayElement.textContent = i;
                 dayElement.classList.add('text-base', 'selectable-day', 'text-[#4a5660]');
 
-                dayElement.addEventListener('click', function(event) {
-                    const selectedDay = event.target;
-                    const previouslySelectedDay = document.querySelector('.selectable-day.selected-day');
-
-                    if (previouslySelectedDay) {
-                        previouslySelectedDay.classList.remove('selected-day');
-                    }
-
-                    selectedDay.classList.add('selected-day');
-
-                    // Update the selected date input field
-                    const selectedDate = new Date(year, date.getMonth(), i);
-                    const formattedDate = selectedDate.toLocaleDateString();
-                    document.getElementById('selectedDate').textContent = formattedDate;
-                });
+                // Calculate the date for this day
+                const dayDate = new Date(year, date.getMonth(), i);
+                dayElement.setAttribute('data-date', dayDate.toISOString());
 
                 calendarHTML += `<div class="calendar-day">${dayElement.outerHTML}</div>`;
             }
 
             calendarHTML += '</div>';
             calendarContainer.innerHTML = calendarHTML;
-
-
+            attachDaySelectionListeners(); // Attach listeners to newly created days
         }
 
         function selectToday() {
@@ -360,10 +351,34 @@
             const today = currentDate.getDate();
             const days = document.querySelectorAll('.calendar-day');
             days.forEach(day => {
-                if (day.textContent === today.toString()) {
+                const dayDate = new Date(day.querySelector('.selectable-day').getAttribute('data-date'));
+                if (dayDate.getDate() === today) {
                     day.querySelector('.selectable-day').classList.add('selected-day');
+                    updateSelectedDate(dayDate);
+                } else if (dayDate < currentDate) {
+                    day.querySelector('.selectable-day').classList.add('unclickable');
                 }
             });
+        }
+
+
+        function updateSelectedDate(date) {
+            const selectedDateElement = document.getElementById('selectedDate');
+            const selectedDateInput = document.getElementById('selectedDateInput');
+
+            // Define the months to be used in the format
+            const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September",
+                "October", "November", "December"
+            ];
+
+            const day = date.getDate();
+            const month = months[date.getMonth()];
+            const year = date.getFullYear();
+
+            const formattedDate = `${day} ${month} ${year}`;
+
+            selectedDateElement.textContent = formattedDate;
+            selectedDateInput.value = formattedDate;
         }
 
         function selectTomorrow() {
@@ -378,36 +393,47 @@
             const tomorrow = tomorrowDate.getDate();
             const days = document.querySelectorAll('.calendar-day');
             days.forEach(day => {
-                if (day.textContent === tomorrow.toString()) {
+                const dayDate = new Date(day.querySelector('.selectable-day').getAttribute('data-date'));
+                if (dayDate.getDate() === tomorrow) {
                     day.querySelector('.selectable-day').classList.add('selected-day');
+                    updateSelectedDate(tomorrowDate);
                 }
             });
         }
 
+
         function handleDateSelection(event) {
             const selectedDay = event.target;
-            const selectedMonthYear = document.getElementById('monthYear').textContent;
-            const selectedDate = `${selectedDay.textContent} ${selectedMonthYear}`;
-            const selectedDateElement = document.getElementById('selectedDate');
+            const selectedDateAttribute = selectedDay.getAttribute('data-date');
+            const selectedDate = new Date(selectedDateAttribute);
+            const currentDate = new Date();
 
-            // Remove any existing selected-day class from other days
-            const previouslySelectedDay = document.querySelector('.selectable-day.selected-day');
-            if (previouslySelectedDay) {
-                previouslySelectedDay.classList.remove('selected-day');
+            // Check if the selected date is today or in the future
+            if (selectedDate >= currentDate) {
+                // Remove any existing selected-day class from other days
+                const previouslySelectedDay = document.querySelector('.selectable-day.selected-day');
+                if (previouslySelectedDay) {
+                    previouslySelectedDay.classList.remove('selected-day');
+                }
+
+                // Add the selected-day class to the clicked day
+                selectedDay.classList.add('selected-day');
+
+                // Update the selected date input field
+                updateSelectedDate(selectedDate);
             }
-
-            // Add the selected-day class to the clicked day
-            selectedDay.classList.add('selected-day');
-
-            // Update the selected date input field
-            selectedDateElement.textContent = selectedDate;
         }
 
-        // Add event listeners to all selectable days
-        const selectableDays = document.querySelectorAll('.selectable-day');
-        selectableDays.forEach(day => {
-            day.addEventListener('click', handleDateSelection);
-        });
+
+
+
+        function isTomorrow(date) {
+            const tomorrow = new Date(currentDate.getTime() + (24 * 60 * 60 * 1000));
+            return date.getDate() === tomorrow.getDate() && date.getMonth() === tomorrow.getMonth() && date
+                .getFullYear() === tomorrow.getFullYear();
+        }
+
+
 
         const incrementButton = document.getElementById('incrementButton');
         const decrementButton = document.getElementById('decrementButton');
@@ -427,8 +453,6 @@
             }
         });
 
-
-
         // Assuming you have HTML elements with the class 'selectable-button'
         const buttons = document.querySelectorAll('.selectable-button');
         let selectedButton = null;
@@ -446,6 +470,10 @@
             button.addEventListener('click', handleButtonClick);
         });
     </script>
+
+
+
+
 
 </body>
 

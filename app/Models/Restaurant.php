@@ -208,4 +208,16 @@ class Restaurant extends Model
 
         return $totalPrice / $totalProducts;
     }
+
+    // closing time for current day
+    public function closingTime()
+    {
+        $day = Carbon::now()->format('l');
+        $workingHour = $this->workingHours->where('day_of_week', $day)->first();
+        
+        $closingTime = $workingHour->closing_time;
+        $closingTime = Carbon::parse($closingTime);
+        $closingTime = $closingTime->format('H:i');
+        return $closingTime;
+    }
 }

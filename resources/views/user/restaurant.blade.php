@@ -106,7 +106,7 @@
                             stroke="#343A40" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                         </path>
                     </svg>
-                    <span class="text-[10px] font-light text-left text-[#343a40]">Open until 12:00</span>
+                    <span class="text-[10px] font-light text-left text-[#343a40]">Open until {{ $restaurant->closingTime() }}</span>
                 </div>
                 <div class="flex gap-3 w-[50%]">
                     <svg width="11" height="14" viewBox="0 0 11 14" fill="none"

@@ -227,8 +227,11 @@
                     class="h-10 px-[22px] rounded-lg bg-[#fff5ec] text-sm text-left text-[#6b686b]"
                     placeholder="Email">
                 <div class="flex items-center gap-[4px]">
-                    <input type="checkbox" name="terms" id="terms" class="w-3 h-3 border {{ $errors->has('terms') ? 'border-red-500' : 'border-[#343a40]'}}">
-                    <label for="terms" class="text-[10px] {{ $errors->has('terms') ? 'text-red-500' : 'text-[#343a40]' }}">I agree with restaurant terms of
+                    <input type="checkbox" name="terms" id="terms"
+                        class="w-3 h-3 border {{ $errors->has('terms') ? 'border-red-500' : 'border-[#343a40]' }}">
+                    <label for="terms"
+                        class="text-[10px] {{ $errors->has('terms') ? 'text-red-500' : 'text-[#343a40]' }}">I agree
+                        with restaurant terms of
                         service</label>
                 </div>
             </div>
@@ -475,6 +478,50 @@
         timeButtons.forEach(button => {
             button.addEventListener('click', () => {
                 const selectedTime = button.getAttribute('data-time');
+                const selectedTimeInput = document.getElementById('selectedTimeInput');
+                selectedTimeInput.value = selectedTime;
+            });
+        });
+
+        const timeButtons = document.querySelectorAll('.time-button');
+
+        timeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const selectedTime = button.getAttribute('data-time');
+                const selectedDateTime = new Date();
+                const [hours, minutes] = selectedTime.split(':');
+                selectedDateTime.setHours(parseInt(hours, 10), parseInt(minutes, 10), 0, 0);
+
+                const currentDateTime = new Date();
+
+                // Check if the selected time is in the past
+                if (selectedDateTime <= currentDateTime) {
+                    alert('Please select a time that is in the future.');
+                    return;
+                }
+
+                const selectedTimeInput = document.getElementById('selectedTimeInput');
+                selectedTimeInput.value = selectedTime;
+            });
+        });
+
+        const timeButtons = document.querySelectorAll('.time-button');
+
+        timeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const selectedTime = button.getAttribute('data-time');
+                const selectedDateTime = new Date();
+                const [hours, minutes] = selectedTime.split(':');
+                selectedDateTime.setHours(parseInt(hours, 10), parseInt(minutes, 10), 0, 0);
+
+                const currentDateTime = new Date();
+
+                // Check if the selected time is in the past
+                if (selectedDateTime <= currentDateTime) {
+                    alert('Please select a time that is in the future.');
+                    return;
+                }
+
                 const selectedTimeInput = document.getElementById('selectedTimeInput');
                 selectedTimeInput.value = selectedTime;
             });

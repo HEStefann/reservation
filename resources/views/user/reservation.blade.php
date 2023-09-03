@@ -39,7 +39,6 @@
 
 <body class="min-h-screen flex flex-col">
     <x-navbar />
-    {{-- print errors --}}
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -50,12 +49,11 @@
         </div>
     @endif
 
-    <form method="POST" action="{{ route('reservations.store') }}">
+    <form method="POST" action="{{ route('user.reservation.store') }}">
         @csrf
 
         <div class="mx-[26px] flex flex-grow flex-col">
             <p class="text-xl font-semibold text-left text-[#343a40]">Your Reservation</p>
-            {{-- input restaurant id hidden --}}
             <input type="hidden" name="restaurant_id" value="{{ $restaurant->id }}">
             <div class="flex mt-[19px]">
                 <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -103,14 +101,6 @@
                     </div>
                     <div id="calendar" class="calendar flex flex-col gap-[18px]">
                     </div>
-
-                    {{-- <div class="flex mt-[28px] mb-[16px]">
-                        <p
-                            class="text-base font-medium text-left text-[#343a40] underline underline-offset-2 decoration-[#FC7F09]">
-                            Selected Date
-                        </p>
-                    </div>
-                    <p id="selectedDate" class="text-[14px] font-semibold text-[#343a40]"></p> --}}
                     <input type="date" name="date" class="hidden" id="selectedDateInput">
                 </div>
             </div>
@@ -237,8 +227,8 @@
                     class="h-10 px-[22px] rounded-lg bg-[#fff5ec] text-sm text-left text-[#6b686b]"
                     placeholder="Email">
                 <div class="flex items-center gap-[4px]">
-                    <input type="checkbox" name="terms" id="terms" class="w-3 h-3 border border-[#343a40]">
-                    <label for="terms" class="text-[10px] text-[#343a40]">I agree with restaurant terms of
+                    <input type="checkbox" name="terms" id="terms" class="w-3 h-3 border {{ $errors->has('terms') ? 'border-red-500' : 'border-[#343a40]'}}">
+                    <label for="terms" class="text-[10px] {{ $errors->has('terms') ? 'text-red-500' : 'text-[#343a40]' }}">I agree with restaurant terms of
                         service</label>
                 </div>
             </div>

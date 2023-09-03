@@ -153,9 +153,8 @@ Route::get('/loginviewrestaurant', function () {
 });
 
 Route::get('/userprofile', [UserController::class, 'show'])->name('user.profile');
-// reservation', [UserReservationController::class, 'index with id
 Route::get('/reservation/{restaurantId}', [UserReservationController::class, 'index'])->name('user.reservation');
-
+Route::post('/reservation', [UserReservationController::class, 'store'])->name('user.reservation.store');
 
 // ova e napraven dizajn za forgot password
 Route::get('/forgotpassword', function () {
@@ -174,4 +173,3 @@ Route::put('/user/update', [UserController::class, 'update'])->name('user.update
 
 Route::get('/userfavourites', [UserController::class, 'favourites'])->name('userfavourites');
 Route::get('/userreservations', [UserController::class, 'reservations'])->name('user.reservations');
-

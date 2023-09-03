@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('restaurant_tags', function (Blueprint $table) {
             $table->unsignedBigInteger('restaurant_id');
             $table->unsignedBigInteger('tag_id');
+            $table->enum('main_cuisine', ['true', 'false'])->nullable();
             $table->primary(['restaurant_id', 'tag_id']);
             $table->foreign('restaurant_id')->references('id')->on('restaurants');
             $table->foreign('tag_id')->references('id')->on('tags');

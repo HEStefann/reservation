@@ -122,8 +122,6 @@
     </div>
     <div
         class="pt-[16px] px-[26px] flex pb-[64px] gap-[18px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
-        {{-- <x-show-restaurant :restaurants="$nearestRestaurants" /> --}}
-        {{-- Give it here with --}}
         <div id="nearestRestaurants"></div>
     </div>
     <div class="flex justify-between ml-[26px] mr-[14px]">
@@ -381,16 +379,11 @@
             console.error('Geolocation is not supported by this browser.');
         }
     </script>
-<script>
-  function handleButtonClick(restaurantId) {
-    event.preventDefault(); // Prevent the default behavior
-
-    // Handle the button click action here
-    // You can perform any desired actions or trigger additional JavaScript code
-
-    // Optionally, you can manually navigate to the link specified in the `<a>` tag using JavaScript
-    window.location.href = '/user/favorite/' + restaurantId;
-  }
-  </script>
+    <script>
+        function handleButtonClick(restaurantId) {
+            event.preventDefault(); // Prevent the default behavior
+            window.location.href = '/user/favorite/' + restaurantId;
+        }
+    </script>
 @endpush
 @section('footer', '')

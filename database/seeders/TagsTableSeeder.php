@@ -3,47 +3,26 @@
 namespace Database\Seeders;
 
 use App\Models\Tag;
+use App\Models\TagType;
 use Illuminate\Database\Seeder;
 
 class TagsTableSeeder extends Seeder
 {
     public function run()
     {
-        $tags = [
-            [
-                'name' => 'Parking',
-            ],
-            [
-                'name' => 'Chinese Food',
-            ],
-            [
-                'name' => 'French Cuisine',
-            ],
-            [
-                'name' => 'Italian Food',
-            ],
-            [
-                'name' => 'Seafood',
-            ],
-            [
-                'name' => 'Vegetarian',
-            ],
-            [
-                'name' => 'Vegan',
-            ],
-            [
-                'name' => 'Gluten Free',
-            ],
-            [
-                'name' => 'Halal',
-            ],
-            [
-                'name' => 'Kosher',
-            ],
-        ];
+        // Get the Cuisine tag type
+        $cuisineTagType = TagType::where('name', 'Cuisine')->first();
+        $featureTagType = TagType::where('name', 'Feature')->first();
 
-        foreach ($tags as $tag) {
-            Tag::create($tag);
-        }
+        Tag::create(['name' => 'Parking', 'tag_type_id' => $featureTagType->id]);
+        Tag::create(['name' => 'Chinese Food', 'tag_type_id' => $cuisineTagType->id]);
+        Tag::create(['name' => 'French Cuisine', 'tag_type_id' => $cuisineTagType->id]);
+        Tag::create(['name' => 'Italian Food', 'tag_type_id' => $cuisineTagType->id]);
+        Tag::create(['name' => 'Seafood', 'tag_type_id' => $cuisineTagType->id]);
+        Tag::create(['name' => 'Vegetarian', 'tag_type_id' => $cuisineTagType->id]);
+        Tag::create(['name' => 'Vegan', 'tag_type_id' => $cuisineTagType->id]);
+        Tag::create(['name' => 'Gluten Free', 'tag_type_id' => $cuisineTagType->id]);
+        Tag::create(['name' => 'Halal', 'tag_type_id' => $cuisineTagType->id]);
+        Tag::create(['name' => 'Kosher', 'tag_type_id' => $cuisineTagType->id]);
     }
 }

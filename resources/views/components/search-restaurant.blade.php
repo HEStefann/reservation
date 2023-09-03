@@ -1,5 +1,5 @@
 @foreach ($restaurants as $restaurant)
-    <div class="rounded-bl-2xl rounded-t-2xl rounded-br-2xl bg-white mt-[28px] pb-[8px]">
+    <div class="rounded-bl-2xl rounded-t-2xl rounded-br-2xl bg-white mt-[28px] pb-[8px] shadow-2xl">
         <div class="relative">
             <svg width="14" height="12" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg"
                 preserveAspectRatio="xMidYMid meet" class="absolute right-[8px] top-[8px]">

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('title', 100);
             $table->text('description')->nullable();
             $table->decimal('rating', 2, 1)->nullable();
+            $table->integer('average_price')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -23,7 +23,7 @@
             <div class="font-medium">
                 <p class="text-[28px] text-left text-[#343a40] mb-0">
                     <span class="flex items-center">
-                        User
+                        {{ $user->name }}
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                             xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 ml-[64px]" preserveAspectRatio="none">
                             <path
@@ -33,7 +33,7 @@
                     </span>
                 </p>
                 <p class="mb-0 w-[177px] h-[25px] text-[15px] font-extralight text-left text-[#343a40]">
-                    user@gmail.com
+                    {{ $user->email }}
                 </p>
             </div>
         </div>
@@ -41,22 +41,28 @@
 
     <div class="mx-[26px] mt-[48.4px]">
         <h1 class="text-lg font-medium text-left text-[#343a40]">My account</h1>
-        <div class="mt-[28px]">
-            <p class=" text-base text-left text-[#343a40] mb-[8px]">Name</p>
-            <input placeholder="User" class="w-full rounded-lg bg-[#f3f7fb] border border-[#d4d7e3] mb-[18px]"
-                type="text" name="" id="">
-            <p class=" text-base text-left text-[#343a40] mb-[8px]">Email</p>
-            <input placeholder="example@email.com"
-                class="w-full rounded-lg bg-[#f3f7fb] border border-[#d4d7e3] mb-[18px]" type="text" name=""
-                id="">
-            <p class=" text-base text-left text-[#343a40] mb-[8px]">Phone number</p>
-            <input placeholder="+(XXX)XXXXX" class="w-full rounded-lg bg-[#f3f7fb] border border-[#d4d7e3] mb-[18px]"
-                type="text" name="" id="">
-            <p class=" text-base text-left text-[#343a40] mb-[8px]">Address</p>
-            <input placeholder="St. Goce Delchev"
-                class="w-full rounded-lg bg-[#f3f7fb] border border-[#d4d7e3] mb-[18px]" type="text" name=""
-                id="">
-        </div>
+        <form method="POST" action="{{ route('user.update') }}">
+            @csrf
+            @method('PUT')
+
+            <div class="mt-[28px]">
+                <p class=" text-base text-left text-[#343a40] mb-[8px]">Name</p>
+                <input value="{{ $user->name }}"
+                    class="w-full rounded-lg bg-[#f3f7fb] border border-[#d4d7e3] mb-[18px]" type="text"
+                    name="name" id="">
+                <p class=" text-base text-left text-[#343a40] mb-[8px]">Email</p>
+                <input value="{{ $user->email }}"
+                    class="w-full rounded-lg bg-[#f3f7fb] border border-[#d4d7e3] mb-[18px]" type="text"
+                    name="email" id="">
+                <p class=" text-base text-left text-[#343a40] mb-[8px]">Phone number</p>
+                <input value="{{ $user->phone ?? '' }}"
+                    class="w-full rounded-lg bg-[#f3f7fb] border border-[#d4d7e3] mb-[18px]" type="text"
+                    name="phone" id="">
+            </div>
+            <button type="submit"
+                class="mt-[10px] rounded-xl bg-[#00487c] py-3.5 text-center text-white w-full h-full">Save
+                changes</button>
+        </form>
     </div>
 
     <x-footer />

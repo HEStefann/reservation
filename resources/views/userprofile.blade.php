@@ -23,7 +23,7 @@
             <div class="font-medium">
                 <p class="text-[28px] text-left text-[#343a40] mb-0">
                     <span class="flex items-center">
-                        User
+                        {{ $user->name }}
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                             xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 ml-[64px]" preserveAspectRatio="none">
                             <path
@@ -33,7 +33,7 @@
                     </span>
                 </p>
                 <p class="mb-0 w-[177px] h-[25px] text-[15px] font-extralight text-left text-[#343a40]">
-                    user@gmail.com
+                    {{ $user->email }}
                 </p>
             </div>
         </div>

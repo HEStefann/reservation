@@ -344,15 +344,16 @@
         </div>
     </div>
     <div class="mb-[73px]">
-        <a href="{{ route('reservation.index') }}">
-        <div
-            class="flex justify-center items-center h-10 relative overflow-hidden gap-2.5 mx-6 py-2.5 rounded-[10px]"
-            style="background: linear-gradient(143.6deg, #52d1ed -56.3%, #0f92cf 26.17%, #005fa4 83.39%);">
-            <p class="flex-grow-0 flex-shrink-0 text-xl font-semibold text-left text-white">
-                Reserve a table
-            </p>
-        </div>
-    </a>
+        <a href="{{ route('reservation.index', ['restaurant' => $restaurant->id]) }}">
+            <div class="flex justify-center items-center h-10 relative overflow-hidden gap-2.5 mx-6 py-2.5 rounded-[10px]"
+                style="background: linear-gradient(143.6deg, #52d1ed -56.3%, #0f92cf 26.17%, #005fa4 83.39%);">
+                <p class="flex-grow-0 flex-shrink-0 text-xl font-semibold text-left text-white">
+                    Reserve a table
+                </p>
+            </div>
+        </a>
+    </div>
+
 
     </div>
     <style>
@@ -449,20 +450,21 @@
             </div>
             <div class="leading-[14px]">
                 @for ($i = 0; $i < 3; $i++)
-                <div class="">
-                    <p class="text-[11px] font-medium text-[#fc7f09]">
-                        Appetizers
-                    </p>
-                    @for ($z = 0; $z < 3; $z++)
-                    <div class="text-[10px] text-[#343a40] flex">
-                        <p>Bruschetta Trio</p>
-                        <div class="grow border-b-[1px] border-[#343a40] h-[11px] border-dotted"></div>
-                        <p>15$</p>
+                    <div class="">
+                        <p class="text-[11px] font-medium text-[#fc7f09]">
+                            Appetizers
+                        </p>
+                        @for ($z = 0; $z < 3; $z++)
+                            <div class="text-[10px] text-[#343a40] flex">
+                                <p>Bruschetta Trio</p>
+                                <div class="grow border-b-[1px] border-[#343a40] h-[11px] border-dotted"></div>
+                                <p>15$</p>
+                            </div>
+                            <p class="text-[10px] text-[#343a40] leading-[120%]">tomato basil, roasted red pepper, and
+                                olive tapenade on toasted baguette</p>
+                            <br>
+                        @endfor
                     </div>
-                    <p class="text-[10px] text-[#343a40] leading-[120%]">tomato basil, roasted red pepper, and olive tapenade on toasted baguette</p>
-                    <br>
-                    @endfor
-                </div>
                 @endfor
             </div>
         </div>

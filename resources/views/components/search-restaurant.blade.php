@@ -1,5 +1,5 @@
 @foreach ($restaurants as $restaurant)
-    <div class="rounded-bl-2xl rounded-t-2xl rounded-br-2xl bg-white mt-[28px] pb-[8px]">
+    <div class="rounded-bl-2xl rounded-t-2xl rounded-br-2xl bg-white mt-[28px] pb-[8px] shadow-2xl">
         <div class="relative">
             @if (Auth::check())
                     <button class="absolute right-[8px] top-[8px]" onclick="handleButtonClick({{ $restaurant->id }})">

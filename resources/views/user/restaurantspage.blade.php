@@ -14,9 +14,9 @@
                         <rect x="1.42273" y="0.675781" width="22.3143" height="23" rx="9.5" stroke="white">
                         </rect>
                     </svg>
-                    <input id="searchLocation" type="text"
+                    <input id="searchLocation1" type="text" name="searchLocation"
                         class="w-full pl-[52px] h-12 rounded-[10px] bg-white border border-[#6b686b]"
-                        placeholder="Amsterdam, Neth...">
+                        placeholder="3583 RJ Utrecht, Neth...">
                     <svg id="clearLocationButton" width="17" height="14" viewBox="0 0 17 14" fill="none"
                         xmlns="http://www.w3.org/2000/svg" class="w-[14.57px] h-[12.02px] absolute mr-[18px] right-0"
                         preserveAspectRatio="xMidYMid meet">
@@ -26,6 +26,7 @@
                 </div>
             </div>
         </form>
+
         <div class="flex items-center gap-2 overflow-scroll relative hide-scrollbar">
             <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg"
                 class="flex-grow-0 flex-shrink-0 w-6 h-6 relative" preserveAspectRatio="none">
@@ -63,12 +64,40 @@
         </div>
     </div>
     <div class="mx-[26px]">
-        <p class="text-lg font-medium text-[#343a40] pb-[11px]">The Best Restaurants in Amsterdam</p>
-        <p id="restaurantCount" class="text-xs font-light text-left text-[#6b686b]"></p>
-            <x-search-restaurant :restaurants="$restaurants" />
+        <p id="searchLocationDisplay" class="text-lg font-medium text-[#343a40] pb-[11px]">The best restaurants in <span
+                id="searchLocationValue"></span></p>
+
+        <x-search-restaurant :restaurants="$restaurants" />
     </div>
 
+
+
     <script>
+        // Get references to the input and display elements
+        const searchLocationInput = document.getElementById('searchLocation');
+        const searchLocationValue = document.getElementById('searchLocationValue');
+
+        // Check if there's a stored value in local storage
+        const storedValue = localStorage.getItem('searchLocation');
+        if (storedValue) {
+            // If there's a stored value, display it
+            searchLocationValue.textContent = ucfirst(storedValue.toLowerCase());
+        }
+
+        // Add an event listener to the input field to update the display and store the value
+        searchLocationInput.addEventListener('input', () => {
+            const inputValue = searchLocationInput.value; // Get the input value
+            searchLocationValue.textContent = ucfirst(inputValue.toLowerCase()); // Update the display
+            // Store the value in local storage
+            localStorage.setItem('searchLocation', inputValue);
+        });
+
+        // Function to capitalize the first letter
+        function ucfirst(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
+
         var prevScrollpos = window.pageYOffset;
         window.onscroll = function() {
             var currentScrollPos = window.pageYOffset;

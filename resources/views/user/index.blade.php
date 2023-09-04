@@ -30,9 +30,9 @@
                     <rect x="1.42273" y="0.675781" width="22.3143" height="23" rx="9.5" stroke="white">
                     </rect>
                 </svg>
-                <input id="searchLocation" type="text"
-                    class="w-full pl-[52px] h-12 rounded-[10px] bg-white border border-[#6b686b]"
-                    placeholder="3583 RJ Utrecht, Neth...">
+                <input id="searchLocation2" type="text" name="searchLocation"
+                class="w-full pl-[52px] h-12 rounded-[10px] bg-white border border-[#6b686b]" name="searchLocation"
+                placeholder="Amsterdam, Neth...">
                 <svg id="clearLocationButton" width="17" height="14" viewBox="0 0 17 14" fill="none"
                     xmlns="http://www.w3.org/2000/svg" class="w-[14.57px] h-[12.02px] absolute mr-[18px] right-0"
                     preserveAspectRatio="xMidYMid meet">

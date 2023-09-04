@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Models\Restaurant;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ProfileUpdateRequest;
+use Illuminate\Support\Facades\Http;
+
 
 
 class UserController extends Controller
@@ -65,18 +67,76 @@ public function update(ProfileUpdateRequest $request)
 }
 
 
-    public function search(Request $request)
-    {
-        $searchTerm = $request->input('searchRestaurant');
+public function search(Request $request)
+{
+    $searchAddress = $request->input('searchLocation');
+    $searchTitle = $request->input('searchRestaurant');
 
-        $restaurants = Restaurant::where('title', 'LIKE', '%' . $searchTerm . '%')
-            ->get();
+    // Initialize a variable to store the displayed address
+    $displayedAddress = '';
 
-        return view('user.restaurantspage', [
-            'restaurants' => $restaurants,
-            'searchTerm' => $searchTerm, // Pass the search term to the view
-        ]);
+    if ($searchAddress) {
+        // Use Google Maps Geocoding API to get coordinates for the search address
+        $coordinates = $this->getCoordinatesFromGoogleMaps($searchAddress);
+
+        if ($coordinates) {
+            $latitude = $coordinates['lat'];
+            $longitude = $coordinates['lng'];
+
+            // Calculate the bounding box coordinates for the 2km radius
+            $earthRadius = 6371; // Earth's radius in kilometers
+            $radius = 2; // Radius in kilometers
+
+            $minLatitude = $latitude - ($radius / $earthRadius) * (180 / pi());
+            $maxLatitude = $latitude + ($radius / $earthRadius) * (180 / pi());
+
+            $minLongitude = $longitude - ($radius / $earthRadius) * (180 / pi()) / cos($latitude * (pi() / 180));
+            $maxLongitude = $longitude + ($radius / $earthRadius) * (180 / pi()) / cos($latitude * (pi() / 180));
+
+            // Query your database for restaurants within the bounding box
+            $restaurants = Restaurant::whereBetween('lat', [$minLatitude, $maxLatitude])
+                ->whereBetween('lng', [$minLongitude, $maxLongitude])
+                ->get();
+
+            // Set the displayed address to the searched address
+            $displayedAddress = $searchAddress;
+        } else {
+            // Handle the case where the address couldn't be geocoded
+            $restaurants = [];
+        }
+    } elseif ($searchTitle) {
+        // Search by restaurant name
+        $restaurants = Restaurant::where('title', 'LIKE', '%' . $searchTitle . '%')->get();
+    } else {
+        // Handle the case where neither address nor restaurant name is provided
+        $restaurants = Restaurant::all(); // You can change this to your default behavior
     }
+
+    return view('user.restaurantspage', [
+        'restaurants' => $restaurants,
+        'searchAddress' => $displayedAddress, // Use the displayed address here
+        'searchTitle' => $searchTitle,
+    ]);
+}
+
+private function getCoordinatesFromGoogleMaps($address)
+{
+    $apiKey = 'AIzaSyBopOp_b1Mmr-_8iWcxjrNueAKsVgUoIMU';
+    $formattedAddress = urlencode($address);
+
+    $response = Http::get("https://maps.googleapis.com/maps/api/geocode/json?address={$formattedAddress}&key={$apiKey}");
+    
+    if ($response->successful()) {
+        $data = $response->json();
+
+        if ($data['status'] === 'OK' && isset($data['results'][0]['geometry']['location'])) {
+            return $data['results'][0]['geometry']['location'];
+        }
+    }
+
+    return null;
+}
+
 
     public function favorite(Restaurant $restaurant)
     {

@@ -1,8 +1,17 @@
 <x-guest-layout>
-    <form method="POST" action="{{ route('restaurant.register') }}">
+    <form method="POST" action="{{ route('restaurant.register') }}" enctype="multipart/form-data">
         @csrf
 
         <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+
+        <!-- Image Upload -->
+        <div class="mt-4">
+            <x-input-label for="image" :value="__('Image')" />
+            <input id="image" type="file" name="image" accept="image/*"
+                class="block mt-1 w-full text-black bg-white rounded" />
+            <x-input-error :messages="$errors->get('image')" class="mt-2" />
+        </div>
+
 
 
         <!-- Title -->

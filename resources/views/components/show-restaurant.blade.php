@@ -2,10 +2,13 @@
         <div class="w-[148px] rounded-2xl bg-white p-[10px] d-flex justify-center"
             style="filter: drop-shadow(0px 20px 50px rgba(0,0,0,0.1)); box-shadow: 0px 2px 8px 0 rgba(0,0,0,0.04);">
             <div class="w-32 h-[103.3px] rounded-tl-lg rounded-tr-lg bg-[#c4c4c4] relative">
-                <img src="{{ asset('images/Rectangle 404.png') }}"
+                {{-- from restaurant get images but with were display_order 1 --}}
+                {{-- {{ dd($) }} --}}
+                <img src="{{ Storage::url($restaurant->images()->where('display_order', 1)->first()->image_url) }}"
                     class="w-full h-full rounded-tl-lg rounded-tr-lg  object-cover" />
                 @if (Auth::check())
-                    <button class="absolute right-[3.32px] top-[6.87px]" onclick="handleButtonClick({{ $restaurant->id }})">
+                    <button class="absolute right-[3.32px] top-[6.87px]"
+                        onclick="handleButtonClick({{ $restaurant->id }})">
                         @if (Auth::user()->isFavorite($restaurant))
                             <svg width="16" height="14" viewBox="0 0 16 14" fill="none"
                                 xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
@@ -76,22 +79,24 @@
                                 <p class="text-[8px] text-[#6b686b]">
                                     {{ $restaurant->address }}
                                 </p>
-                                <p class="text-[6px] text-left text-[#6b686b]">{{ $restaurant->restaurantTag->tag->name ?? ''}}</p>
+                                <p class="text-[6px] text-left text-[#6b686b]">
+                                    {{ $restaurant->restaurantTag->tag->name ?? '' }}</p>
                                 @if ($restaurant->average_price)
-                                <p class="text-[6px] font-light text-left text-[#6b686b]">{{ $restaurant->average_price }}$ average price</p>
+                                    <p class="text-[6px] font-light text-left text-[#6b686b]">
+                                        {{ $restaurant->average_price }}$ average price</p>
                                 @endif
                             </div>
                         </div>
                     </div>
                     <div class="flex gap-[2px]">
                         @if ($restaurant->rating)
-                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
-                            xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-                            <path
-                                d="M5 0L6.12257 3.45492H9.75528L6.81636 5.59017L7.93893 9.04508L5 6.90983L2.06107 9.04508L3.18364 5.59017L0.244718 3.45492H3.87743L5 0Z"
-                                fill="#FC7F09" fill-opacity="0.74"></path>
-                        </svg>
-                        <p class="text-[8px] font-medium text-left text-[#6b686b]">{{ $restaurant->rating }}</p>
+                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
+                                xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                                <path
+                                    d="M5 0L6.12257 3.45492H9.75528L6.81636 5.59017L7.93893 9.04508L5 6.90983L2.06107 9.04508L3.18364 5.59017L0.244718 3.45492H3.87743L5 0Z"
+                                    fill="#FC7F09" fill-opacity="0.74"></path>
+                            </svg>
+                            <p class="text-[8px] font-medium text-left text-[#6b686b]">{{ $restaurant->rating }}</p>
                         @endif
                     </div>
                 </div>

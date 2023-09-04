@@ -85,13 +85,13 @@
         <div id="image-scroll"
             class="px-[26px] flex gap-[11px] overflow-x-scroll scrollbar-hide snap-x scroll-smooth snap-mandatory hide-scrollbar">
             <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
+            <img class="rounded-[28px] snap-center" src="https://i.ibb.co/Pj8dWmq/Group-3118-1.png" alt="">
             <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
+            <img class="rounded-[28px] snap-center" src="https://i.ibb.co/Pj8dWmq/Group-3118-1.png" alt="">
             <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
+            <img class="rounded-[28px] snap-center" src="https://i.ibb.co/Pj8dWmq/Group-3118-1.png" alt="">
             <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
-            <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
-            <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
-            <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
-            <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
+            <img class="rounded-[28px] snap-center" src="https://i.ibb.co/Pj8dWmq/Group-3118-1.png" alt="">
             <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
         </div>
         <svg width="35" height="9" viewBox="0 0 35 9" fill="none" xmlns="http://www.w3.org/2000/svg"

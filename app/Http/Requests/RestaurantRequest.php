@@ -34,7 +34,8 @@ class RestaurantRequest extends FormRequest
             'lat' => 'required|numeric',
             'address' => 'required|string',
             'lng' => 'required|numeric',
-            'user_id'=> 'required'
+            'user_id'=> 'required',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Image validation rule
         ];
     }
 }

@@ -40,27 +40,40 @@ class RestaurantController extends Controller
     }
 
     public function store(RestaurantRequest $request)
-    {
-        // Create restaurant
-        $restaurant = $this->restaurantService->createRestaurant($request->validated());
+{
+    // Create restaurant
+    $validatedData = $request->validated();
+    $restaurant = $this->restaurantService->createRestaurant($validatedData);
 
-        // Get authenticated user
-        $user = Auth::user();
+    // Handle image upload
+    if ($request->hasFile('image')) {
+        $imagePath = $request->file('image')->store('images', 'public');
 
-        // Create moderator record  
-        Moderator::create([
-            'user_id' => $user->id,
-            'restaurant_id' => $restaurant->id,
-            'role' => 'owner',
+        // Create a new restaurant image record associated with the restaurant
+        $restaurant->images()->create([
+            'image_url' => $imagePath,
+            'display_order' => 1, // Adjust the display order as needed
         ]);
-
-        // Update user role
-        DB::table('users')
-            ->where('id', $user->id)
-            ->update(['role' => 'owner']);
-
-        return redirect()->route('restaurant.settings.index', ['restaurant' => $restaurant->id]);
     }
+
+    // Get authenticated user
+    $user = Auth::user();
+
+    // Create moderator record
+    Moderator::create([
+        'user_id' => $user->id,
+        'restaurant_id' => $restaurant->id,
+        'role' => 'owner',
+    ]);
+
+    // Update user role
+    DB::table('users')
+        ->where('id', $user->id)
+        ->update(['role' => 'owner']);
+
+    return redirect()->route('restaurant.settings.index', ['restaurant' => $restaurant->id]);
+}
+
     public function getNearestRestaurants(Request $request)
     {
         $latitude = $request->input('latitude');

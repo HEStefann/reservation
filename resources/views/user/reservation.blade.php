@@ -117,7 +117,8 @@
                     </div>
                     <div id="calendar" class="calendar flex flex-col gap-[18px]">
                     </div>
-                    <input type="date" name="date" class="hidden" value="{{ old('date') }}" id="selectedDateInput">
+                    <input type="date" name="date" class="hidden" value="{{ old('date') }}"
+                        id="selectedDateInput">
                 </div>
             </div>
             <div class="flex mt-[28px]">
@@ -165,7 +166,8 @@
                 <button type="button" id="decrementButton"
                     class="w-7 h-7 rounded-lg bg-[#fff5ec] border-[0.3px] border-[#fc7f09]">-</button>
                 <p id="numberOfPeople" class="text-[22px] text-[#343a40]">{{ old('number_of_people') ?? 2 }}</p>
-                <input type="hidden" name="number_of_people" id="numberOfPeopleInput" value="{{ old('number_of_people') ?? 2 }}">
+                <input type="hidden" name="number_of_people" id="numberOfPeopleInput"
+                    value="{{ old('number_of_people') ?? 2 }}">
                 <button type="button" id="incrementButton"
                     class="w-7 h-7 rounded-lg bg-[#fff5ec] border-[0.3px] border-[#fc7f09]">+</button>
             </div>
@@ -182,8 +184,7 @@
                 </p>
             </div>
             <div>
-                <textarea name="note" class="w-full min-h-[69px] rounded-lg bg-[#fff5ec] text-[10px] text-basis leading-[12px]"
-                    id="note" cols="30" value="{{ old('note') }}"></textarea>
+                <textarea name="note" class="w-full min-h-[69px] rounded-lg bg-[#fff5ec] text-[10px] text-basis leading-[12px]" cols="30" value="{{ old('note') }}"></textarea>
             </div>
             <div class="flex mt-[28px] mb-[16px]">
                 <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
@@ -232,24 +233,13 @@
                     Your information
                 </p>
             </div>
-            <div class="flex flex-col gap-[9px]">
-                <input type="text" name="full_name" id="full_name"
-                    class="h-10 px-[22px] rounded-lg bg-[#fff5ec] text-sm text-left text-[#6b686b]"
-                    placeholder="Full name" value="{{ old('full_name') }}">
-                <input type="tel" name="phone_number" id="phone_number"
-                    class="h-10 px-[22px] rounded-lg bg-[#fff5ec] text-sm text-left text-[#6b686b]"
-                    placeholder="Phone number" value="{{ old('phone_number') }}">
-                <input type="email" name="email" id="email"
-                    class="h-10 px-[22px] rounded-lg bg-[#fff5ec] text-sm text-left text-[#6b686b]"
-                    placeholder="Email">
-                <div class="flex items-center gap-[4px]">
-                    <input type="checkbox" name="terms" id="terms"
-                        class="w-3 h-3 border {{ $errors->has('terms') ? 'border-red-500' : 'border-[#343a40]' }}">
-                    <label for="terms"
-                        class="text-[10px] {{ $errors->has('terms') ? 'text-red-500' : 'text-[#343a40]' }}">I agree
-                        with restaurant terms of
-                        service</label>
-                </div>
+            <div class="flex items-center gap-[4px]">
+                <input type="checkbox" name="terms" id="terms"
+                    class="w-3 h-3 border {{ $errors->has('terms') ? 'border-red-500' : 'border-[#343a40]' }}">
+                <label for="terms"
+                    class="text-[10px] {{ $errors->has('terms') ? 'text-red-500' : 'text-[#343a40]' }}">I agree
+                    with restaurant terms of
+                    service</label>
             </div>
             <p id="confirmReservation"
                 class="rounded-[10px] mt-[60px] mb-[20px] py-[8px] text-xl font-semibold text-white text-center"
@@ -283,9 +273,9 @@
                                 fill="#FC7F09"></path>
                         </svg>
                         <div class="flex flex-col gap-[4px]">
-                            <p class="text-sm font-semibold text-left text-[#343a40]">Ann BBQ Su Van Hanh</p>
+                            <p class="text-sm font-semibold text-left text-[#343a40]">{{ $restaurant->title }}</p>
                             <p class="text-xs font-medium text-left text-[#6b686b]">
-                                No. 716 Su Van Hanh, Ward 12, Dist 10, HCM
+                                {{ $restaurant->address }}
                             </p>
                         </div>
                     </div>
@@ -304,9 +294,7 @@
                             <path d="M15.3714 1L15.3714 4.31579" stroke="#FC7F09" stroke-width="2"
                                 stroke-linecap="round"></path>
                         </svg>
-                        <p class="text-sm font-semibold text-left text-[#343a40]">
-                            Wednesday, 25th Sep 2021
-                        </p>
+                        <p class="text-sm font-semibold text-left text-[#343a40]" id="reservationDate"></p>
                     </div>
                     <div class="flex gap-[16px]">
                         <svg width="23" height="22" viewBox="0 0 23 22" fill="none"
@@ -320,8 +308,7 @@
                             <path d="M9.57689 6.52173V10.8043L12.3064 12.2318" stroke="white" stroke-width="1.5"
                                 stroke-linecap="round" stroke-linejoin="round"></path>
                         </svg>
-                        <p class="text-sm font-semibold text-left text-[#343a40]">18h00 - 18h30
-                        </p>
+                        <p class="text-sm font-semibold text-left text-[#343a40]" id="reservationTime"></p>
                     </div>
                     <div class="flex gap-[16px]">
                         <svg width="19" height="21" viewBox="0 0 19 21" fill="none"
@@ -333,7 +320,7 @@
                             <ellipse cx="9.40317" cy="5.5" rx="5.25199" ry="5.5" fill="#FC7F09">
                             </ellipse>
                         </svg>
-                        <p class="text-sm font-semibold text-left text-[#343a40]">2 People</p>
+                        <p class="text-sm font-semibold text-left text-[#343a40]" id="reservationPeople"></p>
                     </div>
                 </div>
                 <div class="rounded-[10px] bg-[#fff5ec] flex gap-[19px] pt-[12px] pl-[13px] pb-[15px]">
@@ -343,13 +330,13 @@
                     </div>
                     <div class="flex flex-col gap-[4px]">
                         <p class="text-sm font-medium text-left text-[#343a40]">
-                            Mary Nguyen
+                            {{ Auth::user()->name }}
                         </p>
                         <p class="text-sm font-medium text-left text-[#343a40]">
-                            0987657992
+                            {{ Auth::user()->phone }}
                         </p>
                         <p class="text-sm font-medium text-left text-[#343a40]">
-                            mary.nguyen@gmail.com
+                            {{ Auth::user()->email }}
                         </p>
                     </div>
                 </div>
@@ -386,7 +373,8 @@
 
                 </div>
             </div>
-            <button type="submit" form="reservationForm" class="w-full h-11 rounded-[10px] bg-gradient-to-br from-[#ffcd01] to-[#fc7f09] text-xl font-semibold text-center text-white"
+            <button type="submit" form="reservationForm"
+                class="w-full h-11 rounded-[10px] bg-gradient-to-br from-[#ffcd01] to-[#fc7f09] text-xl font-semibold text-center text-white"
                 tabindex="0">Confirm</button>
         </div>
     </div>
@@ -562,6 +550,9 @@
             </div>
             <div class="grid justify-items-center grid-cols-7 gap-[8px]">
         `;
+            for (let i = 0; i < startDay; i++) {
+                calendarHTML += '<div></div>';
+            }
 
             for (let i = 1; i <= daysInMonth; i++) {
                 const dayElement = document.createElement('div');
@@ -611,6 +602,14 @@
             const formattedDate = yyyy + '-' + mm + '-' + dd;
             const selectedDateInput = document.getElementById('selectedDateInput');
             selectedDateInput.value = formattedDate;
+            const reservationDate = document.getElementById('reservationDate');
+            // Wednesday, 25th Sep 2021
+            reservationDate.textContent = date.toLocaleString('default', {
+                weekday: 'long',
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric'
+            });
         }
 
         function selectTomorrow() {
@@ -665,19 +664,18 @@
                 .getFullYear() === tomorrow.getFullYear();
         }
 
-
-
         const incrementButton = document.getElementById('incrementButton');
         const decrementButton = document.getElementById('decrementButton');
         const numberOfPeople = document.getElementById('numberOfPeople');
         const numberOfPeopleInput = document.getElementById('numberOfPeopleInput');
-
+        const reservationPeople = document.getElementById('reservationPeople');
         let currentNumber = 2;
 
         incrementButton.addEventListener('click', function() {
             currentNumber++;
             numberOfPeople.textContent = currentNumber;
             numberOfPeopleInput.value = currentNumber;
+            reservationPeople.innerHTML = currentNumber;
         });
 
         decrementButton.addEventListener('click', function() {
@@ -685,6 +683,7 @@
                 currentNumber--;
                 numberOfPeople.textContent = currentNumber;
                 numberOfPeopleInput.value = currentNumber;
+                reservationPeople.innerHTML = currentNumber;
             }
         });
 
@@ -707,12 +706,28 @@
     </script>
     <script>
         const timeButtons = document.querySelectorAll('.time-button');
-
         timeButtons.forEach(button => {
             button.addEventListener('click', () => {
                 const selectedTime = button.getAttribute('data-time');
                 const selectedTimeInput = document.getElementById('selectedTimeInput');
+                const reservationTime = document.getElementById("reservationTime");
                 selectedTimeInput.value = selectedTime;
+
+                const startTime = new Date(`2000-01-01 ${selectedTime}`);
+                const endTime = new Date(startTime.getTime() + 30 * 60000); // Add 30 minutes
+
+                const formattedStartTime = startTime.toLocaleTimeString([], {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: false
+                });
+                const formattedEndTime = endTime.toLocaleTimeString([], {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: false
+                });
+
+                reservationTime.innerHTML = `${formattedStartTime} - ${formattedEndTime}`;
             });
         });
     </script>

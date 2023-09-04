@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreReservationRequest;
+use App\Http\Requests\UserStoreReservationRequest;
 use App\Models\Reservation;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Restaurant;
@@ -19,7 +19,7 @@ class UserReservationController extends Controller
         return view('user.reservation', compact('restaurant'));
     }
     
-public function store(StoreReservationRequest $request)
+public function store(UserStoreReservationRequest $request)
 {
     // check auth 
     if (!Auth::check()) {
@@ -45,9 +45,9 @@ public function store(StoreReservationRequest $request)
     Reservation::create([
         'user_id' => $user->id,
         'restaurant_id' => $request->input('restaurant_id'),
-        'full_name' => $request->input('full_name'),
-        'phone_number' => $request->input('phone_number'),
-        'email' => $request->input('email'),
+        'full_name' => $user->name,
+        'phone_number' => $user->phone,
+        'email' => $user->email,
         'deposit' => $request->input('deposit'),
         'date' => $request->input('date'),
         'time' => $request->input('time'),

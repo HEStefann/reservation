@@ -73,29 +73,6 @@
 
 
     <script>
-        // Get references to the input and display elements
-        const searchLocationInput = document.getElementById('searchLocation');
-        const searchLocationValue = document.getElementById('searchLocationValue');
-
-        // Check if there's a stored value in local storage
-        const storedValue = localStorage.getItem('searchLocation');
-        if (storedValue) {
-            // If there's a stored value, display it
-            searchLocationValue.textContent = ucfirst(storedValue.toLowerCase());
-        }
-
-        // Add an event listener to the input field to update the display and store the value
-        searchLocationInput.addEventListener('input', () => {
-            const inputValue = searchLocationInput.value; // Get the input value
-            searchLocationValue.textContent = ucfirst(inputValue.toLowerCase()); // Update the display
-            // Store the value in local storage
-            localStorage.setItem('searchLocation', inputValue);
-        });
-
-        // Function to capitalize the first letter
-        function ucfirst(str) {
-            return str.charAt(0).toUpperCase() + str.slice(1);
-        }
 
 
         var prevScrollpos = window.pageYOffset;

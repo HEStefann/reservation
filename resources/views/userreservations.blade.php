@@ -16,8 +16,9 @@
     <div class="m-[26px] mt-[48.4px]">
         <div class="flex items-center space-x-4">
             <div class="w-[114px] h-[100px]">
-                <img class="rounded-circle" style="width: 100px; height:100px;"
+                <img style="width: 100px; height: 100px; border-radius: 50%;"
                     src="https://mdbcdn.b-cdn.net/img/new/avatars/9.webp" alt="">
+
             </div>
             <div class="font-medium flex-grow">
                 <div class="text-[28px] text-[#343a40] flex items-center justify-between">
@@ -37,14 +38,16 @@
     </div>
 
     <div class="mx-[26px] mt-[48.4px]">
-        <h1 class="text-lg font-medium text-[#343a40]">{{ count($reservations) ? 'My reservations' : 'No reservations found' }}</h1>
+        <h1 class="text-lg font-medium text-[#343a40]">
+            {{ count($reservations) ? 'My reservations' : 'No reservations found' }}</h1>
         <div class="mt-[28px] flex flex-col gap-[20px]">
             @if (count($reservations))
                 @foreach ($reservations as $reservation)
-                    <div class="flex flex-col p-[10px] bg-white rounded-lg gap-[6px]"
-                        style="box-shadow: 0px 20px 50px 0 rgba(0,0,0,0.1);">
+                    <div class="flex flex-col p-[10px] bg-white rounded-lg gap-[6px] shadow-2xl">
                         <div class="rounded-t-lg h-[103.3px] w-full">
-                            {{-- <img src="image-3.jpeg" class="w-full h-full object-cover" /> --}}
+                            <img src="{{ Storage::url($reservation->restaurant->images()->where('display_order', 1)->first()->image_url) }}"
+                                class="w-full h-full object-cover" />
+                            <img src="" alt="">
                         </div>
                         <div class="text-[#343a40]">
                             <p class="text-sm font-medium mb-[7.8px]">{{ $reservation->restaurant->title }}</p>

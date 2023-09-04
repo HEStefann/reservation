@@ -75,7 +75,39 @@ public function search(Request $request)
     // Initialize a variable to store the displayed address
     $displayedAddress = '';
 
-    if ($searchAddress) {
+    if ($searchAddress && $searchTitle) {
+        // Handle both restaurant name and location search
+        // Use Google Maps Geocoding API to get coordinates for the search address
+        $coordinates = $this->getCoordinatesFromGoogleMaps($searchAddress);
+
+        if ($coordinates) {
+            $latitude = $coordinates['lat'];
+            $longitude = $coordinates['lng'];
+
+            // Calculate the bounding box coordinates for the 2km radius
+            $earthRadius = 6371; // Earth's radius in kilometers
+            $radius = 2; // Radius in kilometers
+
+            $minLatitude = $latitude - ($radius / $earthRadius) * (180 / pi());
+            $maxLatitude = $latitude + ($radius / $earthRadius) * (180 / pi());
+
+            $minLongitude = $longitude - ($radius / $earthRadius) * (180 / pi()) / cos($latitude * (pi() / 180));
+            $maxLongitude = $longitude + ($radius / $earthRadius) * (180 / pi()) / cos($latitude * (pi() / 180));
+
+            // Query your database for restaurants within the bounding box and matching name
+            $restaurants = Restaurant::whereBetween('lat', [$minLatitude, $maxLatitude])
+                ->whereBetween('lng', [$minLongitude, $maxLongitude])
+                ->where('title', 'LIKE', '%' . $searchTitle . '%')
+                ->get();
+
+            // Set the displayed address to the searched address
+            $displayedAddress = $searchAddress;
+        } else {
+            // Handle the case where the address couldn't be geocoded
+            $restaurants = [];
+        }
+    } elseif ($searchAddress) {
+        // Handle location-only search
         // Use Google Maps Geocoding API to get coordinates for the search address
         $coordinates = $this->getCoordinatesFromGoogleMaps($searchAddress);
 
@@ -105,7 +137,7 @@ public function search(Request $request)
             $restaurants = [];
         }
     } elseif ($searchTitle) {
-        // Search by restaurant name
+        // Handle restaurant name-only search
         $restaurants = Restaurant::where('title', 'LIKE', '%' . $searchTitle . '%')->get();
     } else {
         // Handle the case where neither address nor restaurant name is provided
@@ -118,6 +150,7 @@ public function search(Request $request)
         'searchTitle' => $searchTitle,
     ]);
 }
+
 
 private function getCoordinatesFromGoogleMaps($address)
 {

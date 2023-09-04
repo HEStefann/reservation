@@ -21,6 +21,11 @@ class UserReservationController extends Controller
     
 public function store(StoreReservationRequest $request)
 {
+    // check auth 
+    if (!Auth::check()) {
+        return redirect()->route('login')->withErrors(['Please login to make a reservation.']);
+    }
+    
     $user = Auth::user();
 
     // Create a DateTime object for the selected date and time

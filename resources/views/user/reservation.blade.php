@@ -65,7 +65,7 @@
 
 
 
-    <form method="POST" action="{{ route('user.reservation.store') }}">
+    <form method="POST" id="reservationForm" action="{{ route('user.reservation.store') }}">
         @csrf
 
         <div class="mx-[26px] flex flex-grow flex-col">
@@ -117,7 +117,7 @@
                     </div>
                     <div id="calendar" class="calendar flex flex-col gap-[18px]">
                     </div>
-                    <input type="date" name="date" class="hidden" id="selectedDateInput">
+                    <input type="date" name="date" class="hidden" value="{{ old('date') }}" id="selectedDateInput">
                 </div>
             </div>
             <div class="flex mt-[28px]">
@@ -135,7 +135,7 @@
                     Pick your time
                 </p>
             </div>
-            <input type="hidden" name="time" id="selectedTimeInput">
+            <input type="hidden" name="time" value="{{ old('time') }}" id="selectedTimeInput">
             <div class="mt-[14px] grid grid-cols-4 gap-[15px]">
                 @for ($i = 12; $i < 24; $i++)
                     <button type="button"
@@ -164,8 +164,8 @@
             <div class="flex items-center gap-[8px]">
                 <button type="button" id="decrementButton"
                     class="w-7 h-7 rounded-lg bg-[#fff5ec] border-[0.3px] border-[#fc7f09]">-</button>
-                <p id="numberOfPeople" class="text-[22px] text-[#343a40]">2</p>
-                <input type="hidden" name="number_of_people" id="numberOfPeopleInput" value="2">
+                <p id="numberOfPeople" class="text-[22px] text-[#343a40]">{{ old('number_of_people') ?? 2 }}</p>
+                <input type="hidden" name="number_of_people" id="numberOfPeopleInput" value="{{ old('number_of_people') ?? 2 }}">
                 <button type="button" id="incrementButton"
                     class="w-7 h-7 rounded-lg bg-[#fff5ec] border-[0.3px] border-[#fc7f09]">+</button>
             </div>
@@ -183,7 +183,7 @@
             </div>
             <div>
                 <textarea name="note" class="w-full min-h-[69px] rounded-lg bg-[#fff5ec] text-[10px] text-basis leading-[12px]"
-                    id="notes" cols="30"></textarea>
+                    id="note" cols="30" value="{{ old('note') }}"></textarea>
             </div>
             <div class="flex mt-[28px] mb-[16px]">
                 <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
@@ -235,10 +235,10 @@
             <div class="flex flex-col gap-[9px]">
                 <input type="text" name="full_name" id="full_name"
                     class="h-10 px-[22px] rounded-lg bg-[#fff5ec] text-sm text-left text-[#6b686b]"
-                    placeholder="Full name">
+                    placeholder="Full name" value="{{ old('full_name') }}">
                 <input type="tel" name="phone_number" id="phone_number"
                     class="h-10 px-[22px] rounded-lg bg-[#fff5ec] text-sm text-left text-[#6b686b]"
-                    placeholder="Phone number">
+                    placeholder="Phone number" value="{{ old('phone_number') }}">
                 <input type="email" name="email" id="email"
                     class="h-10 px-[22px] rounded-lg bg-[#fff5ec] text-sm text-left text-[#6b686b]"
                     placeholder="Email">
@@ -251,21 +251,238 @@
                         service</label>
                 </div>
             </div>
-
-            <button type="submit"
-                class="rounded-[10px] mt-[60px] mb-[20px] py-[8px] text-xl font-semibold text-white"
+            <p id="confirmReservation"
+                class="rounded-[10px] mt-[60px] mb-[20px] py-[8px] text-xl font-semibold text-white text-center"
                 style="background: linear-gradient(143.6deg, #52d1ed -56.3%, #0f92cf 26.17%, #005fa4 83.39%);">
                 Reserve a table
-            </button>
+            </p>
         </div>
     </form>
 
+    <div id="confirmReservationModal" class="modal">
+        <div class="modal-content rounded-[10px] bg-white pt-[16px] px-[16px] pb-[34px] mx-[15px]">
+            <div class="flex justify-between items-center mb-[15px]">
+                <p class="text-xl font-semibold text-left text-[#6b686b]">
+                    Your Reservation
+                </p>
+                <svg id="closeConfirmReservation" width="14" height="15" viewBox="0 0 14 15" fill="none"
+                    xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 close" preserveAspectRatio="none">
+                    <path d="M13 1.93164L1 13.9316" stroke="#343A40" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round"></path>
+                    <path d="M1 1.93164L13 13.9316" stroke="#343A40" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round"></path>
+                </svg>
+            </div>
+            <div class="flex flex-col gap-[10px] pb-[45px]">
+                <div class="rounded-[10px] bg-[#fff5ec] pt-[21px] pl-[12px] pb-[17px] flex flex-col gap-[16px]">
+                    <div class="flex gap-[16px]">
+                        <svg width="22" height="25" viewBox="0 0 22 25" fill="none"
+                            xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M11.2705 24.8732C13.215 23.8455 21.335 19.0691 21.335 10.974C21.335 4.91322 16.6433 0 10.8558 0C5.06834 0 0.376663 4.91322 0.376663 10.974C0.376663 19.0691 8.49663 23.8455 10.4411 24.8732C10.7037 25.012 11.0079 25.012 11.2705 24.8732ZM10.856 15.6771C13.3363 15.6771 15.347 13.5715 15.347 10.974C15.347 8.37652 13.3363 6.27086 10.856 6.27086C8.37564 6.27086 6.36492 8.37652 6.36492 10.974C6.36492 13.5715 8.37564 15.6771 10.856 15.6771Z"
+                                fill="#FC7F09"></path>
+                        </svg>
+                        <div class="flex flex-col gap-[4px]">
+                            <p class="text-sm font-semibold text-left text-[#343a40]">Ann BBQ Su Van Hanh</p>
+                            <p class="text-xs font-medium text-left text-[#6b686b]">
+                                No. 716 Su Van Hanh, Ward 12, Dist 10, HCM
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex gap-[16px]">
+                        <svg width="21" height="22" viewBox="0 0 21 22" fill="none"
+                            xmlns="http://www.w3.org/2000/svg" class="w-[20.05px] h-[21px]"
+                            preserveAspectRatio="none">
+                            <path
+                                d="M0.331558 7.21045C0.331558 5.32483 0.331558 4.38202 0.917345 3.79624C1.50313 3.21045 2.44594 3.21045 4.33156 3.21045H16.3846C18.2702 3.21045 19.213 3.21045 19.7988 3.79624C20.3846 4.38202 20.3846 5.32483 20.3846 7.21045V7.73677C20.3846 8.20817 20.3846 8.44387 20.2382 8.59032C20.0917 8.73677 19.856 8.73677 19.3846 8.73677H1.33156C0.860154 8.73677 0.624451 8.73677 0.478005 8.59032C0.331558 8.44387 0.331558 8.20817 0.331558 7.73677V7.21045Z"
+                                fill="#FC7F09"></path>
+                            <path
+                                d="M0.331558 18C0.331558 19.8856 0.331558 20.8284 0.917345 21.4142C1.50313 22 2.44594 22 4.33156 22H16.3846C18.2702 22 19.213 22 19.7988 21.4142C20.3846 20.8284 20.3846 19.8856 20.3846 18V11.9474C20.3846 11.476 20.3846 11.2403 20.2382 11.0938C20.0917 10.9474 19.856 10.9474 19.3846 10.9474H1.33156C0.860154 10.9474 0.624451 10.9474 0.478005 11.0938C0.331558 11.2403 0.331558 11.476 0.331558 11.9474V18Z"
+                                fill="#FC7F09"></path>
+                            <path d="M5.34482 1L5.34482 4.31579" stroke="#FC7F09" stroke-width="2"
+                                stroke-linecap="round"></path>
+                            <path d="M15.3714 1L15.3714 4.31579" stroke="#FC7F09" stroke-width="2"
+                                stroke-linecap="round"></path>
+                        </svg>
+                        <p class="text-sm font-semibold text-left text-[#343a40]">
+                            Wednesday, 25th Sep 2021
+                        </p>
+                    </div>
+                    <div class="flex gap-[16px]">
+                        <svg width="23" height="22" viewBox="0 0 23 22" fill="none"
+                            xmlns="http://www.w3.org/2000/svg" class="w-[22.92px] h-[22px]"
+                            preserveAspectRatio="none">
+                            <rect width="22.9167" height="22" rx="5" fill="#FC7F09"></rect>
+                            <path
+                                d="M9.57704 17.9419C13.3457 17.9419 16.4008 14.7463 16.4008 10.8043C16.4008 6.86234 13.3457 3.66675 9.57704 3.66675C5.8084 3.66675 2.75331 6.86234 2.75331 10.8043C2.75331 14.7463 5.8084 17.9419 9.57704 17.9419Z"
+                                stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            </path>
+                            <path d="M9.57689 6.52173V10.8043L12.3064 12.2318" stroke="white" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                        <p class="text-sm font-semibold text-left text-[#343a40]">18h00 - 18h30
+                        </p>
+                    </div>
+                    <div class="flex gap-[16px]">
+                        <svg width="19" height="21" viewBox="0 0 19 21" fill="none"
+                            xmlns="http://www.w3.org/2000/svg" class="w-[18.14px] h-[21px]"
+                            preserveAspectRatio="none">
+                            <path
+                                d="M17.5122 19.1492C18.0308 19.0308 18.3421 18.4919 18.1146 18.0109C17.4896 16.6892 16.4585 15.5278 15.1204 14.6532C13.4802 13.5811 11.4706 13 9.40318 13C7.33576 13 5.32611 13.5811 3.68592 14.6532C2.34788 15.5277 1.31672 16.6892 0.691704 18.0109C0.46429 18.4919 0.775508 19.0308 1.29415 19.1492C6.63154 20.3674 12.1748 20.3674 17.5122 19.1492Z"
+                                fill="#FC7F09"></path>
+                            <ellipse cx="9.40317" cy="5.5" rx="5.25199" ry="5.5" fill="#FC7F09">
+                            </ellipse>
+                        </svg>
+                        <p class="text-sm font-semibold text-left text-[#343a40]">2 People</p>
+                    </div>
+                </div>
+                <div class="rounded-[10px] bg-[#fff5ec] flex gap-[19px] pt-[12px] pl-[13px] pb-[15px]">
+                    <div class="w-[57.29px] h-[60px]">
+                        <img src="{{ asset('images/Image.png') }}"
+                            class="w-full h-full rounded-[300px] object-cover border border-[#e4e4e4]/60" />
+                    </div>
+                    <div class="flex flex-col gap-[4px]">
+                        <p class="text-sm font-medium text-left text-[#343a40]">
+                            Mary Nguyen
+                        </p>
+                        <p class="text-sm font-medium text-left text-[#343a40]">
+                            0987657992
+                        </p>
+                        <p class="text-sm font-medium text-left text-[#343a40]">
+                            mary.nguyen@gmail.com
+                        </p>
+                    </div>
+                </div>
+                <div class="flex rounded-[10px] bg-[#fff5ec] p-[10px] items-center gap-[14px]">
+                    <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
+                        xmlns="http://www.w3.org/2000/svg" class="w-[25px] h-[25px]"
+                        preserveAspectRatio="xMidYMid meet">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M17.8903 11.2763L19.7917 9.37494C20.415 8.75164 20.7266 8.43999 20.8778 8.09578C21.1028 7.58329 21.1028 6.99993 20.8778 6.48743C20.7266 6.14322 20.415 5.83157 19.7917 5.20828C19.1684 4.58498 18.8567 4.27333 18.5125 4.12217C18 3.8971 17.4167 3.8971 16.9042 4.12217C16.5599 4.27333 16.2483 4.58498 15.625 5.20827L13.7001 7.13316C14.7057 8.85138 16.1492 10.2839 17.8903 11.2763ZM12.2457 8.5876L5.02305 15.8102C4.59799 16.2353 4.38546 16.4478 4.24572 16.7089C4.10599 16.97 4.04704 17.2647 3.92915 17.8542L3.27209 21.1395C3.20557 21.4721 3.17231 21.6384 3.26691 21.733C3.36152 21.8276 3.52781 21.7944 3.8604 21.7279L3.86042 21.7279L3.86044 21.7279L7.14575 21.0708C7.7352 20.9529 8.02993 20.894 8.29103 20.7542C8.55212 20.6145 8.76465 20.402 9.18971 19.9769L16.4321 12.7345C14.742 11.6777 13.3129 10.2584 12.2457 8.5876Z"
+                            fill="#FC7F09"></path>
+                    </svg>
+                    <p class="text-sm font-medium text-left text-[#343a40]">
+                        Window Seats / Lactose Intollerant
+                    </p>
+                </div>
+                <div class="rounded-[10px] bg-[#fff5ec] p-[10px] flex gap-[16px] items-center">
+                    <div>
+                        <svg width="25" height="18" viewBox="0 0 25 18" fill="none"
+                            xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M1.00754 0.585786C0.421753 1.17157 0.421753 2.11438 0.421753 4V13.5C0.421753 15.3856 0.421753 16.3284 1.00754 16.9142C1.59333 17.5 2.53613 17.5 4.42175 17.5H20.2944C22.18 17.5 23.1229 17.5 23.7086 16.9142C24.2944 16.3284 24.2944 15.3856 24.2944 13.5V4C24.2944 2.11438 24.2944 1.17157 23.7086 0.585786C23.1229 0 22.18 0 20.2944 0H4.42175C2.53613 0 1.59333 0 1.00754 0.585786ZM4.00266 2.75C3.45037 2.75 3.00266 3.19772 3.00266 3.75C3.00266 4.30229 3.45037 4.75 4.00266 4.75H6.38992C6.94221 4.75 7.38992 4.30229 7.38992 3.75C7.38992 3.19772 6.94221 2.75 6.38992 2.75H4.00266ZM17.3263 13.75C17.3263 13.1977 17.774 12.75 18.3263 12.75H20.7135C21.2658 12.75 21.7135 13.1977 21.7135 13.75C21.7135 14.3023 21.2658 14.75 20.7135 14.75H18.3263C17.774 14.75 17.3263 14.3023 17.3263 13.75ZM13.939 8.75C13.939 9.80447 13.1453 10.5 12.3581 10.5C11.571 10.5 10.7772 9.80447 10.7772 8.75C10.7772 7.69554 11.571 7 12.3581 7C13.1453 7 13.939 7.69554 13.939 8.75ZM15.939 8.75C15.939 10.8211 14.3358 12.5 12.3581 12.5C10.3804 12.5 8.77721 10.8211 8.77721 8.75C8.77721 6.67894 10.3804 5 12.3581 5C14.3358 5 15.939 6.67894 15.939 8.75Z"
+                                fill="#FC7F09"></path>
+                        </svg>
+                    </div>
+                    <div class="flex flex-col gap-[9px]">
+                        <p class="text-sm font-medium text-left text-[#343a40]">
+                            Your deposit is 100 $
+                        </p>
+                        <p class="text-xs text-left text-[#fc7f09]">
+                            Please pay within 30 minutes. If not, your reservation will be canceled
+                            automatically.
+                        </p>
+                    </div>
 
+                </div>
+            </div>
+            <button type="submit" form="reservationForm" class="w-full h-11 rounded-[10px] bg-gradient-to-br from-[#ffcd01] to-[#fc7f09] text-xl font-semibold text-center text-white"
+                tabindex="0">Confirm</button>
+        </div>
+    </div>
+    <style>
+        /* The Modal (background) */
+        .modal {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            /* Stay in place */
+            z-index: 11;
+            /* Sit on top */
+            padding-top: 100px;
+            /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            overflow: auto;
+            /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0);
+            /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.4);
+            /* Black w/ opacity */
+        }
 
+        /* Modal Content */
+        .modal-content {
+            position: relative;
+            -webkit-animation-name: animatetop;
+            -webkit-animation-duration: 0.4s;
+            animation-name: animatetop;
+            animation-duration: 0.4s
+        }
+
+        /* Add Animation */
+        @-webkit-keyframes animatetop {
+            from {
+                top: -300px;
+                opacity: 0
+            }
+
+            to {
+                top: 0;
+                opacity: 1
+            }
+        }
+
+        @keyframes animatetop {
+            from {
+                top: -300px;
+                opacity: 0
+            }
+
+            to {
+                top: 0;
+                opacity: 1
+            }
+        }
+
+        /* The Close Button */
+        .close {
+            color: black;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
     <x-footer />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        var confirmReservationModal = document.getElementById("confirmReservationModal");
+        var confirmReservation = document.getElementById("confirmReservation");
+        var closeConfirmReservation = document.getElementById('closeConfirmReservation')
+        confirmReservation.onclick = function() {
+            confirmReservationModal.style.display = "block";
+        }
+        closeConfirmReservation.onclick = function() {
+            confirmReservationModal.style.display = "none";
+        }
+        window.onclick = function(event) {
+            if (event.target == confirmReservationModal) {
+                confirmReservationModal.style.display = "none";
+            }
+        }
+    </script>
     <script>
         const todayButton = document.getElementById('todayButton');
         const tomorrowButton = document.getElementById('tomorrowButton');

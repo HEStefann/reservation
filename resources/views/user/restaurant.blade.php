@@ -56,10 +56,10 @@
     </div>
     <div class="mx-[26px] mt-[6px]">
         <div class="flex justify-between items-center">
-            <a href="#" class="text-xs text-left text-black" onclick="changeStyle(this)">About</a>
-            <a href="#menuSection" class="text-xs text-left text-black" onclick="changeStyle(this)">Menu</a>
-            <a href="#reviewsSection" class="text-xs text-left text-black" onclick="changeStyle(this)">Reviews</a>
-            <a href="#contactSection" class="text-xs text-left text-black" onclick="changeStyle(this)">Contact</a>
+            <a href="#" class="text-xs text-left text-black">About</a>
+            <a href="#menuSection" class="text-xs text-left text-black">Menu</a>
+            <a href="#reviewsSection" class="text-xs text-left text-black">Reviews</a>
+            <a href="#contactSection" class="text-xs text-left text-black">Contact</a>
         </div>
         <div class="mt-[26px]">
             <p class="text-[28px] font-medium text-left text-[#343a40]">{{ $restaurant->title }}</p>
@@ -94,7 +94,7 @@
                             d="M5.80435 11.4565V7.78261M5.80435 7.78261V3.82609H8.34783C8.60761 3.82609 8.86486 3.87726 9.10487 3.97667C9.34489 4.07609 9.56297 4.22181 9.74667 4.40551C9.93037 4.5892 10.0761 4.80729 10.1755 5.0473C10.2749 5.28731 10.3261 5.54456 10.3261 5.80435C10.3261 6.06414 10.2749 6.32138 10.1755 6.5614C10.0761 6.80141 9.93037 7.01949 9.74667 7.20319C9.56297 7.38689 9.34489 7.53261 9.10487 7.63202C8.86486 7.73144 8.60761 7.78261 8.34783 7.78261H5.80435ZM7.5 14C3.9103 14 1 11.0897 1 7.5C1 3.9103 3.9103 1 7.5 1C11.0897 1 14 3.9103 14 7.5C14 11.0897 11.0897 14 7.5 14Z"
                             stroke="#343A40"></path>
                     </svg>
-                    <span class="text-[10px] font-light text-left text-[#343a40]">Available</span>
+                    <span class="text-[10px] font-light text-left text-[#343a40]">{{ $restaurant->parking() ? 'Available' : 'Not Available' }}</span>
                 </div>
             </div>
             <div class="flex">
@@ -116,8 +116,7 @@
                             d="M0 5.28431C0 2.36284 2.374 0 5.30926 0C8.24452 0 10.6185 2.36284 10.6185 5.28431C10.6185 9.24755 5.30926 14 5.30926 14C5.30926 14 0 9.24755 0 5.28431ZM3.41296 5.28374C3.41296 4.24144 4.26191 3.39648 5.30913 3.39648C5.98656 3.39648 6.61254 3.75619 6.95125 4.34011C7.28997 4.92403 7.28997 5.64345 6.95125 6.22737C6.61254 6.81129 5.98656 7.17099 5.30913 7.17099C4.26191 7.17099 3.41296 6.32604 3.41296 5.28374Z"
                             fill="#FC7F09"></path>
                     </svg>
-                    <span class="text-[10px] font-light text-left text-[#343a40]">Kamerlingh Onneslaan 31097 DE
-                        Amsterdam</span>
+                    <span class="text-[10px] font-light text-left text-[#343a40]">{{ $restaurant->address }}</span>
                 </div>
             </div>
             <div class="flex pb-[14px]">
@@ -136,7 +135,7 @@
         </div>
     </div>
     <div id="menuSection" class="mx-[26px] mb-[24px] scroll-mt-[46px]">
-        <svg width="340" height="2" viewBox="0 0 340 2" fill="none" xmlns="http://www.w3.org/2000/svg"
+        <svg class="w-full" width="340" height="2" viewBox="0 0 340 2" fill="none" xmlns="http://www.w3.org/2000/svg"
             preserveAspectRatio="none">
             <path d="M1 1H339" stroke="#6B686B" stroke-opacity="0.5" stroke-linecap="round"></path>
         </svg>
@@ -188,7 +187,7 @@
         </button>
     </div>
     <div id="reviewsSection" class="mx-[26px] mb-[24px] scroll-mt-[46px]">
-        <svg width="340" height="2" viewBox="0 0 340 2" fill="none" xmlns="http://www.w3.org/2000/svg"
+        <svg class="w-full" width="340" height="2" viewBox="0 0 340 2" fill="none" xmlns="http://www.w3.org/2000/svg"
             preserveAspectRatio="none">
             <path d="M1 1H339" stroke="#6B686B" stroke-opacity="0.5" stroke-linecap="round"></path>
         </svg>
@@ -290,7 +289,7 @@
         </div>
     </div>
     <div id="contactSection" class="mx-[26px] mb-[24px] scroll-mt-[46px]">
-        <svg width="340" height="2" viewBox="0 0 340 2" fill="none" xmlns="http://www.w3.org/2000/svg"
+        <svg class="w-full" width="340" height="2" viewBox="0 0 340 2" fill="none" xmlns="http://www.w3.org/2000/svg"
             preserveAspectRatio="none">
             <path d="M1 1H339" stroke="#6B686B" stroke-opacity="0.5" stroke-linecap="round"></path>
         </svg>
@@ -369,7 +368,7 @@
             /* Hidden by default */
             position: fixed;
             /* Stay in place */
-            z-index: 11;
+            z-index: 21;
             /* Sit on top */
             padding-top: 100px;
             /* Location of the box */
@@ -435,11 +434,6 @@
             cursor: pointer;
         }
     </style>
-    {{-- <button id="menuModalBtn">Open Modal</button>
-    <button id="confirmReservation">Open Modal</button>
-    <button id="reservationConfrirmed">Open Modal</button> --}}
-
-    <!-- The Modal -->
     <div id="menuModal" class="modal">
         <!-- Modal content -->
         <div class="modal-content rounded-[10px] px-[20px] py-[12px] mx-[26px] bg-[#fff5ec]"
@@ -515,56 +509,20 @@
             });
         });
 
-        // Get the modal
         var modal = document.getElementById("menuModal");
-        // var confirmReservationModal = document.getElementById("confirmReservationModal");
-        // var reservationConfrirmedModal = document.getElementById("reservationConfrirmedModal");
-
-        // Get the button that opens the modal
         var btn = document.getElementById("menuModalBtn");
-        // var confirmReservation = document.getElementById("confirmReservation");
-        // var reservationConfrirmed = document.getElementById("reservationConfrirmed");
-
-        // Get the <span> element that closes the modal
         var span = document.getElementsByClassName("close")[0];
-        // var span2 = document.getElementsByClassName("close")[1];
-        // var span3 = document.getElementsByClassName("close")[2];
-
-        // When the user clicks the button, open the modal 
         btn.onclick = function() {
             modal.style.display = "block";
         }
-        // confirmReservation.onclick = function() {
-        //     confirmReservationModal.style.display = "block";
-        // }
-        // reservationConfrirmed.onclick = function() {
-        //     reservationConfrirmedModal.style.display = "block";
-        // }
-        // When the user clicks on <span> (x), close the modal
         span.onclick = function() {
             modal.style.display = "none";
         }
-        // span2.onclick = function() {
-        //     confirmReservationModal.style.display = "none";
-        // }
-        // span3.onclick = function() {
-        //     reservationConfrirmedModal.style.display = "none";
-        // }
         window.onclick = function(event) {
             if (event.target == modal) {
                 modal.style.display = "none";
             }
         }
-        // window.onclick = function(event) {
-        //     if (event.target == confirmReservationModal) {
-        //         confirmReservationModal.style.display = "none";
-        //     }
-        // }
-        // window.onclick = function(event) {
-        //     if (event.target == reservationConfrirmedModal) {
-        //         reservationConfrirmedModal.style.display = "none";
-        //     }
-        // }
     </script>
 
 </body>

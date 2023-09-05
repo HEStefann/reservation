@@ -65,100 +65,76 @@ class UserController extends Controller
         return redirect()->route('user.profile')->with('success', 'Profile updated successfully');
     }
 
- public function search(Request $request)
-{
-    $searchQuery = $request->input('searchRestaurant');
-
-    // Initialize variables for location-based search with default values
-    $latitude = null;
-    $longitude = null;
-    $minLatitude = null;
-    $maxLatitude = null;
-    $minLongitude = null;
-    $maxLongitude = null;
+    public function search(Request $request)
+    {
+        $searchQuery = $request->input('searchRestaurant');
     
-    $radius = 2; // Radius in kilometers
-    $earthRadius = 6371; // Earth's radius in kilometers
-
-    // Initialize a variable to store the displayed address
-    $displayedAddress = '';
-
-    // Check if a search query is provided
-    if ($searchQuery) {
-        // Check if the search query can be geocoded
-        $coordinates = $this->getCoordinatesFromGoogleMaps($searchQuery);
-
-        if ($coordinates) {
-            // Location-based search
-            $latitude = $coordinates['lat'];
-            $longitude = $coordinates['lng'];
-
-            // Calculate the bounding box coordinates for the 2km radius
-            $minLatitude = $latitude - ($radius / $earthRadius) * (180 / pi());
-            $maxLatitude = $latitude + ($radius / $earthRadius) * (180 / pi());
-
-
-                $minLongitude = $longitude - ($radius / $earthRadius) * (180 / pi()) / cos($latitude * (pi() / 180));
-                $maxLongitude = $longitude + ($radius / $earthRadius) * (180 / pi()) / cos($latitude * (pi() / 180));
-
-                // Query your database for restaurants within the bounding box and matching name
-                $restaurants = Restaurant::whereBetween('lat', [$minLatitude, $maxLatitude])
-                    ->whereBetween('lng', [$minLongitude, $maxLongitude])
-                    ->where('title', 'LIKE', '%' . $searchTitle . '%')
-                    ->get();
-
-                // Set the displayed address to the searched address
-                $displayedAddress = $searchAddress;
-            } else {
-                // Handle the case where the address couldn't be geocoded
-                $restaurants = [];
-            }
-        } elseif ($searchAddress) {
-            // Handle location-only search
-            // Use Google Maps Geocoding API to get coordinates for the search address
-            $coordinates = $this->getCoordinatesFromGoogleMaps($searchAddress);
-
+        // Initialize variables for location-based search with default values
+        $latitude = null;
+        $longitude = null;
+        $minLatitude = null;
+        $maxLatitude = null;
+        $minLongitude = null;
+        $maxLongitude = null;
+        
+        $radius = 2; // Radius in kilometers
+        $earthRadius = 6371; // Earth's radius in kilometers
+    
+        // Initialize a variable to store the displayed address
+        $displayedAddress = '';
+    
+        // Check if a search query is provided and not empty
+        if (!empty($searchQuery)) {
+            // Check if the search query can be geocoded
+            $coordinates = $this->getCoordinatesFromGoogleMaps($searchQuery);
+    
             if ($coordinates) {
+                // Location-based search
                 $latitude = $coordinates['lat'];
                 $longitude = $coordinates['lng'];
-
+    
                 // Calculate the bounding box coordinates for the 2km radius
-                $earthRadius = 6371; // Earth's radius in kilometers
-                $radius = 2; // Radius in kilometers
-
                 $minLatitude = $latitude - ($radius / $earthRadius) * (180 / pi());
                 $maxLatitude = $latitude + ($radius / $earthRadius) * (180 / pi());
-
+    
                 $minLongitude = $longitude - ($radius / $earthRadius) * (180 / pi()) / cos($latitude * (pi() / 180));
                 $maxLongitude = $longitude + ($radius / $earthRadius) * (180 / pi()) / cos($latitude * (pi() / 180));
-          // Set the displayed address to the searched address
-            $displayedAddress = $searchQuery;
+    
+                // Set the displayed address to the searched address
+                $displayedAddress = $searchQuery;
+            }
         }
-
+    
         // Query your database for restaurants based on various criteria
         $restaurants = Restaurant::where(function ($query) use ($searchQuery, $minLatitude, $maxLatitude, $minLongitude, $maxLongitude) {
-            $query->where('title', 'LIKE', '%' . $searchQuery . '%');
-
+            if (!empty($searchQuery)) {
+                $query->where('title', 'LIKE', '%' . $searchQuery . '%');
+            }
+    
             if (!is_null($minLatitude) && !is_null($maxLatitude) && !is_null($minLongitude) && !is_null($maxLongitude)) {
                 $query->orWhereBetween('lat', [$minLatitude, $maxLatitude])
                     ->orWhereBetween('lng', [$minLongitude, $maxLongitude]);
             }
         })
         ->orWhereHas('tags', function ($query) use ($searchQuery) {
-            $query->where('name', 'LIKE', '%' . $searchQuery . '%');
+            if (!empty($searchQuery)) {
+                $query->where('name', 'LIKE', '%' . $searchQuery . '%');
+            }
         })
         ->get();
-    } else {
-        // Handle the case where no search query is provided
-        $restaurants = Restaurant::all(); // You can change this to your default behavior
+    
+        // Handle the case where no search query is provided or it's empty
+        if (empty($searchQuery)) {
+            $restaurants = Restaurant::all(); // You can change this to your default behavior
+        }
+        
+    
+        return view('user.restaurantspage', [
+            'restaurants' => $restaurants,
+            'searchAddress' => $displayedAddress, // Use the displayed address here
+            'searchQuery' => $searchQuery,
+        ]);
     }
-
-    return view('user.restaurantspage', [
-        'restaurants' => $restaurants,
-        'searchAddress' => $displayedAddress, // Use the displayed address here
-        'searchQuery' => $searchQuery,
-    ]);
-}
 
 private function getCoordinatesFromGoogleMaps($address)
 {

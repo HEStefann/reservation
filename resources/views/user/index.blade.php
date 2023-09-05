@@ -18,7 +18,7 @@
             reserved by you</div>
     </div>
 
-    <form action="{{ route('user.restaurantspage') }}" method="GET" class="sticky top-[45px] z-10">
+    <form action="{{ route('user.restaurantspage') }}" method="GET" class="sticky top-[47px] z-10">
         <div class="px-[25px] pb-[24px] mb-[40px] flex flex-col gap-[10px] sticky top-[40px] z-10 bg-white">
             <div class="flex items-center relative">
                 <svg viewBox="0 0 29 23" fill="none" xmlns="http://www.w3.org/2000/svg"

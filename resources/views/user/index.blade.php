@@ -43,7 +43,7 @@
                 <input id="searchRestaurant" type="text" name="searchRestaurant"
                     class="w-full pl-[52px] h-12 rounded-[10px] bg-white border border-[#6b686b]" placeholder="Restaurant">
                 <svg id="clearRestaurantButton" width="17" height="14" viewBox="0 0 17 14" fill="none"
-                    xmlns="http://www.w3.org/2000/svg" class="w-[14.57px] h-[12.02px] absolute mr-[18px] right-0"
+                    xmlns="http://www.w3.org/2000/svg" class="w-[14.57px] h-[12.02px] absolute mr-[18px] right-0 hidden"
                     preserveAspectRatio="xMidYMid meet">
                     <path d="M1.22168 0.941406L15.7929 12.9588" stroke="#343A40"></path>
                     <path d="M15.793 0.941406L1.22176 12.9588" stroke="#343A40"></path>

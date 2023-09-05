@@ -1,9 +1,9 @@
-    document.getElementById("clearLocationButton").addEventListener("click", function() {
-        document.getElementById("searchLocation").value = "";
-    });
-
     document.getElementById("clearRestaurantButton").addEventListener("click", function() {
         document.getElementById("searchRestaurant").value = "";
+        document.getElementById('clearRestaurantButton').classList.add('hidden');
+    });
+    document.getElementById('searchRestaurant').addEventListener('keyup', function(event) {
+        document.getElementById('clearRestaurantButton').classList.remove('hidden');
     });
     // Set scroll position on load
     const imageScroll = document.getElementById('image-scroll');

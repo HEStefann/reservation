@@ -220,4 +220,9 @@ class Restaurant extends Model
         $closingTime = $closingTime->format('H:i');
         return $closingTime;
     }
+
+    public function parking(){
+        // check for parking tag return true or false
+        return $this->tags->where('tag', 'parking')->first() ? true : false;
+    }
 }

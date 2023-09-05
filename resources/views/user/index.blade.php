@@ -20,28 +20,6 @@
 
     <form action="{{ route('user.restaurantspage') }}" method="GET" class="sticky top-[45px] z-10">
         <div class="px-[25px] pb-[24px] mb-[40px] flex flex-col gap-[10px] sticky top-[40px] z-10 bg-white">
-            {{-- Search Location --}}
-            <div class="flex items-center relative">
-                <svg viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    class="w-[23.31px] h-6 absolute ml-[14px]" preserveAspectRatio="none">
-                    <path
-                        d="M12.5798 1.17578C7.7261 1.17578 3.79138 4.88867 3.79138 9.46875C3.79138 11.0004 4.1091 12.5824 5.02084 13.7227L12.5798 23.1758L20.1387 13.7227C20.9668 12.687 21.3682 10.8561 21.3682 9.46875C21.3682 4.88867 17.4335 1.17578 12.5798 1.17578ZM12.5798 5.97888C14.622 5.97888 16.2781 7.54163 16.2781 9.46874C16.2781 11.3959 14.622 12.9586 12.5798 12.9586C10.5375 12.9586 8.88144 11.3959 8.88144 9.46875C8.88144 7.54163 10.5375 5.97888 12.5798 5.97888Z"
-                        fill="#343A40"></path>
-                    <rect x="1.42273" y="0.675781" width="22.3143" height="23" rx="9.5" stroke="white">
-                    </rect>
-                </svg>
-                <input id="searchLocation2" type="text" name="searchLocation"
-                    class="w-full pl-[52px] h-12 rounded-[10px] bg-white border border-[#6b686b]" name="searchLocation"
-                    placeholder="Amsterdam, Neth...">
-                <svg id="clearLocationButton" width="17" height="14" viewBox="0 0 17 14" fill="none"
-                    xmlns="http://www.w3.org/2000/svg" class="w-[14.57px] h-[12.02px] absolute mr-[18px] right-0"
-                    preserveAspectRatio="xMidYMid meet">
-                    <path d="M1.22168 0.941406L15.7929 12.9588" stroke="#343A40"></path>
-                    <path d="M15.793 0.941406L1.22176 12.9588" stroke="#343A40"></path>
-                </svg>
-            </div>
-            {{-- End search location --}}
-            {{-- Search restaurant --}}
             <div class="flex items-center relative">
                 <svg viewBox="0 0 29 23" fill="none" xmlns="http://www.w3.org/2000/svg"
                     class="w-[23.31px] h-6 absolute ml-[14px]" preserveAspectRatio="xMidYMid meet">

@@ -30,8 +30,7 @@ class UserController extends Controller
             'recommendedRestaurants' => $recommendedRestaurants
         ]);
     }
-
-    public function show()
+      public function show()
     {
         $user = auth()->user(); // Get the currently authenticated user
         return view('userprofile', compact('user'));
@@ -66,30 +65,38 @@ class UserController extends Controller
         return redirect()->route('user.profile')->with('success', 'Profile updated successfully');
     }
 
+ public function search(Request $request)
+{
+    $searchQuery = $request->input('searchRestaurant');
 
-    public function search(Request $request)
-    {
-        $searchAddress = $request->input('searchLocation');
-        $searchTitle = $request->input('searchRestaurant');
+    // Initialize variables for location-based search with default values
+    $latitude = null;
+    $longitude = null;
+    $minLatitude = null;
+    $maxLatitude = null;
+    $minLongitude = null;
+    $maxLongitude = null;
+    
+    $radius = 2; // Radius in kilometers
+    $earthRadius = 6371; // Earth's radius in kilometers
 
-        // Initialize a variable to store the displayed address
-        $displayedAddress = '';
+    // Initialize a variable to store the displayed address
+    $displayedAddress = '';
 
-        if ($searchAddress && $searchTitle) {
-            // Handle both restaurant name and location search
-            // Use Google Maps Geocoding API to get coordinates for the search address
-            $coordinates = $this->getCoordinatesFromGoogleMaps($searchAddress);
+    // Check if a search query is provided
+    if ($searchQuery) {
+        // Check if the search query can be geocoded
+        $coordinates = $this->getCoordinatesFromGoogleMaps($searchQuery);
 
-            if ($coordinates) {
-                $latitude = $coordinates['lat'];
-                $longitude = $coordinates['lng'];
+        if ($coordinates) {
+            // Location-based search
+            $latitude = $coordinates['lat'];
+            $longitude = $coordinates['lng'];
 
-                // Calculate the bounding box coordinates for the 2km radius
-                $earthRadius = 6371; // Earth's radius in kilometers
-                $radius = 2; // Radius in kilometers
+            // Calculate the bounding box coordinates for the 2km radius
+            $minLatitude = $latitude - ($radius / $earthRadius) * (180 / pi());
+            $maxLatitude = $latitude + ($radius / $earthRadius) * (180 / pi());
 
-                $minLatitude = $latitude - ($radius / $earthRadius) * (180 / pi());
-                $maxLatitude = $latitude + ($radius / $earthRadius) * (180 / pi());
 
                 $minLongitude = $longitude - ($radius / $earthRadius) * (180 / pi()) / cos($latitude * (pi() / 180));
                 $maxLongitude = $longitude + ($radius / $earthRadius) * (180 / pi()) / cos($latitude * (pi() / 180));
@@ -124,40 +131,42 @@ class UserController extends Controller
 
                 $minLongitude = $longitude - ($radius / $earthRadius) * (180 / pi()) / cos($latitude * (pi() / 180));
                 $maxLongitude = $longitude + ($radius / $earthRadius) * (180 / pi()) / cos($latitude * (pi() / 180));
-
-                // Query your database for restaurants within the bounding box
-                $restaurants = Restaurant::whereBetween('lat', [$minLatitude, $maxLatitude])
-                    ->whereBetween('lng', [$minLongitude, $maxLongitude])
-                    ->get();
-
-                // Set the displayed address to the searched address
-                $displayedAddress = $searchAddress;
-            } else {
-                // Handle the case where the address couldn't be geocoded
-                $restaurants = [];
-            }
-        } elseif ($searchTitle) {
-            // Handle restaurant name-only search
-            $restaurants = Restaurant::where('title', 'LIKE', '%' . $searchTitle . '%')->get();
-        } else {
-            // Handle the case where neither address nor restaurant name is provided
-            $restaurants = Restaurant::all(); // You can change this to your default behavior
+          // Set the displayed address to the searched address
+            $displayedAddress = $searchQuery;
         }
 
-        return view('user.restaurantspage', [
-            'restaurants' => $restaurants,
-            'searchAddress' => $displayedAddress, // Use the displayed address here
-            'searchTitle' => $searchTitle,
-        ]);
+        // Query your database for restaurants based on various criteria
+        $restaurants = Restaurant::where(function ($query) use ($searchQuery, $minLatitude, $maxLatitude, $minLongitude, $maxLongitude) {
+            $query->where('title', 'LIKE', '%' . $searchQuery . '%');
+
+            if (!is_null($minLatitude) && !is_null($maxLatitude) && !is_null($minLongitude) && !is_null($maxLongitude)) {
+                $query->orWhereBetween('lat', [$minLatitude, $maxLatitude])
+                    ->orWhereBetween('lng', [$minLongitude, $maxLongitude]);
+            }
+        })
+        ->orWhereHas('tags', function ($query) use ($searchQuery) {
+            $query->where('name', 'LIKE', '%' . $searchQuery . '%');
+        })
+        ->get();
+    } else {
+        // Handle the case where no search query is provided
+        $restaurants = Restaurant::all(); // You can change this to your default behavior
     }
 
+    return view('user.restaurantspage', [
+        'restaurants' => $restaurants,
+        'searchAddress' => $displayedAddress, // Use the displayed address here
+        'searchQuery' => $searchQuery,
+    ]);
+}
 
-    private function getCoordinatesFromGoogleMaps($address)
-    {
-        $apiKey = 'AIzaSyBopOp_b1Mmr-_8iWcxjrNueAKsVgUoIMU';
-        $formattedAddress = urlencode($address);
+private function getCoordinatesFromGoogleMaps($address)
+{
+    $apiKey = 'AIzaSyBopOp_b1Mmr-_8iWcxjrNueAKsVgUoIMU';
+    $formattedAddress = urlencode($address);
 
         $response = Http::get("https://maps.googleapis.com/maps/api/geocode/json?address={$formattedAddress}&key={$apiKey}");
+
 
         if ($response->successful()) {
             $data = $response->json();

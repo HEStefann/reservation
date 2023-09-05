@@ -1,3 +1,4 @@
+@foreach ($restaurants as $restaurant)
     <a href="{{ route('user.restaurant', $restaurant->id) }}">
         <div class="w-[148px] rounded-2xl bg-white p-[10px] d-flex justify-center"
             style="filter: drop-shadow(0px 20px 50px rgba(0,0,0,0.1)); box-shadow: 0px 2px 8px 0 rgba(0,0,0,0.04);">
@@ -101,25 +102,4 @@
             </div>
         </div>
     </a>
-
-    {{-- <script>
-    // Fetch the Google Maps API link
-    fetch("https://maps.googleapis.com/maps/api/geocode/json?latlng={{ $restaurant->lat }},{{ $restaurant->lng }}&key=AIzaSyBopOp_b1Mmr-_8iWcxjrNueAKsVgUoIMU")
-        .then(response => response.json())
-        .then(data => {
-            // Get the first result from the response
-            const result = data.results[0];
-            // Get the formatted address from the result
-            const formattedAddress = result.formatted_address;
-
-            // Select all elements with the class name and convert the HTMLCollection to an array
-            const restaurantAddressElements = Array.from(document.getElementsByClassName(
-                'restaurant-address-{{ $restaurant->id }}'));
-            // Update the inner text of each element with the formatted address using map
-            restaurantAddressElements.map(element => element.innerText = formattedAddress);
-
-        })
-        .catch(error => {
-            console.log("Error fetching the Google Maps API:", error);
-        });
-</script> --}}
+@endforeach

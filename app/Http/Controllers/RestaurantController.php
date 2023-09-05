@@ -103,7 +103,8 @@ class RestaurantController extends Controller
         $nearestRestaurants->each(function ($restaurant) use ($latitude, $longitude) {
             $restaurant->distance = $this->calculateDistance($latitude, $longitude, $restaurant->lat, $restaurant->lng);
         });
-        return response()->json($nearestRestaurants);
+        // return json from rendered shownearestrestaurants component
+        return response()->json(['html' => view('components.show-nearest-restaurants', ['restaurants' => $nearestRestaurants])->render()]);
     }
 
     private function calculateDistance($lat1, $lon1, $lat2, $lon2)

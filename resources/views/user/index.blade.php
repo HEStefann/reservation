@@ -120,9 +120,11 @@
     </div>
     <div
         class="pt-[16px] px-[26px] flex pb-[64px] gap-[18px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
-        @foreach ($restaurants as $restaurant)
-            <x-show-restaurant :restaurant="$restaurant" />
-        @endforeach
+        @if ($highliyRated->count() > 0)
+            @foreach ($highliyRated as $restaurant)
+                <x-show-restaurant :restaurant="$restaurant" />
+            @endforeach
+        @endif
     </div>
     <div class="flex justify-between ml-[26px] mr-[14px]">
         <div>
@@ -142,9 +144,11 @@
     </div>
     <div
         class="pt-[16px] px-[26px] flex pb-[64px] gap-[18px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
-        @foreach ($restaurants as $restaurant)
-            <x-show-restaurant :restaurant="$restaurant" />
-        @endforeach
+        @if ($recommendedRestaurants->count() > 0)
+            @foreach ($recommendedRestaurants as $restaurant)
+                <x-show-restaurant :restaurant="$restaurant" />
+            @endforeach
+        @endif
     </div>
     <p class="text-lg font-medium text-left text-[#343a40] ml-[26px]">How does it work?</p>
     <div class="relative flex justify-center pt-[16px]">
@@ -373,31 +377,15 @@
                         })
                         .then(response => response.json())
                         .then(data => {
-                            // Handle the case when no restaurants are found
-                            if (!Array.isArray(data)) {
-                                console.log('No restaurants found.');
-                                return;
-                            }
 
                             // Display the nearest restaurants
                             var nearestRestaurantsDiv = document.getElementById('nearestRestaurants');
-
-                            // Clear previous results
-                            nearestRestaurantsDiv.innerHTML = '';
-
-                            // Loop through the nearest restaurants and create ShowRestaurant components
-                            data.forEach(function(restaurant) {
-                                // Use the PHP Blade syntax to render the component on the server-side
-                                var showRestaurantElement = document.createElement('div');
-                                showRestaurantElement.innerHTML = `
-                                <?php
-                                echo view('components.show-restaurant', ['restaurant' => $restaurant])->render();
-                                ?>
-                            `;
-
-                                // Append the showRestaurantElement to the nearestRestaurantsDiv
-                                nearestRestaurantsDiv.appendChild(showRestaurantElement);
-                            });
+                            if (data.message) {
+                                nearestRestaurantsDiv.innerHTML = data.message; 
+                            }else {
+                                nearestRestaurantsDiv.innerHTML = data.html;
+                            }
+                            console.log(data)
                         })
                         .catch(error => {
                             console.error('Error fetching nearest restaurants:', error);

@@ -119,6 +119,7 @@
                     <span class="text-[10px] font-light text-left text-[#343a40]">{{ $restaurant->address }}</span>
                 </div>
             </div>
+            @if ($restaurant->rating != null)
             <div class="flex pb-[14px]">
                 <div class="flex gap-3 items-center w-[50%]">
                     <svg width="14" height="13" viewBox="0 0 14 13" fill="none"
@@ -132,6 +133,7 @@
                     </span>
                 </div>
             </div>
+            @endif
         </div>
     </div>
     <div id="menuSection" class="mx-[26px] mb-[24px] scroll-mt-[46px]">
@@ -186,6 +188,7 @@
             <p class="text-xs font-medium text-left text-white">See full menu</p>
         </button>
     </div>
+    @if ($restaurant->reviews->count() != 0)
     <div id="reviewsSection" class="mx-[26px] mb-[24px] scroll-mt-[46px]">
         <svg class="w-full" width="340" height="2" viewBox="0 0 340 2" fill="none" xmlns="http://www.w3.org/2000/svg"
             preserveAspectRatio="none">
@@ -195,7 +198,6 @@
     <div class="mx-[26px] mb-[14px]">
         <p class="text-[22px] font-medium text-left text-[#343a40]">Reviews</p>
         <div class="flex flex-col">
-            {{-- {{ dd($restaurant->reviews) }} --}}
             @foreach ($restaurant->reviews as $review)
                 <div class="rounded-[10px] bg-white py-[11px] px-[14px] flex gap-[12.4px]"
                     style="filter: drop-shadow(0px 20px 50px rgba(0,0,0,0.1));">
@@ -288,13 +290,15 @@
             @endforeach
         </div>
     </div>
+    @endif
+    
     <div id="contactSection" class="mx-[26px] mb-[24px] scroll-mt-[46px]">
         <svg class="w-full" width="340" height="2" viewBox="0 0 340 2" fill="none" xmlns="http://www.w3.org/2000/svg"
             preserveAspectRatio="none">
             <path d="M1 1H339" stroke="#6B686B" stroke-opacity="0.5" stroke-linecap="round"></path>
         </svg>
     </div>
-    <div class="mx-[26px] mb-[36px] relative">
+    <div class="mx-[26px] mb-[149px] relative">
         <p class="text-[22px] font-medium text-left text-[#343a40] mb-[16px]">Restaurant info</p>
         <div class="rounded-2xl object-cover px-[26px] py-[14px] relative"
             style="box-shadow: 0px 20px 50px 0 rgba(0,0,0,0.1);">
@@ -348,7 +352,7 @@
             </div>
         </div>
     </div>
-    <div class="mb-[73px]">
+    <div class="fixed bottom-[73px] w-full">
         <a href="{{ route('user.reservation', $restaurant->id) }}">
             <div class="flex justify-center items-center h-10 relative overflow-hidden gap-2.5 mx-6 py-2.5 rounded-[10px]"
                 style="background: linear-gradient(143.6deg, #52d1ed -56.3%, #0f92cf 26.17%, #005fa4 83.39%);">

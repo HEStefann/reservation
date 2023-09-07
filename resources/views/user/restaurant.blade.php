@@ -56,23 +56,25 @@
     </div>
     <div class="mx-[26px] mt-[6px]">
         <div class="flex justify-between items-center">
-            <a href="#" class="text-xs text-left text-black">About</a>
-            <a href="#menuSection" class="text-xs text-left text-black">Menu</a>
-            <a href="#reviewsSection" class="text-xs text-left text-black">Reviews</a>
-            <a href="#contactSection" class="text-xs text-left text-black">Contact</a>
+            <a href="#" class="text-xs text-black">About</a>
+            <a href="#menuSection" class="text-xs text-black">Menu</a>
+            @if ($restaurant->reviews->count() > 0)
+            <a href="#reviewsSection" class="text-xs text-black">Reviews</a>
+            @endif
+            <a href="#contactSection" class="text-xs text-black">Contact</a>
         </div>
         <div class="mt-[26px]">
-            <p class="text-[28px] font-medium text-left text-[#343a40]">{{ $restaurant->title }}</p>
+            <p class="text-[28px] font-medium text-[#343a40]">{{ $restaurant->title }}</p>
             {{-- tags --}}
             <div class="flex gap-[8px] py-[8px] flex-wrap">
                 @foreach ($restaurant->tags as $tag)
                     <div
                         class="flex justify-center items-center flex-grow-0 flex-shrink-0 px-4 py-1 rounded-[14px] bg-[#ff9f06]/40 border border-[#fc7f09]">
-                        <p class="flex-grow-0 flex-shrink-0 text-sm text-left text-[#343a40]">{{ $tag->name }}</p>
+                        <p class="flex-grow-0 flex-shrink-0 text-sm text-[#343a40]">{{ $tag->name }}</p>
                     </div>
                 @endforeach
             </div>
-            <p class="w-[338px] text-xs font-light text-left text-[#343a40] py-[8px]">
+            <p class="text-xs font-light text-[#343a40] py-[8px]">
                 {{ $restaurant->description }}
             </p>
         </div>
@@ -85,7 +87,7 @@
                             d="M7 3C8.72391 3 10.3772 3.68482 11.5962 4.90381C12.8152 6.12279 13.5 7.77609 13.5 9.5C13.5 9.76522 13.3946 10.0196 13.2071 10.2071C13.0196 10.3946 12.7652 10.5 12.5 10.5H1.5C1.23478 10.5 0.98043 10.3946 0.792893 10.2071C0.605357 10.0196 0.5 9.76522 0.5 9.5C0.5 7.77609 1.18482 6.12279 2.40381 4.90381C3.62279 3.68482 5.27609 3 7 3ZM7 3V1.5M0.5 12.5H13.5"
                             stroke="#343A40" stroke-linecap="round" stroke-linejoin="round"></path>
                     </svg>
-                    <span class="text-[10px] font-light text-left text-[#343a40]">French cuisine</span>
+                    <span class="text-[10px] font-light text-[#343a40]">French cuisine</span>
                 </div>
                 <div class="flex gap-3 items-center w-[50%]">
                     <svg width="15" height="15" viewBox="0 0 15 15" fill="none"
@@ -94,7 +96,7 @@
                             d="M5.80435 11.4565V7.78261M5.80435 7.78261V3.82609H8.34783C8.60761 3.82609 8.86486 3.87726 9.10487 3.97667C9.34489 4.07609 9.56297 4.22181 9.74667 4.40551C9.93037 4.5892 10.0761 4.80729 10.1755 5.0473C10.2749 5.28731 10.3261 5.54456 10.3261 5.80435C10.3261 6.06414 10.2749 6.32138 10.1755 6.5614C10.0761 6.80141 9.93037 7.01949 9.74667 7.20319C9.56297 7.38689 9.34489 7.53261 9.10487 7.63202C8.86486 7.73144 8.60761 7.78261 8.34783 7.78261H5.80435ZM7.5 14C3.9103 14 1 11.0897 1 7.5C1 3.9103 3.9103 1 7.5 1C11.0897 1 14 3.9103 14 7.5C14 11.0897 11.0897 14 7.5 14Z"
                             stroke="#343A40"></path>
                     </svg>
-                    <span class="text-[10px] font-light text-left text-[#343a40]">{{ $restaurant->parking() ? 'Available' : 'Not Available' }}</span>
+                    <span class="text-[10px] font-light text-[#343a40]">{{ $restaurant->parking() ? 'Available' : 'Not Available' }}</span>
                 </div>
             </div>
             <div class="flex">
@@ -106,7 +108,7 @@
                             stroke="#343A40" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                         </path>
                     </svg>
-                    <span class="text-[10px] font-light text-left text-[#343a40]">Open until
+                    <span class="text-[10px] font-light text-[#343a40]">Open until
                         {{ $restaurant->closingTime() }}</span>
                 </div>
                 <div class="flex gap-3 w-[50%]">
@@ -116,10 +118,11 @@
                             d="M0 5.28431C0 2.36284 2.374 0 5.30926 0C8.24452 0 10.6185 2.36284 10.6185 5.28431C10.6185 9.24755 5.30926 14 5.30926 14C5.30926 14 0 9.24755 0 5.28431ZM3.41296 5.28374C3.41296 4.24144 4.26191 3.39648 5.30913 3.39648C5.98656 3.39648 6.61254 3.75619 6.95125 4.34011C7.28997 4.92403 7.28997 5.64345 6.95125 6.22737C6.61254 6.81129 5.98656 7.17099 5.30913 7.17099C4.26191 7.17099 3.41296 6.32604 3.41296 5.28374Z"
                             fill="#FC7F09"></path>
                     </svg>
-                    <span class="text-[10px] font-light text-left text-[#343a40]">{{ $restaurant->address }}</span>
+                    <span class="text-[10px] font-light text-[#343a40]">{{ $restaurant->address }}</span>
                 </div>
             </div>
             <div class="flex pb-[14px]">
+                @if ($restaurant->rating > 0)
                 <div class="flex gap-3 items-center w-[50%]">
                     <svg width="14" height="13" viewBox="0 0 14 13" fill="none"
                         xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
@@ -127,10 +130,11 @@
                             d="M7 0L8.5716 4.83688H13.6574L9.5429 7.82624L11.1145 12.6631L7 9.67376L2.8855 12.6631L4.4571 7.82624L0.342604 4.83688H5.4284L7 0Z"
                             fill="#FC7F09" fill-opacity="0.74"></path>
                     </svg>
-                    <span class="text-[10px] font-light text-left text-[#343a40] w-[50%]">
+                    <span class="text-[10px] font-light text-[#343a40] w-[50%]">
                         {{ $restaurant->rating }}
                     </span>
                 </div>
+                @endif
             </div>
         </div>
     </div>
@@ -141,51 +145,52 @@
         </svg>
     </div>
     <div class="mx-[26px] mb-[24px] flex flex-col">
-        <p class="text-lg font-medium text-left text-[#343a40]">Menu</p>
-        <p class="text-xs font-light text-left text-[#343a40] mt-[16px]">
+        <p class="text-lg font-medium text-[#343a40]">Menu</p>
+        <p class="text-xs font-light text-[#343a40] mt-[16px]">
             {{-- {{ $restaurant->menu->description }} --}}
         </p>
         <div class="flex flex-col gap-3 p-3 rounded-[10px] bg-[#fff5ec]"
             style="box-shadow: 0px 20px 50px 0 rgba(0,0,0,0.1);">
             <div>
-                <div class="flex justify-between">
-                    <p class="text-[10px] font-medium text-left text-[#343a40] flex"><b>Bruschetta
+                <div class="flex justify-between items-center">
+                    <p class="text-[10px] font-medium text-[#343a40] flex"><b>Bruschetta
                             Trio</b></p>
                     <div class="grow text-[10px] font-medium border-b-2 border-[#343a40] border-dotted h-[11px]">
                     </div>
-                    <p class="flex text-[10px] text-left text-[#343a40]"><b>15$</b></p>
+                    <p class="flex text-[10px] text-[#343a40]"><b>15$</b></p>
                 </div>
-                <p class="text-[10px] font-light text-left text-[#343a40]">tomato
+                <p class="text-[10px] font-light text-[#343a40]">tomato
                     basil, roasted red pepper, and olive tapenade on toasted baguette</p>
             </div>
             <div>
-                <div class="flex justify-between">
-                    <p class="text-[10px] font-medium text-left text-[#343a40] flex"><b>Bruschetta
+                <div class="flex justify-between items-center">
+                    <p class="text-[10px] font-medium text-[#343a40] flex"><b>Bruschetta
                             Trio</b></p>
                     <div class="grow text-[10px] font-medium border-b-2 border-[#343a40] border-dotted h-[11px]">
                     </div>
-                    <p class="flex text-[10px] text-left text-[#343a40]"><b>15$</b></p>
+                    <p class="flex text-[10px] text-[#343a40]"><b>15$</b></p>
                 </div>
-                <p class="text-[10px] font-light text-left text-[#343a40]">tomato
+                <p class="text-[10px] font-light text-[#343a40]">tomato
                     basil, roasted red pepper, and olive tapenade on toasted baguette</p>
             </div>
             <div>
-                <div class="flex justify-between">
-                    <p class="text-[10px] font-medium text-left text-[#343a40] flex"><b>Bruschetta
+                <div class="flex justify-between items-center">
+                    <p class="text-[10px] font-medium text-[#343a40] flex"><b>Bruschetta
                             Trio</b></p>
                     <div class="dot grow text-[10px] font-medium border-b-2 border-[#343a40] border-dotted h-[11px]">
                     </div>
-                    <p class="flex text-[10px] text-left text-[#343a40]"><b>15$</b></p>
+                    <p class="flex text-[10px] text-[#343a40]"><b>15$</b></p>
                 </div>
-                <p class="text-[10px] font-light text-left text-[#343a40]">tomato
+                <p class="text-[10px] font-light text-[#343a40]">tomato
                     basil, roasted red pepper, and olive tapenade on toasted baguette</p>
             </div>
         </div>
         <button id="menuModalBtn"
             class="inline-flex self-center justify-center items-center gap-2.5 px-6 py-2.5 rounded-[10px] bg-gradient-to-br from-[#ffcd01] to-[#fc7f09] mt-[14px]">
-            <p class="text-xs font-medium text-left text-white">See full menu</p>
+            <p class="text-xs font-medium text-white">See full menu</p>
         </button>
     </div>
+    @if ($restaurant->reviews->count() > 0)
     <div id="reviewsSection" class="mx-[26px] mb-[24px] scroll-mt-[46px]">
         <svg class="w-full" width="340" height="2" viewBox="0 0 340 2" fill="none" xmlns="http://www.w3.org/2000/svg"
             preserveAspectRatio="none">
@@ -193,9 +198,8 @@
         </svg>
     </div>
     <div class="mx-[26px] mb-[14px]">
-        <p class="text-[22px] font-medium text-left text-[#343a40]">Reviews</p>
+        <p class="text-[22px] font-medium text-[#343a40]">Reviews</p>
         <div class="flex flex-col">
-            {{-- {{ dd($restaurant->reviews) }} --}}
             @foreach ($restaurant->reviews as $review)
                 <div class="rounded-[10px] bg-white py-[11px] px-[14px] flex gap-[12.4px]"
                     style="filter: drop-shadow(0px 20px 50px rgba(0,0,0,0.1));">
@@ -205,7 +209,7 @@
                     </div>
                     <div class="flex flex-col grow">
                         <div class="flex grow justify-between">
-                            <p class="text-[10px] text-left lowercase text-[#343a40]">@KRISTINJONES</p>
+                            <p class="text-[10px] lowercase text-[#343a40]">@KRISTINJONES</p>
                             <div class="flex">
                                 <svg width="11" height="10" viewBox="0 0 11 10" fill="none"
                                     xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
@@ -279,8 +283,8 @@
                                 </svg>
                             </div>
                         </div>
-                        <p class="text-[8px] text-left lowercase text-[#6b686b]">1 DAY AGO</p>
-                        <p class="text-[10px] text-left text-[#343a40]">
+                        <p class="text-[8px] lowercase text-[#6b686b]">1 DAY AGO</p>
+                        <p class="text-[10px] text-[#343a40]">
                             I would recommend this for all my friend!
                         </p>
                     </div>
@@ -288,6 +292,7 @@
             @endforeach
         </div>
     </div>
+    @endif
     <div id="contactSection" class="mx-[26px] mb-[24px] scroll-mt-[46px]">
         <svg class="w-full" width="340" height="2" viewBox="0 0 340 2" fill="none" xmlns="http://www.w3.org/2000/svg"
             preserveAspectRatio="none">
@@ -295,12 +300,12 @@
         </svg>
     </div>
     <div class="mx-[26px] mb-[36px] relative">
-        <p class="text-[22px] font-medium text-left text-[#343a40] mb-[16px]">Restaurant info</p>
+        <p class="text-[22px] font-medium text-[#343a40] mb-[16px]">Restaurant info</p>
         <div class="rounded-2xl object-cover px-[26px] py-[14px] relative"
             style="box-shadow: 0px 20px 50px 0 rgba(0,0,0,0.1);">
             <img src="{{ asset('images/Group 3227.png') }}"
                 class="rounded-2xl absolute w-full h-full top-0 left-0 z-[-1]" />
-            <p class="text-xs text-left text-white">
+            <p class="text-xs text-white">
                 With its commitment to sustainability, exceptional dining experience, and picturesque setting, De
                 Kas has become a must-visit destination for both locals and tourists seeking a taste of
                 Amsterdam's culinary delights.
@@ -315,9 +320,9 @@
                                 d="M12.0739 8.86636L9.49157 7.71081C9.39146 7.66749 9.28213 7.6498 9.17347 7.65935C9.06481 7.6689 8.96024 7.70538 8.86922 7.7655C8.86195 7.77011 8.855 7.77523 8.84844 7.78081L7.49219 8.93691C7.46201 8.95532 7.42776 8.96599 7.39246 8.968C7.35716 8.97 7.32192 8.96327 7.28985 8.94839C6.40172 8.51964 5.48243 7.60745 5.05368 6.72972C5.03851 6.69789 5.03147 6.6628 5.03319 6.62758C5.03491 6.59237 5.04533 6.55812 5.06352 6.52792L6.2229 5.14925C6.22837 5.14269 6.23329 5.13558 6.23821 5.12847C6.29814 5.03758 6.33452 4.93321 6.34407 4.82476C6.35361 4.7163 6.33603 4.60718 6.2929 4.50722L5.13516 1.92925C5.07927 1.79868 4.98253 1.68977 4.85946 1.61887C4.7364 1.54797 4.59365 1.51891 4.45266 1.53605C3.76446 1.62679 3.13282 1.96494 2.67572 2.48736C2.21862 3.00977 1.96732 3.68072 1.96876 4.37488C1.96876 8.59675 5.40313 12.0311 9.62501 12.0311C10.3192 12.0326 10.9901 11.7813 11.5125 11.3242C12.0349 10.8671 12.3731 10.2354 12.4638 9.54722C12.4808 9.40687 12.4521 9.26478 12.3818 9.1421C12.3116 9.01942 12.2036 8.92271 12.0739 8.86636ZM12.0313 9.49253C11.954 10.0754 11.6672 10.6101 11.2243 10.9968C10.7815 11.3835 10.2129 11.5957 9.62501 11.5936C5.64485 11.5936 2.40626 8.35503 2.40626 4.37488C2.40422 3.78696 2.61638 3.21842 3.00308 2.77556C3.38977 2.33271 3.92452 2.04585 4.50735 1.96863C4.51609 1.96808 4.52486 1.96808 4.5336 1.96863C4.57676 1.96899 4.61884 1.98212 4.65455 2.00635C4.69026 2.03058 4.71801 2.06483 4.7343 2.1048L5.88876 4.68277C5.90223 4.71427 5.90811 4.74851 5.90592 4.7827C5.90374 4.8169 5.89355 4.8501 5.87618 4.87964L4.71735 6.25777C4.71188 6.26488 4.70641 6.27144 4.70149 6.27909C4.63975 6.3735 4.60339 6.48223 4.59592 6.59479C4.58845 6.70735 4.61012 6.81993 4.65883 6.92167C5.13407 7.89456 6.11407 8.86745 7.0979 9.34269C7.20033 9.39109 7.31356 9.41215 7.42655 9.40381C7.53953 9.39547 7.64844 9.35802 7.74266 9.29511L7.7629 9.2798L9.12079 8.1248C9.14983 8.10705 9.18268 8.09646 9.21662 8.09389C9.25057 8.09132 9.28463 8.09686 9.31602 8.11003L11.8978 9.26722C11.9414 9.28536 11.9779 9.3171 12.002 9.3577C12.026 9.39831 12.0363 9.44561 12.0313 9.49253Z"
                                 fill="white"></path>
                         </svg>
-                        <p class="text-[10px] text-left text-white">www.DeKas.com</p>
+                        <p class="text-[10px] text-white">www.DeKas.com</p>
                     </div>
-                    <p class="text-[10px] text-left text-white w-[50%]">info@restaurantdekas.nl</p>
+                    <p class="text-[10px] text-white w-[50%]">info@restaurantdekas.nl</p>
                 </div>
                 <div class="flex">
                     <div class="flex gap-[6px] w-[50%]">
@@ -334,13 +339,13 @@
                                 </clipPath>
                             </defs>
                         </svg>
-                        <p class="text-[10px] text-left text-white">+31 20 462 4562</p>
+                        <p class="text-[10px] text-white">+31 20 462 4562</p>
                     </div>
                     <div class="flex gap-[15px] w-[50%]">
-                        <div class="text-sm text-left text-white w-[14px] h-[14px]">
+                        <div class="text-sm text-white w-[14px] h-[14px]">
                             <img class="w-full h-full" src="{{ asset('images/facebook.png') }}" alt="facebook" />
                         </div>
-                        <div class="text-sm text-left text-white w-[14px] h-[14px]">
+                        <div class="text-sm text-white w-[14px] h-[14px]">
                             <img class="w-full h-full" src="{{ asset('images/instagram.png') }}" alt="instagram" />
                         </div>
                     </div>
@@ -352,7 +357,7 @@
         <a href="{{ route('user.reservation', $restaurant->id) }}">
             <div class="flex justify-center items-center h-10 relative overflow-hidden gap-2.5 mx-6 py-2.5 rounded-[10px]"
                 style="background: linear-gradient(143.6deg, #52d1ed -56.3%, #0f92cf 26.17%, #005fa4 83.39%);">
-                <p class="flex-grow-0 flex-shrink-0 text-xl font-semibold text-left text-white">
+                <p class="flex-grow-0 flex-shrink-0 text-xl font-semibold text-white">
                     Reserve a table
                 </p>
             </div>
@@ -491,7 +496,7 @@
                     Reservation request <br /> successfully sent
                 </p>
             </div>
-            <p class="text-xs text-left text-gray-600">
+            <p class="text-xs text-gray-600">
                 Note: Your request for table reservation was sent, you will get a confirmation e-mail with the
                 reservation details.
             </p>

@@ -15,24 +15,17 @@
 <body class="h-full w-full bg-white">
     <x-navbar />
 
-
     <div class="m-[26px] mt-[48.4px]">
         <div class="flex items-center space-x-4">
-            <img class="rounded-circle" style="width: 100px; height:100px;"
-                src="https://mdbcdn.b-cdn.net/img/new/avatars/9.webp" alt="">
-            <div class="font-medium">
-                <p class="text-[28px] text-left text-[#343a40] mb-0">
-                    <span class="flex items-center">
-                        {{ $user->name }}
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 ml-[64px]" preserveAspectRatio="none">
-                            <path
-                                d="M22.5 5.25L18.75 1.5L3.75 16.5L2.25 21.75L7.5 20.25L22.5 5.25ZM15.75 4.5L19.5 8.25L15.75 4.5ZM3.75 16.5L7.5 20.25L3.75 16.5Z"
-                                stroke="#FC7F09" stroke-linecap="round" stroke-linejoin="round"></path>
-                        </svg>
-                    </span>
-                </p>
-                <p class="mb-0 w-[177px] h-[25px] text-[15px] font-extralight text-left text-[#343a40]">
+            <div class="w-[114px] h-[100px]">
+                <img style="width: 100px; height: 100px; border-radius: 50%;"
+                    src="https://mdbcdn.b-cdn.net/img/new/avatars/9.webp" alt="">
+            </div>
+            <div class="font-medium flex-grow">
+                <div class="text-[28px] text-[#343a40] flex items-center justify-between">
+                    <p class="flex">{{ $user->name }}</p>
+                </div>
+                <p class="text-[15px] font-extralight text-[#343a40]">
                     {{ $user->email }}
                 </p>
             </div>

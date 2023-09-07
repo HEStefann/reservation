@@ -175,7 +175,7 @@ class Restaurant extends Model
             $data
         );
     }
-    public function favoritedBy()
+    public function favorite()
     {
         return $this->belongsToMany(User::class, 'user_favorite_restaurants');
     }

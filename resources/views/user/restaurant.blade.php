@@ -200,96 +200,53 @@
     <div class="mx-[26px] mb-[14px]">
         <p class="text-[22px] font-medium text-[#343a40]">Reviews</p>
         <div class="flex flex-col">
-            @foreach ($restaurant->reviews as $review)
-                <div class="rounded-[10px] bg-white py-[11px] px-[14px] flex gap-[12.4px]"
-                    style="filter: drop-shadow(0px 20px 50px rgba(0,0,0,0.1));">
-                    <div class="w-[36.18px] h-[35px] relative">
-                        <img src="{{ asset('images/Image.png') }}"
-                            class="rounded-[300px] object-cover border border-[#e4e4e4]/60" />
-                    </div>
-                    <div class="flex flex-col grow">
-                        <div class="flex grow justify-between">
-                            <p class="text-[10px] lowercase text-[#343a40]">@KRISTINJONES</p>
-                            <div class="flex">
-                                <svg width="11" height="10" viewBox="0 0 11 10" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-                                    <g clip-path="url(#clip0_1144_7987)">
-                                        <path
-                                            d="M10.1552 3.85132C10.0906 3.65143 9.91329 3.50946 9.70353 3.49055L6.85426 3.23184L5.72758 0.594735C5.6445 0.40147 5.4553 0.276367 5.24509 0.276367C5.03488 0.276367 4.84568 0.40147 4.76261 0.595187L3.63593 3.23184L0.786205 3.49055C0.576821 3.50991 0.399975 3.65143 0.334976 3.85132C0.269977 4.05122 0.330005 4.27047 0.488398 4.40868L2.64211 6.29749L2.00703 9.09502C1.96056 9.30071 2.0404 9.51334 2.21107 9.63671C2.3028 9.70299 2.41013 9.73673 2.51836 9.73673C2.61168 9.73673 2.70425 9.71157 2.78732 9.66186L5.24509 8.19294L7.70196 9.66186C7.88174 9.77002 8.10837 9.76015 8.27866 9.63671C8.44941 9.51296 8.52917 9.30026 8.4827 9.09502L7.84762 6.29749L10.0013 4.40905C10.1597 4.27047 10.2202 4.05159 10.1552 3.85132V3.85132Z"
-                                            fill="#FC7F09"></path>
-                                    </g>
-                                    <defs>
-                                        <clipPath id="clip0_1144_7987">
-                                            <rect width="9.87179" height="9.87179" fill="white"
-                                                transform="translate(0.309052 0.0639648)"></rect>
-                                        </clipPath>
-                                    </defs>
-                                </svg>
-                                <svg width="11" height="10" viewBox="0 0 11 10" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-                                    <g clip-path="url(#clip0_1144_7987)">
-                                        <path
-                                            d="M10.1552 3.85132C10.0906 3.65143 9.91329 3.50946 9.70353 3.49055L6.85426 3.23184L5.72758 0.594735C5.6445 0.40147 5.4553 0.276367 5.24509 0.276367C5.03488 0.276367 4.84568 0.40147 4.76261 0.595187L3.63593 3.23184L0.786205 3.49055C0.576821 3.50991 0.399975 3.65143 0.334976 3.85132C0.269977 4.05122 0.330005 4.27047 0.488398 4.40868L2.64211 6.29749L2.00703 9.09502C1.96056 9.30071 2.0404 9.51334 2.21107 9.63671C2.3028 9.70299 2.41013 9.73673 2.51836 9.73673C2.61168 9.73673 2.70425 9.71157 2.78732 9.66186L5.24509 8.19294L7.70196 9.66186C7.88174 9.77002 8.10837 9.76015 8.27866 9.63671C8.44941 9.51296 8.52917 9.30026 8.4827 9.09502L7.84762 6.29749L10.0013 4.40905C10.1597 4.27047 10.2202 4.05159 10.1552 3.85132V3.85132Z"
-                                            fill="#FC7F09"></path>
-                                    </g>
-                                    <defs>
-                                        <clipPath id="clip0_1144_7987">
-                                            <rect width="9.87179" height="9.87179" fill="white"
-                                                transform="translate(0.309052 0.0639648)"></rect>
-                                        </clipPath>
-                                    </defs>
-                                </svg>
-                                <svg width="11" height="10" viewBox="0 0 11 10" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-                                    <g clip-path="url(#clip0_1144_7987)">
-                                        <path
-                                            d="M10.1552 3.85132C10.0906 3.65143 9.91329 3.50946 9.70353 3.49055L6.85426 3.23184L5.72758 0.594735C5.6445 0.40147 5.4553 0.276367 5.24509 0.276367C5.03488 0.276367 4.84568 0.40147 4.76261 0.595187L3.63593 3.23184L0.786205 3.49055C0.576821 3.50991 0.399975 3.65143 0.334976 3.85132C0.269977 4.05122 0.330005 4.27047 0.488398 4.40868L2.64211 6.29749L2.00703 9.09502C1.96056 9.30071 2.0404 9.51334 2.21107 9.63671C2.3028 9.70299 2.41013 9.73673 2.51836 9.73673C2.61168 9.73673 2.70425 9.71157 2.78732 9.66186L5.24509 8.19294L7.70196 9.66186C7.88174 9.77002 8.10837 9.76015 8.27866 9.63671C8.44941 9.51296 8.52917 9.30026 8.4827 9.09502L7.84762 6.29749L10.0013 4.40905C10.1597 4.27047 10.2202 4.05159 10.1552 3.85132V3.85132Z"
-                                            fill="#FC7F09"></path>
-                                    </g>
-                                    <defs>
-                                        <clipPath id="clip0_1144_7987">
-                                            <rect width="9.87179" height="9.87179" fill="white"
-                                                transform="translate(0.309052 0.0639648)"></rect>
-                                        </clipPath>
-                                    </defs>
-                                </svg>
-                                <svg width="11" height="10" viewBox="0 0 11 10" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-                                    <g clip-path="url(#clip0_1144_7987)">
-                                        <path
-                                            d="M10.1552 3.85132C10.0906 3.65143 9.91329 3.50946 9.70353 3.49055L6.85426 3.23184L5.72758 0.594735C5.6445 0.40147 5.4553 0.276367 5.24509 0.276367C5.03488 0.276367 4.84568 0.40147 4.76261 0.595187L3.63593 3.23184L0.786205 3.49055C0.576821 3.50991 0.399975 3.65143 0.334976 3.85132C0.269977 4.05122 0.330005 4.27047 0.488398 4.40868L2.64211 6.29749L2.00703 9.09502C1.96056 9.30071 2.0404 9.51334 2.21107 9.63671C2.3028 9.70299 2.41013 9.73673 2.51836 9.73673C2.61168 9.73673 2.70425 9.71157 2.78732 9.66186L5.24509 8.19294L7.70196 9.66186C7.88174 9.77002 8.10837 9.76015 8.27866 9.63671C8.44941 9.51296 8.52917 9.30026 8.4827 9.09502L7.84762 6.29749L10.0013 4.40905C10.1597 4.27047 10.2202 4.05159 10.1552 3.85132V3.85132Z"
-                                            fill="#FC7F09"></path>
-                                    </g>
-                                    <defs>
-                                        <clipPath id="clip0_1144_7987">
-                                            <rect width="9.87179" height="9.87179" fill="white"
-                                                transform="translate(0.309052 0.0639648)"></rect>
-                                        </clipPath>
-                                    </defs>
-                                </svg>
-                                <svg width="11" height="10" viewBox="0 0 11 10" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-                                    <g clip-path="url(#clip0_1144_7987)">
-                                        <path
-                                            d="M10.1552 3.85132C10.0906 3.65143 9.91329 3.50946 9.70353 3.49055L6.85426 3.23184L5.72758 0.594735C5.6445 0.40147 5.4553 0.276367 5.24509 0.276367C5.03488 0.276367 4.84568 0.40147 4.76261 0.595187L3.63593 3.23184L0.786205 3.49055C0.576821 3.50991 0.399975 3.65143 0.334976 3.85132C0.269977 4.05122 0.330005 4.27047 0.488398 4.40868L2.64211 6.29749L2.00703 9.09502C1.96056 9.30071 2.0404 9.51334 2.21107 9.63671C2.3028 9.70299 2.41013 9.73673 2.51836 9.73673C2.61168 9.73673 2.70425 9.71157 2.78732 9.66186L5.24509 8.19294L7.70196 9.66186C7.88174 9.77002 8.10837 9.76015 8.27866 9.63671C8.44941 9.51296 8.52917 9.30026 8.4827 9.09502L7.84762 6.29749L10.0013 4.40905C10.1597 4.27047 10.2202 4.05159 10.1552 3.85132V3.85132Z"
-                                            fill="#FC7F09"></path>
-                                    </g>
-                                    <defs>
-                                        <clipPath id="clip0_1144_7987">
-                                            <rect width="9.87179" height="9.87179" fill="white"
-                                                transform="translate(0.309052 0.0639648)"></rect>
-                                        </clipPath>
-                                    </defs>
-                                </svg>
+            @if ($restaurant->reviews->count() != 0)
+            <div id="reviewsSection" class="mx-[26px] mb-[24px] scroll-mt-[46px]">
+                <svg class="w-full" width="340" height="2" viewBox="0 0 340 2" fill="none"
+                    xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                    <path d="M1 1H339" stroke="#6B686B" stroke-opacity="0.5" stroke-linecap="round"></path>
+                </svg>
+            </div>
+            <div class="mx-[26px] mb-[14px]">
+                <p class="text-[22px] font-medium text-left text-[#343a40]">Reviews</p>
+                <div class="flex flex-col">
+                    @foreach ($restaurant->reviews as $review)
+                        <div class="rounded-[10px] bg-white py-[11px] px-[14px] flex gap-[12.4px]"
+                            style="filter: drop-shadow(0px 20px 50px rgba(0,0,0,0.1));">
+                            <div class="w-[36.18px] h-[35px] relative">
+                                <img src="{{ asset('images/Image.png') }}"
+                                    class="rounded-[300px] object-cover border border-[#e4e4e4]/60" />
+                            </div>
+                            <div class="flex flex-col grow">
+                                <div class="flex grow justify-between">
+                                    <p class="text-[10px] text-left lowercase text-[#343a40]">{{ Auth()->user()->name }}
+                                    </p>
+                                    <div class="flex">
+                                        @for ($i = 0; $i < $review->rating; $i++)
+                                            <svg width="11" height="10" viewBox="0 0 11 10" fill="#FC7F09"
+                                                xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+                                                <g clip-path="url(#clip0_1144_7987)">
+                                                    <path
+                                                        d="M10.1552 3.85132C10.0906 3.65143 9.91329 3.50946 9.70353 3.49055L6.85426 3.23184L5.72758 0.594735C5.6445 0.40147 5.4553 0.276367 5.24509 0.276367C5.03488 0.276367 4.84568 0.40147 4.76261 0.595187L3.63593 3.23184L0.786205 3.49055C0.576821 3.50991 0.399975 3.65143 0.334976 3.85132C0.269977 4.05122 0.330005 4.27047 0.488398 4.40868L2.64211 6.29749L2.00703 9.09502C1.96056 9.30071 2.0404 9.51334 2.21107 9.63671C2.3028 9.70299 2.41013 9.73673 2.51836 9.73673C2.61168 9.73673 2.70425 9.71157 2.78732 9.66186L5.24509 8.19294L7.70196 9.66186C7.88174 9.77002 8.10837 9.76015 8.27866 9.63671C8.44941 9.51296 8.52917 9.30026 8.4827 9.09502L7.84762 6.29749L10.0013 4.40905C10.1597 4.27047 10.2202 4.05159 10.1552 3.85132V3.85132Z"
+                                                        fill="#FC7F09" />
+                                                </g>
+                                            </svg>
+                                        @endfor
+                                    </div>
+                                </div>
+                                {{-- how much days ago review was made --}}
+                                <p class="text-[8px] text-left lowercase text-[#6b686b]">
+                                    {{ $review->created_at->diffForHumans() }}
+                                </p>
+                                <p class="text-[10px] text-left text-[#343a40]">
+                                    {{ $review->description }}
+                                </p>
                             </div>
                         </div>
-                        <p class="text-[8px] lowercase text-[#6b686b]">1 DAY AGO</p>
-                        <p class="text-[10px] text-[#343a40]">
-                            I would recommend this for all my friend!
-                        </p>
-                    </div>
+                    @endforeach
                 </div>
-            @endforeach
+            </div>
+        @endif
         </div>
     </div>
     @endif

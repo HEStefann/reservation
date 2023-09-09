@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('background_types', function (Blueprint $table) {
             $table->id();
             $table->string('Description', 20);
-            $table->boolean('Active');
+            $table->boolean('Active')->default(1);
             $table->string('CreatedBy', 100);
+            $table->string('ModifiedBy', 100)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

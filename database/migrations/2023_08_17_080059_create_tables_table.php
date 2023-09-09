@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('Shape');
             $table->boolean('Active');
             $table->string('CreatedBy', 100);
+            $table->string('ModifiedBy', 100)->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->integer('Height');
@@ -28,18 +29,15 @@ return new class extends Migration
             $table->unsignedBigInteger('IdBillPrinter')->nullable();
             $table->string('TemporaryName', 50)->nullable();
             $table->datetime('BlockTime')->nullable();
-            $table->boolean('Reserved');
-            $table->boolean('Lock');
-            $table->integer('Capacity');
-            $table->unsignedBigInteger('InteriorShapeType')->nullable();
-            $table->unsignedBigInteger('IdTableSize')->nullable();
-            $table->unsignedBigInteger('IdRotationSide')->nullable();
+            $table->boolean('Reserved')->default(0);
+            $table->boolean('Lock')->default(0);
+            $table->integer('Capacity')->default(4);
+            $table->integer('RotationSide')->nullable();
+            $table->integer('InteriorShapeType')->nullable();
 
+            $table->unsignedBigInteger('IdTableSize')->nullable();
             $table->foreign('IdFloor')->references('id')->on('floors');
-            // $table->foreign('IdBillPrinter')->references('id')->on('bill_printers');
-            // $table->foreign('InteriorShapeType')->references('id')->on('interior_shape_types');
             $table->foreign('IdTableSize')->references('id')->on('table_size');
-            // $table->foreign('IdRotationSide')->references('id')->on('rotation_sides');
         });
     }
 

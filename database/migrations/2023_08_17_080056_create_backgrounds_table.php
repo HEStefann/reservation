@@ -13,18 +13,18 @@ return new class extends Migration
     {
         Schema::create('backgrounds', function (Blueprint $table) {
             $table->id();
-            $table->string('Title', 50)->nullable();
-            $table->string('Data', 250);
-            $table->string('ObjectColour', 10)->nullable();
-            $table->string('SymbolColour', 10)->nullable();
+            $table->string('Title', 50);
+            $table->text('Data');
+            $table->string('ObjectColour', 10);
+            $table->string('SymbolColour', 10);
             $table->unsignedBigInteger('IdType');
-            $table->unsignedBigInteger('IdResolutionType')->nullable();
-            $table->boolean('Active');
+            // $table->unsignedInteger('IdResolutionType');
+            $table->boolean('Active')->default(1);
             $table->string('CreatedBy', 100);
             $table->timestamps();
             $table->softDeletes();
-
-            // $table->foreign('IdType')->references('id')->on('types');
+            $table->foreign('IdType')->references('id')->on('background_types');
+            // $table->foreign('IdResolutionType')->references('id')->on('background_resolution_types');
         });
     }
 

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('DisplayOrder');
             $table->boolean('Active');
             $table->string('CreatedBy', 100);
+            $table->string('ModifiedBy', 100)->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->text('LineElements')->nullable();

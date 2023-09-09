@@ -18,8 +18,9 @@ return new class extends Migration
             $table->unsignedBigInteger('IdResolutionType')->nullable();
             $table->integer('Height');
             $table->integer('Width');
-            $table->boolean('Active');
+            $table->boolean('Active')->default(1);
             $table->string('CreatedBy', 100);
+            $table->string('ModifiedBy', 100)->nullable();
             $table->timestamps();
             $table->softDeletes();
 

@@ -173,8 +173,8 @@
         <div id="howWorks"
             class="flex px-[26px] gap-[26px] overflow-x-scroll scrollbar-hide snap-x scroll-smooth snap-mandatory hide-scrollbar pb-[89px]">
             <div>
-                <div class="h-[185px] w-[338px] rounded-2xl bg-white flex flex-col items-center justify-center snap-center"
-                    style="box-shadow: 0px 20px 50px 0 rgba(0,0,0,0.1);">
+                <div
+                    class="h-[185px] w-[338px] rounded-2xl bg-white flex flex-col items-center justify-center snap-center shadow-2xl">
                     <div class="flex justify-start items-start">
                         <svg width="35" height="35" viewBox="0 0 35 35" fill="none"
                             xmlns="http://www.w3.org/2000/svg"
@@ -193,8 +193,8 @@
                 </div>
             </div>
             <div>
-                <div class="h-[185px] w-[338px] rounded-2xl bg-white flex flex-col items-center justify-center snap-center"
-                    style="box-shadow: 0px 20px 50px 0 rgba(0,0,0,0.1);">
+                <div
+                    class="h-[185px] w-[338px] rounded-2xl bg-white flex flex-col items-center justify-center snap-center shadow-2xl">
                     <div class="flex justify-start items-start">
                         <div class="flex justify-start items-start">
                             <div class="flex justify-start items-center flex-grow-0 flex-shrink-0 relative">
@@ -250,8 +250,8 @@
                 </div>
             </div>
             <div>
-                <div class="h-[185px] w-[338px] rounded-2xl bg-white flex flex-col items-center justify-center snap-center"
-                    style="box-shadow: 0px 20px 50px 0 rgba(0,0,0,0.1);">
+                <div
+                    class="h-[185px] w-[338px] rounded-2xl bg-white flex flex-col items-center justify-center snap-center shadow-2xl">
                     <div class="flex justify-start items-start relative">
                         <svg width="35" height="35" viewBox="0 0 35 35" fill="none"
                             xmlns="http://www.w3.org/2000/svg"

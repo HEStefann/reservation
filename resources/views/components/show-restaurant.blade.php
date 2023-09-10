@@ -1,6 +1,5 @@
     <a href="{{ route('user.restaurant', $restaurant->id) }}">
-        <div class="w-[148px] rounded-2xl bg-white p-[10px] d-flex justify-center"
-            style="filter: drop-shadow(0px 20px 50px rgba(0,0,0,0.1)); box-shadow: 0px 2px 8px 0 rgba(0,0,0,0.04);">
+        <div class="w-[148px] rounded-2xl bg-white p-[10px] d-flex justify-center shadow-2xl">
             <div class="w-32 h-[103.3px] rounded-tl-lg rounded-tr-lg bg-[#c4c4c4] relative">
                 <img src="{{ Storage::url($restaurant->images()->where('display_order', 1)->first()->image_url) }}"
                     class="w-full h-full rounded-tl-lg rounded-tr-lg  object-cover" />

@@ -30,6 +30,24 @@ class UserController extends Controller
             'recommendedRestaurants' => $recommendedRestaurants
         ]);
     }
+
+    public function highlyrated()
+    {
+        $highliyRated = Restaurant::where('rating', '>=', 4)->get();
+        return view('user.highlyrated', [
+
+            'highliyRated' => $highliyRated,
+        ]);
+    }
+
+    public function recommended()
+    {
+        $recommendedRestaurants = Restaurant::where('recomended', '>', 0)->orderBy('recomended', 'asc')->get();
+        return view('user.recommended', [
+            'recommendedRestaurants' => $recommendedRestaurants
+        ]);
+    }
+
     public function show()
     {
         $user = auth()->user(); // Get the currently authenticated user
@@ -42,15 +60,15 @@ class UserController extends Controller
         return view('editpersonalinfo', compact('user'));
     }
 
-    public function favourites()  
+    public function favourites()
     {
-      $user = auth()->user();
-    
-      $favorites = $user->favorites;
-        
-      return view('userfavourites', compact('user', 'favorites'));
+        $user = auth()->user();
+
+        $favorites = $user->favorites;
+
+        return view('userfavourites', compact('user', 'favorites'));
     }
-    
+
 
     public function update(ProfileUpdateRequest $request)
     {
@@ -80,7 +98,7 @@ class UserController extends Controller
         $minLongitude = null;
         $maxLongitude = null;
 
-        $radius = 2; // Radius in kilometers
+        $radius = 0.2; // Radius in kilometers (200 meters)
         $earthRadius = 6371; // Earth's radius in kilometers
 
         // Initialize a variable to store the displayed address
@@ -96,7 +114,7 @@ class UserController extends Controller
                 $latitude = $coordinates['lat'];
                 $longitude = $coordinates['lng'];
 
-                // Calculate the bounding box coordinates for the 2km radius
+                // Calculate the bounding box coordinates for the 200 meters radius
                 $minLatitude = $latitude - ($radius / $earthRadius) * (180 / pi());
                 $maxLatitude = $latitude + ($radius / $earthRadius) * (180 / pi());
 
@@ -126,11 +144,16 @@ class UserController extends Controller
             })
             ->get();
 
+        // Check if there is a restaurant with an exact name match
+        $exactMatchRestaurant = Restaurant::where('title', $searchQuery)->first();
+
         // Handle the case where no search query is provided or it's empty
         if (empty($searchQuery)) {
             $restaurants = Restaurant::all(); // You can change this to your default behavior
+        } elseif ($exactMatchRestaurant) {
+            // If there is an exact name match, display only that restaurant
+            $restaurants = [$exactMatchRestaurant];
         }
-
 
         return view('user.restaurantspage', [
             'restaurants' => $restaurants,

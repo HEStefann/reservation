@@ -18,12 +18,20 @@
     <div class="m-[26px] mt-[48.4px]">
         <div class="flex items-center space-x-4">
             <div class="w-[114px] h-[100px]">
+<<<<<<< HEAD
                 <img style="width: 100px; height: 100px; border-radius: 50%;"
+=======
+                <img class="rounded-circle" style="width: 100px; height:100px;"
+>>>>>>> main
                     src="https://mdbcdn.b-cdn.net/img/new/avatars/9.webp" alt="">
             </div>
             <div class="font-medium flex-grow">
                 <div class="text-[28px] text-[#343a40] flex items-center justify-between">
+<<<<<<< HEAD
                     <p class="flex">{{ $user->name }}</p>
+=======
+                    <p class="flex m-0">{{ $user->name }}</p>
+>>>>>>> main
                 </div>
                 <p class="text-[15px] font-extralight text-[#343a40]">
                     {{ $user->email }}

@@ -18,7 +18,7 @@
             reserved by you</div>
     </div>
 
-    <form action="{{ route('user.restaurantspage') }}" method="GET" class="sticky top-[46px] z-10">
+    <form action="{{ route('user.restaurantspage') }}" method="GET" class="top-[46px] z-10">
         <div class="px-[25px] pb-[24px] mb-[40px] flex flex-col gap-[10px] sticky top-[40px] z-10 bg-white">
             <div class="flex items-center relative">
                 <svg viewBox="0 0 29 23" fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -108,9 +108,9 @@
             <p class="text-xs text-left text-gray-500">Check highly rated restaurants</p>
         </div>
         <div class="flex items-center">
-            <p class="text-xs font-medium text-left text-[#005fa4] mr-[5px]">
+            <a href="{{ route('user.highlyrated') }}" class="text-xs font-medium text-left text-[#005fa4] mr-[5px]">
                 See All
-            </p>
+            </a>
             <svg width="7" height="11" viewBox="0 0 7 11" fill="none" xmlns="http://www.w3.org/2000/svg"
                 class="" preserveAspectRatio="xMidYMid meet">
                 <path d="M1 0.761963L6 5.16096L1 9.55995" stroke="#005FA4" stroke-width="1.5" stroke-linecap="round"
@@ -124,6 +124,15 @@
             @foreach ($highliyRated as $restaurant)
                 <x-show-restaurant :restaurant="$restaurant" />
             @endforeach
+        @else
+            <div class="inline-flex items-center"><svg class="w-5 h-5 mr-1 text-gray-500" fill="none"
+                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22">
+                    <path
+                        d="M10.0835 6.41732H11.9168V8.25065H10.0835V6.41732ZM10.0835 10.084H11.9168V15.584H10.0835V10.084ZM11.0002 1.83398C5.94016 1.83398 1.8335 5.94065 1.8335 11.0007C1.8335 16.0607 5.94016 20.1673 11.0002 20.1673C16.0602 20.1673 20.1668 16.0607 20.1668 11.0007C20.1668 5.94065 16.0602 1.83398 11.0002 1.83398ZM11.0002 18.334C6.95766 18.334 3.66683 15.0431 3.66683 11.0007C3.66683 6.95815 6.95766 3.66732 11.0002 3.66732C15.0427 3.66732 18.3335 6.95815 18.3335 11.0007C18.3335 15.0431 15.0427 18.334 11.0002 18.334Z"
+                        fill="#938F99"></path>
+                </svg>
+                <p class="text-xs font-light text-left text-gray-500">No restaurants found</p>
+            </div>
         @endif
     </div>
     <div class="flex justify-between ml-[26px] mr-[14px]">
@@ -132,9 +141,9 @@
             <p class="text-xs text-left text-gray-500">Check highly rated restaurants</p>
         </div>
         <div class="flex items-center">
-            <p class="text-xs font-medium text-left text-[#005fa4] mr-[5px]">
+            <a href="{{ route('user.recommended') }}" class="text-xs font-medium text-left text-[#005fa4] mr-[5px]">
                 See All
-            </p>
+            </a>
             <svg width="7" height="11" viewBox="0 0 7 11" fill="none" xmlns="http://www.w3.org/2000/svg"
                 class="" preserveAspectRatio="xMidYMid meet">
                 <path d="M1 0.761963L6 5.16096L1 9.55995" stroke="#005FA4" stroke-width="1.5" stroke-linecap="round"
@@ -148,6 +157,15 @@
             @foreach ($recommendedRestaurants as $restaurant)
                 <x-show-restaurant :restaurant="$restaurant" />
             @endforeach
+        @else
+            <div class="inline-flex items-center"><svg class="w-5 h-5 mr-1 text-gray-500" fill="none"
+                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22">
+                    <path
+                        d="M10.0835 6.41732H11.9168V8.25065H10.0835V6.41732ZM10.0835 10.084H11.9168V15.584H10.0835V10.084ZM11.0002 1.83398C5.94016 1.83398 1.8335 5.94065 1.8335 11.0007C1.8335 16.0607 5.94016 20.1673 11.0002 20.1673C16.0602 20.1673 20.1668 16.0607 20.1668 11.0007C20.1668 5.94065 16.0602 1.83398 11.0002 1.83398ZM11.0002 18.334C6.95766 18.334 3.66683 15.0431 3.66683 11.0007C3.66683 6.95815 6.95766 3.66732 11.0002 3.66732C15.0427 3.66732 18.3335 6.95815 18.3335 11.0007C18.3335 15.0431 15.0427 18.334 11.0002 18.334Z"
+                        fill="#938F99"></path>
+                </svg>
+                <p class="text-xs font-light text-left text-gray-500">No restaurants found</p>
+            </div>
         @endif
     </div>
     <p class="text-lg font-medium text-left text-[#343a40] ml-[26px]">How does it work?</p>
@@ -381,8 +399,8 @@
                             // Display the nearest restaurants
                             var nearestRestaurantsDiv = document.getElementById('nearestRestaurants');
                             if (data.message) {
-                                nearestRestaurantsDiv.innerHTML = data.message; 
-                            }else {
+                                nearestRestaurantsDiv.innerHTML = data.message;
+                            } else {
                                 nearestRestaurantsDiv.innerHTML = data.html;
                             }
                             console.log(data)

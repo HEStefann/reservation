@@ -11,6 +11,10 @@ class Review extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $fillable = [
+        'restaurant_id'
+    ];
+
     public function restaurant(): BelongsTo
     {
         return $this->belongsTo(Restaurant::class);
@@ -25,4 +29,6 @@ class Review extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    
 }

@@ -204,7 +204,8 @@
             <p class="text-[22px] font-medium text-[#343a40]">Reviews</p>
             <div class="flex flex-col">
                 @foreach ($restaurant->reviews as $review)
-                    <div class="rounded-[10px] bg-white py-[11px] px-[14px] flex gap-[12.4px] ">
+                    <div class="rounded-[10px] bg-white py-[11px] px-[14px] flex gap-[12.4px]"
+                        style="filter: drop-shadow(0px 20px 50px rgba(0,0,0,0.1));">
                         <div class="w-[36.18px] h-[35px] relative">
                             <img src="{{ asset('images/Image.png') }}"
                                 class="rounded-[300px] object-cover border border-[#e4e4e4]/60" />

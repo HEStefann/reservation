@@ -177,3 +177,8 @@ Route::get('/userreservations', [UserController::class, 'reservations'])->name('
 // run factorys route in user controller
 
 Route::get('/runfactorys', [UserController::class, 'runfactorys'])->name('runfactorys');
+
+
+Route::get('/highly-rated-restaurants', [UserController::class, 'highlyrated'])->name('user.highlyrated');
+
+Route::get('/recommended-restaurants', [UserController::class, 'recommended'])->name('user.recommended');

@@ -37,22 +37,31 @@
 <body class="min-h-screen flex flex-col">
     <x-navbar />
     @if ($errors->any())
-        <div class="bg-red-100 border-t-4 border-red-400 rounded-b text-red-700 px-4 py-3 shadow-md" role="alert">
-            <div class="flex">
-                <div class="py-1">
-                    <svg class="fill-current h-6 w-6 text-red-500 mr-4" xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20">
+        <div class="flex w-full items-start justify-start">
+            <div
+                class="flex items-start justify-start overflow-hidden rounded-bl-lg rounded-br-lg bg-[#dc362e] px-4 py-1.5">
+                <div class="relative flex items-start justify-start py-[7px] pr-3">
+                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
+                        xmlns="http://www.w3.org/2000/svg" class="relative h-[22px] w-[22px]"
+                        preserveAspectRatio="xMidYMid meet">
                         <path
-                            d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" />
+                            d="M10.083 13.7507H11.9163V15.584H10.083V13.7507ZM10.083 6.41732H11.9163V11.9173H10.083V6.41732ZM10.9905 1.83398C5.93051 1.83398 1.83301 5.94065 1.83301 11.0007C1.83301 16.0607 5.93051 20.1673 10.9905 20.1673C16.0597 20.1673 20.1663 16.0607 20.1663 11.0007C20.1663 5.94065 16.0597 1.83398 10.9905 1.83398ZM10.9997 18.334C6.94801 18.334 3.66634 15.0523 3.66634 11.0007C3.66634 6.94898 6.94801 3.66732 10.9997 3.66732C15.0513 3.66732 18.333 6.94898 18.333 11.0007C18.333 15.0523 15.0513 18.334 10.9997 18.334Z"
+                            fill="white"></path>
                     </svg>
                 </div>
-                <div>
-                    <p class="font-bold">Reservation Error</p>
-                    <ul class="text-sm">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
+                <div class="relative flex flex-grow flex-col items-start justify-start gap-1 overflow-hidden py-2">
+                    <p class="self-stretch text-left text-base font-medium text-white">Reservation Error</p>
+                    <p class="self-stretch text-left text-sm text-white"><span
+                            class="self-stretch text-left text-sm text-white">The full name field is
+                            required.</span><br /><span class="self-stretch text-left text-sm text-white">The time
+                            selection is required.</span></p>
+                </div>
+                <div class="flex items-start justify-start overflow-hidden pl-4 pt-1">
+                    <div class="flex flex-col items-center justify-center overflow-hidden rounded">
+                        <div
+                            class="flex h-[30px] w-[54px] items-center justify-center gap-2 overflow-hidden px-[5px] py-1">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

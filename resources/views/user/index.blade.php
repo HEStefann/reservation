@@ -62,9 +62,10 @@
     <div class="flex flex-col gap-[18px] items-center">
         <div id="image-scroll"
             class="px-[26px] flex gap-[11px] overflow-x-scroll scrollbar-hide snap-x scroll-smooth snap-mandatory hide-scrollbar">
-            
+
             {{-- tuka treba ovie slikickive da oti prvata na href="testing3/1" a vtorata na href="testing3/4" ili zavisi spored id kako kje ti bidat burger i dominos  --}}
-            <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
+            <a href="" class="snap-center w-[277px] h-[120px]"><img class="rounded-[28px] w-full h-full" src="{{ asset('images\Group 3115.png') }}" alt=""></a>
+            
             <img class="rounded-[28px] snap-center" src="https://i.ibb.co/Pj8dWmq/Group-3118-1.png" alt="">
             <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
             <img class="rounded-[28px] snap-center" src="https://i.ibb.co/Pj8dWmq/Group-3118-1.png" alt="">
@@ -89,16 +90,18 @@
             <p class="text-lg font-medium text-left text-[#343a40]">Nearby Restaurant</p>
             <p class="text-xs text-left text-gray-500">Check your city nearby restaurant</p>
         </div>
+        <a href="#" onclick="getLocation()">
         <div class="flex items-center">
-            <p class="text-xs font-medium text-left text-[#005fa4] mr-[5px]">
-                See All
-            </p>
-            <svg width="7" height="11" viewBox="0 0 7 11" fill="none" xmlns="http://www.w3.org/2000/svg"
-                class="" preserveAspectRatio="xMidYMid meet">
-                <path d="M1 0.761963L6 5.16096L1 9.55995" stroke="#005FA4" stroke-width="1.5" stroke-linecap="round"
-                    stroke-linejoin="round"></path>
-            </svg>
-        </div>
+                <p class=" text-xs font-medium text-left text-[#005fa4] mr-[5px]">
+                    See All
+                </p>
+                <svg width="7" height="11" viewBox="0 0 7 11" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    class="" preserveAspectRatio="xMidYMid meet">
+                    <path d="M1 0.761963L6 5.16096L1 9.55995" stroke="#005FA4" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round"></path>
+                </svg>
+            </div>
+        </a>
     </div>
     <div
         class="pt-[16px] px-[26px] flex pb-[64px] gap-[18px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
@@ -109,16 +112,18 @@
             <p class="text-lg font-medium text-left text-[#343a40]">Highly Rated</p>
             <p class="text-xs text-left text-gray-500">Check highly rated restaurants</p>
         </div>
+        <a href="{{ route('user.highlyrated') }}">
         <div class="flex items-center">
-            <a href="{{ route('user.highlyrated') }}" class="text-xs font-medium text-left text-[#005fa4] mr-[5px]">
-                See All
-            </a>
-            <svg width="7" height="11" viewBox="0 0 7 11" fill="none" xmlns="http://www.w3.org/2000/svg"
-                class="" preserveAspectRatio="xMidYMid meet">
-                <path d="M1 0.761963L6 5.16096L1 9.55995" stroke="#005FA4" stroke-width="1.5" stroke-linecap="round"
-                    stroke-linejoin="round"></path>
-            </svg>
-        </div>
+                <p class="text-xs font-medium text-left text-[#005fa4] mr-[5px]">
+                    See All
+                </p>
+                <svg width="7" height="11" viewBox="0 0 7 11" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    class="" preserveAspectRatio="xMidYMid meet">
+                    <path d="M1 0.761963L6 5.16096L1 9.55995" stroke="#005FA4" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round"></path>
+                </svg>
+            </div>
+        </a>
     </div>
     <div
         class="pt-[16px] px-[26px] flex pb-[64px] gap-[18px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
@@ -142,16 +147,18 @@
             <p class="text-lg font-medium text-left text-[#343a40]">Recommended places</p>
             <p class="text-xs text-left text-gray-500">Check highly rated restaurants</p>
         </div>
+        <a href="{{ route('user.recommended') }}">
         <div class="flex items-center">
-            <a href="{{ route('user.recommended') }}" class="text-xs font-medium text-left text-[#005fa4] mr-[5px]">
-                See All
-            </a>
-            <svg width="7" height="11" viewBox="0 0 7 11" fill="none" xmlns="http://www.w3.org/2000/svg"
-                class="" preserveAspectRatio="xMidYMid meet">
-                <path d="M1 0.761963L6 5.16096L1 9.55995" stroke="#005FA4" stroke-width="1.5" stroke-linecap="round"
-                    stroke-linejoin="round"></path>
-            </svg>
-        </div>
+                <p class="text-xs font-medium text-left text-[#005fa4] mr-[5px]">
+                    See All
+                </p>
+                <svg width="7" height="11" viewBox="0 0 7 11" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    class="" preserveAspectRatio="xMidYMid meet">
+                    <path d="M1 0.761963L6 5.16096L1 9.55995" stroke="#005FA4" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round"></path>
+                </svg>
+            </div>
+        </a>
     </div>
     <div
         class="pt-[16px] px-[26px] flex pb-[64px] gap-[18px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
@@ -175,8 +182,8 @@
         <div id="howWorks"
             class="flex px-[26px] gap-[26px] overflow-x-scroll scrollbar-hide snap-x scroll-smooth snap-mandatory hide-scrollbar pb-[89px]">
             <div>
-                <div
-                    class="h-[185px] w-[338px] rounded-2xl bg-white flex flex-col items-center justify-center snap-center shadow-2xl">
+                <div class="h-[185px] w-[338px] rounded-2xl bg-white flex flex-col items-center justify-center snap-center"
+                    style="box-shadow: 0px 20px 50px 0 rgba(0,0,0,0.1);">
                     <div class="flex justify-start items-start">
                         <svg width="35" height="35" viewBox="0 0 35 35" fill="none"
                             xmlns="http://www.w3.org/2000/svg"
@@ -195,8 +202,8 @@
                 </div>
             </div>
             <div>
-                <div
-                    class="h-[185px] w-[338px] rounded-2xl bg-white flex flex-col items-center justify-center snap-center shadow-2xl">
+                <div class="h-[185px] w-[338px] rounded-2xl bg-white flex flex-col items-center justify-center snap-center"
+                    style="box-shadow: 0px 20px 50px 0 rgba(0,0,0,0.1);">
                     <div class="flex justify-start items-start">
                         <div class="flex justify-start items-start">
                             <div class="flex justify-start items-center flex-grow-0 flex-shrink-0 relative">
@@ -252,8 +259,8 @@
                 </div>
             </div>
             <div>
-                <div
-                    class="h-[185px] w-[338px] rounded-2xl bg-white flex flex-col items-center justify-center snap-center shadow-2xl">
+                <div class="h-[185px] w-[338px] rounded-2xl bg-white flex flex-col items-center justify-center snap-center"
+                    style="box-shadow: 0px 20px 50px 0 rgba(0,0,0,0.1);">
                     <div class="flex justify-start items-start relative">
                         <svg width="35" height="35" viewBox="0 0 35 35" fill="none"
                             xmlns="http://www.w3.org/2000/svg"
@@ -361,18 +368,28 @@
             </div>
         </div>
     @endif
-
-
-
-
-
-
-
 @endsection
 @push('scripts')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.js" defer></script>
     <script src="{{ asset('js/index.js') }}"></script>
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                console.log("Geolocation is not supported by this browser.");
+            }
+        }
+    
+        function showPosition(position) {
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+    
+            // Redirect to the nearest restaurants page with query parameters
+            window.location.href = "{{ route('user.nearest') }}?latitude=" + latitude + "&longitude=" + longitude;
+        }
+    </script>
     <script>
         // Get the user's current location
         if (navigator.geolocation) {

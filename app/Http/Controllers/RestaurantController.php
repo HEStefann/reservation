@@ -33,10 +33,9 @@ class RestaurantController extends Controller
 
     public function show($id)
     {
-        // restaurant with reviews
-        $restaurant = Restaurant::with('reviews')->findOrFail($id);
-
-        return view('user.restaurant', compact('restaurant'));
+        $restaurant = Restaurant::with('reviews', 'activeMenu.categories.products')->findOrFail($id);
+        $fourProducts = $restaurant->activeMenu->categories->pluck('products')->flatten(1)->take(4);
+        return view('user.restaurant', ['restaurant' => $restaurant, 'fourProducts' => $fourProducts]);
     }
 
     public function store(RestaurantRequest $request)

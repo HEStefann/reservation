@@ -2,13 +2,12 @@
 @section('title', 'RevelApps')
 @section('content')
     <div class="pt-[16px] px-[26px] pb-[14px]">
-        <h1>Highly rated restaurants</h1>
-
+        <h1>Nearest restaurants</h1>
     </div>
     <div class="pt-[16px] px-[26px] pb-[64px]">
-        @if ($highliyRated->count() > 0)
+        @if ($nearestRestaurants->count() > 0)
             <div class="space-y-[28px]">
-                @foreach ($highliyRated as $restaurant)
+                @foreach ($nearestRestaurants as $restaurant)
                     <div class="rounded-bl-2xl rounded-t-2xl rounded-br-2xl bg-white pb-[8px] shadow-2xl">
                         <div class="relative">
                             @if (Auth::check())
@@ -116,7 +115,6 @@
             <div class="inline-flex items-center">
                 <svg class="w-5 h-5 mr-1 text-gray-500" fill="none" xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 22 22">
-                    <!-- Your SVG path for the icon when no restaurants found -->
                 </svg>
                 <p class="text-xs font-light text-left text-gray-500">No highly-rated restaurants found</p>
             </div>

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Request;
 
@@ -74,6 +75,15 @@ class Restaurant extends Model
     {
         return $this->hasMany(Moderator::class);
     }
+    public function menu(): HasMany
+    {
+        return $this->hasMany(Menu::class);
+    }
+
+    public function activeMenu(): HasOne
+    {
+        return $this->hasOne(Menu::class)->where('active', 1);
+    }
 
     public function updateInfo(array $data)
     {
@@ -90,7 +100,6 @@ class Restaurant extends Model
             'available_people' => $availablePeople,
         ]);
     }
-
     // Method to update the operating status
     public function updateOperatingStatus(string $operatingStatus)
     {

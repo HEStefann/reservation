@@ -48,6 +48,28 @@ class UserController extends Controller
         ]);
     }
 
+    public function nearest(Request $request)
+    {
+        $latitude = $request->query('latitude');
+        $longitude = $request->query('longitude');
+        $earthRadius = 6371; // Earth's radius in kilometers
+        $radius = 2; // Radius in kilometers
+    
+        // Calculate the bounding box coordinates for the given radius
+        $minLatitude = $latitude - ($radius / $earthRadius) * (180 / pi());
+        $maxLatitude = $latitude + ($radius / $earthRadius) * (180 / pi());
+    
+        $minLongitude = $longitude - ($radius / $earthRadius) * (180 / pi()) / cos($latitude * (pi() / 180));
+        $maxLongitude = $longitude + ($radius / $earthRadius) * (180 / pi()) / cos($latitude * (pi() / 180));
+    
+        // Find the nearest restaurants within the bounding box coordinates
+        $nearestRestaurants = Restaurant::whereBetween('lat', [$minLatitude, $maxLatitude])
+            ->whereBetween('lng', [$minLongitude, $maxLongitude])
+            ->get();
+    
+        return view('user.nearest', compact('nearestRestaurants'));
+    }
+
     public function show()
     {
         $user = auth()->user(); // Get the currently authenticated user

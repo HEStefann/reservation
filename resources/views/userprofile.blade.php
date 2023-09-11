@@ -7,8 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </head>
 
 
@@ -34,7 +32,7 @@
 
     <div class="mx-[26px] mt-[48.4px]">
         <h1 class="text-lg font-medium text-left text-[#343a40]">My account</h1>
-        <div class="rounded-[5px] bg-white shadow-2xl p-[26px] mt-[26px] ">
+        <div class="rounded-[5px] bg-white p-[26px] mt-[26px] ">
             <div class="flex mb-[10px]">
                 <svg width="22" height="24" viewBox="0 0 22 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                     class="w-[20.69px] h-6 relative" preserveAspectRatio="none">
@@ -124,61 +122,21 @@
                     </svg>
                 </a>
             </div>
+            <form action="{{ route('logout') }}" method="post" class="cursor-pointer">
+                @csrf
+                <button class="flex justify-start items-center gap-2.5 mt-[48px]">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                        xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" preserveAspectRatio="xMidYMid meet">
+                        <path
+                            d="M14.167 5.83333L12.992 7.00833L15.142 9.16667H6.66699V10.8333H15.142L12.992 12.9833L14.167 14.1667L18.3337 10L14.167 5.83333ZM3.33366 4.16667H10.0003V2.5H3.33366C2.41699 2.5 1.66699 3.25 1.66699 4.16667V15.8333C1.66699 16.75 2.41699 17.5 3.33366 17.5H10.0003V15.8333H3.33366V4.16667Z"
+                            fill="#343A40"></path>
+                    </svg>
+                    <p class="text-[15px] text-[#343a40]">
+                        Log out from your account
+                    </p>
+                </button>
+            </form>
         </div>
     </div>
-
-    {{-- <div class="mx-[26px] mt-[48.4px]">
-        <h1 class="text-lg font-medium text-left text-[#343a40]">Legal information</h1>
-        <div class="rounded-[5px] bg-white shadow-2xl p-[26px] mt-[26px] ">
-            <div class="flex mb-[10px]">
-                <svg width="21" height="21" viewBox="0 0 21 21" fill="none"
-                    xmlns="http://www.w3.org/2000/svg" class="w-5 h-[20.88px]" preserveAspectRatio="xMidYMid meet">
-                    <path
-                        d="M11.4083 14.9125V8.94798H8.5512V10.4391H9.97977V14.9125H7.83691V16.4036H13.5512V14.9125H11.4083ZM10.6941 4.47461C10.4821 4.47461 10.275 4.5402 10.0988 4.66308C9.92261 4.78597 9.78528 4.96063 9.70419 5.16498C9.62309 5.36933 9.60187 5.59419 9.64322 5.81113C9.68456 6.02807 9.7866 6.22734 9.93644 6.38374C10.0863 6.54014 10.2772 6.64666 10.485 6.68981C10.6929 6.73296 10.9083 6.71081 11.1041 6.62617C11.2999 6.54152 11.4672 6.39818 11.5849 6.21427C11.7026 6.03036 11.7655 5.81414 11.7655 5.59295C11.7655 5.29635 11.6526 5.01189 11.4517 4.80216C11.2507 4.59243 10.9782 4.47461 10.6941 4.47461Z"
-                        fill="#FC7F09"></path>
-                    <path
-                        d="M10.6938 20.8757C8.71604 20.8757 6.78264 20.2636 5.13815 19.1166C3.49366 17.9697 2.21193 16.3395 1.45506 14.4323C0.69818 12.525 0.500147 10.4263 0.885999 8.40155C1.27185 6.3768 2.22426 4.51695 3.62278 3.05719C5.02131 1.59742 6.80314 0.603313 8.74295 0.200565C10.6828 -0.202182 12.6934 0.00452256 14.5207 0.79454C16.3479 1.58456 17.9097 2.9224 19.0085 4.6389C20.1074 6.3554 20.6938 8.37346 20.6938 10.4379C20.6938 13.2062 19.6403 15.8611 17.7649 17.8186C15.8896 19.776 13.346 20.8757 10.6938 20.8757ZM10.6938 1.49113C8.99858 1.49113 7.34138 2.01585 5.93182 2.99893C4.52226 3.98201 3.42364 5.3793 2.77488 7.0141C2.12613 8.64891 1.95639 10.4478 2.28712 12.1833C2.61785 13.9188 3.4342 15.5129 4.63294 16.7642C5.83167 18.0154 7.35895 18.8675 9.02165 19.2127C10.6843 19.5579 12.4078 19.3807 13.974 18.7036C15.5402 18.0264 16.8789 16.8797 17.8207 15.4084C18.7626 13.9371 19.2653 12.2074 19.2653 10.4379C19.2653 8.06505 18.3622 5.78941 16.7548 4.11157C15.1473 2.43373 12.9671 1.49113 10.6938 1.49113Z"
-                        fill="#FC7F09"></path>
-                </svg>
-                <div class="mx-[16px] flex">
-                    <p class="text-[15px] text-[#343a40]">Terms and conditions</p>
-                </div>
-                <a href="" class="ml-auto">
-                    <svg width="10" height="21" viewBox="0 0 10 21" fill="none"
-                        xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-                        <path d="M1.13281 1L9.32414 10.5L1.13281 20" stroke="#FC7F09"></path>
-                    </svg>
-                </a>
-            </div>
-            <div class="w-full">
-                <svg width="100%" height="2" viewBox="0 0 301 2" fill="none"
-                    xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-                    <path d="M0.693848 1L300.755 1" stroke="#EDEDED"></path>
-                </svg>
-            </div>
-            <div class="flex mt-[27px]">
-                <svg width="16" height="22" viewBox="0 0 16 22" fill="none"
-                    xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-                    <path
-                        d="M8.2816 0C5.66667 0 3.53926 2.4673 3.53926 5.5V8.8H2.59079C1.54462 8.8 0.693848 9.7867 0.693848 11V19.8C0.693848 21.0133 1.54462 22 2.59079 22H13.9724C15.0186 22 15.8694 21.0133 15.8694 19.8V11C15.8694 9.7867 15.0186 8.8 13.9724 8.8H13.024V5.5C13.024 2.4673 10.8965 0 8.2816 0ZM13.9724 11L13.9743 19.8H2.59079V11H13.9724ZM5.43619 8.8V5.5C5.43619 3.6806 6.71283 2.2 8.2816 2.2C9.85037 2.2 11.127 3.6806 11.127 5.5V8.8H5.43619Z"
-                        fill="#FC7F09"></path>
-                </svg>
-                <div class="mx-[16px] flex">
-                    <p class="text-[15px] text-[#343a40]">Privacy Policy</p>
-                </div>
-                <a href="" class="ml-auto">
-                    <svg width="10" height="21" viewBox="0 0 10 21" fill="none"
-                        xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-                        <path d="M1.13281 1L9.32414 10.5L1.13281 20" stroke="#FC7F09"></path>
-                    </svg>
-                </a>
-            </div>
-        </div>
-    </div> --}}
-
-
     <x-footer />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
-    </script>
 </body>

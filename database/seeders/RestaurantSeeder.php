@@ -23,7 +23,7 @@ class RestaurantSeeder extends Seeder
         $realRestaurantData = [
             [
                 'name' => 'Burger King',
-                'address' => '123 Main St',
+                'address' => 'Ss Cyril & Methodius 13, Skopje 1000',
                 'image' => 'https://logowik.com/content/uploads/images/310_burgerking.jpg',
             ],
             [
@@ -33,12 +33,12 @@ class RestaurantSeeder extends Seeder
             ],
             [
                 'name' => 'KFC',
-                'address' => '789 Oak St',
+                'address' => 'City Mall (Food Corner, Ljubljanska 4, Skopje 1000)',
                 'image' => 'https://www.pngkit.com/png/detail/50-508776_kfc-logo.png',
             ],
             [
-                'name' => 'Domingo\'s Pizza',
-                'address' => '123 Main St',
+                'name' => 'Domino\'s Pizza',
+                'address' => 'Dimitrie Cupovski 26, Skopje 1000',
                 'image' => 'https://conceptstore.co.uk/wp-content/uploads/2015/04/dominos-logo1.jpg',
             ],
             // Add more real restaurant data here
@@ -48,7 +48,7 @@ class RestaurantSeeder extends Seeder
             // Generate the user
             $user = User::create([
                 'name' => $restaurantData['name'],
-                'email' => strtolower(str_replace(' ', '', $restaurantData['name'])) . '@example.com',
+                'email' => strtolower(str_replace(' ', '', $restaurantData['name'])) . '@info.com',
                 'password' => bcrypt('password'),
                 'role' => 'owner',
             ]);

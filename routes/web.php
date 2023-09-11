@@ -108,14 +108,14 @@ Route::middleware(['auth', 'GuestRole'])->group(function () {
     Route::get('/user/restaurants/{restaurant}', [RestaurantController::class, 'show'])->name('user.restaurants.show');
 });
 Route::post('/getNearestRestaurants', [RestaurantController::class, 'getNearestRestaurants']);
-Route::get('/user/favorite/{restaurant}', [UserController::class, 'favorite'])->name('user.favorite');
+Route::get('/user/favorite/{restaurant}', [UserController::class, 'addFavorite'])->name('user.addFavorite');
 // Route::get('/reservations', [ReservationController::class, 'userReservations'])->name('reservations.index');
 Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
-Route::get('/testing3/{restaurant}', function ($restaurant) {
-    return view('user.restaurant', ['restaurant' => $restaurant]);
-})->name('user.restaurant');
-Route::get('/testing3/{restaurant}', [RestaurantController::class, 'show'])->name('user.restaurant');
+// Route::get('/testing3/{restaurant}', function ($restaurant) {
+//     return view('user.restaurant', ['restaurant' => $restaurant]);
+// })->name('user.restaurant');
+Route::get('/restaurant/{restaurant}', [RestaurantController::class, 'show'])->name('user.restaurant');
 Route::get('/search-restaurants', [UserRestaurantsController::class, 'searchRestaurants'])->name('search.restaurants');
 Route::get('/restaurants', [AdminRestaurantController::class, 'index'])->name('admin.restaurants.index');
 Route::get('/restaurants/create', [AdminRestaurantController::class, 'create'])->name('admin.restaurants.create');
@@ -182,3 +182,4 @@ Route::get('/runfactorys', [UserController::class, 'runfactorys'])->name('runfac
 Route::get('/highly-rated-restaurants', [UserController::class, 'highlyrated'])->name('user.highlyrated');
 
 Route::get('/recommended-restaurants', [UserController::class, 'recommended'])->name('user.recommended');
+Route::get('/nearest-restaurants', [UserController::class, 'nearest'])->name('user.nearest');

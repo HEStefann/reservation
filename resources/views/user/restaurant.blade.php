@@ -150,43 +150,22 @@
     <div class="mx-[26px] mb-[24px] flex flex-col">
         <p class="text-lg font-medium text-[#343a40]">Menu</p>
         <p class="text-xs font-light text-[#343a40] mt-[16px]">
-            {{-- {{ $restaurant->menu->description }} --}}
+            {{ $restaurant->activeMenu->description }}
         </p>
         <div class="flex flex-col gap-3 p-3 rounded-[10px] bg-[#fff5ec]"
             style="box-shadow: 0px 20px 50px 0 rgba(0,0,0,0.1);">
-            <div>
-                <div class="flex justify-between items-center">
-                    <p class="text-[10px] font-medium text-[#343a40] flex"><b>Bruschetta
-                            Trio</b></p>
-                    <div class="grow text-[10px] font-medium border-b-2 border-[#343a40] border-dotted h-[11px]">
+            @foreach ($fourProducts as $product)
+                <div>
+                    <div class="flex justify-between items-center">
+                        <p class="text-[10px] font-medium text-[#343a40] flex"><b>{{ $product->name }}</b></p>
+                        <div class="grow text-[10px] font-medium border-b-2 border-[#343a40] border-dotted h-[11px]">
+                        </div>
+                        <p class="flex text-[10px] text-[#343a40]"><b>{{ $product->price }}$</b></p>
                     </div>
-                    <p class="flex text-[10px] text-[#343a40]"><b>15$</b></p>
+                    <p class="text-[10px] font-light text-[#343a40]">{{ $product->description }}</p>
                 </div>
-                <p class="text-[10px] font-light text-[#343a40]">tomato
-                    basil, roasted red pepper, and olive tapenade on toasted baguette</p>
-            </div>
-            <div>
-                <div class="flex justify-between items-center">
-                    <p class="text-[10px] font-medium text-[#343a40] flex"><b>Bruschetta
-                            Trio</b></p>
-                    <div class="grow text-[10px] font-medium border-b-2 border-[#343a40] border-dotted h-[11px]">
-                    </div>
-                    <p class="flex text-[10px] text-[#343a40]"><b>15$</b></p>
-                </div>
-                <p class="text-[10px] font-light text-[#343a40]">tomato
-                    basil, roasted red pepper, and olive tapenade on toasted baguette</p>
-            </div>
-            <div>
-                <div class="flex justify-between items-center">
-                    <p class="text-[10px] font-medium text-[#343a40] flex"><b>Bruschetta
-                            Trio</b></p>
-                    <div class="dot grow text-[10px] font-medium border-b-2 border-[#343a40] border-dotted h-[11px]">
-                    </div>
-                    <p class="flex text-[10px] text-[#343a40]"><b>15$</b></p>
-                </div>
-                <p class="text-[10px] font-light text-[#343a40]">tomato
-                    basil, roasted red pepper, and olive tapenade on toasted baguette</p>
-            </div>
+            @endforeach
+
         </div>
         <button id="menuModalBtn"
             class="inline-flex self-center justify-center items-center gap-2.5 px-6 py-2.5 rounded-[10px] bg-gradient-to-br from-[#ffcd01] to-[#fc7f09] mt-[14px]">
@@ -202,7 +181,7 @@
         </div>
         <div class="mx-[26px] mb-[14px]">
             <p class="text-[22px] font-medium text-[#343a40]">Reviews</p>
-            <div class="flex flex-col">
+            <div class="flex flex-col gap-[14px]">
                 @foreach ($restaurant->reviews as $review)
                     <div class="rounded-[10px] bg-white py-[11px] px-[14px] flex gap-[12.4px]"
                         style="filter: drop-shadow(0px 20px 50px rgba(0,0,0,0.1));">
@@ -286,13 +265,12 @@
                                     </svg>
                                 </div>
                             </div>
+                        </div>
+                    </div>
                 @endforeach
             </div>
         </div>
     @endif
-    </div>
-    </div>
-
     <div id="contactSection" class="mx-[26px] mb-[24px] scroll-mt-[46px]">
         <svg class="w-full" width="340" height="2" viewBox="0 0 340 2" fill="none"
             xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
@@ -306,9 +284,7 @@
             <img src="{{ asset('images/Group 3227.png') }}"
                 class="rounded-2xl absolute w-full h-full top-0 left-0 z-[-1]" />
             <p class="text-xs text-white">
-                With its commitment to sustainability, exceptional dining experience, and picturesque setting, De
-                Kas has become a must-visit destination for both locals and tourists seeking a taste of
-                Amsterdam's culinary delights.
+                {{ $restaurant->description }}
             </p>
             <div class="pt-[16px]">
                 <div class="flex">
@@ -320,9 +296,10 @@
                                 d="M12.0739 8.86636L9.49157 7.71081C9.39146 7.66749 9.28213 7.6498 9.17347 7.65935C9.06481 7.6689 8.96024 7.70538 8.86922 7.7655C8.86195 7.77011 8.855 7.77523 8.84844 7.78081L7.49219 8.93691C7.46201 8.95532 7.42776 8.96599 7.39246 8.968C7.35716 8.97 7.32192 8.96327 7.28985 8.94839C6.40172 8.51964 5.48243 7.60745 5.05368 6.72972C5.03851 6.69789 5.03147 6.6628 5.03319 6.62758C5.03491 6.59237 5.04533 6.55812 5.06352 6.52792L6.2229 5.14925C6.22837 5.14269 6.23329 5.13558 6.23821 5.12847C6.29814 5.03758 6.33452 4.93321 6.34407 4.82476C6.35361 4.7163 6.33603 4.60718 6.2929 4.50722L5.13516 1.92925C5.07927 1.79868 4.98253 1.68977 4.85946 1.61887C4.7364 1.54797 4.59365 1.51891 4.45266 1.53605C3.76446 1.62679 3.13282 1.96494 2.67572 2.48736C2.21862 3.00977 1.96732 3.68072 1.96876 4.37488C1.96876 8.59675 5.40313 12.0311 9.62501 12.0311C10.3192 12.0326 10.9901 11.7813 11.5125 11.3242C12.0349 10.8671 12.3731 10.2354 12.4638 9.54722C12.4808 9.40687 12.4521 9.26478 12.3818 9.1421C12.3116 9.01942 12.2036 8.92271 12.0739 8.86636ZM12.0313 9.49253C11.954 10.0754 11.6672 10.6101 11.2243 10.9968C10.7815 11.3835 10.2129 11.5957 9.62501 11.5936C5.64485 11.5936 2.40626 8.35503 2.40626 4.37488C2.40422 3.78696 2.61638 3.21842 3.00308 2.77556C3.38977 2.33271 3.92452 2.04585 4.50735 1.96863C4.51609 1.96808 4.52486 1.96808 4.5336 1.96863C4.57676 1.96899 4.61884 1.98212 4.65455 2.00635C4.69026 2.03058 4.71801 2.06483 4.7343 2.1048L5.88876 4.68277C5.90223 4.71427 5.90811 4.74851 5.90592 4.7827C5.90374 4.8169 5.89355 4.8501 5.87618 4.87964L4.71735 6.25777C4.71188 6.26488 4.70641 6.27144 4.70149 6.27909C4.63975 6.3735 4.60339 6.48223 4.59592 6.59479C4.58845 6.70735 4.61012 6.81993 4.65883 6.92167C5.13407 7.89456 6.11407 8.86745 7.0979 9.34269C7.20033 9.39109 7.31356 9.41215 7.42655 9.40381C7.53953 9.39547 7.64844 9.35802 7.74266 9.29511L7.7629 9.2798L9.12079 8.1248C9.14983 8.10705 9.18268 8.09646 9.21662 8.09389C9.25057 8.09132 9.28463 8.09686 9.31602 8.11003L11.8978 9.26722C11.9414 9.28536 11.9779 9.3171 12.002 9.3577C12.026 9.39831 12.0363 9.44561 12.0313 9.49253Z"
                                 fill="white"></path>
                         </svg>
-                        <p class="text-[10px] text-white">www.DeKas.com</p>
+                        <p class="text-[10px] text-white">{{ $restaurant->website ?? 'www.DeKas.com' }}</p>
                     </div>
-                    <p class="text-[10px] text-white w-[50%]">info@restaurantdekas.nl</p>
+                    <p class="text-[10px] text-white w-[50%]">{{ $restaurant->email ?? 'info@restaurantdekas.nl' }}
+                    </p>
                 </div>
                 <div class="flex">
                     <div class="flex gap-[6px] w-[50%]">
@@ -339,7 +316,7 @@
                                 </clipPath>
                             </defs>
                         </svg>
-                        <p class="text-[10px] text-white">+31 20 462 4562</p>
+                        <p class="text-[10px] text-white">{{ $restaurant->phone ?? '+31 20 462 4562' }}</p>
                     </div>
                     <div class="flex gap-[15px] w-[50%]">
                         <div class="text-sm text-white w-[14px] h-[14px]">
@@ -365,7 +342,7 @@
     </div>
 
 
-    </div>
+    {{-- </div> --}}
     <style>
         /* The Modal (background) */
         .modal {
@@ -454,23 +431,25 @@
                 </svg>
             </div>
             <div class="leading-[14px]">
-                @for ($i = 0; $i < 3; $i++)
+                @foreach ($restaurant->activeMenu->categories as $category)
                     <div class="">
                         <p class="text-[11px] font-medium text-[#fc7f09]">
-                            Appetizers
+                            {{ $category->name }}
                         </p>
-                        @for ($z = 0; $z < 3; $z++)
-                            <div class="text-[10px] text-[#343a40] flex">
-                                <p>Bruschetta Trio</p>
-                                <div class="grow border-b-[1px] border-[#343a40] h-[11px] border-dotted"></div>
-                                <p>15$</p>
-                            </div>
-                            <p class="text-[10px] text-[#343a40] leading-[120%]">tomato basil, roasted red pepper, and
-                                olive tapenade on toasted baguette</p>
+                        @foreach ($category->products as $product)
+                            <b>
+
+                                <div class="text-[10px] text-[#343a40] flex">
+                                    <p>{{ $product->name }}</p>
+                                    <div class="grow border-b-[1px] border-[#343a40] h-[11px] border-dotted"></div>
+                                    <p>{{ $product->price }} MKD.</p>
+                                </div>
+                            </b>
+                            <p class="text-[10px] text-[#343a40] leading-[120%]">{{ $product->description }}</p>
                             <br>
-                        @endfor
+                        @endforeach
                     </div>
-                @endfor
+                @endforeach
             </div>
         </div>
     </div>

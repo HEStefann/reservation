@@ -103,9 +103,8 @@
             </div>
         </a>
     </div>
-    <div
+    <div id="nearestRestaurants"
         class="pt-[16px] px-[26px] flex pb-[64px] gap-[18px] overflow-scroll snap-x scroll-smooth snap-mandatory hide-scrollbar">
-        <div id="nearestRestaurants"></div>
     </div>
     <div class="flex justify-between ml-[26px] mr-[14px]">
         <div>

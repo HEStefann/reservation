@@ -1,10 +1,18 @@
 @foreach ($restaurants as $restaurant)
     <a href="{{ route('user.restaurant', $restaurant->id) }}">
         <div class="w-[148px] rounded-2xl bg-white p-[10px] d-flex justify-center"
-        style="filter: drop-shadow(0px 20px 50px rgba(0,0,0,0.1)); box-shadow: 0px 2px 8px 0 rgba(0,0,0,0.04);">
+            style="filter: drop-shadow(0px 20px 50px rgba(0,0,0,0.1)); box-shadow: 0px 2px 8px 0 rgba(0,0,0,0.04);">
             <div class="w-32 h-[103.3px] rounded-tl-lg rounded-tr-lg bg-[#c4c4c4] relative">
-                <img src="{{ Storage::url($restaurant->images()->where('display_order', 1)->first()->image_url) }}"
-                    class="w-full h-full rounded-tl-lg rounded-tr-lg  object-cover" />
+                @php
+                    $imageUrl = $restaurant
+                        ->images()
+                        ->where('display_order', 1)
+                        ->first()->image_url;
+                    $storageUrl = Storage::url($imageUrl);
+                    $isHttps = str_contains($storageUrl, 'https');
+                    $finalImageUrl = $isHttps ? url($imageUrl) : $storageUrl;
+                @endphp
+                <img src="{{ $finalImageUrl }}" class="w-full h-full rounded-tl-lg rounded-tr-lg  object-cover" />
                 @if (Auth::check())
                     <button class="absolute right-[3.32px] top-[6.87px]"
                         onclick="handleButtonClick({{ $restaurant->id }})">

@@ -3,9 +3,9 @@
 @section('content')
     <div class="px-[28px]">
         <div class="rounded-[10px] gap-1 p-2.5 inline-block bg-[#fff5ec] mb-[20px]">
-            <p class="text-[#343a40]">ID Reservation: 453662</p>
-            <p class="text-[#343a40]">Deposit cost: 100.00 $</p>
-            <p class="text-[#343a40]">Service supplier: De Kas</p>
+            <p class="text-[#343a40]">ID Reservation: {{ $reservation->id }}</p>
+            <p class="text-[#343a40]">Deposit cost: {{ $reservation->deposit }} $</p>
+            <p class="text-[#343a40]">Service supplier: {{ $reservation->restaurant->title }}</p>
         </div>
         <p class="text-xl font-semibold mb-[8px] text-[#343a40]">
             Payment methods

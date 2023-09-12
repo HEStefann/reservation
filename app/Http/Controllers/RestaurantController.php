@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RestaurantRequest;
 use App\Models\Moderator;
 use App\Models\Restaurant;
+use App\Models\Tag;
 use App\Services\RestaurantService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -122,4 +123,20 @@ class RestaurantController extends Controller
 
         return $distance;
     }
+
+    public function searchByTag($tag)
+{
+    $tags = Tag::all(); // Retrieve all tags
+
+    // Query restaurants that have the selected tag
+    $restaurants = Restaurant::whereHas('tags', function ($query) use ($tag) {
+        $query->where('name', $tag);
+    })->get();
+
+    return view('user.restaurantspage', [
+        'restaurants' => $restaurants,
+        'searchQuery' => '', // You may want to clear the search query
+        'tags' => $tags,
+    ]);
+}
 }

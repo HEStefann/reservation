@@ -54,29 +54,36 @@
                     </linearGradient>
                 </defs>
             </svg>
-            <div class="px-4 py-1 rounded-[14px] bg-[#2d6adc]/[0.08] border border-[#2d6adc]">
-                <p class="text-sm w-max text-[#005fa4]">All</p>
-            </div>
-            <div class="px-4 py-1 rounded-[14px] border border-[#ddd]">
-                <p class="text-sm w-max text-[#343a40]">Special offers (84)</p>
-            </div>
-            <div class="px-4 py-1 rounded-[14px] border border-[#ddd]">
-                <p class="text-sm w-max text-[#343a40]">Best rated (65)</p>
-            </div>
-            <div class="px-4 py-1 rounded-[14px] border border-[#ddd]">
-                <p class="text-sm w-max text-[#343a40]">Cuisine (75)</p>
-            </div>
-            <div class="px-4 py-1 rounded-[14px] border border-[#ddd]">
-                <p class="text-sm w-max text-[#343a40]">Price (51)</p>
-            </div>
-            <div class="px-4 py-1 rounded-[14px] border border-[#ddd]">
-                <p class="text-sm w-max text-[#343a40]">Neighborhood</p>
-            </div>
+            @php
+                $totalRestaurantCount = count($restaurants); // Assuming $restaurants contains all your restaurants
+            @endphp
+
+            <a href="{{ route('user.restaurantspage') }}">
+                <div class="px-4 py-1 rounded-[14px] bg-[#2d6adc]/[0.08] border border-[#2d6adc]">
+                    <p class="text-sm w-max text-[#005fa4]">All ({{ $totalRestaurantCount }})</p>
+                </div>
+            </a>
+            @php
+                // Sort the tags by descending count
+                $tags = $tags->sortByDesc(function ($tag) {
+                    return $tag->restaurants->count();
+                });
+            @endphp
+
+            @foreach ($tags as $tag)
+                <a href="{{ route('searchByTag', ['tag' => $tag->name]) }}" class="block">
+                    <div class="px-4 py-1 rounded-[14px] bg-[#2d6adc]/[0.08] border border-[#2d6adc]">
+                        <p class="text-sm w-max text-[#005fa4]">
+                            {{ $tag->name }} ({{ $tag->restaurants->count() }})
+                        </p>
+                    </div>
+                </a>
+            @endforeach
         </div>
     </div>
     <div class="mx-[26px]">
-        <p id="searchLocationDisplay" class="text-lg font-medium text-[#343a40] pb-[11px]">The best restaurants in <span
-                id="searchLocationValue"></span></p>
+        <p id="searchLocationDisplay" class="text-lg font-medium text-[#343a40] pb-[11px]">The best restaurants in
+            Macedonia<span id="searchLocationValue"></span></p>
 
         <x-search-restaurant :restaurants="$restaurants" />
     </div>

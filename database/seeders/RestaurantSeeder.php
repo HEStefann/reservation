@@ -36,46 +36,57 @@ class RestaurantSeeder extends Seeder
                         'Menu' => [
                             [
                                 'name' => '6 KING NUGGETS MENU',
+                                'description' => '6 KING NUGGETS MENU',
                                 'price' => '355',
                             ],
                             [
                                 'name' => '9 KING NUGGETS MENU',
+                                'description' => '9 KING NUGGETS MENU',
                                 'price' => '400',
                             ],
                             [
                                 'name' => 'BIG KING MENU',
+                                'description' => 'BIG KING MENU',
                                 'price' => '440',
                             ],
                             [
                                 'name' => 'BIG KING XXL MENU',
+                                'description' => 'BIG KING XXL MENU',
                                 'price' => '600',
                             ],
                             [
                                 'name' => 'CHEESEBURGER MENU',
+                                'description' => 'CHEESEBURGER MENU',
                                 'price' => '300',
                             ],
                             [
                                 'name' => 'CHICKEN BBQ DELUXE MENU',
+                                'description' => 'CHICKEN BBQ DELUXE MENU',
                                 'price' => '355',
                             ],
                             [
                                 'name' => 'CHICKEN BURGER MENU',
+                                'description' => 'CHICKEN BURGER MENU',
                                 'price' => '295',
                             ],
                             [
                                 'name' => 'CHICKEN ROYALE CHEESE MENU',
+                                'description' => 'CHICKEN ROYALE CHEESE MENU',
                                 'price' => '510',
                             ],
                             [
                                 'name' => 'CHICKEN ROYALE MENU',
+                                'description' => 'CHICKEN ROYALE MENU',
                                 'price' => '480',
                             ],
                             [
                                 'name' => 'CRISPY CHICKEN CHEESE MENU',
+                                'description' => 'CRISPY CHICKEN CHEESE MENU',
                                 'price' => '385',
                             ],
                             [
                                 'name' => 'CRISPY CHICKEN MENU',
+                                'description' => 'CRISPY CHICKEN MENU',
                                 'price' => '370',
                             ],
                         ],
@@ -83,18 +94,22 @@ class RestaurantSeeder extends Seeder
                         'KIDS MEAL' => [
                             [
                                 'name' => 'KIDS CHEESEBURGER MENU + TOY',
+                                'description' => 'KIDS CHEESEBURGER MENU + TOY',
                                 'price' => '330',
                             ],
                             [
                                 'name' => 'KIDS HAMBURGER MENU + TOY',
+                                'description' => 'KIDS HAMBURGER MENU + TOY',
                                 'price' => '315',
                             ],
                             [
                                 'name' => 'KIDS CHICKENBURGER MENU + TOY',
+                                'description' => 'KIDS CHICKENBURGER MENU + TOY',
                                 'price' => '325',
                             ],
                             [
                                 'name' => 'KIDS NUGGETS MENU + TOY',
+                                'description' => 'KIDS NUGGETS MENU + TOY',
                                 'price' => '315',
                             ],
                         ],
@@ -102,51 +117,62 @@ class RestaurantSeeder extends Seeder
                         'BURGER' => [
                                 [
                                     'name' => 'BIG KING',
+                                    'description' => 'BIG KING',
                                     'price' => '335',
                                 ],
                                 [
                                     'name' => 'BIG KING XXL',
+                                    'description' => 'BIG KING XXL',
                                     'price' => '410',
                                 ],
                                 [
                                     'name' => 'CHEESEBURGER',
+                                    'description' => 'CHEESEBURGER',
                                     'price' => '180',
                                 ],
                                 [
                                     'name' => 'CHICKEN ROYALE',
+                                    'description' => 'CHICKEN ROYALE',
                                     'price' => '330',
                                 ],
                                 [
                                     'name' => 'CHICKEN ROYALE CHEESE',
+                                    'description' => 'CHICKEN ROYALE CHEESE',
                                     'price' => '360',
                                 ],
                                 [
                                     'name' => 'CHICKEN BBQ DELUXE',
+                                    'description' => 'CHICKEN BBQ DELUXE',
                                     'price' => '220',
                                 ],
                                 [
                                     'name' => 'CHICKEN BURGER',
+                                    'description' => 'CHICKEN BURGER',
                                     'price' => '185',
                                 ],
                                 [
                                     'name' => 'CRISPY CHICKEN',
+                                    'description' => 'CRISPY CHICKEN',
                                     'price' => '230',
                                 ],
                                 [
                                     'name' => 'CRISPY CHICKEN CHEESE',
+                                    'description' => 'CRISPY CHICKEN CHEESE',
                                     'price' => '245',
                                 ],
                                 [
                                     'name' => 'DOUBLE WHOPPER',
+                                    'description' => 'DOUBLE WHOPPER',
                                     'price' => '420',
                                 ],
                                 [
                                     'name' => 'DOUBLE WHOPPER CHEESE',
+                                    'description' => 'DOUBLE WHOPPER CHEESE',
                                     'price' => '450',
                                 ],
-                                ]
                             ]
                         ]
+                ],
             ],
             [
                 'name' => 'KFC',
@@ -284,8 +310,8 @@ class RestaurantSeeder extends Seeder
                         ],
                     ],
                 ]
-                ]
             ],
+        ],
             [
                 'name' => 'DOMINO`S PIZZA CENTAR',
                 'address' => 'Dimitrie Cupovski 26, Skopje 1000',
@@ -317,64 +343,33 @@ class RestaurantSeeder extends Seeder
                                         'price' => '350',
                                     ],
                                 ],
-                                // FAVORITES PIZZAS
-                                    // American Hot pizza
-                                    // доматен сос, моцарела, domino`s пеперони колбас, јалапенос лути пиперк...
-                                    // 370 ден.
-                                    // Cheddar Melt pizza
-                                    // доматен сос, моцарела, двојна доза на чедар кашкавал, двојна доза на с...
-                                    // 370 ден.
-                                    // Domino`s Special pizza
-                                    // доматен сос, моцарела, шунка, сланина, кромид, свежи пиперки, свежи пе...
-                                    // 370 ден.
-                                    // Garlic Fredo pizza
-                                    // свежа павлака, моцарела, спанаќ, печурки, сланина, гарлик сос
-                                    // 370 ден.
-                                    // Garlic Sizzler pizza
-                                    // доматен сос, моцарела, пеперони, халапенос лути пиперки, маслинки, гар...
-                                    // 370 ден.
-                                    // Italian Passion pizza
-                                    // доматен сос, моцарела, песто сос, пармезан, свежи домати и босилок
-                                    // 370 ден.
-                                    // Macedonian pizza
-                                    // доматен сос, моцарела, лук, кромид, свежи пиперки, фета сирење, маслин...
-                                    // 370 ден.
-                                    // Parmesana pizza
-                                    // свежа павлака, моцарела, пармезан, свежи домати, босилок
-                                    // 370 ден.
-                                    // PREMIUM PIZZAS
-                                    // 4 Cheese pizza
-                                    // доматен сос, моцарела, чедар, пармезан, фета
-                                    // 400 ден.
-                                    // Alfredo pizza
-                                    // свежа павлака, моцарела, пармезан, пилешко месо и спанаќ
-                                    // 400 ден.
-                                    // Burger Barbeque pizza
-                                    // барбекју сос, моцарела, кромид, домати, пилешко месо и бургер сос
-                                    // 400 ден.
-                                    // Burger pizza
-                                    // 100% моцарела сирење, чедар кашкавал, зачинето телешко, свежи домати, ...
-                                    // 400 ден.
-                                    // Carbonara pizza
-                                    // свежа павлака, пармезан, моцарела, сланина, печурки
-                                    // 400 ден.
-                                    // Ham&Bacon pizza
-                                    // доматен сос, моцарела, чедар кашкавал, шунка, сланина
-                                    // 400 ден.
-                                    // New Yorker pizza
-                                    // доматен сос, моцарела, domino`s пеперони колбас, сланина, печурки
-                                    // 400 ден.
-                                    // Pepperoni Passion pizza
-                                    // доматен сос, двојна доза моцарела, двојна доза Domino`s пеперони колба...
-                                    // 400 ден.
                                 'FAVORITES PIZZAS' => [
                                     [
-                                        
+                                        'name' => 'American Hot pizza',
+                                        'description' => 'доматен сос, моцарела, domino`s пеперони колбас, јалапенос лути пиперки, кромид',
+                                        'price' => '370'  
+                                    ],
+                                    [
+                                        'name' => 'Cheddar Melt pizza',
+                                        // доматен сос, моцарела, двојна доза на чедар кашкавал, двојна доза на свежи печурки, двојна доза на сланина
+                                        'description' => 'доматен сос, моцарела, двојна доза на чедар кашкавал, двојна доза на свежи печурки, двојна доза на сланина',
+                                        'price' => '370',
+                                    ],
+                                    [
+                                        'name' => 'Domino`s Special pizza',
+                                        'description' => 'доматен сос, моцарела, шунка, сланина, кромид, свежи пиперки, свежи печурки',
+                                        'price' => '370',
+                                    ],
+                                    [
+                                        'name' => 'Garlic Fredo',
+                                        'description' => 'свежа павлака, моцарела, спанаќ, печурки, сланина, гарлик сос',
+                                        'price' => '370',
                                     ]
-                                ]
 
-                ]]
+                ]
             ],
+                ]
+        ],
             [
                 'name' => 'SUBZY',
                 'address' => 'Dane Krapchev 27, Skopje 1000',
@@ -387,104 +382,151 @@ class RestaurantSeeder extends Seeder
                     'ПОЈАДОК ВРАПОВИ ( СО ОМЛЕТ ОД ДВЕ ЈАЈЦА )' => [
                         [
                             'name' => 'Омлет од две јајца со зеленчуци',
+                            'description' => 'Омлет од две јајца со зеленчуци',
                             'price' => '130',
                         ],
                         [
                             'name' => 'Омлет од две јајца со павлака и печурки',
+                            'description' => 'Омлет од две јајца со павлака и печурки',
                             'price' => '150',
                         ],
                         [
                             'name' => 'Омлет од две јајца со фета и маслинки',
+                            'description' => 'Омлет од две јајца со фета и маслинки',
                             'price' => '160',
                         ],
                         [
                             'name' => 'Омлет од две јајца со шунка и кашкавал',
+                            'description' => 'Омлет од две јајца со шунка и кашкавал',
                             'price' => '160',
                         ],
                         [
                             'name' => 'Омлет од две јајца со сланина и чедар',
+                            'description' => 'Омлет од две јајца со сланина и чедар',
                             'price' => '180',
                         ],
                         [
                             'name' => 'Омлет од две јајца со сланина и авокадо',
+                            'description' => 'Омлет од две јајца со сланина и авокадо',
                             'price' => '180',
                         ],
                     ],
                     'САЛАТИ' => [
                         [
                             'name' => 'Healthy salad',
+                            'description' => 'Healthy salad',
                             'price' => '120',
                         ],
                         [
                             'name' => 'Vege Chef',
+                            'description' => 'Vege Chef',
                             'price' => '140',
                         ],
                         [
                             'name' => 'Tuna salad',
+                            'description' => 'Tuna salad',
                             'price' => '160',
                         ],
                         [
                             'name' => 'Cesar salad',
+                            'description' => 'Cesar salad',
                             'price' => '160',
                         ],
                         [
                             'name' => 'Sexy salad',
+                            'description' => 'Sexy salad',
                             'price' => '160',
                         ],
                         [
                             'name' => 'Tasty salad',
+                            'description' => 'Tasty salad',
                             'price' => '160',
                         ],
                         [
                             'name' => 'Prosciutto salad',
+                            'description' => 'Prosciutto salad',
                             'price' => '160',
                         ],
                         [
                             'name' => 'Салата Мексикана',
+                            'description' => 'Салата Мексикана',
                             'price' => '130',
                         ],
                         [
                             'name' => 'Криспи Цезар',
+                            'description' => 'Криспи Цезар',
                             'price' => '160',
                         ],
                     ],
                     'СЕНДВИЧИ И ВРАПОВИ' => [
                         [
                             'name' => 'Бел багет ладен',
+                            'description' => 'Бел багет ладен',
                             'price' => '60',
                         ],
                         [
                             'name' => 'Бел багет потпечен',
+                            'description' => 'Бел багет потпечен',
                             'price' => '60',
                         ],
                         [
                             'name' => 'Бел багет тостиран',
+                            'description' => 'Бел багет тостиран',
                             'price' => '60',
                         ],
                         [
                             'name' => 'Интегрален багет ладен',
+                            'description' => 'Интегрален багет ладен',
                             'price' => '60',
                         ],
                         [
                             'name' => 'Интегрален багет потпечен',
+                            'description' => 'Интегрален багет потпечен',
                             'price' => '60',
                         ],
                         [
                             'name' => 'Интегрален багет тостиран',
+                            'description' => 'Интегрален багет тостиран',
                             'price' => '60',
                         ],
                         [
                             'name' => 'Тортиља',
+                            'description' => 'Тортиља',
                             'price' => '60',
                         ],
                         [
                             'name' => 'Багет со италијански зачини',
+                            'description' => 'Багет со италијански зачини',
                             'price' => '60',
                         ],
                     ],
                 ]]
             ],
+            [
+                'name' => 'GYRO HOUSE',
+                'address' => 'Blvd. Saint Clement of Ohrid BB, Skopje 1000',
+                'available_people' => 20,
+                //41.9977984,21.1202439
+                'lat' => 41.9977984,
+                'lng' => 21.1202439,
+                'description' => 'Gyro House is a restaurant located in Skopje, Macedonia.',
+                'image' => 'https://www.kliknijadi.mk/Images/Products/1651_131022165318545_400x400.jpg',
+                'menus' => [
+                    'categories' => [
+                        'GYRO HOUSE' => [
+                            [
+                                 'name' => 'Гиро порција пилешко',
+                                'description' => 'Гиро порција пилешко',
+                                'price' => '350',
+
+                            ]
+                        ]
+                    ]
+                ]
+                ]
         ];
+
+
 
         foreach ($realRestaurantData as $restaurantData) {
             // Generate the user
@@ -504,7 +546,7 @@ class RestaurantSeeder extends Seeder
                 'lng' => $restaurantData['lng'],
                 'description' => $restaurantData['description'],
                 'user_id' => $user->id,
-                'rating' => rand(1, 5),
+                'rating' => rand(3, 5),
                 'recomended' => rand(0, 1),
             ]);
 
@@ -546,6 +588,7 @@ class RestaurantSeeder extends Seeder
                         foreach ($products as $product) {
                             Product::create([
                                 'name' => $product['name'],
+                                'description' => $product['description'],
                                 'price' => $product['price'],
                                 'category_id' => $category->id,
                             ]);

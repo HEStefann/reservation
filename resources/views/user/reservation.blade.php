@@ -10,6 +10,10 @@
 </head>
 
 <style>
+    .expired-day {
+        color: #979797;
+    }
+
     .selectable-button.selected {
         background: linear-gradient(to bottom right, #ffcd01 0%, #fc7f09 100%);
     }
@@ -66,10 +70,6 @@
             </div>
         </div>
     @endif
-
-
-
-
 
     <form method="POST" id="reservationForm" action="{{ route('user.reservation.store') }}">
         @csrf
@@ -166,9 +166,14 @@
                     </svg>
                 </div>
             </div>
+            <div class="flex mt-[16px]">
+                <button type="button" class="py-[11px] px-[16px] rounded-tl-lg rounded-bl-lg border-[0.5px] border-[#e0e0e0]/60 text-[11px] text-[#343a40]">Breakfast</button>
+                <button type="button" class="px-[16px] py-[11px] bg-gradient-to-br from-[#52d1ed] to-[#005fa4] border border-black/[0.12] text-[11px] font-medium text-white">Lunch</button>
+                <button type="button" class="py-[11px] px-[16px] rounded-tr-lg rounded-br-lg border-[0.5px] border-[#e0e0e0]/60 text-[11px] text-[#343a40]">Dinner</button>
+            </div>
             <input type="hidden" name="time" value="{{ old('time') }}" id="selectedTimeInput">
             <div class="mt-[14px] grid grid-cols-4 gap-[15px]">
-                @for ($i = 12; $i < 24; $i++)
+                @for ($i = 8; $i < 14 ;$i++)
                     <button type="button"
                         class="selectable-button text-base rounded-[10px] bg-[#fff5ec] text-[#343a40] px-[14px] py-[10px] time-button"
                         data-time="{{ $i }}:00">{{ $i }}:00</button>
@@ -237,6 +242,10 @@
                         </defs>
                     </svg>
                 </div>
+            </div>
+            <div class="flex mb-[18px]">
+                <button class="w-[101px] h-[35px] rounded-tl-lg rounded-bl-lg border-[0.5px] border-[#e0e0e0]/60 text-xs text-[#343a40]">Floor 1</button>
+                <button class="w-[101px] h-[35px] bg-gradient-to-br from-[#52d1ed] to-[#005fa4] border border-black/[0.12] text-xs font-medium text-white rounded-tr-lg rounded-br-lg">Floor 1</button>
             </div>
             <div class="rounded-lg bg-[#fff5ec] grid grid-cols-4 px-[9px] py-[11px] gap-x-[20px] gap-y-[11px] ">
                 @for ($i = 0; $i < 7; $i++)
@@ -360,17 +369,17 @@
                     </div>
                     <div class="flex gap-[16px]">
                         <div class="w-[21px] h-[21px]">
-                        <svg width="21" height="21" viewBox="0 0 13 13" fill="none"
-                            xmlns="http://www.w3.org/2000/svg" class="flex-grow-0 flex-shrink-0"
-                            preserveAspectRatio="none">
-                            <rect width="13" height="13" rx="5" fill="#FC7F09"></rect>
-                            <path
-                                d="M6.68306 11.0842C9.17721 11.0842 11.1991 9.05061 11.1991 6.54208C11.1991 4.03356 9.17721 2 6.68306 2C4.1889 2 2.16699 4.03356 2.16699 6.54208C2.16699 9.05061 4.1889 11.0842 6.68306 11.0842Z"
-                                stroke="white" stroke-linecap="round" stroke-linejoin="round"></path>
-                            <path d="M6.33789 4.15039V6.87565L8.14432 7.78406" stroke="white" stroke-width="1.5"
-                                stroke-linecap="round" stroke-linejoin="round"></path>
-                        </svg>
-                    </div>
+                            <svg width="21" height="21" viewBox="0 0 13 13" fill="none"
+                                xmlns="http://www.w3.org/2000/svg" class="flex-grow-0 flex-shrink-0"
+                                preserveAspectRatio="none">
+                                <rect width="13" height="13" rx="5" fill="#FC7F09"></rect>
+                                <path
+                                    d="M6.68306 11.0842C9.17721 11.0842 11.1991 9.05061 11.1991 6.54208C11.1991 4.03356 9.17721 2 6.68306 2C4.1889 2 2.16699 4.03356 2.16699 6.54208C2.16699 9.05061 4.1889 11.0842 6.68306 11.0842Z"
+                                    stroke="white" stroke-linecap="round" stroke-linejoin="round"></path>
+                                <path d="M6.33789 4.15039V6.87565L8.14432 7.78406" stroke="white" stroke-width="1.5"
+                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                        </div>
 
                         <p class="text-sm font-semibold  text-[#343a40]" id="reservationTime"></p>
                     </div>
@@ -611,17 +620,17 @@
             const daysInMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
 
             let calendarHTML = `
-            <div class="grid justify-items-center grid-cols-7 gap-[8px] text-[#6b686b] uppercase text-[10px]">
-                <div>Sun</div>
-                <div>Mon</div>
-                <div>Tue</div>
-                <div>Wed</div>
-                <div>Thu</div>
-                <div>Fri</div>
-                <div>Sat</div>
-            </div>
-            <div class="grid justify-items-center grid-cols-7 gap-[8px]">
-        `;
+    <div class="grid justify-items-center grid-cols-7 gap-[8px] text-[#6b686b] uppercase text-[10px]">
+        <div>Sun</div>
+        <div>Mon</div>
+        <div>Tue</div>
+        <div>Wed</div>
+        <div>Thu</div>
+        <div>Fri</div>
+        <div>Sat</div>
+    </div>
+    <div class="grid justify-items-center grid-cols-7 gap-[8px]">
+    `;
             for (let i = 0; i < startDay; i++) {
                 calendarHTML += '<div></div>';
             }
@@ -629,12 +638,21 @@
             for (let i = 1; i <= daysInMonth; i++) {
                 const dayElement = document.createElement('div');
                 dayElement.textContent = i;
-                dayElement.classList.add('text-base', 'selectable-day', 'text-[#4a5660]', 'font-semibold', 'flex',
+                dayElement.classList.add('text-base', 'text-[#4a5660]', 'font-semibold', 'flex',
                     'justify-center', 'items-center');
 
                 // Calculate the date for this day
                 const dayDate = new Date(year, date.getMonth(), i);
                 dayElement.setAttribute('data-date', dayDate.toISOString());
+
+                // Check if the day is expired
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                if (dayDate < today) {
+                    dayElement.classList.add('expired-day');
+                } else {
+                    dayElement.classList.add('selectable-day');
+                }
 
                 calendarHTML += `<div class="calendar-day w-[30px] h-[30px]">${dayElement.outerHTML}</div>`;
             }

@@ -80,7 +80,6 @@
             <thead>
                 <tr>
                     <th scope="col">ID</th>
-                    <th scope="col">Restaurant</th>
                     <th scope="col">Reservation</th>
                     <th scope="col">User</th>
                     <th scope="col">Rating</th>
@@ -96,11 +95,6 @@
                 @foreach ($restaurant->reviews as $review)
                     <tr>
                         <td>{{ $review->id }}</td>
-                        <td>
-                            <a href="{{ route('admin.restaurants.show', $review->restaurant->id) }}">
-                                {{ $review->restaurant->title }}
-                            </a>
-                        </td>
                         <td>
                             @if ($review->reservation)
                                 <a href="{{ route('admin.reservations.show', $review->reservation->id) }}">
@@ -141,7 +135,6 @@
             <thead>
                 <tr>
                     <th scope="col">ID</th>
-                    <th scope="col">Restaurant</th>
                     <th scope="col">User</th>
                     <th scope="col">Role</th>
                     <th scope="col">Created At</th>
@@ -154,11 +147,6 @@
                 @foreach ($restaurant->moderators as $moderator)
                     <tr>
                         <td>{{ $moderator->id }}</td>
-                        <td>
-                            <a href="{{ route('admin.restaurants.show', $moderator->restaurant->id) }}">
-                                {{ $moderator->restaurant->title }}
-                            </a>
-                        </td>
                         <td>
                             @if ($moderator->user)
                                 <a href="{{ route('admin.users.show', $moderator->user->id) }}">
@@ -191,7 +179,6 @@
             <thead>
                 <tr>
                     <th scope="col">ID</th>
-                    <th scope="col">Restaurant</th>
                     <th scope="col">Tag</th>
                     <th scope="col">Created At</th>
                     <th scope="col">Updated At</th>
@@ -203,27 +190,23 @@
                 @foreach ($restaurant->tags as $tag)
                     <tr>
                         <td>{{ $tag->id }}</td>
+
                         <td>
-                            {{-- <a href="{{ route('admin.restaurants.show', $tag->restaurant->id) }}">
-                                {{ $tag->restaurant->title }}
-                            </a> --}}
-                        </td>
-                        <td>
-                            {{-- <a href="{{ route('admin.tags.show', $tag->id) }}">
+                            <a href="">
                                 {{ $tag->name }}
-                            </a> --}}
+                            </a>
                         </td>
                         <td>{{ $tag->created_at }}</td>
                         <td>{{ $tag->updated_at }}</td>
                         <td>{{ $tag->deleted_at }}</td>
                         <td>
-                            {{-- <a href="{{ route('admin.tags.edit', $tag->id) }}"
+                            <a href=""
                                 class="rounded-full bg-blue-500 px-4">Edit</a>
                                 <br>
                                 <a
-                                href="{{ route('admin.tags.destroy', $tag->id) }}" class="rounded-full bg-red-500 px-4">
+                                href="" class="rounded-full bg-red-500 px-4">
                                 Delete
-                            </a> --}}
+                            </a>
                         </td>
                     </tr>
                 @endforeach

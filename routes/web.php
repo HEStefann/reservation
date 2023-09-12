@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminReservationController;
 use App\Http\Controllers\AdminRestaurantController;
 use App\Http\Controllers\AdminReviewController;
 use App\Http\Controllers\AdminUserController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\RestaurantController;
@@ -183,3 +184,6 @@ Route::get('/highly-rated-restaurants', [UserController::class, 'highlyrated'])-
 
 Route::get('/recommended-restaurants', [UserController::class, 'recommended'])->name('user.recommended');
 Route::get('/nearest-restaurants', [UserController::class, 'nearest'])->name('user.nearest');
+
+// payment with current reservation
+Route::get('/payment/{reservation}', [PaymentController::class, 'index'])->name('payment.index');

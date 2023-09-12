@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Promotion;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use App\Models\Restaurant;
 use Illuminate\Support\Facades\Auth;
@@ -111,6 +112,7 @@ class UserController extends Controller
     public function search(Request $request)
     {
         $searchQuery = $request->input('searchRestaurant');
+        $tags = Tag::all();
 
         // Initialize variables for location-based search with default values
         $latitude = null;
@@ -181,6 +183,7 @@ class UserController extends Controller
             'restaurants' => $restaurants,
             'searchAddress' => $displayedAddress, // Use the displayed address here
             'searchQuery' => $searchQuery,
+            'tags' => $tags
         ]);
     }
 

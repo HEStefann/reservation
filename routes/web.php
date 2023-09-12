@@ -180,10 +180,11 @@ Route::get('/userreservations', [UserController::class, 'reservations'])->name('
 Route::get('/runfactorys', [UserController::class, 'runfactorys'])->name('runfactorys');
 
 
-Route::get('/highly-rated-restaurants', [UserController::class, 'highlyrated'])->name('user.highlyrated');
+Route::get('/highly-rated-restaura`nts', [UserController::class, 'highlyrated'])->name('user.highlyrated');
 
 Route::get('/recommended-restaurants', [UserController::class, 'recommended'])->name('user.recommended');
 Route::get('/nearest-restaurants', [UserController::class, 'nearest'])->name('user.nearest');
 
-// payment with current reservation
 Route::get('/payment/{reservation}', [PaymentController::class, 'index'])->name('payment.index');
+
+Route::get('/searchByTag/{tag}', [RestaurantController::class, 'searchByTag'])->name('searchByTag');

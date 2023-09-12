@@ -359,17 +359,19 @@
                         <p class="text-sm font-semibold  text-[#343a40]" id="reservationDate"></p>
                     </div>
                     <div class="flex gap-[16px]">
-                        <svg width="23" height="22" viewBox="0 0 23 22" fill="none"
-                            xmlns="http://www.w3.org/2000/svg" class="w-[22.92px] h-[22px]"
+                        <div class="w-[21px] h-[21px]">
+                        <svg width="21" height="21" viewBox="0 0 13 13" fill="none"
+                            xmlns="http://www.w3.org/2000/svg" class="flex-grow-0 flex-shrink-0"
                             preserveAspectRatio="none">
-                            <rect width="22.9167" height="22" rx="5" fill="#FC7F09"></rect>
+                            <rect width="13" height="13" rx="5" fill="#FC7F09"></rect>
                             <path
-                                d="M9.57704 17.9419C13.3457 17.9419 16.4008 14.7463 16.4008 10.8043C16.4008 6.86234 13.3457 3.66675 9.57704 3.66675C5.8084 3.66675 2.75331 6.86234 2.75331 10.8043C2.75331 14.7463 5.8084 17.9419 9.57704 17.9419Z"
-                                stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                            </path>
-                            <path d="M9.57689 6.52173V10.8043L12.3064 12.2318" stroke="white" stroke-width="1.5"
+                                d="M6.68306 11.0842C9.17721 11.0842 11.1991 9.05061 11.1991 6.54208C11.1991 4.03356 9.17721 2 6.68306 2C4.1889 2 2.16699 4.03356 2.16699 6.54208C2.16699 9.05061 4.1889 11.0842 6.68306 11.0842Z"
+                                stroke="white" stroke-linecap="round" stroke-linejoin="round"></path>
+                            <path d="M6.33789 4.15039V6.87565L8.14432 7.78406" stroke="white" stroke-width="1.5"
                                 stroke-linecap="round" stroke-linejoin="round"></path>
                         </svg>
+                    </div>
+
                         <p class="text-sm font-semibold  text-[#343a40]" id="reservationTime"></p>
                     </div>
                     <div class="flex gap-[16px]">

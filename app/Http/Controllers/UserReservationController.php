@@ -42,7 +42,7 @@ public function store(UserStoreReservationRequest $request)
         return redirect()->back()->withErrors([$customError]);
     }
 
-    Reservation::create([
+    $reservation = Reservation::create([
         'user_id' => $user->id,
         'restaurant_id' => $request->input('restaurant_id'),
         'full_name' => $user->name,
@@ -57,9 +57,9 @@ public function store(UserStoreReservationRequest $request)
     ]);
 
     // Flash a success message to the session
-    Session::flash('reservation_success', 'Reservation was successfully made!');
+    // Session::flash('reservation_success', 'Reservation was successfully made!');
 
-    return redirect('/');
+    return redirect()->route('payment.index', ['reservation' => $reservation->id]);
 }
 
 }

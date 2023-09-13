@@ -17,6 +17,7 @@ use App\Http\Controllers\RestaurantTagsController;
 use App\Http\Controllers\TagsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\Restaurant\RestaurantReservationController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserReservationController;
@@ -188,3 +189,5 @@ Route::get('/nearest-restaurants', [UserController::class, 'nearest'])->name('us
 Route::get('/payment/{reservation}', [PaymentController::class, 'index'])->name('payment.index');
 
 Route::get('/searchByTag/{tag}', [RestaurantController::class, 'searchByTag'])->name('searchByTag');
+
+Route::get('/tez', [RestaurantReservationController::class, 'index']);

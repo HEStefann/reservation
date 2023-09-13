@@ -17,8 +17,9 @@
         @yield('content')
         @stack('scripts')
     </div>
-    @if(View::hasSection('footer'))
-    @include('components.footer')
-@endif
+    @if (View::hasSection('footer'))
+        @include('components.footer')
+    @endif
 </body>
+
 </html>

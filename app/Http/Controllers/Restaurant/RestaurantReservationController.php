@@ -31,7 +31,7 @@ class RestaurantReservationController extends Controller
                     }
                 });
             }
-            $reservations = $reservationsQuery->paginate($request->input('completed_per_page', 10));
+            $reservations = $reservationsQuery->paginate($reservationsPerPage);
 
             $pendingReservationsQuery = $restaurant->reservations()->where('status', 'pending')->latest('updated_at');
             if ($searchQuery) {
@@ -42,7 +42,7 @@ class RestaurantReservationController extends Controller
                     }
                 });
             }
-            $pendingReservations = $pendingReservationsQuery->paginate($request->input('pending_per_page', 10));
+            $pendingReservations = $pendingReservationsQuery->paginate($pendingPerPage);
         }else {
             $reservations = null;
             $pendingReservations = null;

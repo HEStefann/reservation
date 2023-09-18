@@ -18,10 +18,16 @@ class RestaurantReservationController extends Controller
         $restaurant = Moderator::where('user_id', $user->id)->first()->restaurant;
         $pendingPerPage = $request->input('pendingPerPage', 10);
         $reservationsPerPage = $request->input('reservationsPerPage', 10);
-
+    
         // Get the search query from the request
         $searchQuery = $request->input('search');
+    
+        // Get the current page numbers for pending and all reservations
+        $currentPagePending = $request->input('page_pending', 1);
+        $currentPageAll = $request->input('page_all', 1);
+    
         if ($restaurant->reservations->count() > 0) {
+            // Query for all reservations
             $reservationsQuery = $restaurant->reservations()->where('status', '!=', 'pending')->latest('updated_at');
             if ($searchQuery) {
                 $reservationsQuery->where(function ($query) use ($searchQuery) {
@@ -31,8 +37,9 @@ class RestaurantReservationController extends Controller
                     }
                 });
             }
-            $reservations = $reservationsQuery->paginate($reservationsPerPage);
-
+            $reservations = $reservationsQuery->paginate($reservationsPerPage, ['*'], 'page_all')->withQueryString();
+    
+            // Query for pending reservations
             $pendingReservationsQuery = $restaurant->reservations()->where('status', 'pending')->latest('updated_at');
             if ($searchQuery) {
                 $pendingReservationsQuery->where(function ($query) use ($searchQuery) {
@@ -42,14 +49,15 @@ class RestaurantReservationController extends Controller
                     }
                 });
             }
-            $pendingReservations = $pendingReservationsQuery->paginate($pendingPerPage);
-        }else {
+            $pendingReservations = $pendingReservationsQuery->paginate($pendingPerPage, ['*'], 'page_pending')->withQueryString();
+        } else {
             $reservations = null;
             $pendingReservations = null;
         }
-
-        return view('restaurant.reservations', compact('pendingReservations', 'reservations', 'restaurant', 'pendingPerPage', 'reservationsPerPage', 'searchQuery'));
+    
+        return view('restaurant.reservations', compact('pendingReservations', 'reservations', 'restaurant', 'pendingPerPage', 'reservationsPerPage', 'searchQuery', 'currentPagePending', 'currentPageAll'));
     }
+
     public function accept(Reservation $reservation)
     {
         $reservation = Reservation::find($reservation->id);

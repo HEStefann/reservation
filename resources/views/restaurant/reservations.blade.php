@@ -1,10 +1,22 @@
 @extends('layouts.restaurant')
 @section('content')
+    @if (Session::has('success'))
+        <div class="alert alert-success">
+            {{ Session::get('success') }}
+        </div>
+    @endif
+    @if (Session::has('error'))
+        <div class="alert alert-danger">
+            {{ Session::get('error') }}
+        </div>
+    @endif
     <div class="mt-[38px] ml-[70px] mr-[128px] mb-[75px]">
-        <p class="text-4xl font-semibold text-[#343a40]">De Kas reservations</p>
+        <p class="text-4xl font-semibold text-[#343a40]">{{ $restaurant->title }}</p>
         <div class="flex justify-end">
             <div class="flex items-center relative mt-[20px]">
-                <input type="text" class="rounded-[20px] w-[260px] h-[42px] pl-[44px]" placeholder="Search">
+                <form action="{{ route('tez') }}" method="get">
+                    <input type="text" name="search" class="rounded-[20px] w-[260px] h-[42px] pl-[44px]" placeholder="Search" value="{{ $searchQuery }}">
+                </form>
                 <svg class="absolute left-[18px]" width="14" height="14" viewBox="0 0 14 14" fill="none"
                     xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
                     <path
@@ -15,108 +27,146 @@
         </div>
         <div>
             <p class="text-[32px] font-medium text-[#343a40] mb-[70px]">Pending reservations</p>
-            <div class="grid-container ">
-                <div class="header bg-[#6750a4]/5">Full Name</div>
-                <div class="header">Phone Number</div>
-                <div class="header">Date</div>
-                <div class="header">Time</div>
-                <div class="header">Number of people</div>
-                <div class="header">Note</div>
-                <div class="header">Restaurant</div>
-                <div class="header">Status</div>
+            @if ($pendingReservations != null && $pendingReservations->count() > 0)
+                <div class="grid-container ">
+                    <div class="header bg-[#6750a4]/5">Full Name</div>
+                    <div class="header">Phone Number</div>
+                    <div class="header">Date</div>
+                    <div class="header">Time</div>
+                    <div class="header">Number of people</div>
+                    <div class="header">Note</div>
+                    <div class="header">Restaurant</div>
+                    <div class="header">Status</div>
+                    {{-- for each reservation that is status = pending --}}
+                    @foreach ($pendingReservations as $reservation)
+                        <div class="data">{{ $reservation->full_name }}</div>
+                        <div class="data">{{ $reservation->phone_number }}</div>
+                        <div class="data">{{ $reservation->date }}</div>
+                        <div class="data">{{ $reservation->time }}</div>
+                        <div class="data">{{ $reservation->number_of_people }}</div>
+                        <div class="data">{{ $reservation->note ?? '' }}</div>
+                        <div class="data">{{ $reservation->restaurant->title }}</div>
+                        <div class="data-buttons flex items-center justify-center">
+                            <form action="{{ route('restaurant.reservation.accept', $reservation->id) }}" method="post">
+                                @csrf
+                                @method('PUT')
+                                <button type="submit" class="accept-button">Accept</button>
+                            </form>
+                            <form action="{{ route('restaurant.reservation.decline', $reservation->id) }}" method="post">
+                                @csrf
+                                @method('PUT')
+                                <button type="submit" class="decline-button">Decline</button>
+                            </form>
+                        </div>
+                    @endforeach
 
-                <!-- Replace the following rows with your actual data -->
-                <div class="data">Marija Salatich</div>
-                <div class="data">+38978555555</div>
-                <div class="data">21.10.2023</div>
-                <div class="data">18:00</div>
-                <div class="data">2</div>
-                <div class="data">Vegan</div>
-                <div class="data">De Kas</div>
-                <div class="data-buttons flex items-center justify-center">
-                    <button class="accept-button">Accept</button>
-                    <button class="decline-button">Decline</button>
                 </div>
-            </div>
-            <div class="flex items-center justify-end">
-                <p class="text-xs text-black/60 inline-flex">Rows per page:</p>
-                {{-- select with options --}}
-                <select class="border-0 text-xs p-0 pl-[8px] pr-[22px]">
-                    <option>10</option>
-                    <option>20</option>
-                    <option>30</option>
-                </select>
-                <p class="text-xs text-black/[0.87]">1-5 of 13</p>
-                <div class="flex">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        class="w-6 h-6 m-[12px]" preserveAspectRatio="xMidYMid meet">
-                        <path d="M15.7049 7.41L14.2949 6L8.29492 12L14.2949 18L15.7049 16.59L11.1249 12L15.7049 7.41Z"
-                            fill="black" fill-opacity="0.54"></path>
-                    </svg>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        class="w-6 h-6 m-[12px]" preserveAspectRatio="xMidYMid meet">
-                        <path d="M9.70492 6L8.29492 7.41L12.8749 12L8.29492 16.59L9.70492 18L15.7049 12L9.70492 6Z"
-                            fill="black" fill-opacity="0.54"></path>
-                    </svg>
+                <div class="flex items-center justify-end">
+                    <p class="text-xs text-black/60 inline-flex">Rows per page:</p>
+                    <select id="rowsPerPageSelect" class="border-0 text-xs p-0 pl-[8px] pr-[22px]" onchange="changePendingPerPage(this.value)">
+                        <option {{ $pendingPerPage == 10 ? 'selected' : '' }}>10</option>
+                        <option {{ $pendingPerPage == 20 ? 'selected' : '' }}>20</option>
+                        <option {{ $pendingPerPage == 30 ? 'selected' : '' }}>30</option>
+                    </select>
+                    <p class="text-xs text-black/[0.87]">
+                        {{ $pendingReservations->firstItem() }}-
+                        {{ $pendingReservations->lastItem() }} of {{ $pendingReservations->total() }}
+                    </p>
+                    <div class="flex">
+                        @if ($pendingReservations->lastPage() > 1)
+                            <a href="{{ $pendingReservations->previousPageUrl() }}">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="w-6 h-6 m-[12px] {{ $pendingReservations->currentPage() == 1 ? 'disabled' : '' }}"
+                                    preserveAspectRatio="xMidYMid meet">
+                                    <path
+                                        d="M15.7049 7.41L14.2949 6L8.29492 12L14.2949 18L15.7049 16.59L11.1249 12L15.7049 7.41Z"
+                                        fill="black" fill-opacity="0.54"></path>
+                                </svg>
+                            </a>
+                            <a href="{{ $pendingReservations->nextPageUrl() }}">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="w-6 h-6 m-[12px] {{ $pendingReservations->currentPage() == $pendingReservations->lastPage() ? 'disabled' : '' }}"
+                                    preserveAspectRatio="xMidYMid meet">
+                                    <path
+                                        d="M9.70492 6L8.29492 7.41L12.8749 12L8.29492 16.59L9.70492 18L15.7049 12L9.70492 6Z"
+                                        fill="black" fill-opacity="0.54"></path>
+                                </svg>
+                            </a>
+                        @endif
+                    </div>
                 </div>
-            </div>
+            @else
+                <p class="text-[32px] font-medium text-[#343a40] mb-[70px]">No pending reservations</p>
+            @endif
         </div>
         <div>
-            <p class="text-[32px] font-medium text-[#343a40] mb-[70px]">Pending reservations</p>
-            <div class="grid-container ">
-                <div class="header bg-[#6750a4]/5">Full Name</div>
-                <div class="header">Phone Number</div>
-                <div class="header">Date</div>
-                <div class="header">Time</div>
-                <div class="header">Number of people</div>
-                <div class="header">Note</div>
-                <div class="header">Restaurant</div>
-                <div class="header">Status</div>
-
-                <!-- Replace the following rows with your actual data -->
-                <div class="data">Marija Salatich</div>
-                <div class="data">+38978555555</div>
-                <div class="data">21.10.2023</div>
-                <div class="data">18:00</div>
-                <div class="data">2</div>
-                <div class="data">Vegan</div>
-                <div class="data">De Kas</div>
-                <div class="data-buttons flex items-center justify-center">
-                    <p class="accepted  rounded-[10px] bg-[#b7ddbf] text-xs font-medium py-[10px] px-[24px] text-[#343a40]">Accepted</p>
+            <p class="text-[32px] font-medium text-[#343a40] mb-[70px]">All reservations</p>
+            @if ($reservations != null && $reservations->count() > 0)
+                <div class="grid-container ">
+                    <div class="header bg-[#6750a4]/5">Full Name</div>
+                    <div class="header">Phone Number</div>
+                    <div class="header">Date</div>
+                    <div class="header">Time</div>
+                    <div class="header">Number of people</div>
+                    <div class="header">Note</div>
+                    <div class="header">Restaurant</div>
+                    <div class="header">Status</div>
+                    @foreach ($reservations as $reservation)
+                    <div class="data">{{ $reservation->full_name }}</div>
+                    <div class="data">{{ $reservation->phone_number }}</div>
+                    <div class="data">{{ $reservation->date }}</div>
+                    <div class="data">{{ $reservation->time }}</div>
+                    <div class="data">{{ $reservation->number_of_people }}</div>
+                    <div class="data">{{ $reservation->note }}</div>
+                    <div class="data">{{ $reservation->restaurant->title }}</div>
+                    <div class="data-buttons flex items-center justify-center">
+                        <p
+                            class="{{ $reservation->status == 'accepted' ? 'accepted  rounded-[10px] bg-[#b7ddbf] text-xs font-medium py-[10px] px-[24px] text-[#343a40]' : 'canceled  rounded-[10px] bg-[#fd8175]/[0.88] text-xs font-medium py-[10px] px-[24px] text-[#343a40]'}}">
+                            {{ $reservation->status }}</p>
+                    </div>
+                    @endforeach
                 </div>
-                <div class="data">Marija Salatich</div>
-                <div class="data">+38978555555</div>
-                <div class="data">21.10.2023</div>
-                <div class="data">18:00</div>
-                <div class="data">2</div>
-                <div class="data">Vegan</div>
-                <div class="data">De Kas</div>
-                <div class="data-buttons flex items-center justify-center">
-                    <p class="canceled  rounded-[10px] bg-[#fd8175]/[0.88] text-xs font-medium py-[10px] px-[24px] text-[#343a40]">Cancelled</p>
+                <div class="flex items-center justify-end">
+                    <p class="text-xs text-black/60 inline-flex">Rows per page:</p>
+                    <select class="border-0 text-xs p-0 pl-[8px] pr-[22px]" onchange="changeReservationsPerPage(this.value)">
+                        <option {{ $reservationsPerPage == 10 ? 'selected' : '' }}>10</option>
+                        <option {{ $reservationsPerPage == 20 ? 'selected' : '' }}>20</option>
+                        <option {{ $reservationsPerPage == 30 ? 'selected' : '' }}>30</option>
+                    </select>
+                    <p class="text-xs text-black/[0.87]">
+                        {{ $reservations->firstItem() }}-
+                        {{ $reservations->lastItem() }} of {{ $reservations->total() }}
+                    </p>
+                    <div class="flex">
+                        @if ($reservations->lastPage() > 1)
+                            <a href="{{ $reservations->previousPageUrl() }}">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="w-6 h-6 m-[12px] {{ $reservations->currentPage() == 1 ? 'disabled' : '' }}"
+                                    preserveAspectRatio="xMidYMid meet">
+                                    <path
+                                        d="M15.7049 7.41L14.2949 6L8.29492 12L14.2949 18L15.7049 16.59L11.1249 12L15.7049 7.41Z"
+                                        fill="black" fill-opacity="0.54"></path>
+                                </svg>
+                            </a>
+                            <a href="{{ $reservations->nextPageUrl() }}">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="w-6 h-6 m-[12px] {{ $reservations->currentPage() == $reservations->lastPage() ? 'disabled' : '' }}"
+                                    preserveAspectRatio="xMidYMid meet">
+                                    <path
+                                        d="M9.70492 6L8.29492 7.41L12.8749 12L8.29492 16.59L9.70492 18L15.7049 12L9.70492 6Z"
+                                        fill="black" fill-opacity="0.54"></path>
+                                </svg>
+                            </a>
+                        @endif
+                    </div>
                 </div>
-            </div>
-            <div class="flex items-center justify-end">
-                <p class="text-xs text-black/60 inline-flex">Rows per page:</p>
-                {{-- select with options --}}
-                <select class="border-0 text-xs p-0 pl-[8px] pr-[22px]">
-                    <option>10</option>
-                    <option>20</option>
-                    <option>30</option>
-                </select>
-                <p class="text-xs text-black/[0.87]">1-5 of 13</p>
-                <div class="flex">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        class="w-6 h-6 m-[12px]" preserveAspectRatio="xMidYMid meet">
-                        <path d="M15.7049 7.41L14.2949 6L8.29492 12L14.2949 18L15.7049 16.59L11.1249 12L15.7049 7.41Z"
-                            fill="black" fill-opacity="0.54"></path>
-                    </svg>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        class="w-6 h-6 m-[12px]" preserveAspectRatio="xMidYMid meet">
-                        <path d="M9.70492 6L8.29492 7.41L12.8749 12L8.29492 16.59L9.70492 18L15.7049 12L9.70492 6Z"
-                            fill="black" fill-opacity="0.54"></path>
-                    </svg>
-                </div>
-            </div>
+            @else
+                <p class="text-[32px] font-medium text-[#343a40] mb-[70px]">No reservations</p>
+            @endif
         </div>
         <style>
             .grid-container {
@@ -175,4 +225,12 @@
             }
         </style>
     </div>
+    <script>
+        function changePendingPerPage(value) {
+            window.location.href = window.location.pathname + '?pendingPerPage=' + value;
+        }
+        function changeReservationsPerPage(value){
+            window.location.href = window.location.pathname + '?reservationsPerPage=' + value;
+        }
+    </script>
 @endsection

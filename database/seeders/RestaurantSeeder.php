@@ -10,6 +10,7 @@ use App\Models\WorkingHour;
 use App\Models\RestaurantImage;
 use App\Models\Image;
 use App\Models\Menu;
+use App\Models\Moderator;
 use App\Models\Product;
 use App\Models\Review;
 use App\Models\Reservation;
@@ -534,7 +535,6 @@ class RestaurantSeeder extends Seeder
                 'name' => $restaurantData['name'],
                 'email' => strtolower(str_replace(' ', '', $restaurantData['name'])) . '@info.com',
                 'password' => bcrypt('password'),
-                'role' => 'owner',
             ]);
 
             // Generate the restaurant using real restaurant data
@@ -549,7 +549,11 @@ class RestaurantSeeder extends Seeder
                 'rating' => rand(3, 5),
                 'recomended' => rand(0, 1),
             ]);
-
+            Moderator::create([
+                'user_id' => $user->id,
+                'restaurant_id' => $restaurant->id,
+                'role' => 'owner',
+            ]);
             // Generate working hours for the restaurant
             $daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
             foreach ($daysOfWeek as $day) {

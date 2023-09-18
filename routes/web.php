@@ -190,4 +190,6 @@ Route::get('/payment/{reservation}', [PaymentController::class, 'index'])->name(
 
 Route::get('/searchByTag/{tag}', [RestaurantController::class, 'searchByTag'])->name('searchByTag');
 
-Route::get('/tez', [RestaurantReservationController::class, 'index']);
+Route::get('/tez', [RestaurantReservationController::class, 'index'])->name('tez');
+Route::put('/restaurant/reservation/accept/{reservation}', [RestaurantReservationController::class, 'accept'])->name('restaurant.reservation.accept');
+Route::put('/restaurant/reservation/decline/{reservation}', [RestaurantReservationController::class, 'decline'])->name('restaurant.reservation.decline');

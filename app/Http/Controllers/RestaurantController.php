@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RestaurantRegisterRequest;
 use App\Http\Requests\RestaurantRequest;
 use App\Models\Moderator;
 use App\Models\Restaurant;
@@ -39,40 +40,40 @@ class RestaurantController extends Controller
         return view('user.restaurant', ['restaurant' => $restaurant, 'fourProducts' => $fourProducts]);
     }
 
-    public function store(RestaurantRequest $request)
-{
-    // Create restaurant
-    $validatedData = $request->validated();
-    $restaurant = $this->restaurantService->createRestaurant($validatedData);
+    public function store(RestaurantRegisterRequest $request)
+    {
+        // // Create restaurant
+        $validatedData = $request->validated();
+        $restaurant = $this->restaurantService->createRestaurant($validatedData);
 
-    // Handle image upload
-    if ($request->hasFile('image')) {
-        $imagePath = $request->file('image')->store('images', 'public');
+        // // Handle image upload
+        // if ($request->hasFile('image')) {
+        //     $imagePath = $request->file('image')->store('images', 'public');
 
-        // Create a new restaurant image record associated with the restaurant
-        $restaurant->images()->create([
-            'image_url' => $imagePath,
-            'display_order' => 1, // Adjust the display order as needed
+        //     // Create a new restaurant image record associated with the restaurant
+        //     $restaurant->images()->create([
+        //         'image_url' => $imagePath,
+        //         'display_order' => 1, // Adjust the display order as needed
+        //     ]);
+        // }
+
+        // Get authenticated user
+        $user = Auth::user();
+
+        // Create moderator record
+        Moderator::create([
+            'user_id' => $user->id,
+            'restaurant_id' => $restaurant->id,
+            'role' => 'owner',
         ]);
+
+        // Update user role
+        DB::table('users')
+            ->where('id', $user->id)
+            ->update(['role' => 'owner']);
+
+        return redirect()->route('restaurant.settings.index', ['restaurant' => $restaurant->id]);
     }
-
-    // Get authenticated user
-    $user = Auth::user();
-
-    // Create moderator record
-    Moderator::create([
-        'user_id' => $user->id,
-        'restaurant_id' => $restaurant->id,
-        'role' => 'owner',
-    ]);
-
-    // Update user role
-    DB::table('users')
-        ->where('id', $user->id)
-        ->update(['role' => 'owner']);
-
-    return redirect()->route('restaurant.settings.index', ['restaurant' => $restaurant->id]);
-}
 
     public function getNearestRestaurants(Request $request)
     {
@@ -98,8 +99,8 @@ class RestaurantController extends Controller
         if ($nearestRestaurants->isEmpty()) {
             // Handle the scenario when no restaurants are found
             return $response = [
-        'message' => '<div class=\'inline-flex items-center\'><svg class=\'w-5 h-5 mr-1 text-gray-500\' fill=\'none\' xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 22 22\'><path d=\'M10.0835 6.41732H11.9168V8.25065H10.0835V6.41732ZM10.0835 10.084H11.9168V15.584H10.0835V10.084ZM11.0002 1.83398C5.94016 1.83398 1.8335 5.94065 1.8335 11.0007C1.8335 16.0607 5.94016 20.1673 11.0002 20.1673C16.0602 20.1673 20.1668 16.0607 20.1668 11.0007C20.1668 5.94065 16.0602 1.83398 11.0002 1.83398ZM11.0002 18.334C6.95766 18.334 3.66683 15.0431 3.66683 11.0007C3.66683 6.95815 6.95766 3.66732 11.0002 3.66732C15.0427 3.66732 18.3335 6.95815 18.3335 11.0007C18.3335 15.0431 15.0427 18.334 11.0002 18.334Z\' fill=\'#938F99\'></path></svg><p class=\'text-xs font-light text-left text-gray-500\'>No restaurants found</p></div>'
-    ];
+                'message' => '<div class=\'inline-flex items-center\'><svg class=\'w-5 h-5 mr-1 text-gray-500\' fill=\'none\' xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 22 22\'><path d=\'M10.0835 6.41732H11.9168V8.25065H10.0835V6.41732ZM10.0835 10.084H11.9168V15.584H10.0835V10.084ZM11.0002 1.83398C5.94016 1.83398 1.8335 5.94065 1.8335 11.0007C1.8335 16.0607 5.94016 20.1673 11.0002 20.1673C16.0602 20.1673 20.1668 16.0607 20.1668 11.0007C20.1668 5.94065 16.0602 1.83398 11.0002 1.83398ZM11.0002 18.334C6.95766 18.334 3.66683 15.0431 3.66683 11.0007C3.66683 6.95815 6.95766 3.66732 11.0002 3.66732C15.0427 3.66732 18.3335 6.95815 18.3335 11.0007C18.3335 15.0431 15.0427 18.334 11.0002 18.334Z\' fill=\'#938F99\'></path></svg><p class=\'text-xs font-light text-left text-gray-500\'>No restaurants found</p></div>'
+            ];
         }
         // Calculate the distance for each restaurant
         $nearestRestaurants->each(function ($restaurant) use ($latitude, $longitude) {
@@ -125,18 +126,18 @@ class RestaurantController extends Controller
     }
 
     public function searchByTag($tag)
-{
-    $tags = Tag::all(); // Retrieve all tags
+    {
+        $tags = Tag::all(); // Retrieve all tags
 
-    // Query restaurants that have the selected tag
-    $restaurants = Restaurant::whereHas('tags', function ($query) use ($tag) {
-        $query->where('name', $tag);
-    })->get();
+        // Query restaurants that have the selected tag
+        $restaurants = Restaurant::whereHas('tags', function ($query) use ($tag) {
+            $query->where('name', $tag);
+        })->get();
 
-    return view('user.restaurantspage', [
-        'restaurants' => $restaurants,
-        'searchQuery' => '', // You may want to clear the search query
-        'tags' => $tags,
-    ]);
-}
+        return view('user.restaurantspage', [
+            'restaurants' => $restaurants,
+            'searchQuery' => '', // You may want to clear the search query
+            'tags' => $tags,
+        ]);
+    }
 }

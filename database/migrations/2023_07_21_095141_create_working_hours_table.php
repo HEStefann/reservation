@@ -16,8 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('restaurant_id');
             $table->enum('day_of_week', ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']);
             $table->date('work_date')->nullable();
-            $table->time('opening_time');
-            $table->time('closing_time');
+            $table->time('opening_time')->nullable();
+            $table->time('closing_time')->nullable();
             $table->boolean('default_working_time')->default(false);
             $table->integer('available_people')->default(0);
             $table->timestamps();

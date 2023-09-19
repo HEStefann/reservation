@@ -130,7 +130,8 @@
                         </p>
                         <input type="text" class="w-[218px] h-[36px] rounded-xl border-[1.5px] border-[#d4d7e3]">
                     </div>
-                    <div class="grid grid-cols-2 gap-[22px] gap-y-[8px] ml-[161px]">
+                    {{-- grid cols 2, max width fit content --}}
+                    <div class="grid  gap-[22px] gap-y-[8px] ml-[161px]">
                         <div class="flex gap-[8px] p-1 rounded-2xl bg-[#212121]/[0.08] w-fit">
                             <p class="text-xs text-black/[0.87]">Parking</p>
                             <svg width="19" height="18" viewBox="0 0 19 18" fill="none"

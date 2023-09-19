@@ -167,13 +167,16 @@
                 </div>
             </div>
             <div class="flex mt-[16px]">
-                <button type="button" class="py-[11px] px-[16px] rounded-tl-lg rounded-bl-lg border-[0.5px] border-[#e0e0e0]/60 text-[11px] text-[#343a40]">Breakfast</button>
-                <button type="button" class="px-[16px] py-[11px] bg-gradient-to-br from-[#52d1ed] to-[#005fa4] border border-black/[0.12] text-[11px] font-medium text-white">Lunch</button>
-                <button type="button" class="py-[11px] px-[16px] rounded-tr-lg rounded-br-lg border-[0.5px] border-[#e0e0e0]/60 text-[11px] text-[#343a40]">Dinner</button>
+                <button type="button"
+                    class="py-[11px] px-[16px] rounded-tl-lg rounded-bl-lg border-[0.5px] border-[#e0e0e0]/60 text-[11px] text-[#343a40]">Breakfast</button>
+                <button type="button"
+                    class="px-[16px] py-[11px] bg-gradient-to-br from-[#52d1ed] to-[#005fa4] border border-black/[0.12] text-[11px] font-medium text-white">Lunch</button>
+                <button type="button"
+                    class="py-[11px] px-[16px] rounded-tr-lg rounded-br-lg border-[0.5px] border-[#e0e0e0]/60 text-[11px] text-[#343a40]">Dinner</button>
             </div>
             <input type="hidden" name="time" value="{{ old('time') }}" id="selectedTimeInput">
             <div class="mt-[14px] grid grid-cols-4 gap-[15px]">
-                @for ($i = 8; $i < 14 ;$i++)
+                @for ($i = 8; $i < 14; $i++)
                     <button type="button"
                         class="selectable-button text-base rounded-[10px] bg-[#fff5ec] text-[#343a40] px-[14px] py-[10px] time-button"
                         data-time="{{ $i }}:00">{{ $i }}:00</button>
@@ -244,37 +247,104 @@
                 </div>
             </div>
             <div class="flex mb-[18px]">
-                <button class="w-[101px] h-[35px] rounded-tl-lg rounded-bl-lg border-[0.5px] border-[#e0e0e0]/60 text-xs text-[#343a40]">Floor 1</button>
-                <button class="w-[101px] h-[35px] bg-gradient-to-br from-[#52d1ed] to-[#005fa4] border border-black/[0.12] text-xs font-medium text-white rounded-tr-lg rounded-br-lg">Floor 1</button>
-            </div>
-            <div class="rounded-lg bg-[#fff5ec] grid grid-cols-4 px-[9px] py-[11px] gap-x-[20px] gap-y-[11px] ">
-                @for ($i = 0; $i < 7; $i++)
-                    <div class="flex flex-col items-center justify-center gap-[1px]">
-                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
-                            xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-                            <circle cx="7" cy="7" r="7" fill="#979797"></circle>
-                        </svg>
-                        <div class="flex items-center justify-center gap-[1px]">
-                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
-                                xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-                                <circle cx="7" cy="7" r="7" fill="#979797"></circle>
-                            </svg>
-                            <p
-                                class="w-[35px] h-[30px] rounded-[10px] bg-[#979797] text-[8px] font-semibold text-white flex items-center justify-center">
-                                1014
-                                0/4</p>
-                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
-                                xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-                                <circle cx="7" cy="7" r="7" fill="#979797"></circle>
-                            </svg>
-                        </div>
-                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
-                            xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-                            <circle cx="7" cy="7" r="7" fill="#979797"></circle>
-                        </svg>
-                    </div>
+                @for ($i = 1; $i <= $restaurant->floors->count(); $i++)
+                    @if ($i == 1)
+                        <button id="floor{{ $restaurant->floors[$i - 1]->id }}" type="button"
+                            class="w-[101px] h-[35px] rounded-tl-lg rounded-bl-lg border-[0.5px] border-[#e0e0e0]/60 text-xs text-[#343a40] activeFloorButton">
+                            Floor 1
+                        </button>
+                    @elseif ($i == $restaurant->floors->count())
+                        <button id="floor{{ $restaurant->floors[$i - 1]->id }}" type="button"
+                            class="w-[101px] h-[35px] border-[0.5px] border-[#e0e0e0]/60 text-xs text-[#343a40] rounded-tr-lg rounded-br-lg">
+                            Floor {{ $i }}
+                        </button>
+                    @else
+                        <button id="floor{{ $restaurant->floors[$i - 1]->id }}" type="button"
+                            class="w-[101px] h-[35px] border-[0.5px] border-[#e0e0e0]/60 text-xs text-[#343a40]">
+                            Floor {{ $i }}
+                        </button>
+                    @endif
                 @endfor
             </div>
+            <style>
+                .activeFloorButton {
+                    background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
+                    --tw-gradient-from: #52d1ed var(--tw-gradient-from-position);
+                    --tw-gradient-to: rgb(82 209 237 / 0) var(--tw-gradient-to-position);
+                    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+                    --tw-gradient-to: #005fa4 var(--tw-gradient-to-position);
+                    border-color: rgb(0 0 0 / 0.12);
+                    --tw-text-opacity: 1;
+                    color: rgb(255 255 255 / var(--tw-text-opacity));
+                    font-weight: 500;
+                }
+            </style>
+            <div class="rounded-lg bg-[#fff5ec] px-[9px] py-[11px] relative" id="tablesContainer" style="height: calc(111vh - 172px);">
+                @php
+                    $firstShapeType = DB::table('shape_types')
+                        ->where('IdShapeGroup', 1)
+                        ->pluck('id') // Pluck the 'id' column from the result
+                        ->toArray(); // Convert the collection to an array
+            
+                    // SELECT * FROM `tables` where IdFloor = 78 and IdShapeType is in firstShapeType
+                    $tables = DB::table('tables')
+                        ->where('IdFloor', 78)
+                        ->whereIn('Shape', $firstShapeType)
+                        ->get();
+                @endphp
+                @foreach ($tables as $table)
+                    <div class="flex flex-col items-center justify-center gap-[1px] absolute" style="left: {{ $table->PositionLeft }}px; top: {{ $table->PositionTop }}px;">
+                        <p class="rounded-[10px] bg-[#979797] text-[8px] font-semibold text-white flex items-center justify-center" style="width: {{ $table->Width }}px; height: {{ $table->Height }}px;">
+                            1014
+                            0/4
+                        </p>
+                    </div>
+                @endforeach
+            </div>
+            <script>
+                const floorButtons = document.querySelectorAll('button[id^="floor"]');
+                const tablesContainer = document.getElementById('tablesContainer');
+            
+                floorButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        floorButtons.forEach(btn => {
+                            btn.classList.remove('activeFloorButton');
+                        });
+                        this.classList.add('activeFloorButton');
+            
+                        const floorId = this.id.replace('floor', ''); // Get the ID without "floor" prefix
+            
+                        // Make an AJAX request to fetch the tables data for the selected floor
+                        fetch(`/api/tables/${floorId}`)
+                            .then(response => response.json())
+                            .then(tablesData => {
+                                // Clear the existing tables in the tablesContainer
+                                tablesContainer.innerHTML = '';
+                                console.log(tablesData);
+                                // Add the new tables to the tablesContainer
+                                tablesData.forEach(table => {
+                                    const tableElement = document.createElement('div');
+                                    tableElement.classList.add('flex', 'flex-col', 'items-center', 'justify-center', 'gap-[1px]', 'absolute');
+                                    tableElement.style.left = `${table.PositionLeft}px`;
+                                    tableElement.style.top = `${table.PositionTop}px`;
+            
+                                    const tableContent = document.createElement('p');
+                                    tableContent.classList.add('rounded-[10px]', 'bg-[#979797]', 'text-[8px]', 'font-semibold', 'text-white', 'flex', 'items-center', 'justify-center');
+                                    tableContent.style.width = `${table.Width}px`;
+                                    tableContent.style.height = `${table.Height}px`;
+                                    tableContent.innerText = `1014
+                            0/4`;
+            
+                                    tableElement.appendChild(tableContent);
+                                    tablesContainer.appendChild(tableElement);
+                                });
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                            });
+                    });
+                });
+            </script>
             <div class="flex mt-[28px] mb-[16px]">
                 <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
                     xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">

@@ -54,7 +54,7 @@ Route::middleware(['auth', 'ModeratorOrOwnerRole'])->group(function () {
     Route::post('/restaurant/register', [RestaurantController::class, 'store']);
 
     Route::prefix('/restaurant/{restaurant}')->name('restaurant.settings.')->group(function () {
-        Route::get('/settings', [RestaurantSettingsController::class, 'index'])->name('index');
+        // Route::get('/settings', [RestaurantSettingsController::class, 'index'])->name('index');
         Route::post('/update-info', [RestaurantSettingsController::class, 'updateInfo'])->name('update_info');
         Route::post('/update-available-people', [RestaurantSettingsController::class, 'updateAvailablePeople'])->name('update_available_people');
         Route::post('/update-operating-hours', [RestaurantSettingsController::class, 'updateOperatingHours'])->name('update_operating_hours');
@@ -193,3 +193,4 @@ Route::get('/searchByTag/{tag}', [RestaurantController::class, 'searchByTag'])->
 Route::get('/tez', [RestaurantReservationController::class, 'index'])->name('tez');
 Route::put('/restaurant/reservation/accept/{reservation}', [RestaurantReservationController::class, 'accept'])->name('restaurant.reservation.accept');
 Route::put('/restaurant/reservation/decline/{reservation}', [RestaurantReservationController::class, 'decline'])->name('restaurant.reservation.decline');
+Route::get('/settings', [RestaurantSettingsController::class, 'index'])->name('restaurant.settings');

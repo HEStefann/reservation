@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RestaurantSettingsRequest;
+use App\Models\Moderator;
 use App\Models\Reservation;
 use App\Models\Restaurant;
 use App\Models\Tag;
@@ -10,10 +11,21 @@ use App\Services\RestaurantService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class RestaurantSettingsController extends Controller
 {
     protected $restaurantService;
+
+    public function index(Restaurant $restaurant)
+    {
+        $user = Auth::user();
+        $restaurant = Moderator::where('user_id', $user->id)->first()->restaurant;
+        
+        return view('restaurant.settings', [
+            'restaurant' => $restaurant,
+        ]);
+    }
 
     public function dashboard()
     {
@@ -26,16 +38,6 @@ class RestaurantSettingsController extends Controller
     public function __construct(RestaurantService $restaurantService)
     {
         $this->restaurantService = $restaurantService;
-    }
-
-    public function index(Restaurant $restaurant)
-    {
-        $allTags = Tag::all();
-
-        return view('restaurant.settings', [
-            'restaurant' => $restaurant,
-            'allTags' => $allTags
-        ]);
     }
 
     public function updateInfo(RestaurantSettingsRequest $request, Restaurant $restaurant)

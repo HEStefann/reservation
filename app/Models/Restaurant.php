@@ -35,7 +35,7 @@ class Restaurant extends Model
     {
         return $this->belongsToMany(Tag::class, 'restaurant_tags', 'restaurant_id', 'tag_id');
     }
-    
+
     public function restaurantTag()
     {
         return $this->hasOne(RestaurantTag::class)->where('main_cuisine', 'true')->with('tag');
@@ -223,15 +223,21 @@ class Restaurant extends Model
     {
         $day = Carbon::now()->format('l');
         $workingHour = $this->workingHours->where('day_of_week', $day)->first();
-        
+
         $closingTime = $workingHour->closing_time;
         $closingTime = Carbon::parse($closingTime);
         $closingTime = $closingTime->format('H:i');
         return $closingTime;
     }
 
-    public function parking(){
+    public function parking()
+    {
         // check for parking tag return true or false
         return $this->tags->where('tag', 'parking')->first() ? true : false;
+    }
+
+    public function floors()
+    {
+        return $this->belongsToMany(Floor::class, 'floor_restaurant');
     }
 }

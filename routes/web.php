@@ -196,3 +196,4 @@ Route::put('/restaurant/reservation/accept/{reservation}', [RestaurantReservatio
 Route::put('/restaurant/reservation/decline/{reservation}', [RestaurantReservationController::class, 'decline'])->name('restaurant.reservation.decline');
 Route::get('/settings', [RestaurantSettingsController::class, 'index'])->name('restaurant.settings');
 Route::get('/calendar', [RestaurantCalendarController::class, 'index'])->name('restaurant.calendar');
+Route::put('/settings/update', [RestaurantSettingsController::class, 'update'])->name('restaurant.settings.update');

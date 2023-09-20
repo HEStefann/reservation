@@ -57,9 +57,10 @@ public function store(UserStoreReservationRequest $request)
     ]);
 
     // Flash a success message to the session
-    // Session::flash('reservation_success', 'Reservation was successfully made!');
+    Session::flash('reservation_success', 'Reservation was successfully made!');
 
-    return redirect()->route('payment.index', ['reservation' => $reservation->id]);
+    // return redirect()->route('payment.index', ['reservation' => $reservation->id]);
+    return redirect()->route('user.home');
 }
 
 }

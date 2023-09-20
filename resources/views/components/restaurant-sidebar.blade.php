@@ -65,7 +65,7 @@
         {{-- </form> --}}
     </div>
 </div>
-<div id="logoutConfirmationModal" class="display-none fixed z-10 left-0 top-0 w-full h-full bg-[rgba(0,0,0,0.5)] flex justify-center items-center">
+<div id="logoutConfirmationModal" style="display: none;" class="display-none fixed z-10 left-0 top-0 w-full h-full bg-[rgba(0,0,0,0.5)] flex justify-center items-center">
     <div class="rounded-lg bg-white px-[82px] pt-[56px] pb-[76px] w-[470px] h-[274px]"
         style="box-shadow: 0px 20px 50px 0 rgba(0,0,0,0.1);">
         <!-- Modal content -->

@@ -17,6 +17,7 @@ use App\Http\Controllers\RestaurantTagsController;
 use App\Http\Controllers\TagsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\Restaurant\RestaurantCalendarController;
 use App\Http\Controllers\Restaurant\RestaurantReservationController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserController;
@@ -77,7 +78,7 @@ Route::middleware(['auth', 'ModeratorOrOwnerRole'])->group(function () {
 
     Route::resource('tags', TagsController::class);
 
-    Route::get('/calendar/{date?}', [RestaurantSettingsCalendarController::class, 'calendar']);
+    // Route::get('/calendar/{date?}', [RestaurantSettingsCalendarController::class, 'calendar']);
     Route::prefix('/restaurant/{restaurant}/working-hours')->name('restaurant.working-hours.')->group(function () {
         Route::get('/{date}', [RestaurantSettingsCalendarController::class, 'getWorkingHoursForDate'])->name('get');
         Route::put('/', [RestaurantSettingsCalendarController::class, 'updateWorkingHours'])->name('update');
@@ -194,3 +195,4 @@ Route::get('/tez', [RestaurantReservationController::class, 'index'])->name('tez
 Route::put('/restaurant/reservation/accept/{reservation}', [RestaurantReservationController::class, 'accept'])->name('restaurant.reservation.accept');
 Route::put('/restaurant/reservation/decline/{reservation}', [RestaurantReservationController::class, 'decline'])->name('restaurant.reservation.decline');
 Route::get('/settings', [RestaurantSettingsController::class, 'index'])->name('restaurant.settings');
+Route::get('/calendar', [RestaurantCalendarController::class, 'index'])->name('restaurant.calendar');

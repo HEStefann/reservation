@@ -49,19 +49,64 @@
                 Settings
             </p>
         </div>
-        <form class="cursor-pointer" action="{{ route('logout') }}" method="post">
-            @csrf
-            <button class="flex gap-[34px]">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    class="flex-grow-0 flex-shrink-0 w-5 h-5 relative" preserveAspectRatio="xMidYMid meet">
-                    <path
-                        d="M9.16675 5.83366H10.8334V7.50033H9.16675V5.83366ZM9.16675 9.16699H10.8334V14.167H9.16675V9.16699ZM10.0001 1.66699C5.40008 1.66699 1.66675 5.40033 1.66675 10.0003C1.66675 14.6003 5.40008 18.3337 10.0001 18.3337C14.6001 18.3337 18.3334 14.6003 18.3334 10.0003C18.3334 5.40033 14.6001 1.66699 10.0001 1.66699ZM10.0001 16.667C6.32508 16.667 3.33341 13.6753 3.33341 10.0003C3.33341 6.32533 6.32508 3.33366 10.0001 3.33366C13.6751 3.33366 16.6667 6.32533 16.6667 10.0003C16.6667 13.6753 13.6751 16.667 10.0001 16.667Z"
-                        fill="black" fill-opacity="0.54"></path>
-                </svg>
-                <p class="text-base text-black/[0.87]">
-                    Log Out
-                </p>
-            </button>
-        </form>
+        {{-- <form class="cursor-pointer" action="{{ route('logout') }}" method="post">
+            @csrf --}}
+        <button onclick="showLogoutConfirmationModal()" class="flex gap-[34px]">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
+                class="flex-grow-0 flex-shrink-0 w-5 h-5 relative" preserveAspectRatio="xMidYMid meet">
+                <path
+                    d="M9.16675 5.83366H10.8334V7.50033H9.16675V5.83366ZM9.16675 9.16699H10.8334V14.167H9.16675V9.16699ZM10.0001 1.66699C5.40008 1.66699 1.66675 5.40033 1.66675 10.0003C1.66675 14.6003 5.40008 18.3337 10.0001 18.3337C14.6001 18.3337 18.3334 14.6003 18.3334 10.0003C18.3334 5.40033 14.6001 1.66699 10.0001 1.66699ZM10.0001 16.667C6.32508 16.667 3.33341 13.6753 3.33341 10.0003C3.33341 6.32533 6.32508 3.33366 10.0001 3.33366C13.6751 3.33366 16.6667 6.32533 16.6667 10.0003C16.6667 13.6753 13.6751 16.667 10.0001 16.667Z"
+                    fill="black" fill-opacity="0.54"></path>
+            </svg>
+            <p class="text-base text-black/[0.87]">
+                Log Out
+            </p>
+        </button>
+        {{-- </form> --}}
     </div>
 </div>
+<div id="logoutConfirmationModal" style="display: none;" class="display-none fixed z-10 left-0 top-0 w-full h-full bg-[rgba(0,0,0,0.5)] flex justify-center items-center">
+    <div class="rounded-lg bg-white px-[82px] pt-[56px] pb-[76px] w-[470px] h-[274px]"
+        style="box-shadow: 0px 20px 50px 0 rgba(0,0,0,0.1);">
+        <!-- Modal content -->
+        <p class="text-lg font-medium text-center text-[#343a40] mb-[56px]">
+            Are you sure you want to log out from your account?
+        </p>
+        <div class="flex gap-[65px] justify-center">
+            <form class="cursor-pointer" action="{{ route('logout') }}" method="post">
+                @csrf
+                <button type="submit"
+                    class="rounded-xl bg-[#005fa4] text-base font-semibold text-white w-[104px] h-[42px]">Log
+                    Out</button>
+            </form>
+            <button onclick="hideLogoutConfirmationModal()" class="rounded-xl bg-white border border-[#005fa4] text-base text-[#005fa4] w-[97px] h-[42px]">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<style>
+
+</style>
+<script>
+    function showLogoutConfirmationModal() {
+        var logoutConfirmationModal = document.getElementById("logoutConfirmationModal");
+        logoutConfirmationModal.style.display = "flex";
+    }
+
+    function hideLogoutConfirmationModal() {
+        var logoutConfirmationModal = document.getElementById("logoutConfirmationModal");
+        logoutConfirmationModal.style.display = "none";
+    }
+
+    function performLogout() {
+        // Add your logout logic here
+    }
+
+    // Hide the modal when clicking outside of it
+    window.onclick = function(event) {
+        var logoutConfirmationModal = document.getElementById("logoutConfirmationModal");
+        if (event.target == logoutConfirmationModal) {
+            hideLogoutConfirmationModal();
+        }
+    }
+</script>

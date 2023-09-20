@@ -1,187 +1,185 @@
 @extends('layouts.restaurant')
 @section('content')
-    <div class="mt-[36px] ml-[140px] mr-[339px] mb-[95px]">
-        <div class="flex">
-            <div class="flex flex-col flex-grow margin-auto">
-                <p class="text-[32px] text-[#343a40] border-b-[0.5px] border-solid w-[477px]">Primary</p>
-                <div class="flex flex-col gap-[24px]">
-                    <div class="flex gap-[50px] mt-[41px]">
-                        <p class="text-sm font-medium text-[#343a40] w-36">
-                            Available number of floors:
-                        </p>
-                        <select class="rounded w-[110px] border-0" style="box-shadow: 0px 8px 10px 0 rgba(0,0,0,0.1);">
-                            @for ($i = 1; $i <= 100; $i++)
-                                <option value="{{ $i }}">{{ $i }}</option>
-                            @endfor
-                        </select>
-                    </div>
-                    <div class="flex gap-[50px] mt-[41px]">
-                        <p class="text-sm font-medium text-[#343a40] w-36">
-                            Available number of tables???:
-                        </p>
-                        <select class="rounded w-[110px] border-0" style="box-shadow: 0px 8px 10px 0 rgba(0,0,0,0.1);">
-                            @for ($i = 1; $i <= 100; $i++)
-                                <option value="{{ $i }}">{{ $i }}</option>
-                            @endfor
-                        </select>
-                    </div>
-                    <div class="flex gap-[18px]">
-                        <p class="text-sm font-medium text-[#343a40]">
-                            Operating hours:
-                        </p>
-                        <div class="flex gap-1.5">
-                            <p class="text-xs text-[#343a40]">from</p>
-                            <select class="rounded w-[110px] border-0" style="box-shadow: 0px 8px 10px 0 rgba(0,0,0,0.1);">
-                                @for ($i = 0; $i <= 24; $i++)
-                                    <option value="{{ $i }}">{{ $i }}</option>
-                                @endfor
-                            </select>
-                        </div>
-                        <div class="flex gap-1.5">
-                            <p class="text-xs text-[#343a40]">to</p>
-                            <select class="rounded w-[110px] border-0" style="box-shadow: 0px 8px 10px 0 rgba(0,0,0,0.1);">
-                                @for ($i = 0; $i <= 24; $i++)
-                                    <option value="{{ $i }}">{{ $i }}</option>
-                                @endfor
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="flex flex-col flex-grow">
-                <p class="text-[32px] text-[#343a40] border-b-[0.5px] border-solid w-[477px]">Temporary</p>
-                <div class="flex gap-[94px] mt-[31px]">
-                    <p class="text-base font-medium text-[#343a40]">Calendar:</p>
-                    <div class="flex flex-col gap-[18px] px-6 py-[18px] rounded-lg w-[306px] h-[310px]"
-                        style="box-shadow: 0px 20px 50px 0 rgba(0,0,0,0.1);">
-                        <div class="flex items-center justify-between">
-                            <button type="button" id="prevButton">
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-                                    <path
-                                        d="M10.1831 4.175L6.35811 8L10.1831 11.825L8.99977 13L3.99977 8L8.99977 3L10.1831 4.175Z"
-                                        fill="#B5BEC6"></path>
-                                </svg>
-                            </button>
-                            <p class="flex text-sm text-center text-[#4a5660]" id="monthYear"></p>
-                            <button type="button" id="nextButton">
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-                                    <path d="M5 11.825L8.825 8L5 4.175L6.18333 3L11.1833 8L6.18333 13L5 11.825Z"
-                                        fill="#B5BEC6">
-                                    </path>
-                                </svg>
-                            </button>
-                        </div>
-                        <div id="calendar" class="calendar flex flex-col gap-[18px]">
-                        </div>
-                        <input type="date" name="date" class="hidden" value="{{ old('date') }}"
-                            id="selectedDateInput">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="mt-[48px]">
-            <p class="text-[32px] text-[#343a40] mb-[41px]">Content</p>
+
+    <form action="{{ route('restaurant.settings.update') }}" method="post">
+        @csrf
+        @method('PUT')
+        <div class="mt-[36px] ml-[140px] mr-[339px] mb-[95px]">
             <div class="flex">
-                <div class="flex flex-col grow gap-[24px]">
-                    <div class="flex w-[459px]">
-                        <p class="w-[125px] text-base font-medium text-[#343a40] mr-auto">
-                            Short description
-                        </p>
-                        <textarea class="w-[300px] h-28 rounded-xl border-[1.5px] border-[#d4d7e3]"></textarea>
-                    </div>
-                    <div class="flex w-[459px]">
-                        <p class="text-base font-medium text-[#343a40] mr-auto">
-                            Menu
-                        </p>
-                        <textarea class="w-[300px] h-[153px] rounded-xl border-[1.5px] border-[#d4d7e3]"></textarea>
-                    </div>
-                    <div class="flex w-[459px]">
-                        <p class="text-base font-medium text-[#343a40] mr-auto">
-                            Contact info
-                        </p>
-                        <textarea class="w-[300px] h-[94px] rounded-xl border-[1.5px] border-[#d4d7e3]"></textarea>
-                    </div>
-                    <div class="flex w-[459px]">
-                        <p class="text-base font-medium text-[#343a40] mr-auto">
-                            Photos
-                        </p>
-                        {{-- photos here --}}
+                <div class="flex flex-col flex-grow margin-auto">
+                    <p class="text-[32px] text-[#343a40] border-b-[0.5px] border-solid w-[477px]">Primary</p>
+                    <div class="flex flex-col gap-[24px]">
+                        <div class="flex gap-[50px] mt-[41px]">
+                            <p class="text-sm font-medium text-[#343a40] w-36">
+                                Available number of floors:
+                            </p>
+                            <input value="{{ $restaurant->available_people }}" type="number" name="available_people"
+                                class="rounded w-[110px] border-0" style="box-shadow: 0px 8px 10px 0 rgba(0,0,0,0.1);"
+                                min="1" max="100">
+                        </div>
+                        @php
+                            // Convert opening and closing times to hours
+                            $openingTime = (int) substr($restaurant->workingHours->first()->opening_time, 0, 2);
+                            $closingTime = (int) substr($restaurant->workingHours->first()->closing_time, 0, 2);
+                        @endphp
+
+                        <div class="flex gap-[50px] mt-[41px]">
+                            <p class="text-sm font-medium text-[#343a40] w-36">
+                                Available number of tables:
+                            </p>
+                            <select class="rounded w-[110px] border-0" style="box-shadow: 0px 8px 10px 0 rgba(0,0,0,0.1);">
+                                @for ($i = 1; $i <= 100; $i++)
+                                    <option value="{{ $i }}">{{ $i }}</option>
+                                @endfor
+                            </select>
+                        </div>
+
+                        @if ($restaurant->workingHours->isNotEmpty())
+                            <div class="flex gap-[18px]">
+                                <p class="text-sm font-medium text-[#343a40]">
+                                    Operating hours:
+                                </p>
+                                <div class="flex gap-1.5">
+                                    <p class="text-xs text-[#343a40]">from</p>
+                                    <select class="rounded w-[110px] border-0"
+                                        style="box-shadow: 0px 8px 10px 0 rgba(0,0,0,0.1);">
+                                        @for ($i = 0; $i <= 24; $i++)
+                                            <option value="{{ $i }}"
+                                                @if ($i == $openingTime) selected @endif>{{ $i }}
+                                            </option>
+                                        @endfor
+                                    </select>
+                                </div>
+                                <div class="flex gap-1.5">
+                                    <p class="text-xs text-[#343a40]">to</p>
+                                    <select class="rounded w-[110px] border-0"
+                                        style="box-shadow: 0px 8px 10px 0 rgba(0,0,0,0.1);">
+                                        @for ($i = 0; $i <= 24; $i++)
+                                            <option value="{{ $i }}"
+                                                @if ($i == $closingTime) selected @endif>{{ $i }}
+                                            </option>
+                                        @endfor
+                                    </select>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
-                <div class="flex flex-col grow">
-                    <div class="flex">
-                        <p class="text-base font-medium text-[#343a40] mr-[60px]">Primary tags</p>
-                        <select class="rounded w-[110px] border-0 mr-[34px]"
-                            style="box-shadow: 0px 8px 10px 0 rgba(0,0,0,0.1);">
-                            <option value="French">French</option>
-                            <option value="Italian">Italian</option>
-                            <option value="Chinese">Chinese</option>
-                        </select>
-                        <select class="rounded w-[110px] border-0" style="box-shadow: 0px 8px 10px 0 rgba(0,0,0,0.1);">
-                            <option value="Parking">Parking</option>
-                            <option value="No parking">No parking</option>
-                        </select>
-                    </div>
-                    <div class="flex gap-[35px] mt-[16px] mb-[24px]">
-                        <p class="text-base font-medium text-[#343a40]">
-                            Secondary tags
-                        </p>
-                        <input type="text" class="w-[218px] h-[36px] rounded-xl border-[1.5px] border-[#d4d7e3]">
-                    </div>
-                    {{-- grid cols 2, max width fit content --}}
-                    <div class="grid  gap-[22px] gap-y-[8px] ml-[161px]">
-                        <div class="flex gap-[8px] p-1 rounded-2xl bg-[#212121]/[0.08] w-fit">
-                            <p class="text-xs text-black/[0.87]">Parking</p>
-                            <svg width="19" height="18" viewBox="0 0 19 18" fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="flex-grow-0 flex-shrink-0 w-[18px] h-[18px] relative" preserveAspectRatio="none">
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M9.5 1.5C5.3525 1.5 2 4.8525 2 9C2 13.1475 5.3525 16.5 9.5 16.5C13.6475 16.5 17 13.1475 17 9C17 4.8525 13.6475 1.5 9.5 1.5ZM13.25 11.6925L12.1925 12.75L9.5 10.0575L6.8075 12.75L5.75 11.6925L8.4425 9L5.75 6.3075L6.8075 5.25L9.5 7.9425L12.1925 5.25L13.25 6.3075L10.5575 9L13.25 11.6925Z"
-                                    fill="#FC7F09"></path>
-                            </svg>
-                        </div>
-                        <div class="flex gap-[8px] p-1 rounded-2xl bg-[#212121]/[0.08] w-fit">
-                            <p class="text-xs text-black/[0.87]">Parking</p>
-                            <svg width="19" height="18" viewBox="0 0 19 18" fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="flex-grow-0 flex-shrink-0 w-[18px] h-[18px] relative" preserveAspectRatio="none">
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M9.5 1.5C5.3525 1.5 2 4.8525 2 9C2 13.1475 5.3525 16.5 9.5 16.5C13.6475 16.5 17 13.1475 17 9C17 4.8525 13.6475 1.5 9.5 1.5ZM13.25 11.6925L12.1925 12.75L9.5 10.0575L6.8075 12.75L5.75 11.6925L8.4425 9L5.75 6.3075L6.8075 5.25L9.5 7.9425L12.1925 5.25L13.25 6.3075L10.5575 9L13.25 11.6925Z"
-                                    fill="#FC7F09"></path>
-                            </svg>
-                        </div>
-                        <div class="flex gap-[8px] p-1 rounded-2xl bg-[#212121]/[0.08] w-fit">
-                            <p class="text-xs text-black/[0.87]">Parking</p>
-                            <svg width="19" height="18" viewBox="0 0 19 18" fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="flex-grow-0 flex-shrink-0 w-[18px] h-[18px] relative" preserveAspectRatio="none">
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M9.5 1.5C5.3525 1.5 2 4.8525 2 9C2 13.1475 5.3525 16.5 9.5 16.5C13.6475 16.5 17 13.1475 17 9C17 4.8525 13.6475 1.5 9.5 1.5ZM13.25 11.6925L12.1925 12.75L9.5 10.0575L6.8075 12.75L5.75 11.6925L8.4425 9L5.75 6.3075L6.8075 5.25L9.5 7.9425L12.1925 5.25L13.25 6.3075L10.5575 9L13.25 11.6925Z"
-                                    fill="#FC7F09"></path>
-                            </svg>
-                        </div>
-                        <div class="flex gap-[8px] p-1 rounded-2xl bg-[#212121]/[0.08] w-fit">
-                            <p class="text-xs text-black/[0.87]">Parking</p>
-                            <svg width="19" height="18" viewBox="0 0 19 18" fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="flex-grow-0 flex-shrink-0 w-[18px] h-[18px] relative" preserveAspectRatio="none">
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M9.5 1.5C5.3525 1.5 2 4.8525 2 9C2 13.1475 5.3525 16.5 9.5 16.5C13.6475 16.5 17 13.1475 17 9C17 4.8525 13.6475 1.5 9.5 1.5ZM13.25 11.6925L12.1925 12.75L9.5 10.0575L6.8075 12.75L5.75 11.6925L8.4425 9L5.75 6.3075L6.8075 5.25L9.5 7.9425L12.1925 5.25L13.25 6.3075L10.5575 9L13.25 11.6925Z"
-                                    fill="#FC7F09"></path>
-                            </svg>
+                <div class="flex flex-col flex-grow">
+                    <p class="text-[32px] text-[#343a40] border-b-[0.5px] border-solid w-[477px]">Temporary</p>
+                    <div class="flex gap-[94px] mt-[31px]">
+                        <p class="text-base font-medium text-[#343a40]">Calendar:</p>
+                        <div class="flex flex-col gap-[18px] px-6 py-[18px] rounded-lg w-[306px] h-[310px]"
+                            style="box-shadow: 0px 20px 50px 0 rgba(0,0,0,0.1);">
+                            <div class="flex items-center justify-between">
+                                <button type="button" id="prevButton">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+                                        <path
+                                            d="M10.1831 4.175L6.35811 8L10.1831 11.825L8.99977 13L3.99977 8L8.99977 3L10.1831 4.175Z"
+                                            fill="#B5BEC6"></path>
+                                    </svg>
+                                </button>
+                                <p class="flex text-sm text-center text-[#4a5660]" id="monthYear"></p>
+                                <button type="button" id="nextButton">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+                                        <path d="M5 11.825L8.825 8L5 4.175L6.18333 3L11.1833 8L6.18333 13L5 11.825Z"
+                                            fill="#B5BEC6">
+                                        </path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div id="calendar" class="calendar flex flex-col gap-[18px]">
+                            </div>
+                            <input type="date" name="date" class="hidden" value="{{ old('date') }}"
+                                id="selectedDateInput">
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="mt-[28px] flex justify-end">
-            <button class="text-[28px] font-semibold rounded-[10px] bg-[#005fa4] text-white w-[195px] h-14"
-                type="button">Save</button>
-        </div>
-    </div>
+            <div class="mt-[48px]">
+                <p class="text-[32px] text-[#343a40] mb-[41px]">Content</p>
+                <div class="flex">
+                    <div class="flex flex-col grow gap-[24px]">
+                        <div class="flex w-[459px]">
+                            <p class="w-[125px] text-base font-medium text-[#343a40] mr-auto">
+                                Short description
+                            </p>
+                            <textarea name="description" class="w-[300px] h-28 rounded-xl border-[1.5px] border-[#d4d7e3]">{{ $restaurant->description }}</textarea>
+                        </div>
+                        <div class="flex w-[459px]">
+                            <p class="text-base font-medium text-[#343a40] mr-auto">
+                                Menu
+                            </p>
+                            <textarea class="w-[300px] h-[153px] rounded-xl border-[1.5px] border-[#d4d7e3]"></textarea>
+                        </div>
+                        <div class="flex w-[459px]">
+                            <p class="text-base font-medium text-[#343a40] mr-auto">
+                                Contact info
+                            </p>
+                            <textarea class="w-[300px] h-[94px] rounded-xl border-[1.5px] border-[#d4d7e3]"></textarea>
+                        </div>
+                        <div class="flex w-[459px]">
+                            <p class="text-base font-medium text-[#343a40] mr-auto">
+                                Photos
+                            </p>
+                            {{-- photos here --}}
+                        </div>
+                    </div>
+                    <div class="flex flex-col grow">
+                        <div class="flex">
+                            <p class="text-base font-medium text-[#343a40] mr-[60px]">Primary tags</p>
+                            <select class="rounded w-[110px] border-0 mr-[34px]"
+                                style="box-shadow: 0px 8px 10px 0 rgba(0,0,0,0.1);">
+                                <option value="French">French</option>
+                                <option value="Italian">Italian</option>
+                                <option value="Chinese">Chinese</option>
+                            </select>
+                            <select class="rounded w-[110px] border-0" style="box-shadow: 0px 8px 10px 0 rgba(0,0,0,0.1);">
+                                <option value="Parking">Parking</option>
+                                <option value="No parking">No parking</option>
+                            </select>
+                        </div>
+                        <div class="flex gap-[35px] mt-[16px] mb-[24px]">
+                            <p class="text-base font-medium text-[#343a40]">
+                                Secondary tags
+                            </p>
+                            <input type="text" class="w-[218px] h-[36px] rounded-xl border-[1.5px] border-[#d4d7e3]">
+                        </div>
+                        {{-- grid cols 2, max width fit content --}}
+                        <div class="grid gap-[22px] gap-y-[8px] ml-[161px]">
+                            @foreach ($restaurant->tags as $tag)
+                                <div class="flex gap-[8px] p-1 rounded-2xl bg-[#212121]/[0.08] w-fit">
+                                    <p class="text-xs text-black/[0.87]">{{ $tag->name }}</p>
+                                    <svg width="19" height="18" viewBox="0 0 19 18" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="flex-grow-0 flex-shrink-0 w-[18px] h-[18px] relative"
+                                        preserveAspectRatio="none">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M9.5 1.5C5.3525 1.5 2 4.8525 2 9C2 13.1475 5.3525 16.5 9.5 16.5C13.6475 16.5 17 13.1475 17 9C17 4.8525 13.6475 1.5 9.5 1.5ZM13.25 11.6925L12.1925 12.75L9.5 10.0575L6.8075 12.75L5.75 11.6925L8.4425 9L5.75 6.3075L6.8075 5.25L9.5 7.9425L12.1925 5.25L13.25 6.3075L10.5575 9L13.25 11.6925Z"
+                                            fill="#FC7F09"></path>
+                                    </svg>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-[28px] flex justify-end">
+                <button class="text-[28px] font-semibold rounded-[10px] bg-[#005fa4] text-white w-[195px] h-14"
+                    type="submit">Save</button>
+            </div>
+    </form>
     <script>
+        function updateHiddenInput(selectElement) {
+            // Get the selected value from the <select> element
+            const selectedValue = selectElement.value;
+
+            // Update the value of the hidden input
+            document.getElementById('available_people_hidden').value = selectedValue;
+        }
+
         const prevButton = document.getElementById('prevButton');
         const nextButton = document.getElementById('nextButton');
         const monthYearElement = document.getElementById('monthYear');

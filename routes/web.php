@@ -194,3 +194,4 @@ Route::get('/tez', [RestaurantReservationController::class, 'index'])->name('tez
 Route::put('/restaurant/reservation/accept/{reservation}', [RestaurantReservationController::class, 'accept'])->name('restaurant.reservation.accept');
 Route::put('/restaurant/reservation/decline/{reservation}', [RestaurantReservationController::class, 'decline'])->name('restaurant.reservation.decline');
 Route::get('/settings', [RestaurantSettingsController::class, 'index'])->name('restaurant.settings');
+Route::put('/settings/update', [RestaurantSettingsController::class, 'update'])->name('restaurant.settings.update');

@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use League\CommonMark\Extension\Table\Table;
 
 class RestaurantSettingsController extends Controller
 {
@@ -47,6 +48,16 @@ class RestaurantSettingsController extends Controller
             'restaurant' => $restaurant,
         ]);
     }
+
+    public function updateTablePosition(Request $request) {
+        $table = Table::find($request->id);
+        $table->left = $request->left; 
+        $table->top = $request->top;
+        $table->save();
+        
+        return response('Position saved');
+      } 
+      
 
     // public function dashboard()
     // {

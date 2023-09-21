@@ -39,8 +39,14 @@ class RestaurantSettingsController extends Controller
         return redirect()->back()->with('success', 'Restaurant updated successfully!');
     }
 
-
-
+    public function floorPlan(Restaurant $restaurant)
+    {
+        $user = Auth::user();
+        $restaurant = Moderator::where('user_id', $user->id)->first()->restaurant;
+        return view('restaurant.floor-plan', [
+            'restaurant' => $restaurant,
+        ]);
+    }
 
     // public function dashboard()
     // {

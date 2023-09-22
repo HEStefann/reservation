@@ -27,7 +27,10 @@ class RestaurantSettingsController extends Controller
     {
         $user = Auth::user();
         // restaurant with working hours
-        $restaurant = Moderator::where('user_id', $user->id)->first()->restaurant;
+        $restaurant = Moderator::where('user_id', $user->id)
+    ->withoutGlobalScope('approved_active')
+    ->first()
+    ->restaurant;
         return view('restaurant.settings', [
             'restaurant' => $restaurant,
         ]);

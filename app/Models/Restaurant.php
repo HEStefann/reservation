@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 
 class Restaurant extends Model
@@ -19,9 +20,18 @@ class Restaurant extends Model
 
     protected static function booted()
     {
-        static::addGlobalScope('approved_active', function (Builder $builder) {
-            $builder->where('approved', true)->where('active', true);
-        });
+        $user = Auth::user();
+        $userModerator = Moderator::where('user_id', $user->id)->first();
+        
+        if ($userModerator) {
+            static::addGlobalScope('approved_active', function (Builder $builder) {
+                // No filters applied for moderators or owners
+            });
+        } else {
+            static::addGlobalScope('approved_active', function (Builder $builder) {
+                $builder->where('approved', true)->where('active', true);
+            });
+        }
     }
     protected $fillable = [
         'title',

@@ -33,6 +33,7 @@
     <div class="mx-[26px] mt-[48.4px]">
         <h1 class="text-lg font-medium text-left text-[#343a40]">My account</h1>
         <div class="rounded-[5px] bg-white p-[26px] mt-[26px] ">
+            <a href="{{ route('editpersonalinfo') }}">
             <div class="flex mb-[10px]">
                 <svg width="22" height="24" viewBox="0 0 22 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                     class="w-[20.69px] h-6 relative" preserveAspectRatio="none">
@@ -46,19 +47,19 @@
                 <div class="mx-[16px] flex">
                     <p class="text-[15px] text-[#343a40]">Personal information</p>
                 </div>
-                <a href="{{ route('editpersonalinfo') }}" class="ml-auto">
-                    <svg width="10" height="21" viewBox="0 0 10 21" fill="none"
+                    <svg class="ml-auto" width="10" height="21" viewBox="0 0 10 21" fill="none"
                         xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
                         <path d="M1.13281 1L9.32414 10.5L1.13281 20" stroke="#FC7F09"></path>
                     </svg>
-                </a>
-            </div>
+                </div>
+            </a>
             <div class="w-full">
                 <svg width="100%" height="2" viewBox="0 0 301 2" fill="none" xmlns="http://www.w3.org/2000/svg"
                     preserveAspectRatio="none">
                     <path d="M0.693848 1L300.755 1" stroke="#EDEDED"></path>
                 </svg>
             </div>
+            <a href="">
             <div class="flex mt-[27px] mb-[10px]">
                 <svg width="18" height="24" viewBox="0 0 18 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                     preserveAspectRatio="xMidYMid meet">
@@ -69,19 +70,20 @@
                 <div class="mx-[16px] flex">
                     <p class="text-[15px] text-[#343a40]">Notifications</p>
                 </div>
-                <a href="" class="ml-auto">
-                    <svg width="10" height="21" viewBox="0 0 10 21" fill="none"
+                    <svg class="ml-auto" width="10" height="21" viewBox="0 0 10 21" fill="none"
                         xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
                         <path d="M1.13281 1L9.32414 10.5L1.13281 20" stroke="#FC7F09"></path>
                     </svg>
-                </a>
-            </div>
+                </div>
+            </a>
             <div class="w-full">
                 <svg width="100%" height="2" viewBox="0 0 301 2" fill="none" xmlns="http://www.w3.org/2000/svg"
                     preserveAspectRatio="none">
                     <path d="M0.693848 1L300.755 1" stroke="#EDEDED"></path>
                 </svg>
             </div>
+            <a href="{{ route('user.reservations') }}">
+
             <div class="flex mt-[27px] mb-[10px]">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                     class="w-6 h-6 relative" preserveAspectRatio="none">
@@ -92,19 +94,19 @@
                 <div class="mx-[16px] flex">
                     <p class="text-[15px] text-[#343a40]">My reservations</p>
                 </div>
-                <a href="{{ route('user.reservations') }}" class="ml-auto">
-                    <svg width="10" height="21" viewBox="0 0 10 21" fill="none"
+                    <svg class="ml-auto" width="10" height="21" viewBox="0 0 10 21" fill="none"
                         xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
                         <path d="M1.13281 1L9.32414 10.5L1.13281 20" stroke="#FC7F09"></path>
                     </svg>
-                </a>
-            </div>
+                </div>
+            </a>
             <div class="w-full">
                 <svg width="100%" height="2" viewBox="0 0 301 2" fill="none"
                     xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
                     <path d="M0.693848 1L300.755 1" stroke="#EDEDED"></path>
                 </svg>
             </div>
+            <a href="{{ route('userfavourites') }}">
             <div class="flex mt-[27px]">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                     xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 relative" preserveAspectRatio="none">
@@ -115,13 +117,12 @@
                 <div class="mx-[16px] flex">
                     <p class="text-[15px] text-[#343a40]">Favourites</p>
                 </div>
-                <a href="{{ route('userfavourites') }}" class="ml-auto">
-                    <svg width="10" height="21" viewBox="0 0 10 21" fill="none"
+                    <svg class="ml-auto" width="10" height="21" viewBox="0 0 10 21" fill="none"
                         xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
                         <path d="M1.13281 1L9.32414 10.5L1.13281 20" stroke="#FC7F09"></path>
                     </svg>
-                </a>
-            </div>
+                </div>
+            </a>
             <form action="{{ route('logout') }}" method="post" class="cursor-pointer">
                 @csrf
                 <button class="flex justify-start items-center gap-2.5 mt-[48px]">

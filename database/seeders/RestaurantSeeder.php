@@ -724,6 +724,7 @@ class RestaurantSeeder extends Seeder
                 'name' => $restaurantData['name'],
                 'email' => strtolower(str_replace(' ', '', $restaurantData['name'])) . '@info.com',
                 'password' => bcrypt('password'),
+                'role' => 'owner'
             ]);
 
             // Generate the restaurant using real restaurant data

@@ -30,7 +30,7 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
         $user = Auth::user();
         if ($user->role == 'owner' || $user->role == 'moderator') {
-            return redirect()->intended('/dashboard');
+            return redirect()->intended('/calendar');
         } else {
             $redirect = $request->input('redirect'); // Get the redirect URL from the form
             return redirect($redirect);

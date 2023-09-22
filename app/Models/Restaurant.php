@@ -20,10 +20,12 @@ class Restaurant extends Model
 
     protected static function booted()
     {
+        $owner = false;
         $user = Auth::user();
-        $userModerator = Moderator::where('user_id', $user->id)->first();
-        
-        if ($userModerator) {
+        if ($user) {
+            $owner = $user->role === 'owner';
+        }
+        if ($owner) {
             static::addGlobalScope('approved_active', function (Builder $builder) {
                 // No filters applied for moderators or owners
             });

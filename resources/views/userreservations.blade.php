@@ -38,8 +38,15 @@
                 @foreach ($reservations as $reservation)
                     <div class="flex flex-col p-[10px] bg-white rounded-lg gap-[6px] shadow-2xl">
                         <div class="rounded-t-lg h-[103.3px] w-full">
-                            <img src="{{ Storage::url($reservation->restaurant->images()->where('display_order', 1)->first()->image_url) }}"
-                                class="w-full h-full object-cover rounded-t-[8px]" />
+                            @php
+                                $storageUrl = $reservation->restaurant
+                                    ->images()
+                                    ->where('display_order', 1)
+                                    ->first()->image_url;
+                                $isHttps = str_contains($storageUrl, 'https');
+                                $finalImageUrl = $isHttps ? $storageUrl : $storageUrl;
+                            @endphp
+                            <img src="{{ $finalImageUrl }}" class="w-full h-full object-cover rounded-t-[8px]" />
                         </div>
                         <div class="text-[#343a40]">
                             <p class="text-sm font-medium mb-[7.8px]">{{ $reservation->restaurant->title }}</p>

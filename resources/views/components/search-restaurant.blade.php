@@ -1,4 +1,5 @@
 @foreach ($restaurants as $restaurant)
+<a href="{{ route('user.restaurant', ['restaurant' => $restaurant->id]) }}">
     <div class="rounded-bl-2xl rounded-t-2xl rounded-br-2xl bg-white mt-[28px] pb-[8px] shadow-2xl">
         <div class="relative">
             @if (Auth::check())
@@ -99,9 +100,9 @@
             </p>
             <div
                 class="flex justify-center items-center w-[88px] h-[29px] relative overflow-hidden gap-2.5 px-6 py-2.5 rounded-[10px] bg-[#005fa4]">
-                <a href="{{ route('user.restaurant', ['restaurant' => $restaurant->id]) }}"
-                    class="flex-grow-0 flex-shrink-0 text-sm font-medium text-left text-white">Reserve</a>
+                <p class="flex-grow-0 flex-shrink-0 text-sm font-medium text-left text-white">Reserve</p>
             </div>
         </div>
     </div>
+</a>
 @endforeach

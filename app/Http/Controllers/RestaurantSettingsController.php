@@ -1,19 +1,23 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Http\Requests\RestaurantRequest; // Import the RestaurantRequest class
 
 use App\Http\Requests\RestaurantSettingsRequest;
 use App\Models\Moderator;
 use App\Models\Reservation;
 use App\Models\Restaurant;
+use App\Models\Table;
 use App\Models\Tag;
 use App\Services\RestaurantService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use League\CommonMark\Extension\Table\Table;
+use Illuminate\Support\Facades\Log;
+
+
 
 class RestaurantSettingsController extends Controller
 {
@@ -28,12 +32,12 @@ class RestaurantSettingsController extends Controller
             'restaurant' => $restaurant,
         ]);
     }
-    
+
     public function update(Request $request)
-    {   
+    {
         $user = Auth::user();
         $restaurant = Restaurant::where('user_id', $user->id)->first();
-        
+
         $workingHours = $restaurant->workingHours;
         $restaurant->update($request->all());
         // find the working hours for the current restaurant use the WorkingHour model
@@ -49,15 +53,45 @@ class RestaurantSettingsController extends Controller
         ]);
     }
 
-    public function updateTablePosition(Request $request) {
-        $table = Table::find($request->id);
-        $table->left = $request->left; 
-        $table->top = $request->top;
-        $table->save();
+    public function updateTablePosition(Request $request)
+    {
+        $user = Auth::user();
+        $requestTables = $request->json()->all();
         
+        foreach ($requestTables as $requestTable) {
+            Log::debug($requestTable['TableDescription']);
+            if ($requestTable['id'] == 'new') {
+                $table = new Table();
+                $table->PositionLeft = $requestTable['left'];
+                $table->PositionTop = $requestTable['top'];
+                $table->IdFloor = $requestTable['IdFloor'];
+                $table->Shape = $requestTable['Shape'];
+                $table->Active = $requestTable['Active'];
+                $table->Reserved = $requestTable['Reserved'];
+                $table->Lock = $requestTable['Lock'];
+                $table->Capacity = $requestTable['Capacity'];
+                $table->TableDescription = $requestTable['TableDescription'];
+                $table->TableShortDescription = '/';
+                $table->Height = $requestTable['Height'];
+                $table->Width = $requestTable['Width'];
+                $table->CreatedBy = $user->id;
+
+                $table->save();
+                continue;
+            } else {
+                $table = Table::find($requestTable['id']); // Find the table by its ID  
+                if ($table) {
+                    // Update the table's position properties
+                    $table->PositionLeft = $requestTable['left'];
+                    $table->PositionTop = $requestTable['top'];
+                    $table->save(); // Save the changes to the database
+                }
+            }
+            
+        }
         return response('Position saved');
-      } 
-      
+    }
+
 
     // public function dashboard()
     // {

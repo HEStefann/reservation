@@ -199,3 +199,5 @@ Route::get('/calendar', [RestaurantCalendarController::class, 'index'])->name('r
 // floor plan
 Route::get('/floor-plan', [RestaurantSettingsController::class, 'floorPlan'])->name('restaurant.floor-plan');
 Route::put('/settings/update', [RestaurantSettingsController::class, 'update'])->name('restaurant.settings.update');
+// updateTablePosition
+Route::put('/settings/updateTablePosition', [RestaurantSettingsController::class, 'updateTablePosition'])->name('restaurant.settings.updateTablePosition');

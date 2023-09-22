@@ -13,6 +13,21 @@ class UserStoreReservationRequest extends FormRequest
     {
         return true;
     }
+    protected function prepareForValidation()
+    {
+        $selectedTables = $this->input('selectedTables');
+        $tablesArray = explode(',', $selectedTables);
+
+        $selectedTablesArray = [];
+        foreach ($tablesArray as $value) {
+            $selectedTablesArray[] = intval(trim($value));
+        }
+
+        $this->merge([
+            'selectedTables' => $selectedTablesArray,
+        ]);
+    }
+
 
     /**
      * Get the validation rules that apply to the request.

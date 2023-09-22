@@ -4,7 +4,7 @@
     </div>
     <div class="flex flex-col gap-[16px] mt-[11px] pl-[16px] w-full h-full"
         style="box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0 rgba(0,0,0,0.14), 0px 1px 3px 0 rgba(0,0,0,0.12);">
-        <div class="flex gap-[34px]">
+        <a href="{{ route('restaurant.calendar') }}" class="flex gap-[34px]">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                 style="flex-grow: 0; flex-shrink: 0; width: 24px; height: 24px; position: relative;"
                 preserveAspectRatio="none">
@@ -15,8 +15,8 @@
             <p class="text-base text-black/[0.87]">
                 Calendar
             </p>
-        </div>
-        <div class="flex gap-[34px]">
+        </a>
+        <a href="{{ route('restaurant.reservations') }}" class="flex gap-[34px]">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                 class="flex-grow-0 flex-shrink-0 w-6 h-6 relative" preserveAspectRatio="xMidYMid meet">
                 <path
@@ -26,8 +26,8 @@
             <p class="text-base text-black/[0.87]">
                 Reservations
             </p>
-        </div>
-        <div class="flex gap-[34px]">
+        </a>
+        <a href="{{ route('restaurant.floor-plan') }}" class="flex gap-[34px]">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                 class="flex-grow-0 flex-shrink-0 w-6 h-6 relative" preserveAspectRatio="none">
                 <path
@@ -37,8 +37,8 @@
             <p class="text-base text-black/[0.87]">
                 Floor plan
             </p>
-        </div>
-        <div class="flex gap-[34px]">
+        </a>
+        <a href="{{ route('restaurant.settings') }}" class="flex gap-[34px]">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                 class="flex-grow-0 flex-shrink-0 w-6 h-6 relative" preserveAspectRatio="xMidYMid meet">
                 <path
@@ -48,7 +48,7 @@
             <p class="text-base text-black/[0.87]">
                 Settings
             </p>
-        </div>
+        </a>
         {{-- <form class="cursor-pointer" action="{{ route('logout') }}" method="post">
             @csrf --}}
         <button onclick="showLogoutConfirmationModal()" class="flex gap-[34px]">

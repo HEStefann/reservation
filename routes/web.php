@@ -127,7 +127,7 @@ Route::get('/restaurants/{restaurant}', [AdminRestaurantController::class, 'show
 Route::get('/restaurants/{restaurant}/edit', [AdminRestaurantController::class, 'edit'])->name('admin.restaurants.edit');
 Route::put('/restaurants/{restaurant}', [AdminRestaurantController::class, 'update'])->name('admin.restaurants.update');
 Route::delete('/restaurants/{restaurant}', [AdminRestaurantController::class, 'destroy'])->name('admin.restaurants.destroy');
-Route::get('/reservations', [AdminReservationController::class, 'index'])->name('admin.reservations.index');
+// Route::get('/reservations', [AdminReservationController::class, 'index'])->name('admin.reservations.index');
 Route::get('/reservations/{reservation}', [AdminReservationController::class, 'show'])->name('admin.reservations.show');
 Route::put('/reservations/{reservation}/update', [AdminReservationController::class, 'update'])->name('admin.reservations.update');
 Route::get('/reservations/{reservation}/edit', [AdminReservationController::class, 'edit'])->name('admin.reservations.edit');
@@ -182,7 +182,7 @@ Route::get('/userreservations', [UserController::class, 'reservations'])->name('
 Route::get('/runfactorys', [UserController::class, 'runfactorys'])->name('runfactorys');
 
 
-Route::get('/highly-rated-restaura`nts', [UserController::class, 'highlyrated'])->name('user.highlyrated');
+Route::get('/highly-rated-restaurants', [UserController::class, 'highlyrated'])->name('user.highlyrated');
 
 Route::get('/recommended-restaurants', [UserController::class, 'recommended'])->name('user.recommended');
 Route::get('/nearest-restaurants', [UserController::class, 'nearest'])->name('user.nearest');
@@ -191,9 +191,13 @@ Route::get('/payment/{reservation}', [PaymentController::class, 'index'])->name(
 
 Route::get('/searchByTag/{tag}', [RestaurantController::class, 'searchByTag'])->name('searchByTag');
 
-Route::get('/tez', [RestaurantReservationController::class, 'index'])->name('tez');
+Route::get('/reservations', [RestaurantReservationController::class, 'index'])->name('restaurant.reservations');
 Route::put('/restaurant/reservation/accept/{reservation}', [RestaurantReservationController::class, 'accept'])->name('restaurant.reservation.accept');
 Route::put('/restaurant/reservation/decline/{reservation}', [RestaurantReservationController::class, 'decline'])->name('restaurant.reservation.decline');
 Route::get('/settings', [RestaurantSettingsController::class, 'index'])->name('restaurant.settings');
 Route::get('/calendar', [RestaurantCalendarController::class, 'index'])->name('restaurant.calendar');
+// floor plan
+Route::get('/floor-plan', [RestaurantSettingsController::class, 'floorPlan'])->name('restaurant.floor-plan');
 Route::put('/settings/update', [RestaurantSettingsController::class, 'update'])->name('restaurant.settings.update');
+// updateTablePosition
+Route::put('/settings/updateTablePosition', [RestaurantSettingsController::class, 'updateTablePosition'])->name('restaurant.settings.updateTablePosition');

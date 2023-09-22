@@ -69,7 +69,16 @@
                                 </svg>
                             @endif
                             <div class="h-[100px] w-full">
-                                <img src="{{ Storage::url($restaurant->images()->where('display_order', 1)->first()->image_url) }}"
+                                @php
+                                    $imageUrl = $restaurant
+                                        ->images()
+                                        ->where('display_order', 1)
+                                        ->first()->image_url;
+                                    $storageUrl = Storage::url($imageUrl);
+                                    $isHttps = str_contains($storageUrl, 'https');
+                                    $finalImageUrl = $isHttps ? url($imageUrl) : $storageUrl;
+                                @endphp
+                                <img src="{{ $finalImageUrl }}"
                                     class="w-full h-full rounded-tl-lg rounded-tr-lg  object-cover" />
                             </div>
                         </div>

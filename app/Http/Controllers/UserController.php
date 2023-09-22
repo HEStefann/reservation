@@ -17,11 +17,12 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        $restaurants = Restaurant::where('approved', true)->where('active', true)->get();
+
+        $restaurants = Restaurant::all();
 
         $promotions = Promotion::all();
 
-        $highliyRated = Restaurant::where('rating', '>=', 4)->where('active', true)->get();
+        $highliyRated = Restaurant::where('rating', '>=', 4)->get();
         $recommendedRestaurants = Restaurant::where('recomended', '>', 0)->orderBy('recomended', 'asc')->get();
         return view('user.index', [
             'restaurants' => $restaurants,
@@ -33,7 +34,7 @@ class UserController extends Controller
 
     public function highlyrated()
     {
-        $highliyRated = Restaurant::where('rating', '>=', 4)->where('active', true)->where('approved', true)->get();
+        $highliyRated = Restaurant::where('rating', '>=', 4)->get();
         return view('user.highlyrated', [
 
             'highliyRated' => $highliyRated,
@@ -42,7 +43,7 @@ class UserController extends Controller
 
     public function recommended()
     {
-        $recommendedRestaurants = Restaurant::where('recomended', '>', 0)->where('active', true)->orderBy('recomended', 'asc')->get();
+        $recommendedRestaurants = Restaurant::where('recomended', '>', 0)->orderBy('recomended', 'asc')->get();
         return view('user.recommended', [
             'recommendedRestaurants' => $recommendedRestaurants
         ]);
@@ -54,21 +55,19 @@ class UserController extends Controller
         $longitude = $request->query('longitude');
         $earthRadius = 6371; // Earth's radius in kilometers
         $radius = 2; // Radius in kilometers
-
+    
         // Calculate the bounding box coordinates for the given radius
         $minLatitude = $latitude - ($radius / $earthRadius) * (180 / pi());
         $maxLatitude = $latitude + ($radius / $earthRadius) * (180 / pi());
-
+    
         $minLongitude = $longitude - ($radius / $earthRadius) * (180 / pi()) / cos($latitude * (pi() / 180));
         $maxLongitude = $longitude + ($radius / $earthRadius) * (180 / pi()) / cos($latitude * (pi() / 180));
-
+    
         // Find the nearest restaurants within the bounding box coordinates
         $nearestRestaurants = Restaurant::whereBetween('lat', [$minLatitude, $maxLatitude])
             ->whereBetween('lng', [$minLongitude, $maxLongitude])
-            ->where('active', true)
-            ->where('approved', true)
             ->get();
-
+    
         return view('user.nearest', compact('nearestRestaurants'));
     }
 
@@ -156,14 +155,12 @@ class UserController extends Controller
             if (!empty($searchQuery)) {
                 $query->where('title', 'LIKE', '%' . $searchQuery . '%');
             }
-        
+
             if (!is_null($minLatitude) && !is_null($maxLatitude) && !is_null($minLongitude) && !is_null($maxLongitude)) {
                 $query->orWhereBetween('lat', [$minLatitude, $maxLatitude])
                     ->orWhereBetween('lng', [$minLongitude, $maxLongitude]);
             }
         })
-            ->where('active', true)
-            ->where('approved', true)
             ->orWhereHas('tags', function ($query) use ($searchQuery) {
                 if (!empty($searchQuery)) {
                     $query->where('name', 'LIKE', '%' . $searchQuery . '%');
@@ -172,14 +169,11 @@ class UserController extends Controller
             ->get();
 
         // Check if there is a restaurant with an exact name match
-        $exactMatchRestaurant = Restaurant::where('title', $searchQuery)
-        ->where('active', true)
-        ->where('approved', true)
-        ->first();
+        $exactMatchRestaurant = Restaurant::where('title', $searchQuery)->first();
+
         // Handle the case where no search query is provided or it's empty
         if (empty($searchQuery)) {
-            // $restaurants = Restaurant::all(); with approved and active
-            $restaurants = Restaurant::where('active', true)->where('approved', true)->get();
+            $restaurants = Restaurant::all(); // You can change this to your default behavior
         } elseif ($exactMatchRestaurant) {
             // If there is an exact name match, display only that restaurant
             $restaurants = [$exactMatchRestaurant];

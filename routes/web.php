@@ -177,8 +177,6 @@ Route::put('/user/update', [UserController::class, 'update'])->name('user.update
 Route::get('/userfavourites', [UserController::class, 'favourites'])->name('userfavourites');
 Route::get('/userreservations', [UserController::class, 'reservations'])->name('user.reservations');
 
-// run factorys route in user controller
-
 Route::get('/runfactorys', [UserController::class, 'runfactorys'])->name('runfactorys');
 
 

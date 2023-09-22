@@ -14,7 +14,7 @@
         <p class="text-4xl font-semibold text-[#343a40]">{{ $restaurant->title }}</p>
         <div class="flex justify-end">
             <div class="flex items-center relative mt-[20px]">
-                <form action="{{ route('tez') }}" method="get">
+                <form action="{{ route('restaurant.reservations') }}" method="get">
                     <input type="text" name="search" class="rounded-[20px] w-[260px] h-[42px] pl-[44px]"
                         placeholder="Search" value="{{ $searchQuery }}">
                 </form>

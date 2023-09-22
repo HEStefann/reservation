@@ -68,7 +68,16 @@
                                 </svg>
                             @endif
                             <div class="h-[100px] w-full">
-                                <img src="{{ Storage::url($restaurant->images()->where('display_order', 1)->first()->image_url) }}"
+                                @php
+                                    $imageUrl = $restaurant
+                                        ->images()
+                                        ->where('display_order', 1)
+                                        ->first()->image_url;
+                                    $storageUrl = Storage::url($imageUrl);
+                                    $isHttps = str_contains($storageUrl, 'https');
+                                    $finalImageUrl = $isHttps ? url($imageUrl) : $storageUrl;
+                                @endphp
+                                <img src="{{ $finalImageUrl }}"
                                     class="w-full h-full rounded-tl-lg rounded-tr-lg  object-cover" />
                             </div>
                         </div>
@@ -116,7 +125,7 @@
                 <svg class="w-5 h-5 mr-1 text-gray-500" fill="none" xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 22 22">
                 </svg>
-                <p class="text-xs font-light text-left text-gray-500">No highly-rated restaurants found</p>
+                <p class="text-xs font-light text-left text-gray-500">No nearby restaurants found</p>
             </div>
         @endif
     </div>

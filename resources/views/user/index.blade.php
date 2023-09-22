@@ -61,20 +61,16 @@
 
     <div class="flex flex-col gap-[18px] items-center">
         <div id="image-scroll"
-            class="px-[26px] flex gap-[11px] overflow-x-scroll scrollbar-hide snap-x scroll-smooth snap-mandatory hide-scrollbar">
-
-            {{-- tuka treba ovie slikickive da oti prvata na href="testing3/1" a vtorata na href="testing3/4" ili zavisi spored id kako kje ti bidat burger i dominos  --}}
-            <a href="" class="snap-center w-[277px] h-[120px]"><img class="rounded-[28px] w-full h-full" src="{{ asset('images\Group 3115.png') }}" alt=""></a>
-            
-            <img onclick class="rounded-[28px] snap-center" src="https://i.ibb.co/Pj8dWmq/Group-3118-1.png" alt="">
-            <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
-            <img class="rounded-[28px] snap-center" src="https://i.ibb.co/Pj8dWmq/Group-3118-1.png" alt="">
-            <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
-            <img class="rounded-[28px] snap-center" src="https://i.ibb.co/Pj8dWmq/Group-3118-1.png" alt="">
-            <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
-            <img class="rounded-[28px] snap-center" src="https://i.ibb.co/Pj8dWmq/Group-3118-1.png" alt="">
-            <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="">
-        </div>
+        class="px-[26px] flex gap-[11px] overflow-x-scroll scrollbar-hide snap-x scroll-smooth snap-mandatory hide-scrollbar">
+        <img class="rounded-[28px] snap-center" src="https://i.ibb.co/Pj8dWmq/Group-3118-1.png" alt="" onclick="window.location.href = '{{ route('user.restaurant', 3) }}'">
+        <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="" onclick="window.location.href = '{{ route('user.restaurant', 1) }}'">
+        <img class="rounded-[28px] snap-center" src="https://i.ibb.co/Pj8dWmq/Group-3118-1.png" alt="" onclick="window.location.href = '{{ route('user.restaurant', 3) }}'">
+        <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="" onclick="window.location.href = '{{ route('user.restaurant', 1) }}'">
+        <img class="rounded-[28px] snap-center" src="https://i.ibb.co/Pj8dWmq/Group-3118-1.png" alt="" onclick="window.location.href = '{{ route('user.restaurant', 3) }}'">
+        <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="" onclick="window.location.href = '{{ route('user.restaurant', 1) }}'">
+        <img class="rounded-[28px] snap-center" src="https://i.ibb.co/Pj8dWmq/Group-3118-1.png" alt="" onclick="window.location.href = '{{ route('user.restaurant', 3) }}'">
+        <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="" onclick="window.location.href = '{{ route('user.restaurant', 1) }}'">
+    </div>
         <svg width="35" height="9" viewBox="0 0 35 9" fill="none" xmlns="http://www.w3.org/2000/svg"
             class="w-[35px] h-[9px]" preserveAspectRatio="none">
             <circle id="circle1" class="dots-promotions" cx="4.5" cy="4.5" r="4.5"

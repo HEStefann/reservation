@@ -42,4 +42,9 @@ class Reservation extends Model
     {
         return $this->hasOne(Review::class, 'reservation_id');
     }
+    
+    public function tables()
+    {
+        return $this->belongsToMany(Table::class);
+    }
 }

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Restaurant;
+use Carbon\Carbon;
 
 use App\Http\Controllers\Controller;
 use App\Models\Moderator;
@@ -8,9 +9,10 @@ use Illuminate\Http\Request;
 
 class RestaurantCalendarController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $user = auth()->user();
+
         // check for getter choosenDate if is set then give only reservations for that day
         // if(request()->has('choosenDate')) {
         //     $choosenDate = request()->choosenDate;
@@ -23,3 +25,4 @@ class RestaurantCalendarController extends Controller
         return view('restaurant.calendar', compact('restaurant'));
     }
 }
+    

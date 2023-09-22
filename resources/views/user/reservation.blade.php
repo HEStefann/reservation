@@ -279,13 +279,14 @@
                     font-weight: 500;
                 }
             </style>
-            <div class="rounded-lg bg-[#fff5ec] px-[9px] py-[11px] relative" id="tablesContainer" style="height: calc(111vh - 172px);">
+            <div class="rounded-lg bg-[#fff5ec] px-[9px] py-[11px] relative" id="tablesContainer"
+                style="height: calc(111vh - 172px);">
                 @php
                     $firstShapeType = DB::table('shape_types')
                         ->where('IdShapeGroup', 1)
                         ->pluck('id') // Pluck the 'id' column from the result
                         ->toArray(); // Convert the collection to an array
-            
+                    
                     // SELECT * FROM `tables` where IdFloor = 78 and IdShapeType is in firstShapeType
                     $tables = DB::table('tables')
                         ->where('IdFloor', 78)
@@ -293,27 +294,67 @@
                         ->get();
                 @endphp
                 @foreach ($tables as $table)
-                    <div class="flex flex-col items-center justify-center gap-[1px] absolute" style="left: {{ $table->PositionLeft }}px; top: {{ $table->PositionTop }}px;">
-                        <p class="rounded-[10px] bg-[#979797] text-[8px] font-semibold text-white flex items-center justify-center" style="width: {{ $table->Width }}px; height: {{ $table->Height }}px;">
-                            1014
-                            0/4
+                    <div class="flex flex-col items-center justify-center gap-[1px] absolute"
+                        style="left: {{ $table->PositionLeft }}px; top: {{ $table->PositionTop }}px;"
+                        data-table-id='{{ $table->id }}'>
+                        <p class="rounded-[10px] bg-[#979797] text-[8px] font-semibold text-white flex items-center justify-center"
+                            style="width: {{ $table->Width }}px; height: {{ $table->Height }}px;">
+                            {{ $table->TableDescription }}
                         </p>
                     </div>
                 @endforeach
+                <input type="hidden" id="selectedTablesInput" name="selectedTables">
             </div>
             <script>
                 const floorButtons = document.querySelectorAll('button[id^="floor"]');
                 const tablesContainer = document.getElementById('tablesContainer');
-            
+                // tablesContainer every div child element
+                const tables = tablesContainer.querySelectorAll('#tablesContainer > div');
+                for (let i = 0; i < tables.length; i++) {
+                    const table = tables[i];
+                    table.addEventListener('click', function() {
+                        toggleTableSelection(table);
+                    });
+                }
+
+                // Function to toggle table selection
+                function toggleTableSelection(table) {
+                    table.classList.toggle('selected');
+
+                    // Get the input element
+                    const input = document.getElementById('selectedTablesInput');
+
+                    // Get the table description
+                    console.log(table);
+                    const tableDescription = table.getAttribute('data-table-id');
+
+                    // Check if the table is selected
+                    if (table.classList.contains('selected')) {
+                        // Add the table description to the input
+                        input.value += tableDescription + ', ';
+
+                        // Change the background color
+                        // table p element
+                        const tableContent = table.querySelector('p');
+                        tableContent.style.background = 'linear-gradient(to bottom right, #ffcd01 0%, #fc7f09 100%)';
+                    } else {
+                        // Remove the table description from the input
+                        input.value = input.value.replace(tableDescription + ', ', '');
+
+                        // Reset the background color
+                        const tableContent = table.querySelector('p');
+                        tableContent.style.background = '#979797';
+                    }
+                }
                 floorButtons.forEach(button => {
                     button.addEventListener('click', function() {
                         floorButtons.forEach(btn => {
                             btn.classList.remove('activeFloorButton');
                         });
                         this.classList.add('activeFloorButton');
-            
+
                         const floorId = this.id.replace('floor', ''); // Get the ID without "floor" prefix
-            
+
                         // Make an AJAX request to fetch the tables data for the selected floor
                         fetch(`/api/tables/${floorId}`)
                             .then(response => response.json())
@@ -324,17 +365,20 @@
                                 // Add the new tables to the tablesContainer
                                 tablesData.forEach(table => {
                                     const tableElement = document.createElement('div');
-                                    tableElement.classList.add('flex', 'flex-col', 'items-center', 'justify-center', 'gap-[1px]', 'absolute');
+                                    tableElement.classList.add('flex', 'flex-col', 'items-center',
+                                        'justify-center', 'gap-[1px]', 'absolute');
                                     tableElement.style.left = `${table.PositionLeft}px`;
                                     tableElement.style.top = `${table.PositionTop}px`;
-            
+
                                     const tableContent = document.createElement('p');
-                                    tableContent.classList.add('rounded-[10px]', 'bg-[#979797]', 'text-[8px]', 'font-semibold', 'text-white', 'flex', 'items-center', 'justify-center');
+                                    tableContent.classList.add('rounded-[10px]', 'bg-[#979797]',
+                                        'text-[8px]', 'font-semibold', 'text-white', 'flex',
+                                        'items-center', 'justify-center');
                                     tableContent.style.width = `${table.Width}px`;
                                     tableContent.style.height = `${table.Height}px`;
-                                    tableContent.innerText = `1014
-                            0/4`;
-            
+                                    tableContent.innerText = table.TableDescription;
+                                    tableElement.setAttribute('data-table-id', table.id);
+
                                     tableElement.appendChild(tableContent);
                                     tablesContainer.appendChild(tableElement);
                                 });

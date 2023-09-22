@@ -24,4 +24,9 @@ class Table extends Model
         'Width',
         'CreatedBy',
     ];
+    
+    public function reservations()
+    {
+        return $this->belongsToMany(Reservation::class);
+    }
 }

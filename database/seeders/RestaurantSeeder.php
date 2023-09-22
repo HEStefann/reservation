@@ -33,6 +33,8 @@ class RestaurantSeeder extends Seeder
                 'lat' => 42.0047741,
                 'lng' => 21.3868903,
                 'address' => 'Ljubljanska, Skopje 1000',
+                'active' => true,
+                'approved' => true,
                 'image' => 'https://logowik.com/content/uploads/images/310_burgerking.jpg',
                 'menus' => [
                     'categories' => [
@@ -183,6 +185,8 @@ class RestaurantSeeder extends Seeder
                 'available_people' => 230,
                 'lat' => 42.0047741,
                 'lng' => 21.3868903,
+                'active' => true,
+                'approved' => true,
                 'description' => 'KFC is located in Skopje. KFC is working in Fast food restaurants activities. You can find more information about KFC at www.kfc.com.',
                 'image' => 'https://www.pngkit.com/png/detail/50-508776_kfc-logo.png',
                 'menus' => [
@@ -322,6 +326,8 @@ class RestaurantSeeder extends Seeder
                 'available_people' => 20,
                 'lat' => 41.9956279,
                 'lng' => 21.4231058,
+                'active' => true,
+                'approved' => true,
                 'description' => 'Domino`s Pizza is located in Skopje. Domino`s Pizza is working in Fast food restaurants activities. You can find more information about Domino`s Pizza at www.dominos.com.',
                 'image' => 'https://conceptstore.co.uk/wp-content/uploads/2015/04/dominos-logo1.jpg',
                 'menus' => [
@@ -381,6 +387,8 @@ class RestaurantSeeder extends Seeder
                 'available_people' => 20,
                 'lat' => 42.0009229,
                 'lng' => 21.4136577,
+                'active' => true,
+                'approved' => true,
                 'description' => 'Subzy is located in Skopje. Subzy is working in Fast food restaurants activities. You can find more information about Subzy at www.subzy.com.',
                 'image' => 'https://www.kliknijadi.mk/Images/Products/230_110121135737836_400x400.jpg',
                 'menus' => ['categories' => [
@@ -513,6 +521,8 @@ class RestaurantSeeder extends Seeder
                 'available_people' => 20,
                 'lat' => 41.9977984,
                 'lng' => 21.1202439,
+                'active' => true,
+                'approved' => true,
                 'description' => 'Gyro House is a restaurant located in Skopje, Macedonia.',
                 'image' => 'https://www.kliknijadi.mk/Images/Products/1651_131022165318545_400x400.jpg',
                 'menus' => [
@@ -535,6 +545,8 @@ class RestaurantSeeder extends Seeder
                 //42.0005863,21.4121417
                 'lat' => 42.0005863,
                 'lng' => 21.4121417,
+                'active' => true,
+                'approved' => true,
                 'description' => 'Fitness House is a restaurant located in Skopje, Macedonia.',
                 'image' => 'https://www.kliknijadi.mk/Images/Products/177_090920160902184_400x400.jpg',
                 'menus' => [
@@ -577,6 +589,8 @@ class RestaurantSeeder extends Seeder
                                 'name' => 'Food Hood',
                                 'address' => 'ul, Kosturski Heroi 17 - 21 lok.2, Skopje 1000, North Macedonia',
                                 'available_people' => 20,
+                                'active' => true,
+                                'approved' => true,
                                 //43.000652,19.8435307
                                 'lat' => 43.000652,
                                 'lng' => 19.8435307,
@@ -628,6 +642,8 @@ class RestaurantSeeder extends Seeder
                                                     // 41.9987649,21.4116717
                                                     'lat' => 41.9987649,
                                                     'lng' => 21.4116717,
+                                                    'active' => true,
+                                                    'approved' => true,
                                                     'description' => 'Kiosk Burger bar is a restaurant located in Skopje, Macedonia.',
                                                     'image' => 'https://img.restaurantguru.com/rc38-Kiosk-Burger-Bar-logo.jpg',
                                                     'menus' => [
@@ -661,6 +677,8 @@ class RestaurantSeeder extends Seeder
                                                                     'available_people' => 20,
                                                                     'lat' => 41.9966146,
                                                                     'lng' => 21.4064438,
+                                                                    'active' => true,
+                                                                    'approved' => true,
                                                                     'description' => 'Slatkarnica Kremisimo is a restaurant located in Skopje, Macedonia.',
                                                                     'image' => 'https://korpa.mk/restaurant_uploads/CaT2eiy22ubVOBC9iui3Q7M47PPNOqzt.jpg',
                                                                     'menus' => [
@@ -772,11 +790,9 @@ class RestaurantSeeder extends Seeder
                 }
             }
         }
-        $restaurant = Restaurant::find(1);
-        $floor = Floor::find(78);
-
-        $restaurant->floors()->attach($floor);
-        $floor2 = Floor::find(77);
-        $restaurant->floors()->attach($floor2);
+        // $restaurant = Restaurant::find(1);
+        // $floorIds = [78, 77];
+        
+        // $restaurant->floors()->attach($floorIds);
     }
 }

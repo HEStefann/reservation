@@ -7,14 +7,14 @@
                 <button
                     class="w-[231px] h-10 rounded-xl bg-[#005fa4] text-sm font-medium text-center text-white mr-[12px] flex items-center justify-center gap-[16px]"
                     style="filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.05));">
-                    <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        class="w-[26px] h-[26px]" preserveAspectRatio="xMidYMid meet">
+                    <svg id="prev-date-btn" width="26" height="26" viewBox="0 0 26 26" fill="none"
+                        xmlns="http://www.w3.org/2000/svg" class="w-[26px] h-[26px]" preserveAspectRatio="xMidYMid meet">
                         <path d="M15.4862 6.5L17.0137 8.0275L12.052 13L17.0137 17.9725L15.4862 19.5L8.98617 13L15.4862 6.5Z"
                             fill="white"></path>
                     </svg>
-                    Thu, June 24
-                    <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        class="w-[26px] h-[26px]" preserveAspectRatio="xMidYMid meet">
+                    <span id="current-date">Current Date</span>
+                    <svg id="next-date-btn" width="26" height="26" viewBox="0 0 26 26" fill="none"
+                        xmlns="http://www.w3.org/2000/svg" class="w-[26px] h-[26px]" preserveAspectRatio="xMidYMid meet">
                         <path d="M10.5138 6.5L8.98633 8.0275L13.948 13L8.98633 17.9725L10.5138 19.5L17.0138 13L10.5138 6.5Z"
                             fill="white"></path>
                     </svg>
@@ -135,6 +135,43 @@
                 left: timeSlotScrollContainer.scrollLeft + timeSlotWidth,
                 behavior: 'smooth'
             });
+        }
+
+        const prevDateBtn = document.getElementById("prev-date-btn");
+        const nextDateBtn = document.getElementById("next-date-btn");
+        const currentDateSpan = document.getElementById("current-date");
+
+        // Create a Date object for the current date
+        const currentDate = new Date();
+
+        // Initialize the displayed date
+        updateDisplayedDate(currentDate);
+
+        // Add click event listeners to the SVG buttons
+        prevDateBtn.addEventListener("click", showPreviousDate);
+        nextDateBtn.addEventListener("click", showNextDate);
+
+        // Function to update the displayed date
+        function updateDisplayedDate(date) {
+            const options = {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            };
+            currentDateSpan.textContent = date.toLocaleDateString(undefined, options);
+        }
+
+        // Function to show the previous date
+        function showPreviousDate() {
+            currentDate.setDate(currentDate.getDate() - 1);
+            updateDisplayedDate(currentDate);
+        }
+
+        // Function to show the next date
+        function showNextDate() {
+            currentDate.setDate(currentDate.getDate() + 1);
+            updateDisplayedDate(currentDate);
         }
     </script>
 @endsection

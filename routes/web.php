@@ -34,6 +34,7 @@ use App\Http\Controllers\UserRestaurantsController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
 Route::get('/', [UserController::class, 'index'])->name('user.home');
 Route::get('/search', [UserController::class, 'search'])->name('user.restaurantspage');
 
@@ -196,7 +197,7 @@ Route::get('/settings', [RestaurantSettingsController::class, 'index'])->name('r
 Route::get('/calendar', [RestaurantCalendarController::class, 'index'])->name('restaurant.calendar');
 // floor plan
 Route::get('/floor-plan', [RestaurantSettingsController::class, 'floorPlan'])->name('restaurant.floor-plan');
-Route::put('/settings/update', [RestaurantSettingsController::class, 'update'])->name('restaurant.settings.update');
+Route::post('/settings/update', [RestaurantSettingsController::class, 'update'])->name('restaurant.settings.update');
 // updateTablePosition
 Route::put('/settings/updateTablePosition', [RestaurantSettingsController::class, 'updateTablePosition'])->name('restaurant.settings.updateTablePosition');
 Route::post('/restaurant/reservation', [RestaurantReservationController::class,'create'])->name('restaurant.reservation.create');

@@ -87,6 +87,8 @@ class RestaurantSettingsController extends Controller
                     // Update the table's position properties
                     $table->PositionLeft = $requestTable['left'];
                     $table->PositionTop = $requestTable['top'];
+                    $table->Height = $requestTable['Height'];
+                    $table->Width = $requestTable['Width'];
                     $table->save(); // Save the changes to the database
                 }
             }

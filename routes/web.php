@@ -199,3 +199,4 @@ Route::get('/floor-plan', [RestaurantSettingsController::class, 'floorPlan'])->n
 Route::put('/settings/update', [RestaurantSettingsController::class, 'update'])->name('restaurant.settings.update');
 // updateTablePosition
 Route::put('/settings/updateTablePosition', [RestaurantSettingsController::class, 'updateTablePosition'])->name('restaurant.settings.updateTablePosition');
+Route::post('/restaurant/reservation', [RestaurantReservationController::class,'create'])->name('restaurant.reservation.create');

@@ -84,9 +84,6 @@
     </div>
 </div>
 
-<style>
-
-</style>
 <script>
     function showLogoutConfirmationModal() {
         var logoutConfirmationModal = document.getElementById("logoutConfirmationModal");
@@ -96,10 +93,6 @@
     function hideLogoutConfirmationModal() {
         var logoutConfirmationModal = document.getElementById("logoutConfirmationModal");
         logoutConfirmationModal.style.display = "none";
-    }
-
-    function performLogout() {
-        // Add your logout logic here
     }
 
     // Hide the modal when clicking outside of it

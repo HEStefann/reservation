@@ -13,7 +13,7 @@
 
 <body class="flex">
     <x-restaurant-sidebar />
-    <div class="min-h-screen flex flex-col w-full flex-grow">
+    <div class="min-h-screen flex flex-col w-0 flex-grow">
         <div class="border-b border-black/[0.12] w-full flex justify-end" style="box-shadow: 0px 1px 25px 0 rgba(0,0,0,0.1);">
             <x-restaurant-navbar />
         </div>

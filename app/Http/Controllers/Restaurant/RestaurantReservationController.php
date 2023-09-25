@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Restaurant;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\restaurant\CreateReservationRequest;
 use App\Models\Moderator;
 use App\Models\Reservation;
 use App\Models\Restaurant;
@@ -72,5 +73,26 @@ class RestaurantReservationController extends Controller
         $reservation->save();
 
         return redirect()->back()->with('success', 'Reservation declined successfully');
+    }
+
+    // create reservation
+    public function create(CreateReservationRequest $request)
+    {
+        $user = auth()->user();
+        $restaurant = Moderator::where('user_id', $user->id)->first()->restaurant;
+        $reservation = new Reservation();
+        $reservation->user_id = $user->id;
+        $reservation->restaurant_id = $restaurant->id;
+        $reservation->full_name = $request->input('full_name');
+        $reservation->phone_number = $request->input('phone_number');
+        $reservation->email = $request->input('email');
+        $reservation->deposit = $request->input('deposit');
+        $reservation->date = $request->input('date');
+        $reservation->time = $request->input('time');
+        $reservation->number_of_people = $request->input('number_of_people');
+        $reservation->note = $request->input('note');
+        $reservation->status = 'accepted';
+        $reservation->save();
+        return redirect()->back()->with('success', 'Reservation created successfully');
     }
 }

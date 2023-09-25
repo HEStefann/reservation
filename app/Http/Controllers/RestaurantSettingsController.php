@@ -8,6 +8,7 @@ use App\Http\Requests\RestaurantSettingsRequest;
 use App\Models\Moderator;
 use App\Models\Reservation;
 use App\Models\Restaurant;
+use App\Models\RestaurantImage;
 use App\Models\Table;
 use App\Models\Tag;
 use App\Services\RestaurantService;
@@ -28,9 +29,9 @@ class RestaurantSettingsController extends Controller
         $user = Auth::user();
         // restaurant with working hours
         $restaurant = Moderator::where('user_id', $user->id)
-    ->withoutGlobalScope('approved_active')
-    ->first()
-    ->restaurant;
+            ->withoutGlobalScope('approved_active')
+            ->first()
+            ->restaurant;
         return view('restaurant.settings', [
             'restaurant' => $restaurant,
         ]);
@@ -40,10 +41,80 @@ class RestaurantSettingsController extends Controller
     {
         $user = Auth::user();
         $restaurant = Restaurant::where('user_id', $user->id)->first();
+        // Update restaurant details
+        $restaurant->update($request->except(['working_hours', 'first_image'])); // Exclude 'working_hours' and 'first_image' from restaurant update
 
-        $workingHours = $restaurant->workingHours;
-        $restaurant->update($request->all());
-        // find the working hours for the current restaurant use the WorkingHour model
+        // Loop through working hours data
+        foreach ($request->working_hours as $dayOfWeek => $hours) {
+            // Find or create a WorkingHour record for the current day
+            $workingHour = $restaurant->workingHours()->firstOrNew([
+                'day_of_week' => $dayOfWeek,
+            ]);
+
+            // Update the working hours data
+            $workingHour->fill($hours);
+            $workingHour->save();
+        }
+
+        // Handle image upload
+        if ($request->hasFile('first_image')) {
+            $image = $request->file('first_image');
+            $restaurantImgName = $restaurant->id . '-' . time();
+            $imageName = $restaurantImgName . '.' . $image->getClientOriginalExtension();
+
+            $image->storeAs('public/images', $imageName);
+
+            // Find the existing profile picture and set its display_order to 0
+            $existingProfilePicture = RestaurantImage::where('restaurant_id', $restaurant->id)
+                ->where('display_order', 1)
+                ->first();
+
+            if ($existingProfilePicture) {
+                $existingProfilePicture->display_order = 0;
+                $existingProfilePicture->save();
+            }
+
+            // Create a new RestaurantImage record for the profile picture
+            $restaurantImage = new RestaurantImage([
+                'image_url' => $imageName,
+                'restaurant_id' => $restaurant->id,
+                'display_order' => 1,
+            ]);
+            $restaurantImage->save();
+        }
+
+        if ($request->hasFile('other_image')) {
+            $image = $request->file('other_image');
+            $restaurantImgName = $restaurant->id . '-' . time(); // Use timestamp for uniqueness
+            $imageName = $restaurantImgName . '.' . $image->getClientOriginalExtension();
+
+            $image->storeAs('public/images', $imageName);
+
+            // Find the maximum display_order for other images
+            $maxDisplayOrder = RestaurantImage::where('restaurant_id', $restaurant->id)
+                ->where('display_order', '!=', 1) // Exclude profile picture
+                ->max('display_order');
+
+            // Assign a unique display_order
+            $displayOrder = $maxDisplayOrder + 1;
+
+            // Check for existing images with the same display_order and increment
+            while (RestaurantImage::where('restaurant_id', $restaurant->id)
+                ->where('display_order', $displayOrder)
+                ->exists()
+            ) {
+                $displayOrder++;
+            }
+
+            // Create a new RestaurantImage record for other images
+            $restaurantImage = new RestaurantImage([
+                'image_url' => $imageName,
+                'restaurant_id' => $restaurant->id,
+                'display_order' => $displayOrder,
+            ]);
+            $restaurantImage->save();
+        }
+
         return redirect()->back()->with('success', 'Restaurant updated successfully!');
     }
 
@@ -60,7 +131,7 @@ class RestaurantSettingsController extends Controller
     {
         $user = Auth::user();
         $requestTables = $request->json()->all();
-        
+
         foreach ($requestTables as $requestTable) {
             Log::debug($requestTable['TableDescription']);
             if ($requestTable['id'] == 'new') {
@@ -90,7 +161,6 @@ class RestaurantSettingsController extends Controller
                     $table->save(); // Save the changes to the database
                 }
             }
-            
         }
         return response('Position saved');
     }

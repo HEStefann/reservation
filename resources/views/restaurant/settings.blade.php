@@ -1,9 +1,18 @@
 @extends('layouts.restaurant')
 @section('content')
-
-    <form action="{{ route('restaurant.settings.update') }}" method="post">
+    {{-- if error  --}}
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+    <form action="{{ route('restaurant.settings.update') }}" method="post" enctype="multipart/form-data">
         @csrf
-        @method('PUT')
+        @method('POST')
         <div class="mt-[36px] ml-[140px] mr-[339px] mb-[95px]">
             <div class="flex">
                 <div class="flex flex-col flex-grow margin-auto">
@@ -35,31 +44,35 @@
                         </div>
 
                         @if ($restaurant->workingHours->isNotEmpty())
-                            <div class="flex gap-[18px]">
-                                <p class="text-sm font-medium text-[#343a40]">
-                                    Operating hours:
-                                </p>
-                                <div class="flex gap-1.5">
-                                    <p class="text-xs text-[#343a40]">from</p>
-                                    <select class="rounded w-[110px] border-0"
-                                        style="box-shadow: 0px 8px 10px 0 rgba(0,0,0,0.1);">
-                                        @for ($i = 0; $i <= 24; $i++)
-                                            <option value="{{ $i }}"
-                                                @if ($i == $openingTime) selected @endif>{{ $i }}
-                                            </option>
-                                        @endfor
-                                    </select>
-                                </div>
-                                <div class="flex gap-1.5">
-                                    <p class="text-xs text-[#343a40]">to</p>
-                                    <select class="rounded w-[110px] border-0"
-                                        style="box-shadow: 0px 8px 10px 0 rgba(0,0,0,0.1);">
-                                        @for ($i = 0; $i <= 24; $i++)
-                                            <option value="{{ $i }}"
-                                                @if ($i == $closingTime) selected @endif>{{ $i }}
-                                            </option>
-                                        @endfor
-                                    </select>
+                            <div class="mt-[18px]">
+                                <p class="text-[32px] font-medium text-[#343a40]">Working Hours</p>
+                                <x-input-error :messages="$errors->get('working_hours')" class="mt-2" />
+                                <div class="flex flex-col  gap-[60px]">
+                                    @php
+                                        $daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+                                    @endphp
+
+                                    @foreach ($daysOfWeek as $day)
+                                        <div>
+                                            <div>
+                                                <p class="text-2xl text-[#343a40]">{{ $day }}</p>
+                                                <div>
+                                                    @foreach ($restaurant->workingHours as $workingHour)
+                                                        @if ($workingHour->day_of_week === $day)
+                                                            <input name="working_hours[{{ $day }}][opening_time]"
+                                                                class="w-[330px] mt-[8px]" type="time"
+                                                                value="{{ $workingHour->opening_time }}"
+                                                                style="border: 1px solid rgba(0, 0, 0,0.12);">
+                                                            <input name="working_hours[{{ $day }}][closing_time]"
+                                                                class="w-[330px] mt-[5px]" type="time"
+                                                                value="{{ $workingHour->closing_time }}"
+                                                                style="border: 1px solid rgba(0, 0, 0,0.12);">
+                                                        @endif
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
                                 </div>
                             </div>
                         @endif
@@ -120,11 +133,64 @@
                             </p>
                             <textarea class="w-[300px] h-[94px] rounded-xl border-[1.5px] border-[#d4d7e3]"></textarea>
                         </div>
-                        <div class="flex w-[459px]">
-                            <p class="text-base font-medium text-[#343a40] mr-auto">
-                                Photos
-                            </p>
-                            {{-- photos here --}}
+                        <div class="form-group">
+                            <label for="current_images">Current Images:</label>
+                            <div>
+                                @php
+                                    $image = $restaurant
+                                        ->images()
+                                        ->where('display_order', 1)
+                                        ->first();
+                                    if ($image) {
+                                        $imageUrl = $image->image_url;
+                                        $storageUrl = asset('storage/images/' . $imageUrl);
+                                        $isHttps = str_contains($storageUrl, 'https');
+                                        $finalImageUrl = $isHttps ? $imageUrl : $storageUrl;
+                                    }
+                                @endphp
+                                <img src="{{ $finalImageUrl }}" alt="Restaurant Image">
+                            </div>
+                        </div>
+
+                        <!-- Add input for uploading new images -->
+                        <div class="form-group">
+                            <label for="first_image">Upload Profile Images:</label>
+                            <input type="file" name="first_image" accept="image/*">
+
+                            @error('first_image')
+                                <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div>
+                            <div class="form-group">
+                                <label for="current_images">Other Images:</label>
+                                <div>
+                                    @php
+                                        $images = $restaurant
+                                            ->images()
+                                            ->where('display_order', '!=', 1)
+                                            ->get(); // Get all images with display_order not equal to 1
+                                    @endphp
+
+                                    @foreach ($images as $image)
+                                        @php
+                                            $imageUrl = $image->image_url;
+                                            $storageUrl = asset('storage/images/' . $imageUrl);
+                                            $isHttps = str_contains($storageUrl, 'https');
+                                            $finalImageUrl = $isHttps ? $imageUrl : $storageUrl;
+                                        @endphp
+                                        <img src="{{ $finalImageUrl }}" alt="Restaurant Image">
+                                    @endforeach
+                                </div>
+                                <div class="form-group">
+                                    <label for="other_image">Upload Other Images:</label>
+                                    <input type="file" name="other_image" accept="image/*">
+
+                                    @error('other_image')
+                                        <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="flex flex-col grow">
@@ -136,7 +202,8 @@
                                 <option value="Italian">Italian</option>
                                 <option value="Chinese">Chinese</option>
                             </select>
-                            <select class="rounded w-[110px] border-0" style="box-shadow: 0px 8px 10px 0 rgba(0,0,0,0.1);">
+                            <select class="rounded w-[110px] border-0"
+                                style="box-shadow: 0px 8px 10px 0 rgba(0,0,0,0.1);">
                                 <option value="Parking">Parking</option>
                                 <option value="No parking">No parking</option>
                             </select>

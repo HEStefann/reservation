@@ -344,6 +344,10 @@
 
     {{-- </div> --}}
     <style>
+        svg {
+            transition: transform 0.3s ease-in-out;
+        }
+
         /* The Modal (background) */
         .modal {
             display: none;
@@ -522,7 +526,13 @@
                 var isHttps = storageUrl.includes("https");
                 var finalImageUrl = isHttps ? imageUrl : storageUrl;
 
-                $imageElement.attr("src", finalImageUrl);
+                // Fade out the image
+                $imageElement.fadeOut(300, function() {
+                    // Update the image source
+                    $imageElement.attr("src", finalImageUrl);
+                    // Fade in the image
+                    $imageElement.fadeIn(300);
+                });
             }
 
             $("#prev-button").click(function() {

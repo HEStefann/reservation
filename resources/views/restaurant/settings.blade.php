@@ -245,37 +245,67 @@
                             <textarea class="w-[300px] h-[94px] rounded-xl border-[1.5px] border-[#d4d7e3]"></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="current_images">Current Images:</label>
+                            <label for="current_images">Photos:</label>
                             <div>
                                 @php
-                                    $image = $restaurant
+                                    $images = $restaurant
                                         ->images()
                                         ->where('display_order', 1)
-                                        ->first();
-                                    if ($image) {
+                                        ->get();
+                                @endphp
+                                @foreach ($images as $image)
+                                    @php
                                         $imageUrl = $image->image_url;
                                         $storageUrl = asset('storage/images/' . $imageUrl);
                                         $isHttps = str_contains($storageUrl, 'https');
                                         $finalImageUrl = $isHttps ? $imageUrl : $storageUrl;
-                                    }
-                                @endphp
-                                <img src="{{ $finalImageUrl }}" alt="Restaurant Image">
+                                    @endphp
+                                    <div>
+                                        <img class="w-[300px] h-full" src="{{ $finalImageUrl }}" alt="Restaurant Image">
+                                        <div class="flex gap-[11px] mt-[13px] items-center">
+                                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                                                <path
+                                                    d="M18 16V2C18 0.9 17.1 0 16 0H2C0.9 0 0 0.9 0 2V16C0 17.1 0.9 18 2 18H16C17.1 18 18 17.1 18 16ZM5.5 10.5L8 13.51L11.5 9L16 15H2L5.5 10.5Z"
+                                                    fill="black" fill-opacity="0.54"></path>
+                                            </svg>
+                                            <p style="font-size: 16px; font-weight: 500; color: #343a40;">
+                                                {{ $image->image_url }}</p>
+                                        </div>
+                                        <button
+                                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded mt-[16px] mb-[16px] p-[10px]"
+                                            onclick="removeRestaurantImage({{ $image->id }})" type="button"
+                                            class="image-button">Remove Image</button>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
 
                         <!-- Add input for uploading new images -->
                         <div class="form-group">
-                            <label for="first_image">Upload Profile Images:</label>
-                            <input type="file" name="first_image" accept="image/*">
+                            <div class="flex justify-start items-center w-max relative p-1 rounded border-[0.5px] border-[#005fa4]"
+                                onclick="document.getElementById('file-input1').click()">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg" class="flex-grow-0 flex-shrink-0 w-6 h-6 relative"
+                                    preserveAspectRatio="none">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z" fill="#6B686B"></path>
+                                </svg>
+                                <div
+                                    class="flex justify-between items-center self-stretch flex-grow relative pl-1.5 pr-2 py-1">
+                                    <p class="flex-grow-0 flex-shrink-0 text-[10px] text-left text-[#005fa4]">Upload Cover
+                                        photo</p>
+                                </div>
+                            </div>
+
+                            <input name="first_image" type="file" id="file-input1" accept="image/*"
+                                style="display: none;">
 
                             @error('first_image')
                                 <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
                             @enderror
                         </div>
-                        @foreach ($restaurantImage as $image)
-                            <button type="button" class="rounded-xl bg-[#005fa4] text-base font-semibold text-white p-2"
-                                onclick="removeRestaurantImage({{ $image->id }})">Remove image</button>
-                        @endforeach
+
                         <div>
                             <div class="form-group">
                                 <label for="current_images">Other Images:</label>
@@ -294,24 +324,51 @@
                                             $isHttps = str_contains($storageUrl, 'https');
                                             $finalImageUrl = $isHttps ? $imageUrl : $storageUrl;
                                         @endphp
-                                        <img src="{{ $finalImageUrl }}" alt="Restaurant Image">
+                                        <div>
+                                            <img class="w-[300px] h-full" src="{{ $finalImageUrl }}"
+                                                alt="Restaurant Image">
+                                            <div class="flex gap-[11px] mt-[13px] items-center">
+                                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                                                    <path
+                                                        d="M18 16V2C18 0.9 17.1 0 16 0H2C0.9 0 0 0.9 0 2V16C0 17.1 0.9 18 2 18H16C17.1 18 18 17.1 18 16ZM5.5 10.5L8 13.51L11.5 9L16 15H2L5.5 10.5Z"
+                                                        fill="black" fill-opacity="0.54"></path>
+                                                </svg>
+                                                <p style="font-size: 16px; font-weight: 500; color: #343a40;">
+                                                    {{ $image->image_url }}</p>
+                                            </div>
+                                            <button
+                                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded mt-[16px] mb-[16px] p-[10px]"
+                                                onclick="removeRestaurantImage({{ $image->id }})" type="button"
+                                                class="image-button">Remove Image</button>
+                                        </div>
                                     @endforeach
                                 </div>
                                 <div class="form-group">
-                                    <label for="other_image">Upload Other Images:</label>
-                                    <input type="file" name="other_image" accept="image/*">
+                                    <div class="flex justify-center items-center w-max h-8 relative p-1 rounded border-[0.5px] border-[#005fa4]"
+                                        onclick="document.getElementById('file-input2').click()">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            class="flex-grow-0 flex-shrink-0 w-6 h-6 relative" preserveAspectRatio="none">
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                d="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z" fill="#6B686B"></path>
+                                        </svg>
+                                        <div
+                                            class="flex justify-center items-center self-stretch flex-grow relative pl-1.5 pr-2 py-1">
+                                            <p class="flex-grow-0 flex-shrink-0 text-[10px] text-left text-[#005fa4]">
+                                                Upload more photos
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <input name="other_image" type="file" id="file-input2" accept="image/*"
+                                        style="display: none;">
 
                                     @error('other_image')
                                         <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
                                     @enderror
                                 </div>
-
                             </div>
-                            @foreach ($restaurantImage as $image)
-                                <button type="button"
-                                    class="rounded-xl bg-[#005fa4] text-base font-semibold text-white p-2"
-                                    onclick="removeRestaurantImage({{ $image->id }})">Remove image</button>
-                            @endforeach
                         </div>
                     </div>
                     <div class="flex flex-col grow">

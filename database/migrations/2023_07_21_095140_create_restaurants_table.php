@@ -18,6 +18,7 @@ return new class extends Migration
             $table->decimal('rating', 2, 1)->nullable();
             $table->integer('average_price')->nullable();
             $table->integer('recomended')->nullable();
+            $table->integer('floors_number')->nullable();
             $table->boolean('approved')->default(false);
             $table->unsignedBigInteger('approved_by')->nullable();
             $table->boolean('active')->default(true);

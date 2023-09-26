@@ -14,13 +14,13 @@
     {{-- public/images/mario-mesaglio-7BZzlV0Z9R4-unsplash 1.png --}}
     <div class="flex items-center">
         <div class="h-[200px] w-full">
-            <img class="w-full h-full" src="{{ asset('/images/mario-mesaglio-7BZzlV0Z9R4-unsplash 1.png') }}"
-                alt="mario mesaglio">
+            <img class="w-full h-full" id="restaurant-image" src="" alt="Restaurant Image">
+
         </div>
         {{--  absolute flex  width: -webkit-fill-available; --}}
         <div class="absolute flex mx-[10px] w-[95%] justify-between">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                class="w-6 h-6" preserveAspectRatio="none">
+            <svg id="prev-button" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" preserveAspectRatio="none">
                 <g clip-path="url(#clip0_693_3918)">
                     <rect width="24" height="24" rx="8" fill="#D9D9D9" fill-opacity="0.38"></rect>
                     <rect width="24" height="24" rx="8" fill="#D9D9D9" fill-opacity="0.15"></rect>
@@ -34,8 +34,8 @@
                     </clipPath>
                 </defs>
             </svg>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                class="w-6 h-6" preserveAspectRatio="none">
+            <svg id="next-button" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" preserveAspectRatio="none">
                 <g clip-path="url(#clip0_693_3922)">
                     <rect x="24" y="24" width="24" height="24" rx="8"
                         transform="rotate(-180 24 24)" fill="#D9D9D9" fill-opacity="0.38"></rect>
@@ -482,6 +482,8 @@
 
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script>
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
@@ -507,6 +509,35 @@
                 modal.style.display = "none";
             }
         }
+
+        $(document).ready(function() {
+            var currentIndex = 0;
+            var images = {!! json_encode($restaurant->images()->pluck('image_url')) !!};
+            var imageCount = images.length;
+            var $imageElement = $("#restaurant-image");
+
+            function updateImage() {
+                var imageUrl = images[currentIndex];
+                var storageUrl = "{{ asset('storage/images/') }}/" + imageUrl;
+                var isHttps = storageUrl.includes("https");
+                var finalImageUrl = isHttps ? imageUrl : storageUrl;
+
+                $imageElement.attr("src", finalImageUrl);
+            }
+
+            $("#prev-button").click(function() {
+                currentIndex = (currentIndex - 1 + imageCount) % imageCount;
+                updateImage();
+            });
+
+            $("#next-button").click(function() {
+                currentIndex = (currentIndex + 1) % imageCount;
+                updateImage();
+            });
+
+            // Initial image update
+            updateImage();
+        });
     </script>
 
 </body>

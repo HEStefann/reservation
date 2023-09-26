@@ -17,8 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-
-
+use Illuminate\Support\Facades\Storage;
 
 class RestaurantSettingsController extends Controller
 {
@@ -26,14 +25,17 @@ class RestaurantSettingsController extends Controller
 
     public function index(Restaurant $restaurant)
     {
+
         $user = Auth::user();
         // restaurant with working hours
         $restaurant = Moderator::where('user_id', $user->id)
             ->withoutGlobalScope('approved_active')
             ->first()
             ->restaurant;
+        $restaurantImage = $restaurant->images;
         return view('restaurant.settings', [
             'restaurant' => $restaurant,
+            'restaurantImage' => $restaurantImage
         ]);
     }
 
@@ -125,6 +127,26 @@ class RestaurantSettingsController extends Controller
         return view('restaurant.floor-plan', [
             'restaurant' => $restaurant,
         ]);
+    }
+
+    public function removeRestaurantImage($imageId)
+    {
+        // Find the restaurant image by ID
+        $restaurantImage = RestaurantImage::find($imageId);
+
+        if ($restaurantImage) {
+            // Delete the image from the storage
+            Storage::delete($restaurantImage->image_url);
+
+            // Delete the restaurant image from the database
+            $restaurantImage->delete();
+
+            // Return a success response
+            return response()->json(['message' => 'Restaurant image removed successfully.']);
+        }
+
+        // Return an error response if the restaurant image is not found
+        return response()->json(['error' => 'Restaurant image not found.'], 404);
     }
 
     public function updateTablePosition(Request $request)

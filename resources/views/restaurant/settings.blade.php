@@ -272,6 +272,10 @@
                                 <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
                             @enderror
                         </div>
+                        @foreach ($restaurantImage as $image)
+                            <button type="button" class="rounded-xl bg-[#005fa4] text-base font-semibold text-white p-2"
+                                onclick="removeRestaurantImage({{ $image->id }})">Remove image</button>
+                        @endforeach
                         <div>
                             <div class="form-group">
                                 <label for="current_images">Other Images:</label>
@@ -301,7 +305,13 @@
                                         <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
                                     @enderror
                                 </div>
+
                             </div>
+                            @foreach ($restaurantImage as $image)
+                                <button type="button"
+                                    class="rounded-xl bg-[#005fa4] text-base font-semibold text-white p-2"
+                                    onclick="removeRestaurantImage({{ $image->id }})">Remove image</button>
+                            @endforeach
                         </div>
                     </div>
                     <div class="flex flex-col grow">
@@ -481,6 +491,33 @@
         buttons.forEach(button => {
             button.addEventListener('click', handleButtonClick);
         });
+
+
+        const removeRestaurantImage = (imageId) => {
+            // Make an AJAX request to the remove restaurant image route
+            fetch(`/restaurant-images/${imageId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        // Image removed successfully
+                        console.log('Image removed successfully.');
+                        // Refresh the page
+                        location.reload();
+                    } else {
+                        // Handle error response
+                        console.error('Failed to remove image.');
+                    }
+                })
+                .catch(error => {
+                    // Handle network or other errors
+                    console.error('An error occurred:', error);
+                });
+        };
     </script>
     <script>
         const operatingStatusSvg = document.getElementById('operatingStatusSvg');
@@ -510,6 +547,5 @@
             }
 
         });
-        
     </script>
 @endsection

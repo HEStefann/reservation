@@ -200,4 +200,5 @@ Route::get('/floor-plan', [RestaurantSettingsController::class, 'floorPlan'])->n
 Route::post('/settings/update', [RestaurantSettingsController::class, 'update'])->name('restaurant.settings.update');
 // updateTablePosition
 Route::put('/settings/updateTablePosition', [RestaurantSettingsController::class, 'updateTablePosition'])->name('restaurant.settings.updateTablePosition');
-Route::post('/restaurant/reservation', [RestaurantReservationController::class,'create'])->name('restaurant.reservation.create');
+Route::post('/restaurant/reservation', [RestaurantReservationController::class, 'create'])->name('restaurant.reservation.create');
+Route::delete('/restaurant-images/{imageId}', [RestaurantSettingsController::class, 'removeRestaurantImage'])->name('restaurant-images.remove');

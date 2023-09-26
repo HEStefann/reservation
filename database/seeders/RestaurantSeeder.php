@@ -537,7 +537,7 @@ class RestaurantSeeder extends Seeder
                         ]
                     ]
                 ]
-                            ],
+            ],
             [
                 'name' => 'FITNESS HOUSE',
                 'address' => 'Blvd. Partizanski Odredi 40, Skopje 1000',
@@ -572,150 +572,150 @@ class RestaurantSeeder extends Seeder
                                 'description' => '(крем супа од брокула и морков) (104 калории, 4гр протеини, 22гр јагленохидрати, 0гр масти) АЛЕРГЕНИ: нема.',
                                 'price' => '200',
                             ]
-                            ],
+                        ],
                         'ПОЈАДОК' => [
                             [
                                 'name' => 'LEAN GAINS (кето)',
                                 'description' => '5 белки полнети со урда, мешавина од семки (212 калории, 32гр протеини, 3гр јагленохидрати, 8гр масти)',
                                 'price' => '230',
                             ]
-                        ]   
+                        ]
                     ]
                 ]
 
 
+            ],
+            [
+                'name' => 'Food Hood',
+                'address' => 'ul, Kosturski Heroi 17 - 21 lok.2, Skopje 1000, North Macedonia',
+                'available_people' => 20,
+                'active' => true,
+                'approved' => true,
+                //43.000652,19.8435307
+                'lat' => 43.000652,
+                'lng' => 19.8435307,
+                'description' => 'Food Hood is a restaurant located in Skopje, Macedonia.',
+                'image' => 'https://korpa.mk/restaurant_uploads/eFyyITOsZdmLoeFeIocGKfYT3BnvxQ4a.jpg',
+                'menus' => [
+                    'categories' => [
+                        'Бургери' => [
+                            [
+                                'name' => 'American Burger',
+                                'description' => 'Бургер путер-лепче, 100% јунешка плескавица, чедар, крцкава сланина, домат, марула, кисели краставички, карамелизиран кромид, сенф, Food Hood сос',
+                                'price' => '210',
                             ],
                             [
-                                'name' => 'Food Hood',
-                                'address' => 'ul, Kosturski Heroi 17 - 21 lok.2, Skopje 1000, North Macedonia',
-                                'available_people' => 20,
-                                'active' => true,
-                                'approved' => true,
-                                //43.000652,19.8435307
-                                'lat' => 43.000652,
-                                'lng' => 19.8435307,
-                                'description' => 'Food Hood is a restaurant located in Skopje, Macedonia.',
-                                'image' => 'https://korpa.mk/restaurant_uploads/eFyyITOsZdmLoeFeIocGKfYT3BnvxQ4a.jpg',
-                                'menus' => [
-                                    'categories' => [
-                                        'Бургери' => [
-                                            [
-                                                'name' => 'American Burger',
-                                                'description' => 'Бургер путер-лепче, 100% јунешка плескавица, чедар, крцкава сланина, домат, марула, кисели краставички, карамелизиран кромид, сенф, Food Hood сос',
-                                                'price' => '210',
-                                            ],
-                                            [
-                                                'name' => 'Double Cheddar Burger',
-                                                'description' => 'Бургер путер-лепче, 100% јунешка плескавица, дупли чедар, марула, кисели краставици, кромид, сенф, Food Hood сос',
-                                                'price' => '199',
-                                            ],
-                                            [
-                                                'name' => 'Classic Burger',
-                                                'description' => 'Бургер путер-лепче, 100% јунешка плескавица, марула, кисели краставички, кромид, сенф, Food Hood сос',
-                                                'price' => '159',
-                                            ]
-                                            ],
-                                            'Пилешко' => [
-                                                [
-                                                'name' => 'Premium Crispy Chicken',
-                                                'description' => 'Бургер путер-лепче, крцкаво пилешко, крцкава сланина, чедар кашкавал, марула, кисели краставички, домат, Food Hood Chicken 2 соса',
-                                                'price' => '219',
-                                                ],
-                                                [
-                                                    'name' => 'Food Hood Crispy Chicken',
-                                                    'description' => 'Бургер путер-лепче, крцкаво пилешко, крцкава сланина, млечен кашкавал, марула, кисели краставички, домат, Food Hood Chicken 2 соса',
-                                                    'price' => '199',
-                                                ],
-                                                [
-                                                    'name' => 'Chicken Burger',
-                                                    'description' => 'Бургер путер-лепче, пилешки стек, марула, кисели краставички, домат, Food Hood Chicken 2 соса',
-                                                    'price' => '159',
-                                                ]
-                                            ]
-                                    ] 
-                                ]
-                                                ],
-                                                [
-                                                    'name' => 'Kiosk Burger bar',
-                                                    'address' => 'Адолф Циборовски 26, Скопје 1000, Северна Македонија',
-                                                    'available_people' => 20,
-                                                    // 41.9987649,21.4116717
-                                                    'lat' => 41.9987649,
-                                                    'lng' => 21.4116717,
-                                                    'active' => true,
-                                                    'approved' => true,
-                                                    'description' => 'Kiosk Burger bar is a restaurant located in Skopje, Macedonia.',
-                                                    'image' => 'https://img.restaurantguru.com/rc38-Kiosk-Burger-Bar-logo.jpg',
-                                                    'menus' => [
-                                                        'categories' => [
-                                                            'Бургери' => [
-                                                                [
-                                                                 'name' => 'Хамбургер',
-                                                                 'description' => '100% чисто телешко месо, домашно лепче, марула, домат, свеж кромид, кисели краставички и бургер сос',
-                                                                 'price' => '159',
-                                                                ],
-                                                                [
-                                                                    'name' => 'Киоск Бургер',
-                                                                    'description' => '100% чисто телешко месо, домашно лепче, марула, домат, кисели краставички, кашкавал, сланина, кармелизиран кромид и бургер сос',
-                                                                    'price' => '159',
-                                                                ],
-                                                                
-                                                            ],
-                                                            'Вегетаријанско' => [
-                                                                [
-                                                                    'name' => 'Вегетаријанско',
-                                                                    'description' => 'Крцкав вегибургер од зеленчук, мало домашно лепче, марула, домат, краставички, карамелизиран кромид и текс мекс сос',
-                                                                    'price' => '159',
-                                                                ]
-                                                            ]
-                                                        ]
-                                                    ]
-                                                                ],
-                                                                [
-                                                                    'name' => 'Slatkarnica Kremisimo',
-                                                                    'address' => ' Ankarska 31, Skopje 1000, North Macedonia',
-                                                                    'available_people' => 20,
-                                                                    'lat' => 41.9966146,
-                                                                    'lng' => 21.4064438,
-                                                                    'active' => true,
-                                                                    'approved' => true,
-                                                                    'description' => 'Slatkarnica Kremisimo is a restaurant located in Skopje, Macedonia.',
-                                                                    'image' => 'https://korpa.mk/restaurant_uploads/CaT2eiy22ubVOBC9iui3Q7M47PPNOqzt.jpg',
-                                                                    'menus' => [
-                                                                        'categories' => [
-                                                                            'Еклери' => [
-                                                                                [
-                                                                                   'name' => 'Пакување од 4 ванила еклери',
-                                                                                   'description' => 'Јајца, брашно, шеќер, млеко, путер, чоколаден прелив, ванила',
-                                                                                   'price' => '150',
-                                                                                ],
-                                                                                [
-                                                                                     'name' => 'Пакување од 6 ванила еклери',
-                                                                                     'description' => 'Јајца, брашно, шеќер, млеко, путер, чоколаден прелив, ванила',   
-                                                                                     'price' => '270',
-                                                                                ],
-                                                                                [
-                                                                                    'name' => 'Пакување од 4 чоколадни еклери',
-                                                                                    'description' => 'Јајца, брашно, шеќер, млеко, путер, чоколадо, ванила, лешник крем, портокал прелив',
-                                                                                    'price' => '200',
-                                                                                ],
-                                                                                ],
-                                                                            'Торти' => [
-                                                                                [
-                                                                                    'name' => 'Чоко-малина баблс',
-                                                                                    'description' => 'Јајца, шеќер, млеко, путер, слатка павлака, темно чоколадо, малина полнило, бисквит, ванила арома',
-                                                                                    'price' => '980',
-                                                                                ],
-                                                                                [
-                                                                                    'name' => 'Лешник баблс',
-                                                                                    'description' => 'Јајца, шеќер, брашно, млеко, путер, слатка павлака, темно чоколадо,
+                                'name' => 'Double Cheddar Burger',
+                                'description' => 'Бургер путер-лепче, 100% јунешка плескавица, дупли чедар, марула, кисели краставици, кромид, сенф, Food Hood сос',
+                                'price' => '199',
+                            ],
+                            [
+                                'name' => 'Classic Burger',
+                                'description' => 'Бургер путер-лепче, 100% јунешка плескавица, марула, кисели краставички, кромид, сенф, Food Hood сос',
+                                'price' => '159',
+                            ]
+                        ],
+                        'Пилешко' => [
+                            [
+                                'name' => 'Premium Crispy Chicken',
+                                'description' => 'Бургер путер-лепче, крцкаво пилешко, крцкава сланина, чедар кашкавал, марула, кисели краставички, домат, Food Hood Chicken 2 соса',
+                                'price' => '219',
+                            ],
+                            [
+                                'name' => 'Food Hood Crispy Chicken',
+                                'description' => 'Бургер путер-лепче, крцкаво пилешко, крцкава сланина, млечен кашкавал, марула, кисели краставички, домат, Food Hood Chicken 2 соса',
+                                'price' => '199',
+                            ],
+                            [
+                                'name' => 'Chicken Burger',
+                                'description' => 'Бургер путер-лепче, пилешки стек, марула, кисели краставички, домат, Food Hood Chicken 2 соса',
+                                'price' => '159',
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+            [
+                'name' => 'Kiosk Burger bar',
+                'address' => 'Адолф Циборовски 26, Скопје 1000, Северна Македонија',
+                'available_people' => 20,
+                // 41.9987649,21.4116717
+                'lat' => 41.9987649,
+                'lng' => 21.4116717,
+                'active' => true,
+                'approved' => true,
+                'description' => 'Kiosk Burger bar is a restaurant located in Skopje, Macedonia.',
+                'image' => 'https://img.restaurantguru.com/rc38-Kiosk-Burger-Bar-logo.jpg',
+                'menus' => [
+                    'categories' => [
+                        'Бургери' => [
+                            [
+                                'name' => 'Хамбургер',
+                                'description' => '100% чисто телешко месо, домашно лепче, марула, домат, свеж кромид, кисели краставички и бургер сос',
+                                'price' => '159',
+                            ],
+                            [
+                                'name' => 'Киоск Бургер',
+                                'description' => '100% чисто телешко месо, домашно лепче, марула, домат, кисели краставички, кашкавал, сланина, кармелизиран кромид и бургер сос',
+                                'price' => '159',
+                            ],
+
+                        ],
+                        'Вегетаријанско' => [
+                            [
+                                'name' => 'Вегетаријанско',
+                                'description' => 'Крцкав вегибургер од зеленчук, мало домашно лепче, марула, домат, краставички, карамелизиран кромид и текс мекс сос',
+                                'price' => '159',
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+            [
+                'name' => 'Slatkarnica Kremisimo',
+                'address' => ' Ankarska 31, Skopje 1000, North Macedonia',
+                'available_people' => 20,
+                'lat' => 41.9966146,
+                'lng' => 21.4064438,
+                'active' => true,
+                'approved' => true,
+                'description' => 'Slatkarnica Kremisimo is a restaurant located in Skopje, Macedonia.',
+                'image' => 'https://korpa.mk/restaurant_uploads/CaT2eiy22ubVOBC9iui3Q7M47PPNOqzt.jpg',
+                'menus' => [
+                    'categories' => [
+                        'Еклери' => [
+                            [
+                                'name' => 'Пакување од 4 ванила еклери',
+                                'description' => 'Јајца, брашно, шеќер, млеко, путер, чоколаден прелив, ванила',
+                                'price' => '150',
+                            ],
+                            [
+                                'name' => 'Пакување од 6 ванила еклери',
+                                'description' => 'Јајца, брашно, шеќер, млеко, путер, чоколаден прелив, ванила',
+                                'price' => '270',
+                            ],
+                            [
+                                'name' => 'Пакување од 4 чоколадни еклери',
+                                'description' => 'Јајца, брашно, шеќер, млеко, путер, чоколадо, ванила, лешник крем, портокал прелив',
+                                'price' => '200',
+                            ],
+                        ],
+                        'Торти' => [
+                            [
+                                'name' => 'Чоко-малина баблс',
+                                'description' => 'Јајца, шеќер, млеко, путер, слатка павлака, темно чоколадо, малина полнило, бисквит, ванила арома',
+                                'price' => '980',
+                            ],
+                            [
+                                'name' => 'Лешник баблс',
+                                'description' => 'Јајца, шеќер, брашно, млеко, путер, слатка павлака, темно чоколадо,
                                                                                         бело чоколадо, киндер крема, лешник, бисквит, ванила арома',
-                                                                                    'price' => '980',
-                                                                                ],
-                                                                            ]
-                                                                        ]
-                                                                    ]
-                                                                ]
+                                'price' => '980',
+                            ],
+                        ]
+                    ]
+                ]
+            ]
         ];
 
         foreach ($realRestaurantData as $restaurantData) {
@@ -738,6 +738,9 @@ class RestaurantSeeder extends Seeder
                 'user_id' => $user->id,
                 'rating' => rand(3, 5),
                 'recomended' => rand(0, 1),
+                'approved' => true,
+                'active' => true,
+
             ]);
             Moderator::create([
                 'user_id' => $user->id,
@@ -793,7 +796,7 @@ class RestaurantSeeder extends Seeder
         }
         // $restaurant = Restaurant::find(1);
         // $floorIds = [78, 77];
-        
+
         // $restaurant->floors()->attach($floorIds);
     }
 }

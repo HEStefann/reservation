@@ -18,9 +18,12 @@
                         <path d="M10.5138 6.5L8.98633 8.0275L13.948 13L8.98633 17.9725L10.5138 19.5L17.0138 13L10.5138 6.5Z"
                             fill="white"></path>
                     </svg>
+                    <input type="date" id="calendar-input" style="display: none;">
+
                 </button>
-                <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    class="w-[34px] h-[34px] mr-[40px]" preserveAspectRatio="xMidYMid meet">
+                <svg id="calendar-icon" width="34" height="34" viewBox="0 0 34 34" fill="none"
+                    xmlns="http://www.w3.org/2000/svg" class="w-[34px] h-[34px] mr-[40px]"
+                    preserveAspectRatio="xMidYMid meet">
                     <path fill-rule="evenodd" clip-rule="evenodd"
                         d="M26.9167 5.66634H25.5V2.83301H22.6667V5.66634H11.3333V2.83301H8.5V5.66634H7.08333C5.51083 5.66634 4.25 6.94134 4.25 8.49967V28.333C4.25 29.8913 5.51083 31.1663 7.08333 31.1663H26.9167C28.475 31.1663 29.75 29.8913 29.75 28.333V8.49967C29.75 6.94134 28.475 5.66634 26.9167 5.66634ZM26.9167 28.333H7.08333V12.7497H26.9167V28.333ZM9.20833 18.4163C9.20833 16.4613 10.795 14.8747 12.75 14.8747C14.705 14.8747 16.2917 16.4613 16.2917 18.4163C16.2917 20.3713 14.705 21.958 12.75 21.958C10.795 21.958 9.20833 20.3713 9.20833 18.4163Z"
                         fill="#343A40"></path>
@@ -154,8 +157,7 @@
         // Function to update the displayed date
         function updateDisplayedDate(date) {
             const options = {
-                weekday: 'long',
-                year: 'numeric',
+                weekday: 'short',
                 month: 'long',
                 day: 'numeric'
             };
@@ -172,6 +174,19 @@
         function showNextDate() {
             currentDate.setDate(currentDate.getDate() + 1);
             updateDisplayedDate(currentDate);
+        }
+
+        const calendarIcon = document.getElementById("calendar-icon");
+        const calendarInput = document.getElementById("calendar-input");
+
+        calendarIcon.addEventListener("click", toggleCalendar);
+
+        function toggleCalendar() {
+            if (calendarInput.style.display === "block") {
+                calendarInput.style.display = "none";
+            } else {
+                calendarInput.style.display = "block";
+            }
         }
     </script>
 @endsection

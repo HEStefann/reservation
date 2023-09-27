@@ -16,17 +16,18 @@ class RestaurantReservationController extends Controller
     public function index(Request $request)
     {
         $user = auth()->user();
-        $restaurant = Moderator::where('user_id', $user->id)->first()->restaurant;
+        $moderator = Moderator::where('user_id', $user->id)->first();
+        $restaurant = Restaurant::find($moderator->restaurant_id);
         $pendingPerPage = $request->input('pendingPerPage', 10);
         $reservationsPerPage = $request->input('reservationsPerPage', 10);
-    
+
         // Get the search query from the request
         $searchQuery = $request->input('search');
-    
+
         // Get the current page numbers for pending and all reservations
         $currentPagePending = $request->input('page_pending', 1);
         $currentPageAll = $request->input('page_all', 1);
-    
+
         if ($restaurant->reservations->count() > 0) {
             // Query for all reservations
             $reservationsQuery = $restaurant->reservations()->where('status', '!=', 'pending')->latest('updated_at');
@@ -39,7 +40,7 @@ class RestaurantReservationController extends Controller
                 });
             }
             $reservations = $reservationsQuery->paginate($reservationsPerPage, ['*'], 'page_all')->withQueryString();
-    
+
             // Query for pending reservations
             $pendingReservationsQuery = $restaurant->reservations()->where('status', 'pending')->latest('updated_at');
             if ($searchQuery) {
@@ -55,7 +56,7 @@ class RestaurantReservationController extends Controller
             $reservations = null;
             $pendingReservations = null;
         }
-    
+
         return view('restaurant.reservations', compact('pendingReservations', 'reservations', 'restaurant', 'pendingPerPage', 'reservationsPerPage', 'searchQuery', 'currentPagePending', 'currentPageAll'));
     }
 
@@ -79,7 +80,8 @@ class RestaurantReservationController extends Controller
     public function create(CreateReservationRequest $request)
     {
         $user = auth()->user();
-        $restaurant = Moderator::where('user_id', $user->id)->first()->restaurant;
+        $moderator = Moderator::where('user_id', $user->id)->first();
+        $restaurant = Restaurant::find($moderator->restaurant_id);
         $reservation = new Reservation();
         $reservation->user_id = $user->id;
         $reservation->restaurant_id = $restaurant->id;

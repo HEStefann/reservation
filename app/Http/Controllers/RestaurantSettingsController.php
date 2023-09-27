@@ -131,14 +131,17 @@ class RestaurantSettingsController extends Controller
 
     public function removeRestaurantImage($imageId)
     {
+        $user = Auth::user();
+        $restaurant = Moderator::where('user_id', $user->id)->first()->restaurant;
         // Find the restaurant image by ID
         $restaurantImage = RestaurantImage::find($imageId);
 
         if ($restaurantImage) {
             // Delete the image from the storage
-            Storage::delete($restaurantImage->image_url);
+            // Storage::delete($restaurantImage->image_url);
 
-            // Delete the restaurant image from the database
+            // Delete the restaurant image from the database with soft delete
+            // Restaurant soft delete
             $restaurantImage->delete();
 
             // Return a success response

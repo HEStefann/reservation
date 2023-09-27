@@ -7,14 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Favorite extends Model
 {
-    use HasFactory;
-    public function restaurant()  
-    {
-      return $this->belongsTo(Restaurant::class);
-    }
-    
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+  use HasFactory;
+  public function restaurant()
+  {
+    return $this->belongsTo(Restaurant::class);
+  }
+
+  public function user()
+  {
+    return $this->belongsTo(User::class);
+  }
 }

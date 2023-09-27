@@ -82,7 +82,7 @@
                     @foreach ($restaurant->reservations as $reservation)
                         <?php
                         // Extract the hour part from the reservation time
-                        $reservationHour = date('H', strtotime($reservation->time));
+                        $reservationHour = (int) date('H', strtotime($reservation->time));
                         // Add the reservation to the hourlyReservations array
                         $hourlyReservations[$reservationHour][] = $reservation;
                         ?>
@@ -122,6 +122,7 @@
                 </svg>
             </div>
         </div>
+        <div id="reservations-container"></div>
     </div>
     <script>
         const currentTime = new Date();
@@ -142,8 +143,13 @@
 
         const prevDateBtn = document.getElementById("prev-date-btn");
         const nextDateBtn = document.getElementById("next-date-btn");
-        const currentDateSpan = document.getElementById("current-date");
+        const currentDateElement = document.getElementById("current-date");
+        const calendarInputElement = document.getElementById("calendar-input");
 
+        // Update currentDateElement textContent when calendarInputElement is changed
+        calendarInputElement.addEventListener("change", () => {
+            updateDisplayedDate(new Date(calendarInputElement.value));
+        });
         // Create a Date object for the current date
         const currentDate = new Date();
 
@@ -161,7 +167,9 @@
                 month: 'long',
                 day: 'numeric'
             };
-            currentDateSpan.textContent = date.toLocaleDateString(undefined, options);
+            currentDateElement.textContent = date.toLocaleDateString(undefined, options);
+            // make currentDateElement.textContent to format "yyyy-MM-dd" and update calendarInputElement.value to the same format. Current format calendar: Tue, September 26
+            calendarInputElement.value = date.toISOString().split('T')[0];
         }
 
         // Function to show the previous date
@@ -177,16 +185,58 @@
         }
 
         const calendarIcon = document.getElementById("calendar-icon");
-        const calendarInput = document.getElementById("calendar-input");
+        // const calendarInput = document.getElementById("calendar-input");
 
         calendarIcon.addEventListener("click", toggleCalendar);
 
         function toggleCalendar() {
-            if (calendarInput.style.display === "block") {
-                calendarInput.style.display = "none";
+            if (calendarInputElement.style.display === "block") {
+                calendarInputElement.style.display = "none";
             } else {
-                calendarInput.style.display = "block";
+                calendarInputElement.style.display = "block";
             }
         }
+    </script>
+    <script>
+        // Function to fetch and display reservations
+        function fetchAndDisplayReservations(selectedDate) {
+    const url = `/reservations/${selectedDate}`; // Replace with the actual URL to fetch reservations
+
+    fetch(url, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            const reservationsContainer = document.getElementById("reservations-container");
+
+            // Clear any existing reservations
+            reservationsContainer.innerHTML = "";
+
+            // Loop through the reservations data and create an element for each reservation
+            data.forEach((reservation) => {
+                const reservationElement = document.createElement("div");
+                reservationElement.textContent =
+                    `${reservation.full_name} - Table 1, People: ${reservation.number_of_people}`;
+                reservationElement.classList.add("reservation");
+
+                // Append the reservation element to the reservations container
+                reservationsContainer.appendChild(reservationElement);
+            });
+        })
+        .catch((error) => {
+            console.error("Error fetching reservations:", error);
+        });
+}
+
+        // Add event listener to the calendar input
+        // const calendarInput = document.getElementById("calendar-input");
+
+        calendarInputElement.addEventListener("change", function() {
+            const selectedDate = calendarInputElement.value;
+            fetchAndDisplayReservations(selectedDate);
+        });
     </script>
 @endsection

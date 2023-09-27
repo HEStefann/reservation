@@ -756,7 +756,7 @@
                     'justify-center', 'items-center');
 
                 // Calculate the date for this day
-                const dayDate = new Date(year, date.getMonth(), i);
+                const dayDate = new Date(year, date.getMonth(), i+1);
                 dayElement.setAttribute('data-date', dayDate.toISOString());
 
                 // Check if the day is expired

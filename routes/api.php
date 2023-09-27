@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Restaurant\RestaurantCalendarController;
+use App\Http\Controllers\RestaurantSettingsController;
 use App\Http\Controllers\TableController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,3 +22,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/tables/{floorId}', [TableController::class, 'show'])->name('table.show');
+Route::get('/reservations/{selectedDate}', [RestaurantCalendarController::class,'showReservationsForDate'])->name('showReservationsForDate');

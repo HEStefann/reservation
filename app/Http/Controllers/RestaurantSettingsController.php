@@ -189,6 +189,29 @@ class RestaurantSettingsController extends Controller
         return response('Position saved');
     }
 
+    public function editDate($selectedDate)
+    {
+        $selectedDate = Carbon::parse($selectedDate)->format('Y-m-d');
+        $user = Auth::user();
+        $restaurant = Moderator::where('user_id', $user->id)->first()->restaurant->with(['workingHours' => function ($query) use ($selectedDate) {
+            $query->whereDate('work_date', $selectedDate);
+        }])->first();
+        if ($restaurant->workingHours->count() > 0) {
+            return response()->json($restaurant->workingHours);
+        } else {
+            $dayOfWeek = Carbon::parse($selectedDate)->dayOfWeek;
+            $restaurant = Moderator::where('user_id', $user->id)->first()->restaurant->with(['workingHours' => function ($query) use ($dayOfWeek) {
+                $query->where('day_of_week', $dayOfWeek);
+                $query->where('default_working_time', 1);
+            }])->first();
+            $restaurant->workingHours->map(function ($item) use ($selectedDate) {
+                $item->work_date = $selectedDate;
+                return $item;
+            });
+
+            return response()->json($restaurant->workingHours);
+        }
+    }
 
     // public function dashboard()
     // {

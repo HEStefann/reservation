@@ -88,13 +88,13 @@ Route::middleware(['auth', 'ModeratorOrOwnerRole'])->group(function () {
     Route::get('/user/restaurants', [UserController::class, 'index'])->name('restaurants.index');
     Route::get('/history', [ReservationController::class, 'history'])->name('history');
 
-    Route::get('/reservations/create', [ReservationController::class, 'create'])->name('reservations.create');
-    Route::delete('/reservations/{reservation}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
-    Route::get('/reservations/{reservation}', [ReservationController::class, 'show'])->name('reservations.show');
-    Route::get('/reservations/{reservation}/edit', [ReservationController::class, 'edit2'])->name('reservations.edit');
-    Route::put('/reservations/{reservation}/update2', [ReservationController::class, 'update2'])->name('reservations.update2');
-    Route::delete('/reservations/{reservation}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
-    Route::put('/reservations/{reservation}/status', [ReservationController::class, 'updateStatus'])->name('reservations.updateStatus');
+    // Route::get('/reservations/create', [ReservationController::class, 'create'])->name('reservations.create');
+    // Route::delete('/reservations/{reservation}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
+    // Route::get('/reservations/{reservation}', [ReservationController::class, 'show'])->name('reservations.show');
+    // Route::get('/reservations/{reservation}/edit', [ReservationController::class, 'edit2'])->name('reservations.edit');
+    // Route::put('/reservations/{reservation}/update2', [ReservationController::class, 'update2'])->name('reservations.update2');
+    // Route::delete('/reservations/{reservation}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
+    // Route::put('/reservations/{reservation}/status', [ReservationController::class, 'updateStatus'])->name('reservations.updateStatus');
     // reservation store
     // Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
     Route::get('/restaurant/{restaurant}/promotions/create', [PromotionController::class, 'create'])->name('promotions.create');
@@ -202,3 +202,4 @@ Route::post('/settings/update', [RestaurantSettingsController::class, 'update'])
 Route::put('/settings/updateTablePosition', [RestaurantSettingsController::class, 'updateTablePosition'])->name('restaurant.settings.updateTablePosition');
 Route::post('/restaurant/reservation', [RestaurantReservationController::class, 'create'])->name('restaurant.reservation.create');
 Route::delete('/restaurant-images/{imageId}', [RestaurantSettingsController::class, 'removeRestaurantImage'])->name('restaurant-images.remove');
+Route::get('/edit-date/{selectedDate}', [RestaurantSettingsController::class,'editDate'])->name('editDate');

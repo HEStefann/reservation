@@ -24,5 +24,14 @@ class RestaurantCalendarController extends Controller
         $restaurant = Moderator::where('user_id', $user->id)->first()->restaurant->with('reservations')->first();
         return view('restaurant.calendar', compact('restaurant'));
     }
+
+    public function showReservationsForDate($selectedDate)
+    {
+        $user = auth()->user();
+        $restaurant = Moderator::where('user_id', $user->id)->first()->restaurant->with(['reservations' => function($query) use ($selectedDate) {
+            $query->whereDate('date', $selectedDate);
+        }])->get();
+        return response()->json($restaurant);
+    }
 }
     

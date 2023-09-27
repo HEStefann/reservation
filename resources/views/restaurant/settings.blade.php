@@ -265,8 +265,8 @@
                                             <img class="w-[300px] h-full" src="{{ $finalImageUrl }}"
                                                 alt="Restaurant Image">
                                             <button style="position: absolute; top: 8px; right: 8px;"
-                                                onclick="removeRestaurantImage({{ $image->id }})" type="button"
-                                                class="image-button">
+                                                onclick="showdeleteImageConfirmationModal({{ $image->id }})"
+                                                type="button" class="image-button">
                                                 <svg width="18" height="18" viewBox="0 0 12 12" fill="none"
                                                     xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
                                                     <path fill-rule="evenodd" clip-rule="evenodd"
@@ -369,8 +369,8 @@
                                                 <img class="w-[300px] h-full mt-[38px]" src="{{ $finalImageUrl }}"
                                                     alt="Restaurant Image">
                                                 <button style="position: absolute; top: 8px; right: 8px;"
-                                                    onclick="removeRestaurantImage({{ $image->id }})" type="button"
-                                                    class="image-button">
+                                                    onclick="showdeleteImageConfirmationModal({{ $image->id }})"
+                                                    type="button" class="image-button">
                                                     <svg width="18" height="18" viewBox="0 0 12 12"
                                                         fill="none" xmlns="http://www.w3.org/2000/svg"
                                                         preserveAspectRatio="none">
@@ -498,7 +498,35 @@
                     type="submit">Save</button>
             </div>
     </form>
+
+    <div id="deleteImageConfirmationModal" style="display: none;"
+        class="display-none fixed z-10 left-0 top-0 w-full h-full bg-[rgba(0,0,0,0.5)] flex justify-center items-center">
+        <div class="rounded-lg bg-white px-[82px] pt-[56px] pb-[76px] w-[470px] h-[274px]"
+            style="box-shadow: 0px 20px 50px 0 rgba(0,0,0,0.1);">
+            <!-- Modal content -->
+            <p class="text-lg font-medium text-center text-[#343a40] mb-[56px]">
+                Are you sure you want to delete this picture?
+            </p>
+            <div class="flex gap-[65px] justify-center">
+                <button onclick="removeRestaurantImage({{ $image->id }})" type="button"
+                    class="image-button rounded-xl bg-[#005fa4] text-base font-semibold text-white w-[104px] h-[42px]">Delete</button>
+                </form>
+                <button onclick="hidedeleteImageConfirmationModal()"
+                    class="rounded-xl bg-white border border-[#005fa4] text-base text-[#005fa4] w-[97px] h-[42px]">Cancel</button>
+            </div>
+        </div>
+    </div>
     <script>
+        function showdeleteImageConfirmationModal() {
+            var deleteImageConfirmationModal = document.getElementById("deleteImageConfirmationModal");
+            deleteImageConfirmationModal.style.display = "flex";
+        }
+
+        function hidedeleteImageConfirmationModal() {
+            var deleteImageConfirmationModal = document.getElementById("deleteImageConfirmationModal");
+            deleteImageConfirmationModal.style.display = "none";
+        }
+
         function updateHiddenInput(selectElement) {
             // Get the selected value from the <select> element
             const selectedValue = selectElement.value;

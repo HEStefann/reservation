@@ -40,40 +40,80 @@
             </p>
             <div class="w-full h-px bg-[#212121]/[0.08]">
             </div>
+
+            @if (
+                $errors->has('email') ||
+                    $errors->has('phone_number') ||
+                    $errors->has('deposit') ||
+                    $errors->has('date') ||
+                    $errors->has('time') ||
+                    $errors->has('number_of_people') ||
+                    $errors->has('note'))
+                <div class="px-[16px] py-[13px] rounded-bl-lg rounded-br-lg bg-[#dc362e] flex flex-col">
+                    <div class="flex gap-[12px] items-center">
+                        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
+                            xmlns="http://www.w3.org/2000/svg" style="width: 22px; height: 22px;"
+                            preserveAspectRatio="xMidYMid meet">
+                            <path
+                                d="M10.0835 13.7497H11.9168V15.583H10.0835V13.7497ZM10.0835 6.41634H11.9168V11.9163H10.0835V6.41634ZM10.991 1.83301C5.931 1.83301 1.8335 5.93967 1.8335 10.9997C1.8335 16.0597 5.931 20.1663 10.991 20.1663C16.0602 20.1663 20.1668 16.0597 20.1668 10.9997C20.1668 5.93967 16.0602 1.83301 10.991 1.83301ZM11.0002 18.333C6.9485 18.333 3.66683 15.0513 3.66683 10.9997C3.66683 6.94801 6.9485 3.66634 11.0002 3.66634C15.0518 3.66634 18.3335 6.94801 18.3335 10.9997C18.3335 15.0513 15.0518 18.333 11.0002 18.333Z"
+                                fill="white"></path>
+                        </svg>
+                        <p class="text-base font-semibold text-left text-white">
+                            Reservation Error
+                        </p>
+                    </div>
+                    @foreach ($errors->all() as $error)
+                        @if (str_contains($error, 'full_name') ||
+                                str_contains($error, 'phone_number') ||
+                                str_contains($error, 'email') ||
+                                str_contains($error, 'deposit') ||
+                                str_contains($error, 'date') ||
+                                str_contains($error, 'time') ||
+                                str_contains($error, 'number_of_people') ||
+                                str_contains($error, 'note'))
+                            <p class="text-sm text-left text-white ml-[34px]">
+                                {{ $error }}
+                            </p>
+                        @endif
+                    @endforeach
+                </div>
+            @endif
+
             <div class="ml-[30px] mr-[100px] mb-[32px] mt-[36px] flex flex-col gap-[12px]">
                 <div class="flex justify-between">
                     <label for="full_name" class="flex text-base text-[#343a40]">Full name</label>
-                    <input id="full_name" type="text" name="full_name"
+                    <input value="{{ old('full_name') }}" id="full_name" type="text" name="full_name"
                         class="w-[300px] h-12 rounded-lg bg-transparent border-[1.5px] border-[#d4d7e3]">
                 </div>
                 <div class="flex justify-between">
                     <label for="phone_number" class="text-base text-[#343a40]">Phone number</label>
-                    <input id="phone_number" type="text" name="phone_number"
+                    <input value="{{ old('phone_number') }}" id="phone_number" type="text" name="phone_number"
                         class="w-[300px] h-12 rounded-lg bg-transparent border-[1.5px] border-[#d4d7e3]">
                 </div>
                 <div class="flex justify-between">
                     <label for="email" class="text-base text-[#343a40]">Email</label>
-                    <input id="email" type="text" name="email"
+                    <input value="{{ old('email') }}" id="email" type="text" name="email"
                         class="w-[300px] h-12 rounded-lg bg-transparent border-[1.5px] border-[#d4d7e3]">
                 </div>
                 <div class="flex justify-between">
                     <label for="date" class="text-base text-[#343a40]">Date</label>
-                    <input id="date" type="date" name="date"
+                    <input value="{{ old('date') }}" id="date" type="date" name="date"
                         class="w-[300px] h-12 rounded-lg bg-transparent border-[1.5px] border-[#d4d7e3]">
                 </div>
                 <div class="flex justify-between">
                     <label for="time" class="text-base text-[#343a40]">Time</label>
-                    <input id="time" type="time" name="time"
+                    <input value="{{ old('time') }}" id="time" type="time" name="time"
                         class="w-[300px] h-12 rounded-lg bg-transparent border-[1.5px] border-[#d4d7e3]">
                 </div>
                 <div class="flex justify-between">
                     <label for="number_of_people" class="text-base text-[#343a40]">Number of people</label>
-                    <input id="number_of_people" type="number" name="number_of_people"
+                    <input value="{{ old('number_of_people') }}" id="number_of_people" type="number"
+                        name="number_of_people"
                         class="w-[300px] h-12 rounded-lg bg-transparent border-[1.5px] border-[#d4d7e3]">
                 </div>
                 <div class="flex justify-between">
                     <label for="note" class="text-base text-[#343a40]">Note</label>
-                    <textarea name="note" id="note" cols="30" rows="10"
+                    <textarea value="{{ old('note') }}" name="note" id="note" cols="30" rows="10"
                         class="w-[300px] h-[117px] rounded-lg bg-transparent border-[1.5px] border-[#d4d7e3]">
                 </textarea>
                 </div>
@@ -107,3 +147,16 @@
         }
     }
 </script>
+@if (
+    $errors->has('email') ||
+        $errors->has('phone_number') ||
+        $errors->has('deposit') ||
+        $errors->has('date') ||
+        $errors->has('time') ||
+        $errors->has('number_of_people') ||
+        $errors->has('note'))
+    <script>
+        let errors = {!! json_encode($errors->all()) !!};
+        showReservationModal();
+    </script>
+@endif

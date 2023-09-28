@@ -87,30 +87,29 @@
                         $hourlyReservations[$reservationHour][] = $reservation;
                         ?>
                     @endforeach
-                    {{-- Loop through the hourly slots and display reservations or empty slots --}}
-                    @for ($i = 0; $i < 24; $i++)
-                        {{-- If there are reservations for this hour, display them in separate columns --}}
-                        @if (!empty($hourlyReservations[$i]))
-                            <div class="grid grid-cols-{{ count($hourlyReservations[$i]) }}">
-                                @foreach ($hourlyReservations[$i] as $reservation)
-                                    <div
-                                        class="@if ($reservation->status == 'accepted') bg-[#b7ddbf]
-                                        @elseif ($reservation->status == 'pending') bg-[#ffffcb]
-                                        @elseif ($reservation->status == 'declined') bg-[#fd8175]/[0.88] @endif
-                                        text-2xl text-left text-black/[0.87] w-[370px] h-[114px] max-h-max flex justify-center items-center border-b border-black/[0.12]">
-                                        <div>
-                                            <p> {{ $reservation->full_name }} - Table 1 </p>
-                                            <p>
-                                                People: {{ $reservation->number_of_people }}
-                                            </p>
-                                        </div>
+                    <?php $maxReservations = max(array_map('count', $hourlyReservations)); ?>
+                    @for ($y = 0; $y < $maxReservations; $y++)
+                        @for ($i = 0; $i < 24; $i++)
+                            @if (isset($hourlyReservations[$i][$y]))
+                                @php
+                                    $reservation = $hourlyReservations[$i][$y];
+                                @endphp
+                                <div
+                                    class="@if ($reservation->status == 'accepted') bg-[#b7ddbf]
+                                @elseif ($reservation->status == 'pending') bg-[#ffffcb]
+                                @elseif ($reservation->status == 'declined') bg-[#fd8175]/[0.88] @endif
+                                text-2xl text-left text-black/[0.87] w-[370px] h-[114px] max-h-max flex justify-center items-center border-b border-black/[0.12]">
+                                    <div>
+                                        <p> {{ $reservation->full_name }} - Table 1 </p>
+                                        <p>
+                                            People: {{ $reservation->number_of_people }}
+                                        </p>
                                     </div>
-                                @endforeach
-                            </div>
-                        @else
-                            {{-- If there's no reservation, leave an empty slot --}}
-                            <div class="w-[370px] h-[114px] border-b border-black/[0.12]"></div>
-                        @endif
+                                </div>
+                            @else
+                                <div class="w-[370px] h-[114px] border-b border-black/[0.12]"></div>
+                            @endif
+                        @endfor
                     @endfor
                 </div>
             </div>
@@ -200,36 +199,36 @@
     <script>
         // Function to fetch and display reservations
         function fetchAndDisplayReservations(selectedDate) {
-    const url = `/reservations/${selectedDate}`; // Replace with the actual URL to fetch reservations
+            const url = `/reservations/${selectedDate}`; // Replace with the actual URL to fetch reservations
 
-    fetch(url, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    })
-        .then((response) => response.json())
-        .then((data) => {
-            const reservationsContainer = document.getElementById("reservations-container");
+            fetch(url, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    const reservationsContainer = document.getElementById("reservations-container");
 
-            // Clear any existing reservations
-            reservationsContainer.innerHTML = "";
+                    // Clear any existing reservations
+                    reservationsContainer.innerHTML = "";
 
-            // Loop through the reservations data and create an element for each reservation
-            data.forEach((reservation) => {
-                const reservationElement = document.createElement("div");
-                reservationElement.textContent =
-                    `${reservation.full_name} - Table 1, People: ${reservation.number_of_people}`;
-                reservationElement.classList.add("reservation");
+                    // Loop through the reservations data and create an element for each reservation
+                    data.forEach((reservation) => {
+                        const reservationElement = document.createElement("div");
+                        reservationElement.textContent =
+                            `${reservation.full_name} - Table 1, People: ${reservation.number_of_people}`;
+                        reservationElement.classList.add("reservation");
 
-                // Append the reservation element to the reservations container
-                reservationsContainer.appendChild(reservationElement);
-            });
-        })
-        .catch((error) => {
-            console.error("Error fetching reservations:", error);
-        });
-}
+                        // Append the reservation element to the reservations container
+                        reservationsContainer.appendChild(reservationElement);
+                    });
+                })
+                .catch((error) => {
+                    console.error("Error fetching reservations:", error);
+                });
+        }
 
         // Add event listener to the calendar input
         // const calendarInput = document.getElementById("calendar-input");

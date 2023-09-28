@@ -1,4 +1,6 @@
 <div class="flex h-[70px] py-[14px] mr-[48px] self-end items-center">
+    {{-- check errors --}}
+
     <button onclick="showReservationModal()"
         class="flex gap-[8px] items-center text-white rounded-[20px] bg-gradient-to-br from-[#ffcd01] to-[#fc7f09] px-[18px] py-2.5">
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -46,8 +48,9 @@
                     $errors->has('phone_number') ||
                     $errors->has('deposit') ||
                     $errors->has('date') ||
+                    $errors->has('full name') ||
                     $errors->has('time') ||
-                    $errors->has('number_of_people') ||
+                    $errors->has('number of people') ||
                     $errors->has('note'))
                 <div class="px-[16px] py-[13px] rounded-bl-lg rounded-br-lg bg-[#dc362e] flex flex-col">
                     <div class="flex gap-[12px] items-center">
@@ -63,13 +66,13 @@
                         </p>
                     </div>
                     @foreach ($errors->all() as $error)
-                        @if (str_contains($error, 'full_name') ||
-                                str_contains($error, 'phone_number') ||
+                        @if (str_contains($error, 'full name') ||
+                                str_contains($error, 'phone number') ||
                                 str_contains($error, 'email') ||
                                 str_contains($error, 'deposit') ||
                                 str_contains($error, 'date') ||
                                 str_contains($error, 'time') ||
-                                str_contains($error, 'number_of_people') ||
+                                str_contains($error, 'number of people') ||
                                 str_contains($error, 'note'))
                             <p class="text-sm text-left text-white ml-[34px]">
                                 {{ $error }}
@@ -149,11 +152,12 @@
 </script>
 @if (
     $errors->has('email') ||
-        $errors->has('phone_number') ||
+        $errors->has('phone number') ||
         $errors->has('deposit') ||
         $errors->has('date') ||
         $errors->has('time') ||
-        $errors->has('number_of_people') ||
+        $errors->has('full name') ||
+        $errors->has('number of people') ||
         $errors->has('note'))
     <script>
         let errors = {!! json_encode($errors->all()) !!};

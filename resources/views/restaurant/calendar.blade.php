@@ -94,7 +94,7 @@
                                 @php
                                     $reservation = $hourlyReservations[$i][$y];
                                 @endphp
-                                <div
+                                <div onclick="openReservationInfoModal({{ $reservation->id }})"
                                     class="@if ($reservation->status == 'accepted') bg-[#b7ddbf]
                                 @elseif ($reservation->status == 'pending') bg-[#ffffcb]
                                 @elseif ($reservation->status == 'declined') bg-[#fd8175]/[0.88] @endif
@@ -123,6 +123,86 @@
         </div>
         <div id="reservations-container"></div>
     </div>
+    <div id="reservationInfoModal" style="display: none;"
+        class="fixed z-10 left-0 top-0 w-full h-full bg-[rgba(0,0,0,0.5)] flex justify-center items-center">
+        <div class="rounded-lg bg-white w-[728px] flex flex-col items-center"
+            style="box-shadow: 0px 20px 50px 0 rgba(0,0,0,0.1);">
+            <p class="text-2xl text-center font-medium text-[#343a40] px-[30px] pt-[16px] mb-[16px]">
+                Reservation Info
+            </p>
+            <div class="w-full h-px bg-[#212121]/[0.08]">
+            </div>
+            <div class=" flex flex-col items-center gap-[18px] mt-[16px] mb-[40px]">
+                <p class="text-2xl text-center text-[#343a40]">
+                    <span class="font-semibold text-center text-[#343a40]">Full
+                        name:</span>
+                    {{ $reservation->full_name }}
+                </p>
+                <p class="text-2xl text-center text-[#343a40]">
+                    <span class="font-semibold text-center text-[#343a40]">Phone number:</span>
+                    {{ $reservation->phone_number }}
+                </p>
+                <p class="text-2xl text-center text-[#343a40]">
+                    <span class="font-semibold text-center text-[#343a40]">Email:</span>
+                    {{ $reservation->email }}
+                </p>
+                <p class="text-2xl text-center text-[#343a40]">
+                    <span class="font-semibold text-center text-[#343a40]">Deposit:</span>
+                    {{ $reservation->deposit ?? 'N/A' }}
+                </p>
+                <p class="text-2xl text-center text-[#343a40]">
+                    <span class="font-semibold text-center text-[#343a40]">Number of people:</span>
+                    {{ $reservation->number_of_people }}
+                </p>
+                <p class="text-2xl text-center text-[#343a40]">
+                    <span class="font-semibold text-center text-[#343a40]">Note:</span>
+                    {{ $reservation->note }}
+                </p>
+                <div class="flex gap-[50px]">
+                    <button onclick="enableEdit()"
+                        class="w-[142px] h-10 rounded-[10px] bg-[#005fa4] text-base font-semibold text-white">
+                        Edit
+                    </button>
+                    <button type="button" onclick="hideReservationInfoModal()"
+                        class="w-[142px] h-10 rounded-[10px] text-base font-semibold text-[#005fa4] bg-white border border-[#005fa4]">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function openReservationInfoModal() {
+            let reservationModal = document.getElementById("reservationInfoModal");
+            reservationModal.style.display = "flex";
+        }
+
+        function hideReservationInfoModal() {
+            let reservationModal = document.getElementById("reservationInfoModal");
+            reservationModal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            let reservationModal = document.getElementById("reservationInfoModal");
+            if (event.target == reservationModal) {
+                hideReservationInfoModal();
+            }
+        }
+
+        function enableEdit() {
+            // Get the elements containing the reservation information
+            const infoElements = document.querySelectorAll('.reservation-info');
+
+            // Convert the info elements to input elements for editing
+            infoElements.forEach((element) => {
+                const inputValue = element.textContent;
+                const input = document.createElement('input');
+                input.value = inputValue;
+                element.innerHTML = '';
+                element.appendChild(input);
+            });
+        }
+    </script>
     <script>
         const currentTime = new Date();
         const currentHour = currentTime.getHours();

@@ -130,7 +130,7 @@ class RestaurantController extends Controller
         $tags = Tag::all(); // Retrieve all tags
 
         // Query restaurants that have the selected tag
-        $restaurants = Restaurant::whereHas('tags', function ($query) use ($tag) {
+        $restaurants = Restaurant::with('tags')->whereHas('tags', function ($query) use ($tag) {
             $query->where('name', $tag);
         })->get();
 

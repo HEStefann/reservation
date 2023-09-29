@@ -13,9 +13,11 @@ class CreatePromotionsTable extends Migration
         Schema::create('promotions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('restaurant_id')->constrained()->onDelete('cascade');
-            $table->string('title')->unique();
-            $table->text('description');
+            $table->string('title')->nullable();
+            $table->text('description')->nullable();
             $table->string('image')->nullable();
+            $table->boolean('active')->default(true);
+            $table->boolean('approved')->default(false);
             $table->timestamps();
         });
     }

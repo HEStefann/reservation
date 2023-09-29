@@ -61,24 +61,26 @@
 
     <div class="flex flex-col gap-[18px] items-center">
         <div id="image-scroll"
-        class="px-[26px] flex gap-[11px] overflow-x-scroll scrollbar-hide snap-x scroll-smooth snap-mandatory hide-scrollbar">
-        <img class="rounded-[28px] snap-center" src="https://i.ibb.co/Pj8dWmq/Group-3118-1.png" alt="" onclick="window.location.href = '{{ route('user.restaurant', 3) }}'">
-        <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="" onclick="window.location.href = '{{ route('user.restaurant', 1) }}'">
-        <img class="rounded-[28px] snap-center" src="https://i.ibb.co/Pj8dWmq/Group-3118-1.png" alt="" onclick="window.location.href = '{{ route('user.restaurant', 3) }}'">
-        <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="" onclick="window.location.href = '{{ route('user.restaurant', 1) }}'">
-        <img class="rounded-[28px] snap-center" src="https://i.ibb.co/Pj8dWmq/Group-3118-1.png" alt="" onclick="window.location.href = '{{ route('user.restaurant', 3) }}'">
-        <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="" onclick="window.location.href = '{{ route('user.restaurant', 1) }}'">
-        <img class="rounded-[28px] snap-center" src="https://i.ibb.co/Pj8dWmq/Group-3118-1.png" alt="" onclick="window.location.href = '{{ route('user.restaurant', 3) }}'">
-        <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="" onclick="window.location.href = '{{ route('user.restaurant', 1) }}'">
-    </div>
+            class="px-[26px] w-full flex gap-[11px] overflow-x-scroll scrollbar-hide snap-x scroll-smooth snap-mandatory hide-scrollbar">
+            @for ($i = 0; $i < 15; $i++)
+                @foreach ($promotions as $promotion)
+                    <div style="min-width: 277px; min-height: 120px;width: 277px; height: 120px">
+                        <img class="rounded-[28px] snap-center w-full h-full" style="width: 100%; height: 100%;"
+                            src="{{ asset('storage/' . $promotion->image) }}" alt=""
+                            onclick="window.location.href = '{{ route('user.restaurant', $promotion->restaurant_id) }}'">
+                    </div>
+                @endforeach
+            @endfor
+        </div>
         <svg width="35" height="9" viewBox="0 0 35 9" fill="none" xmlns="http://www.w3.org/2000/svg"
             class="w-[35px] h-[9px]" preserveAspectRatio="none">
-            <circle id="circle1" class="dots-promotions" cx="4.5" cy="4.5" r="4.5"
-                fill="#005FA4"></circle>
-            <circle id="circle2" class="dots-promotions" cx="17.5" cy="4.5" r="4.5"
-                fill="#E2E2E2"></circle>
+            <circle id="circle1" class="dots-promotions" cx="4.5" cy="4.5" r="4.5" fill="#005FA4">
+            </circle>
+            <circle id="circle2" class="dots-promotions" cx="17.5" cy="4.5" r="4.5" fill="#E2E2E2">
+            </circle>
             <circle id="circle3" class="dots-promotions" cx="30.5" cy="4.5" r="4.5"
-                fill="#E2E2E2"></circle>
+                fill="#E2E2E2">
+            </circle>
         </svg>
     </div>
     <div class="flex justify-between ml-[26px] mr-[14px] mt-[64px]">
@@ -87,7 +89,7 @@
             <p class="text-xs text-left text-gray-500">Check your city nearby restaurant</p>
         </div>
         <a href="#" onclick="getLocation()">
-        <div class="flex items-center">
+            <div class="flex items-center">
                 <p class=" text-xs font-medium text-left text-[#005fa4] mr-[5px]">
                     See All
                 </p>
@@ -108,7 +110,7 @@
             <p class="text-xs text-left text-gray-500">Check highly rated restaurants</p>
         </div>
         <a href="{{ route('user.highlyrated') }}">
-        <div class="flex items-center">
+            <div class="flex items-center">
                 <p class="text-xs font-medium text-left text-[#005fa4] mr-[5px]">
                     See All
                 </p>
@@ -143,7 +145,7 @@
             <p class="text-xs text-left text-gray-500">Check highly rated restaurants</p>
         </div>
         <a href="{{ route('user.recommended') }}">
-        <div class="flex items-center">
+            <div class="flex items-center">
                 <p class="text-xs font-medium text-left text-[#005fa4] mr-[5px]">
                     See All
                 </p>
@@ -376,11 +378,11 @@
                 console.log("Geolocation is not supported by this browser.");
             }
         }
-    
+
         function showPosition(position) {
             var latitude = position.coords.latitude;
             var longitude = position.coords.longitude;
-    
+
             // Redirect to the nearest restaurants page with query parameters
             window.location.href = "{{ route('user.nearest') }}?latitude=" + latitude + "&longitude=" + longitude;
         }

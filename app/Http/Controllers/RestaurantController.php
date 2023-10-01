@@ -128,13 +128,14 @@ class RestaurantController extends Controller
     public function searchByTag($tag)
     {
         $tags = Tag::all(); // Retrieve all tags
-
+        $allRestaurantsNumber = Restaurant::all()->count();
         // Query restaurants that have the selected tag
         $restaurants = Restaurant::whereHas('tags', function ($query) use ($tag) {
             $query->where('name', $tag);
         })->get();
 
         return view('user.restaurantspage', [
+            'allRestaurantsNumber' => $allRestaurantsNumber,
             'restaurants' => $restaurants,
             'searchQuery' => '', // You may want to clear the search query
             'tags' => $tags,

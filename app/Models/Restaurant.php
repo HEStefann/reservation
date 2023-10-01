@@ -262,4 +262,9 @@ class Restaurant extends Model
     {
         return $this->belongsToMany(Floor::class, 'floor_restaurant');
     }
+
+    public function promotions()
+    {
+        return $this->hasMany(Promotion::class);
+    }
 }

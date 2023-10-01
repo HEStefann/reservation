@@ -20,18 +20,18 @@ class ReservationController extends Controller
     }
 
     public function getAvailableSeats($restaurantId, $date)
-{
-    $restaurant = Restaurant::find($restaurantId);
-    $reservations = $restaurant->reservations()->whereDate('reservation_date', $date)->get();
+    {
+        $restaurant = Restaurant::find($restaurantId);
+        $reservations = $restaurant->reservations()->whereDate('reservation_date', $date)->get();
 
-    $reservedCount = $reservations->sum('reserved_people');
-    $availableCount = $restaurant->capacity - $reservedCount;
+        $reservedCount = $reservations->sum('reserved_people');
+        $availableCount = $restaurant->capacity - $reservedCount;
 
-    return response()->json([
-        'reservedCount' => $reservedCount,
-        'availableCount' => $availableCount
-    ]);
-}
+        return response()->json([
+            'reservedCount' => $reservedCount,
+            'availableCount' => $availableCount
+        ]);
+    }
 
 
     public function index()
@@ -50,13 +50,14 @@ class ReservationController extends Controller
 
         // Calculate the number of available seats for the specific restaurant
         $availableSeats = $availableCount - $reservedCount;
-        return view('dashboard', compact('reservations', 'restaurants', 'restaurantId', 'reservedCount', 'availableCount', 'availableSeats' , 'user'));
+        return view('dashboard', compact('reservations', 'restaurants', 'restaurantId', 'reservedCount', 'availableCount', 'availableSeats', 'user'));
     }
 
     public function edit(Request $request, $id)
     {
         $reservation = Reservation::findOrFail($id);
 
+        // Update the reservation using the request data
         $reservation->update($request->all());
 
         return redirect()->back()->with('success', 'Reservation updated!');
@@ -126,14 +127,14 @@ class ReservationController extends Controller
             'note' => $request->input('note'),
             'status' => $status
         ]);
-        if($user->role == 'owner' || $user->role == 'moderator'){
+        if ($user->role == 'owner' || $user->role == 'moderator') {
             return redirect()
-            ->route('dashboard', ['reservation' => $reservation->id])
-            ->with('success', 'Reservation created successfully');
-        }else{
+                ->route('dashboard', ['reservation' => $reservation->id])
+                ->with('success', 'Reservation created successfully');
+        } else {
             return redirect()
-            ->route('user.home')
-            ->with('success', 'Reservation created successfully');
+                ->route('user.home')
+                ->with('success', 'Reservation created successfully');
         }
     }
 

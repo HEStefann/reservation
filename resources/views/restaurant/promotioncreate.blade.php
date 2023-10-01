@@ -1,4 +1,4 @@
-<form action="{{ route('promotions.store', ['restaurant' => $restaurant->id]) }}" method="POST"
+<form action="{{ route('promotions.store', ['restaurant' => $restaurantId]) }}" method="POST"
     enctype="multipart/form-data">
     @csrf
     <input type="text" name="title" placeholder="Title">

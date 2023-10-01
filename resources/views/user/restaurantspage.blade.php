@@ -54,13 +54,9 @@
                     </linearGradient>
                 </defs>
             </svg>
-            @php
-                $totalRestaurantCount = count($restaurants); // Assuming $restaurants contains all your restaurants
-            @endphp
-
             <a href="{{ route('user.restaurantspage') }}">
                 <div class="px-4 py-1 rounded-[14px] bg-[#2d6adc]/[0.08] border border-[#2d6adc]">
-                    <p class="text-sm w-max text-[#005fa4]">All ({{ $totalRestaurantCount }})</p>
+                    <p class="text-sm w-max text-[#005fa4]">All ({{ $allRestaurantsNumber }})</p>
                 </div>
             </a>
             @php
@@ -109,7 +105,6 @@
                 $totalRestaurantCount = count($restaurants); // Assuming $restaurants contains all your restaurants
             @endphp
         const totalRestaurantCount = {{ $totalRestaurantCount }};
-        console.log(totalRestaurantCount);
         document.addEventListener("DOMContentLoaded", function() {
             const searchInput = document.getElementById("searchRestaurant");
             const clearButton = document.getElementById("clearRestaurantButton");

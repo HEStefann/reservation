@@ -11,13 +11,10 @@
 
 <body class="">
     <x-navbar />
-    {{-- public/images/mario-mesaglio-7BZzlV0Z9R4-unsplash 1.png --}}
     <div class="flex items-center">
         <div class="h-[200px] w-full">
             <img class="w-full h-full" id="restaurant-image" src="" alt="Restaurant Image">
-
         </div>
-        {{--  absolute flex  width: -webkit-fill-available; --}}
         <div class="absolute flex mx-[10px] w-[95%] justify-between">
             <svg id="prev-button" width="24" height="24" viewBox="0 0 24 24" fill="none"
                 xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" preserveAspectRatio="none">
@@ -283,7 +280,7 @@
             style="box-shadow: 0px 20px 50px 0 rgba(0,0,0,0.1);">
             <img src="{{ asset('images/Group 3227.png') }}"
                 class="rounded-2xl absolute w-full h-full top-0 left-0 z-[-1]" />
-            <p class="text-xs text-white">
+            <p class="text-xs text-white overflow-hidden line-clamp-5 min-h-[74px]">
                 {{ $restaurant->description }}
             </p>
             <div class="pt-[16px]">

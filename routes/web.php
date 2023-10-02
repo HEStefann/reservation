@@ -202,4 +202,5 @@ Route::post('/settings/update', [RestaurantSettingsController::class, 'update'])
 Route::put('/settings/updateTablePosition', [RestaurantSettingsController::class, 'updateTablePosition'])->name('restaurant.settings.updateTablePosition');
 Route::post('/restaurant/reservation', [RestaurantReservationController::class, 'create'])->name('restaurant.reservation.create');
 Route::delete('/restaurant-images/{imageId}', [RestaurantSettingsController::class, 'removeRestaurantImage'])->name('restaurant-images.remove');
-Route::get('/edit-date/{selectedDate}', [RestaurantSettingsController::class,'editDate'])->name('editDate');
+Route::get('/edit-date/{selectedDate}', [RestaurantSettingsController::class, 'editDate'])->name('editDate');
+Route::post('/calendar/search', [RestaurantCalendarController::class, 'search']);

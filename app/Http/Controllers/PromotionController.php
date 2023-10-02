@@ -57,8 +57,8 @@ class PromotionController extends Controller
     {
         // Validate the request data
         $request->validate([
-            'title' => 'required',
-            'description' => 'required',
+            'title' => 'varchars|nullable',
+            'description' => 'varchars|nullable',
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust image validation as needed
         ]);
 

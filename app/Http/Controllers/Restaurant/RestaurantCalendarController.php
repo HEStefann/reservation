@@ -6,6 +6,7 @@ use Carbon\Carbon;
 
 use App\Http\Controllers\Controller;
 use App\Models\Moderator;
+use App\Models\Reservation;
 use App\Models\Restaurant;
 use Illuminate\Http\Request;
 
@@ -22,16 +23,30 @@ class RestaurantCalendarController extends Controller
         //     }])->first();
         //     return view('restaurant.calendar', compact('restaurant'));
         // }
-
+        $reservation = Reservation::where('user_id', $user->id)->first();
         $moderator = Moderator::where('user_id', $user->id)->first();
         $restaurant = Restaurant::with('reservations')->find($moderator->restaurant_id);
-        return view('restaurant.calendar', compact('restaurant'));
+        return view('restaurant.calendar', compact('restaurant', 'reservation'));
+    }
+
+    public function search(Request $request)
+    {
+        $searchText = $request->input('searchText');
+
+        // Perform the search based on the $searchText
+        $searchResults = Reservation::where('name', 'like', '%' . $searchText . '%')
+            ->orWhere('email', 'like', '%' . $searchText . '%')
+            ->get();
+
+        // Update the calendar with the search results
+        // For example, you can pass the search results to the view
+        return view('restaurant.calendar')->with('searchResults', $searchResults);
     }
 
     public function showReservationsForDate($selectedDate)
     {
         $user = auth()->user();
-        $restaurant = Moderator::where('user_id', $user->id)->first()->restaurant->with(['reservations' => function($query) use ($selectedDate) {
+        $restaurant = Moderator::where('user_id', $user->id)->first()->restaurant->with(['reservations' => function ($query) use ($selectedDate) {
             $query->whereDate('date', $selectedDate);
         }])->get();
         return response()->json($restaurant);

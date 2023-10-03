@@ -795,6 +795,18 @@ class RestaurantSeeder extends Seeder
                 }
             }
         }
+        // Get all restaurants 
+        $restaurants = Restaurant::all();
+
+        // Get the floor IDs to attach 
+        $floorIds = [78, 77];
+
+        // Loop through each restaurant
+        foreach ($restaurants as $restaurant) {
+
+            // Attach the floors  
+            $restaurant->floors()->attach($floorIds);
+        }
         // $restaurant = Restaurant::find(1);
         // $floorIds = [78, 77];
 

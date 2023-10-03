@@ -166,23 +166,29 @@
                     </svg>
                 </div>
             </div>
-            <div class="flex mt-[16px]">
+            {{-- <div class="flex mt-[16px]">
                 <button type="button"
                     class="py-[11px] px-[16px] rounded-tl-lg rounded-bl-lg border-[0.5px] border-[#e0e0e0]/60 text-[11px] text-[#343a40]">Breakfast</button>
                 <button type="button"
                     class="px-[16px] py-[11px] bg-gradient-to-br from-[#52d1ed] to-[#005fa4] border border-black/[0.12] text-[11px] font-medium text-white">Lunch</button>
                 <button type="button"
                     class="py-[11px] px-[16px] rounded-tr-lg rounded-br-lg border-[0.5px] border-[#e0e0e0]/60 text-[11px] text-[#343a40]">Dinner</button>
-            </div>
+            </div> --}}
             <input type="hidden" name="time" value="{{ old('time') }}" id="selectedTimeInput">
-            <div class="mt-[14px] grid grid-cols-4 gap-[15px]">
-                @for ($i = 8; $i < 14; $i++)
-                    <button type="button"
-                        class="selectable-button text-base rounded-[10px] bg-[#fff5ec] text-[#343a40] px-[14px] py-[10px] time-button"
-                        data-time="{{ $i }}:00">{{ $i }}:00</button>
-                    <button type="button"
-                        class="selectable-button text-base rounded-[10px] bg-[#fff5ec] text-[#343a40] px-[14px] py-[10px] time-button"
-                        data-time="{{ $i }}:30">{{ $i }}:30</button>
+            <div class="mt-[14px] grid grid-cols-4 gap-[15px]" id="time-slots-container">
+                @php
+                    $openingTime = (int) substr($restaurant->workingHours->first()->opening_time, 0, 2);
+                    $closingTime = (int) substr($restaurant->workingHours->first()->closing_time, 0, 2);
+                @endphp
+                @for ($i = $openingTime; $i < $closingTime; $i++)
+                    @for ($j = 0; $j < 60; $j += 30)
+                        @php
+                            $time = str_pad($i, 2, '0', STR_PAD_LEFT) . ':' . str_pad($j, 2, '0', STR_PAD_LEFT);
+                        @endphp
+                        <button type="button"
+                            class="selectable-button text-base rounded-[10px] bg-[#fff5ec] text-[#343a40] px-[14px] py-[10px] time-button"
+                            data-time="{{ $time }}">{{ $time }}</button>
+                    @endfor
                 @endfor
             </div>
 
@@ -265,6 +271,8 @@
                         </button>
                     @endif
                 @endfor
+                <input type="hidden" name="floor_id" id="floorIdInput"
+                    value="{{ old('floor_id') ?? $restaurant->floors[0]->id }}">
             </div>
             <style>
                 .activeFloorButton {
@@ -287,11 +295,17 @@
                         ->pluck('id') // Pluck the 'id' column from the result
                         ->toArray(); // Convert the collection to an array
                     
-                    // SELECT * FROM `tables` where IdFloor = 78 and IdShapeType is in firstShapeType
-                    $tables = DB::table('tables')
-                        ->where('IdFloor', 78)
-                        ->whereIn('Shape', $firstShapeType)
-                        ->get();
+                    if ($restaurant->floors()->count() > 0) {
+                        $tables = DB::table('tables')
+                            ->where('IdFloor', $restaurant->floors()->first()->id)
+                            ->whereIn('Shape', $firstShapeType)
+                            ->get();
+                    } else {
+                        $tables = DB::table('tables')
+                            ->where('IdFloor', 78)
+                            ->whereIn('Shape', $firstShapeType)
+                            ->get();
+                    }
                 @endphp
                 @foreach ($tables as $table)
                     <div class="flex flex-col items-center justify-center gap-[1px] absolute"
@@ -303,92 +317,9 @@
                         </p>
                     </div>
                 @endforeach
-                <input type="hidden" id="selectedTablesInput" name="selectedTables">
             </div>
-            <script>
-                const floorButtons = document.querySelectorAll('button[id^="floor"]');
-                const tablesContainer = document.getElementById('tablesContainer');
-                // tablesContainer every div child element
-                const tables = tablesContainer.querySelectorAll('#tablesContainer > div');
-                for (let i = 0; i < tables.length; i++) {
-                    const table = tables[i];
-                    table.addEventListener('click', function() {
-                        toggleTableSelection(table);
-                    });
-                }
+            <input type="hidden" id="selectedTablesInput" name="selectedTables">
 
-                // Function to toggle table selection
-                function toggleTableSelection(table) {
-                    table.classList.toggle('selected');
-
-                    // Get the input element
-                    const input = document.getElementById('selectedTablesInput');
-
-                    // Get the table description
-                    console.log(table);
-                    const tableDescription = table.getAttribute('data-table-id');
-
-                    // Check if the table is selected
-                    if (table.classList.contains('selected')) {
-                        // Add the table description to the input
-                        input.value += tableDescription + ', ';
-
-                        // Change the background color
-                        // table p element
-                        const tableContent = table.querySelector('p');
-                        tableContent.style.background = 'linear-gradient(to bottom right, #ffcd01 0%, #fc7f09 100%)';
-                    } else {
-                        // Remove the table description from the input
-                        input.value = input.value.replace(tableDescription + ', ', '');
-
-                        // Reset the background color
-                        const tableContent = table.querySelector('p');
-                        tableContent.style.background = '#979797';
-                    }
-                }
-                floorButtons.forEach(button => {
-                    button.addEventListener('click', function() {
-                        floorButtons.forEach(btn => {
-                            btn.classList.remove('activeFloorButton');
-                        });
-                        this.classList.add('activeFloorButton');
-
-                        const floorId = this.id.replace('floor', ''); // Get the ID without "floor" prefix
-
-                        // Make an AJAX request to fetch the tables data for the selected floor
-                        fetch(`/api/tables/${floorId}`)
-                            .then(response => response.json())
-                            .then(tablesData => {
-                                // Clear the existing tables in the tablesContainer
-                                tablesContainer.innerHTML = '';
-                                console.log(tablesData);
-                                // Add the new tables to the tablesContainer
-                                tablesData.forEach(table => {
-                                    const tableElement = document.createElement('div');
-                                    tableElement.classList.add('flex', 'flex-col', 'items-center',
-                                        'justify-center', 'gap-[1px]', 'absolute');
-                                    tableElement.style.left = `${table.PositionLeft}px`;
-                                    tableElement.style.top = `${table.PositionTop}px`;
-
-                                    const tableContent = document.createElement('p');
-                                    tableContent.classList.add('rounded-[10px]', 'bg-[#979797]',
-                                        'text-[8px]', 'font-semibold', 'text-white', 'flex',
-                                        'items-center', 'justify-center');
-                                    tableContent.style.width = `${table.Width}px`;
-                                    tableContent.style.height = `${table.Height}px`;
-                                    tableContent.innerText = table.TableDescription;
-                                    tableElement.setAttribute('data-table-id', table.id);
-
-                                    tableElement.appendChild(tableContent);
-                                    tablesContainer.appendChild(tableElement);
-                                });
-                            })
-                            .catch(error => {
-                                console.error('Error:', error);
-                            });
-                    });
-                });
-            </script>
             <div class="flex mt-[28px] mb-[16px]">
                 <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
                     xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
@@ -537,26 +468,7 @@
                     </svg>
                     <p id="reservationNote" class="text-sm font-medium  text-[#343a40]">No note</p>
                 </div>
-                <div class="rounded-[10px] bg-[#fff5ec] p-[10px] flex gap-[16px] items-center">
-                    <div>
-                        <svg width="25" height="18" viewBox="0 0 25 18" fill="none"
-                            xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                d="M1.00754 0.585786C0.421753 1.17157 0.421753 2.11438 0.421753 4V13.5C0.421753 15.3856 0.421753 16.3284 1.00754 16.9142C1.59333 17.5 2.53613 17.5 4.42175 17.5H20.2944C22.18 17.5 23.1229 17.5 23.7086 16.9142C24.2944 16.3284 24.2944 15.3856 24.2944 13.5V4C24.2944 2.11438 24.2944 1.17157 23.7086 0.585786C23.1229 0 22.18 0 20.2944 0H4.42175C2.53613 0 1.59333 0 1.00754 0.585786ZM4.00266 2.75C3.45037 2.75 3.00266 3.19772 3.00266 3.75C3.00266 4.30229 3.45037 4.75 4.00266 4.75H6.38992C6.94221 4.75 7.38992 4.30229 7.38992 3.75C7.38992 3.19772 6.94221 2.75 6.38992 2.75H4.00266ZM17.3263 13.75C17.3263 13.1977 17.774 12.75 18.3263 12.75H20.7135C21.2658 12.75 21.7135 13.1977 21.7135 13.75C21.7135 14.3023 21.2658 14.75 20.7135 14.75H18.3263C17.774 14.75 17.3263 14.3023 17.3263 13.75ZM13.939 8.75C13.939 9.80447 13.1453 10.5 12.3581 10.5C11.571 10.5 10.7772 9.80447 10.7772 8.75C10.7772 7.69554 11.571 7 12.3581 7C13.1453 7 13.939 7.69554 13.939 8.75ZM15.939 8.75C15.939 10.8211 14.3358 12.5 12.3581 12.5C10.3804 12.5 8.77721 10.8211 8.77721 8.75C8.77721 6.67894 10.3804 5 12.3581 5C14.3358 5 15.939 6.67894 15.939 8.75Z"
-                                fill="#FC7F09"></path>
-                        </svg>
-                    </div>
-                    <div class="flex flex-col gap-[9px]">
-                        <p class="text-sm font-medium  text-[#343a40]">
-                            Your deposit is 100 $
-                        </p>
-                        <p class="text-xs  text-[#fc7f09]">
-                            Please pay within 30 minutes. If not, your reservation will be canceled
-                            automatically.
-                        </p>
-                    </div>
 
-                </div>
             </div>
             <button type="submit" form="reservationForm"
                 class="w-full h-11 rounded-[10px] bg-gradient-to-br from-[#ffcd01] to-[#fc7f09] text-xl font-semibold text-center text-white"
@@ -667,6 +579,59 @@
         }
     </script>
     <script>
+        const floorButtons = document.querySelectorAll('button[id^="floor"]');
+
+        // Function to toggle table selection
+        function toggleTableSelection(table) {
+            table.classList.toggle('selected');
+
+            // Get the input element
+            const input = document.getElementById('selectedTablesInput');
+
+            // Get the table description
+            const tableDescription = table.getAttribute('data-table-id');
+
+            // Check if the table is selected
+            if (table.classList.contains('selected')) {
+                // Add the table description to the input
+                input.value += tableDescription + ', ';
+
+                // Change the background color
+                // table p element
+                const tableContent = table.querySelector('p');
+                tableContent.style.background = 'linear-gradient(to bottom right, #ffcd01 0%, #fc7f09 100%)';
+            } else {
+                // Remove the table description from the input
+                input.value = input.value.replace(tableDescription + ', ', '');
+
+                // Reset the background color
+                const tableContent = table.querySelector('p');
+                tableContent.style.background = '#979797';
+            }
+        }
+
+        function tablesToggleable() {
+            const tablesContainer = document.getElementById('tablesContainer');
+            const tables = tablesContainer.querySelectorAll('#tablesContainer > div');
+            tables.forEach(table => {
+                table.addEventListener('click', function() {
+                    toggleTableSelection(table);
+                });
+            });
+        }
+        tablesToggleable()
+        floorButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                floorButtons.forEach(btn => {
+                    btn.classList.remove('activeFloorButton');
+                });
+
+                this.classList.add('activeFloorButton');
+                printTables();
+            });
+        });
+    </script>
+    <script>
         const todayButton = document.getElementById('todayButton');
         const tomorrowButton = document.getElementById('tomorrowButton');
         const prevButton = document.getElementById('prevButton');
@@ -734,17 +699,17 @@
             const daysInMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
 
             let calendarHTML = `
-    <div class="grid justify-items-center grid-cols-7 gap-[8px] text-[#6b686b] uppercase text-[10px]">
-        <div>Sun</div>
-        <div>Mon</div>
-        <div>Tue</div>
-        <div>Wed</div>
-        <div>Thu</div>
-        <div>Fri</div>
-        <div>Sat</div>
-    </div>
-    <div class="grid justify-items-center grid-cols-7 gap-[8px]">
-    `;
+        <div class="grid justify-items-center grid-cols-7 gap-[8px] text-[#6b686b] uppercase text-[10px]">
+            <div>Sun</div>
+            <div>Mon</div>
+            <div>Tue</div>
+            <div>Wed</div>
+            <div>Thu</div>
+            <div>Fri</div>
+            <div>Sat</div>
+        </div>
+        <div class="grid justify-items-center grid-cols-7 gap-[8px]">
+        `;
             for (let i = 0; i < startDay; i++) {
                 calendarHTML += '<div></div>';
             }
@@ -756,7 +721,7 @@
                     'justify-center', 'items-center');
 
                 // Calculate the date for this day
-                const dayDate = new Date(year, date.getMonth(), i+1);
+                const dayDate = new Date(year, date.getMonth(), i + 1);
                 dayElement.setAttribute('data-date', dayDate.toISOString());
 
                 // Check if the day is expired
@@ -815,6 +780,8 @@
                 month: 'short',
                 year: 'numeric'
             });
+            printTimes(reservationDate.textContent);
+            printTables();
         }
 
         function selectTomorrow() {
@@ -857,11 +824,10 @@
 
                 // Update the selected date input field
                 updateSelectedDate(selectedDate);
+                // showReservationsForDate(selectedDate);
+
             }
         }
-
-
-
 
         function isTomorrow(date) {
             const tomorrow = new Date(currentDate.getTime() + (24 * 60 * 60 * 1000));
@@ -891,11 +857,8 @@
                 reservationPeople.innerHTML = currentNumber;
             }
         });
-
-        // Assuming you have HTML elements with the class 'selectable-button'
-        const buttons = document.querySelectorAll('.selectable-button');
-        let selectedButton = null;
-
+    </script>
+    <script>
         function handleButtonClick(event) {
             const clickedButton = event.target;
             if (selectedButton) {
@@ -905,41 +868,173 @@
             selectedButton = clickedButton;
         }
 
-        buttons.forEach(button => {
-            button.addEventListener('click', handleButtonClick);
-        });
-    </script>
-    <script>
-        const timeButtons = document.querySelectorAll('.time-button');
-        timeButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const selectedTime = button.getAttribute('data-time');
-                const selectedTimeInput = document.getElementById('selectedTimeInput');
-                const reservationTime = document.getElementById("reservationTime");
-                selectedTimeInput.value = selectedTime;
+        function timeButtonsEvent() {
+            const selectedTimeInput = document.getElementById('selectedTimeInput');
+            selectedTimeInput.value = '';
+            const timeButtons = document.querySelectorAll('.time-button');
+            let selectedButton = null;
+            timeButtons.forEach(button => {
+                if (button.disabled) {
+                    button.style.backgroundColor = 'rgba(0,0,0,0.1)';
+                    button.classList.remove('old-background-class');
+                    return;
+                }
+                button.addEventListener('click', () => {
+                    const selectedTime = button.getAttribute('data-time');
+                    const selectedTimeInput = document.getElementById('selectedTimeInput');
+                    const reservationTime = document.getElementById("reservationTime");
+                    selectedTimeInput.value = selectedTime;
 
-                const startTime = new Date(`2000-01-01 ${selectedTime}`);
-                const endTime = new Date(startTime.getTime() + 30 * 60000); // Add 30 minutes
+                    const startTime = new Date(`2000-01-01 ${selectedTime}`);
+                    const endTime = new Date(startTime.getTime() + 30 * 60000); // Add 30 minutes
 
-                const formattedStartTime = startTime.toLocaleTimeString([], {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    hour12: false
+                    const formattedStartTime = startTime.toLocaleTimeString([], {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        hour12: false
+                    });
+                    const formattedEndTime = endTime.toLocaleTimeString([], {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        hour12: false
+                    });
+
+                    reservationTime.innerHTML = `${formattedStartTime} - ${formattedEndTime}`;
+
+                    const clickedButton = event.target;
+                    if (selectedButton) {
+                        selectedButton.classList.remove('selected');
+                    }
+                    clickedButton.classList.add('selected');
+                    selectedButton = clickedButton;
+                    printTables();
+                    handleInputChange();
                 });
-                const formattedEndTime = endTime.toLocaleTimeString([], {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    hour12: false
-                });
-
-                reservationTime.innerHTML = `${formattedStartTime} - ${formattedEndTime}`;
             });
-        });
+        }
     </script>
     <script>
         document.getElementById('note').addEventListener('change', () => {
             document.getElementById('reservationNote').innerHTML = document.getElementById('note').value;
         });
+    </script>
+    <script>
+        function printTimes(date) {
+            const timeSlotsContainer = document.getElementById('time-slots-container');
+            timeSlotsContainer.innerHTML = '';
+
+            if (date == '') {
+                openingTime = {{ substr($restaurant->workingHours->first()->opening_time, 0, 2) }}
+                closingTime = {{ substr($restaurant->workingHours->first()->closing_time, 0, 2) }}
+                for (let i = openingTime; i < closingTime; i++) {
+                    for (let j = 0; j < 60; j += 30) {
+                        let time = ('0' + i).slice(-2) + ':' + ('0' + j).slice(-2);
+                        let button = document.createElement('button');
+                        button.type = 'button';
+                        button.classList.add('selectable-button', 'text-base', 'rounded-[10px]', 'bg-[#fff5ec]',
+                            'text-[#343a40]', 'px-[14px]', 'py-[10px]', 'time-button');
+                        button.setAttribute('data-time', time);
+                        button.textContent = time;
+                        timeSlotsContainer.appendChild(button);
+                    }
+                }
+            } else {
+                // current date is Friday, Oct 20, 2023 convert it to 2023-10-20
+                date = new Date(date);
+            const year = date.getFullYear();
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const day = date.getDate().toString().padStart(2, '0');
+            date = `${year}-${month}-${day}`;
+                const restaurantId = {{ $restaurant->id }};
+                fetch(`/workinghours/${restaurantId}/${date}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const openingTime = parseInt(data.opening_time.substring(0, 2));
+                        const closingTime = parseInt(data.closing_time.substring(0, 2));
+
+                        for (let i = openingTime; i < closingTime; i++) {
+                            for (let j = 0; j < 60; j += 30) {
+                                let time = ('0' + i).slice(-2) + ':' + ('0' + j).slice(-2);
+                                let button = document.createElement('button');
+                                button.type = 'button';
+                                button.classList.add('selectable-button', 'text-base', 'rounded-[10px]', 'bg-[#fff5ec]',
+                                    'text-[#343a40]', 'px-[14px]', 'py-[10px]', 'time-button');
+                                button.setAttribute('data-time', time);
+                                button.textContent = time;
+                                timeSlotsContainer.appendChild(button);
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            }
+            timeButtonsEvent();
+        }
+
+        function printTables() {
+            const tablesContainer = document.getElementById('tablesContainer');
+            tablesContainer.innerHTML = '';
+            const activeFloorButton = document.querySelector('.activeFloorButton');
+            let floorId = activeFloorButton['attributes']['id'].value;
+            floorId = floorId.replace('floor', ''); // Get the ID without "floor" prefix
+            const floorIdInput = document.getElementById('floorIdInput');
+            floorIdInput.value = floorId;
+            // Make an AJAX request to fetch the tables data for the selected floor
+            fetch(`/api/tables/${floorId}`)
+                .then(response => response.json())
+                .then(tablesData => {
+                    // Clear the existing tables in the tablesContainer
+                    tablesContainer.innerHTML = '';
+                    // Add the new tables to the tablesContainer
+                    tablesData.forEach(table => {
+                        const tableElement = document.createElement('div');
+                        tableElement.classList.add('flex', 'flex-col', 'items-center',
+                            'justify-center', 'gap-[1px]', 'absolute');
+                        tableElement.style.left = `${table.PositionLeft}px`;
+                        tableElement.style.top = `${table.PositionTop}px`;
+
+                        const tableContent = document.createElement('p');
+                        tableContent.classList.add('rounded-[10px]', 'bg-[#979797]',
+                            'text-[8px]', 'font-semibold', 'text-white', 'flex',
+                            'items-center', 'justify-center');
+                        tableContent.style.width = `${table.Width}px`;
+                        tableContent.style.height = `${table.Height}px`;
+                        tableContent.innerText = table.TableDescription;
+                        tableElement.setAttribute('data-table-id', table.id);
+
+                        tableElement.appendChild(tableContent);
+                        tablesContainer.appendChild(tableElement);
+                    });
+                    tablesToggleable();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+        const selectedDateInput = document.getElementById('selectedDateInput');
+        const selectedTimeInput = document.getElementById('selectedTimeInput');
+        const floorIdInput = document.getElementById('floorIdInput');
+        const selectedTablesInput = document.getElementById('selectedTablesInput');
+
+        floorIdInput.addEventListener('change', handleInputChange);
+
+        function handleInputChange() {
+            // const selectedDate = selectedDateInput.value;
+            // const selectedTime = selectedTimeInput.value;
+            // const floorId = floorIdInput.value;
+            // if (selectedDate !== '' && selectedTime !== '' && floorId !== '') {
+            //     // Make an AJAX request to check for free tables
+            //     fetch(`/tables/check-free?floorId=${floorId}&date=${selectedDate}&time=${selectedTime}`)
+            //         .then(response => response.json())
+            //         .then(freeTablesData => {
+            //             console.log(freeTablesData);
+            //         })
+            //         .catch(error => {
+            //             console.error('Error:', error);
+            //         });
+            // }
+        }
     </script>
 </body>
 

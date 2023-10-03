@@ -31,16 +31,22 @@ class RestaurantCalendarController extends Controller
 
     public function search(Request $request)
     {
-        $searchText = $request->input('searchText');
+        $searchText = $request->query('term');
 
         // Perform the search based on the $searchText
-        $searchResults = Reservation::where('name', 'like', '%' . $searchText . '%')
+        $searchResults = Reservation::where('full_name', 'like', '%' . $searchText . '%')
             ->orWhere('email', 'like', '%' . $searchText . '%')
             ->get();
 
-        // Update the calendar with the search results
-        // For example, you can pass the search results to the view
-        return view('restaurant.calendar')->with('searchResults', $searchResults);
+        // Retrieve the restaurant associated with the logged-in user
+        $user = auth()->user();
+        $restaurant = $user->restaurant;
+
+        // Return the search results as JSON
+        return response()->json([
+            'restaurant' => $restaurant,
+            'searchResults' => $searchResults
+        ]);
     }
 
     public function showReservationsForDate($selectedDate)

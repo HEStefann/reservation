@@ -80,7 +80,7 @@
     <div class="mx-[26px] mt-[14px]">
         <p id="searchLocationDisplay" class="text-lg font-medium text-[#343a40] pb-[8px]">The best restaurants in
             Macedonia<span id="searchLocationValue"></span></p>
-            <p id="restaurantCount" class="text-xs font-light text-[#6b686b]"></p>
+        <p id="restaurantCount" class="text-xs font-light text-[#6b686b]"></p>
         <x-search-restaurant :restaurants="$restaurants" />
     </div>
 
@@ -101,9 +101,9 @@
         }
     </script>
     <script>
-                    @php
-                $totalRestaurantCount = count($restaurants); // Assuming $restaurants contains all your restaurants
-            @endphp
+        @php
+            $totalRestaurantCount = count($restaurants); // Assuming $restaurants contains all your restaurants
+        @endphp
         const totalRestaurantCount = {{ $totalRestaurantCount }};
         document.addEventListener("DOMContentLoaded", function() {
             const searchInput = document.getElementById("searchRestaurant");

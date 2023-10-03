@@ -755,7 +755,8 @@ class RestaurantSeeder extends Seeder
                     'day_of_week' => $day,
                     'opening_time' => '08:00',
                     'closing_time' => '18:00',
-                    'available_people' => $restaurant->available_people
+                    'available_people' => $restaurant->available_people,
+                    'default_working_time' => true,
                 ]);
             }
 

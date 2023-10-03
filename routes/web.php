@@ -1,6 +1,4 @@
 <?php
-// web.php
-
 use App\Http\Controllers\AdminModeratorsController;
 use App\Http\Controllers\AdminReservationController;
 use App\Http\Controllers\AdminRestaurantController;
@@ -203,3 +201,7 @@ Route::put('/settings/updateTablePosition', [RestaurantSettingsController::class
 Route::post('/restaurant/reservation', [RestaurantReservationController::class, 'create'])->name('restaurant.reservation.create');
 Route::delete('/restaurant-images/{imageId}', [RestaurantSettingsController::class, 'removeRestaurantImage'])->name('restaurant-images.remove');
 Route::get('/edit-date/{selectedDate}', [RestaurantSettingsController::class,'editDate'])->name('editDate');
+// Route::get('/showReservationsForDate/{restaurantId}/{selectedDate}', [UserReservationController::class, 'showReservationsForDate']);
+// get working hours for selected date for restaurant UserReservationController
+Route::get('/workinghours/{restaurantId}/{selectedDate}', [UserReservationController::class, 'getWorkingHours'])->name('workinghours');
+Route::get('/tables/check-free', [UserReservationController::class, 'checkFreeTables'])->name('tables.check-free');

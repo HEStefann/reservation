@@ -203,4 +203,7 @@ Route::put('/settings/updateTablePosition', [RestaurantSettingsController::class
 Route::post('/restaurant/reservation', [RestaurantReservationController::class, 'create'])->name('restaurant.reservation.create');
 Route::delete('/restaurant-images/{imageId}', [RestaurantSettingsController::class, 'removeRestaurantImage'])->name('restaurant-images.remove');
 Route::get('/edit-date/{selectedDate}', [RestaurantSettingsController::class, 'editDate'])->name('editDate');
-Route::post('/calendar/search', [RestaurantCalendarController::class, 'search']);
+Route::get('/calendar/search', [RestaurantCalendarController::class, 'search']);
+Route::get('/searchByTermName', [RestaurantController::class, 'autocomplete']);
+//user.reservations.destroy with usercontroller method delete
+Route::delete('/user/reservations/{reservation}/delete', [UserReservationController::class, 'delete'])->name('user.reservations.destroy');

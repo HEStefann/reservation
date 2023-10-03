@@ -55,19 +55,19 @@ class UserController extends Controller
         $longitude = $request->query('longitude');
         $earthRadius = 6371; // Earth's radius in kilometers
         $radius = 2; // Radius in kilometers
-    
+
         // Calculate the bounding box coordinates for the given radius
         $minLatitude = $latitude - ($radius / $earthRadius) * (180 / pi());
         $maxLatitude = $latitude + ($radius / $earthRadius) * (180 / pi());
-    
+
         $minLongitude = $longitude - ($radius / $earthRadius) * (180 / pi()) / cos($latitude * (pi() / 180));
         $maxLongitude = $longitude + ($radius / $earthRadius) * (180 / pi()) / cos($latitude * (pi() / 180));
-    
+
         // Find the nearest restaurants within the bounding box coordinates
         $nearestRestaurants = Restaurant::whereBetween('lat', [$minLatitude, $maxLatitude])
             ->whereBetween('lng', [$minLongitude, $maxLongitude])
             ->get();
-    
+
         return view('user.nearest', compact('nearestRestaurants'));
     }
 
@@ -112,74 +112,67 @@ class UserController extends Controller
     public function search(Request $request)
     {
         $searchQuery = $request->input('searchRestaurant');
+        $searchLocation = $request->input('searchLocation');
         $tags = Tag::all();
 
         // Initialize variables for location-based search with default values
         $latitude = null;
         $longitude = null;
-        $minLatitude = null;
-        $maxLatitude = null;
-        $minLongitude = null;
-        $maxLongitude = null;
-
-        $radius = 0.2; // Radius in kilometers (200 meters)
         $earthRadius = 6371; // Earth's radius in kilometers
 
         // Initialize a variable to store the displayed address
         $displayedAddress = '';
 
-        // Check if a search query is provided and not empty
-        if (!empty($searchQuery)) {
-            // Check if the search query can be geocoded
-            $coordinates = $this->getCoordinatesFromGoogleMaps($searchQuery);
+        // Check if a search location is provided and not empty
+        if (!empty($searchLocation)) {
+            // Check if the search location can be geocoded
+            $coordinates = $this->getCoordinatesFromGoogleMaps($searchLocation);
 
             if ($coordinates) {
                 // Location-based search
                 $latitude = $coordinates['lat'];
                 $longitude = $coordinates['lng'];
 
-                // Calculate the bounding box coordinates for the 200 meters radius
-                $minLatitude = $latitude - ($radius / $earthRadius) * (180 / pi());
-                $maxLatitude = $latitude + ($radius / $earthRadius) * (180 / pi());
-
-                $minLongitude = $longitude - ($radius / $earthRadius) * (180 / pi()) / cos($latitude * (pi() / 180));
-                $maxLongitude = $longitude + ($radius / $earthRadius) * (180 / pi()) / cos($latitude * (pi() / 180));
-
                 // Set the displayed address to the searched address
-                $displayedAddress = $searchQuery;
+                $displayedAddress = $searchLocation;
             }
         }
 
         // Query your database for restaurants based on various criteria
-        $restaurants = Restaurant::where(function ($query) use ($searchQuery, $minLatitude, $maxLatitude, $minLongitude, $maxLongitude) {
-            if (!empty($searchQuery)) {
-                $query->where('title', 'LIKE', '%' . $searchQuery . '%');
-            }
+        $restaurants = Restaurant::select('*');
 
-            if (!is_null($minLatitude) && !is_null($maxLatitude) && !is_null($minLongitude) && !is_null($maxLongitude)) {
-                $query->orWhereBetween('lat', [$minLatitude, $maxLatitude])
-                    ->orWhereBetween('lng', [$minLongitude, $maxLongitude]);
-            }
-        })
-            ->orWhereHas('tags', function ($query) use ($searchQuery) {
-                if (!empty($searchQuery)) {
-                    $query->where('name', 'LIKE', '%' . $searchQuery . '%');
-                }
-            })
-            ->get();
+        // Add condition for title search
+        if (!empty($searchQuery)) {
+            $restaurants->where('title', 'LIKE', '%' . $searchQuery . '%');
+        }
 
-        // Check if there is a restaurant with an exact name match
-        $exactMatchRestaurant = Restaurant::where('title', $searchQuery)->first();
+        // Add condition for location-based search
+        if (!is_null($latitude) && !is_null($longitude)) {
+            // Calculate the bounding box coordinates for the 2 km radius
+            $minLatitude = $latitude - (2 / $earthRadius) * (180 / pi());
+            $maxLatitude = $latitude + (2 / $earthRadius) * (180 / pi());
+
+            $minLongitude = $longitude - (2 / $earthRadius) * (180 / pi()) / cos($latitude * (pi() / 180));
+            $maxLongitude = $longitude + (2 / $earthRadius) * (180 / pi()) / cos($latitude * (pi() / 180));
+
+            $restaurants->whereBetween('lat', [$minLatitude, $maxLatitude])
+                ->whereBetween('lng', [$minLongitude, $maxLongitude]);
+        }
+
+        $restaurants = $restaurants->get();
 
         // Handle the case where no search query is provided or it's empty
-        if (empty($searchQuery)) {
+        if (empty($searchQuery) && empty($searchLocation)) {
             $restaurants = Restaurant::all(); // You can change this to your default behavior
-        } elseif ($exactMatchRestaurant) {
-            // If there is an exact name match, display only that restaurant
-            $restaurants = [$exactMatchRestaurant];
+        }
+
+        // Check if only searchLocation is provided and searchRestaurant is empty
+        if (!empty($searchLocation) && empty($searchQuery)) {
+            return redirect()->route('search', ['searchLocation' => $searchLocation]);
         }
 
         return view('user.restaurantspage', [
+            'allRestaurantsNumber' => $restaurants->count(),
             'restaurants' => $restaurants,
             'searchAddress' => $displayedAddress, // Use the displayed address here
             'searchQuery' => $searchQuery,

@@ -131,7 +131,7 @@ class UserReservationController extends Controller
         return response()->json([
             'reservedTables' => $restaurant->reservations()
         ]);
-      
+    }
     public function delete(Request $request, Reservation $reservation)
     {
         $user = Auth::user();

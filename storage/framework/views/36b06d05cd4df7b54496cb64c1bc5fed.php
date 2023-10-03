@@ -47,7 +47,7 @@
                         d="M11.8164 10.6914H11.2239L11.0139 10.4889C11.7489 9.63391 12.1914 8.52391 12.1914 7.31641C12.1914 4.62391 10.0089 2.44141 7.31641 2.44141C4.62391 2.44141 2.44141 4.62391 2.44141 7.31641C2.44141 10.0089 4.62391 12.1914 7.31641 12.1914C8.52391 12.1914 9.63391 11.7489 10.4889 11.0139L10.6914 11.2239V11.8164L14.4414 15.5589L15.5589 14.4414L11.8164 10.6914ZM7.31641 10.6914C5.44891 10.6914 3.94141 9.18391 3.94141 7.31641C3.94141 5.44891 5.44891 3.94141 7.31641 3.94141C9.18391 3.94141 10.6914 5.44891 10.6914 7.31641C10.6914 9.18391 9.18391 10.6914 7.31641 10.6914Z"
                         fill="black" fill-opacity="0.54"></path>
                 </svg>
-                <input type="text"
+                <input type="text" id="search-input"
                     class="pl-[44px] w-[260px] h-[42px] rounded-xl text-base font-extralight text-left text-[#343a40]"
                     placeholder="Search">
             </div>
@@ -87,30 +87,32 @@
                         ?>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     <?php $maxReservations = max(array_map('count', $hourlyReservations)); ?>
-                    <?php for($y = 0; $y < $maxReservations; $y++): ?>
-                        <?php for($i = 0; $i < 24; $i++): ?>
-                            <?php if(isset($hourlyReservations[$i][$y])): ?>
-                                <?php
-                                    $reservation = $hourlyReservations[$i][$y];
-                                ?>
-                                <div
-                                    class="<?php if($reservation->status == 'accepted'): ?> bg-[#b7ddbf]
+                    <?php if($maxReservations != 0): ?>
+                        <?php for($y = 0; $y < $maxReservations; $y++): ?>
+                            <?php for($i = 0; $i < 24; $i++): ?>
+                                <?php if(isset($hourlyReservations[$i][$y])): ?>
+                                    <?php
+                                        $reservation = $hourlyReservations[$i][$y];
+                                    ?>
+                                    <div onclick="openReservationInfoModal(<?php echo e($reservation->id); ?>)"
+                                        class="<?php if($reservation->status == 'accepted'): ?> bg-[#b7ddbf]
                                 <?php elseif($reservation->status == 'pending'): ?> bg-[#ffffcb]
                                 <?php elseif($reservation->status == 'declined'): ?> bg-[#fd8175]/[0.88] <?php endif; ?>
                                 text-2xl text-left text-black/[0.87] w-[370px] h-[114px] max-h-max flex justify-center items-center border-b border-black/[0.12]">
-                                    <div>
-                                        <p> <?php echo e($reservation->full_name); ?> - Table 1 </p>
-                                        <p>
-                                            People: <?php echo e($reservation->number_of_people); ?>
+                                        <div>
+                                            <p> <?php echo e($reservation->full_name); ?> - Table 1 </p>
+                                            <p>
+                                                People: <?php echo e($reservation->number_of_people); ?>
 
-                                        </p>
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
-                            <?php else: ?>
-                                <div class="w-[370px] h-[114px] border-b border-black/[0.12]"></div>
-                            <?php endif; ?>
+                                <?php else: ?>
+                                    <div class="w-[370px] h-[114px] border-b border-black/[0.12]"></div>
+                                <?php endif; ?>
+                            <?php endfor; ?>
                         <?php endfor; ?>
-                    <?php endfor; ?>
+                    <?php endif; ?>
                 </div>
             </div>
             <div class="mr-[122px] h-[72px] flex items-center">
@@ -123,6 +125,94 @@
         </div>
         <div id="reservations-container"></div>
     </div>
+    <?php if($maxReservations != 0): ?>
+        <div id="reservationInfoModal" style="display: none;"
+            class="fixed z-10 left-0 top-0 w-full h-full bg-[rgba(0,0,0,0.5)] flex justify-center items-center">
+            <div class="rounded-lg bg-white w-[728px] flex flex-col items-center"
+                style="box-shadow: 0px 20px 50px 0 rgba(0,0,0,0.1);">
+                <p class="text-2xl text-center font-medium text-[#343a40] px-[30px] pt-[16px] mb-[16px]">
+                    Reservation Info
+                </p>
+                <div class="w-full h-px bg-[#212121]/[0.08]">
+                </div>
+                <div class=" flex flex-col items-center gap-[18px] mt-[16px] mb-[40px]">
+                    <p class="text-2xl text-center text-[#343a40]">
+                        <span class="font-semibold text-center text-[#343a40]">Full
+                            name:</span>
+                        <?php echo e($reservation->full_name); ?>
+
+                    </p>
+                    <p class="text-2xl text-center text-[#343a40]">
+                        <span class="font-semibold text-center text-[#343a40]">Phone number:</span>
+                        <?php echo e($reservation->phone_number); ?>
+
+                    </p>
+                    <p class="text-2xl text-center text-[#343a40]">
+                        <span class="font-semibold text-center text-[#343a40]">Email:</span>
+                        <?php echo e($reservation->email); ?>
+
+                    </p>
+                    <p class="text-2xl text-center text-[#343a40]">
+                        <span class="font-semibold text-center text-[#343a40]">Deposit:</span>
+                        <?php echo e($reservation->deposit ?? 'N/A'); ?>
+
+                    </p>
+                    <p class="text-2xl text-center text-[#343a40]">
+                        <span class="font-semibold text-center text-[#343a40]">Number of people:</span>
+                        <?php echo e($reservation->number_of_people); ?>
+
+                    </p>
+                    <p class="text-2xl text-center text-[#343a40]">
+                        <span class="font-semibold text-center text-[#343a40]">Note:</span>
+                        <?php echo e($reservation->note); ?>
+
+                    </p>
+                    <div class="flex gap-[50px]">
+                        <button onclick="enableEdit()"
+                            class="w-[142px] h-10 rounded-[10px] bg-[#005fa4] text-base font-semibold text-white">
+                            Edit
+                        </button>
+                        <button type="button" onclick="hideReservationInfoModal()"
+                            class="w-[142px] h-10 rounded-[10px] text-base font-semibold text-[#005fa4] bg-white border border-[#005fa4]">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+    <script>
+        function openReservationInfoModal() {
+            let reservationModal = document.getElementById("reservationInfoModal");
+            reservationModal.style.display = "flex";
+        }
+
+        function hideReservationInfoModal() {
+            let reservationModal = document.getElementById("reservationInfoModal");
+            reservationModal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            let reservationModal = document.getElementById("reservationInfoModal");
+            if (event.target == reservationModal) {
+                hideReservationInfoModal();
+            }
+        }
+
+        function enableEdit() {
+            // Get the elements containing the reservation information
+            const infoElements = document.querySelectorAll('.reservation-info');
+
+            // Convert the info elements to input elements for editing
+            infoElements.forEach((element) => {
+                const inputValue = element.textContent;
+                const input = document.createElement('input');
+                input.value = inputValue;
+                element.innerHTML = '';
+                element.appendChild(input);
+            });
+        }
+    </script>
     <script>
         const currentTime = new Date();
         const currentHour = currentTime.getHours();
@@ -237,6 +327,46 @@
             const selectedDate = calendarInputElement.value;
             fetchAndDisplayReservations(selectedDate);
         });
+    </script>
+    <script>
+        const searchInput = document.getElementById("search-input");
+        searchInput.addEventListener("keydown", performSearch);
+
+        function performSearch(event) {
+            if (event.key === "Enter") {
+                event.preventDefault(); // Prevent form submission
+
+                const searchText = searchInput.value;
+                sendSearchRequest(searchText);
+            }
+        }
+
+        function sendSearchRequest(searchText) {
+            // Make an AJAX GET request to the search route
+            fetch(`/calendar/search?term=${encodeURIComponent(searchText)}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Handle the search results
+                    updateCalendar(data.searchResults);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        function updateCalendar(searchResults) {
+            // Clear the existing calendar entries
+            const reservationsContainer = document.getElementById("reservations-container");
+            reservationsContainer.innerHTML = "";
+
+            // Iterate over each search result
+            searchResults.forEach(result => {
+                const fullName = result.full_name;
+                const date = result.date;
+                const number_of_people = result.number_of_people;
+                console.log(searchResults);
+            });
+        }
     </script>
 <?php $__env->stopSection(); ?>
 

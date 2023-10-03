@@ -23,8 +23,8 @@
             <?php echo csrf_field(); ?>
 
             <p class=" text-base text-left text-[#343a40] mb-[8px]">Email</p>
-            <input name="email" class="w-full rounded-lg bg-[#f3f7fb] border border-[#d4d7e3] mb-[18px]" type="text"
-                name="" id="">
+            <input name="email" class="w-full rounded-lg bg-[#f3f7fb] border border-[#d4d7e3] mb-[18px]"
+                type="text" name="" id="">
             <div class="w-full justify-center" x-data="{ show: false }">
                 <p class=" text-base text-left text-[#343a40] mb-[8px]">Password</p>
                 <div class="relative">
@@ -58,8 +58,8 @@
                 </div>
             </div>
 
-            
-           
+
+
 
 
 

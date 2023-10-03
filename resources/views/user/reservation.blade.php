@@ -468,26 +468,7 @@
                     </svg>
                     <p id="reservationNote" class="text-sm font-medium  text-[#343a40]">No note</p>
                 </div>
-                <div class="rounded-[10px] bg-[#fff5ec] p-[10px] flex gap-[16px] items-center">
-                    <div>
-                        <svg width="25" height="18" viewBox="0 0 25 18" fill="none"
-                            xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                d="M1.00754 0.585786C0.421753 1.17157 0.421753 2.11438 0.421753 4V13.5C0.421753 15.3856 0.421753 16.3284 1.00754 16.9142C1.59333 17.5 2.53613 17.5 4.42175 17.5H20.2944C22.18 17.5 23.1229 17.5 23.7086 16.9142C24.2944 16.3284 24.2944 15.3856 24.2944 13.5V4C24.2944 2.11438 24.2944 1.17157 23.7086 0.585786C23.1229 0 22.18 0 20.2944 0H4.42175C2.53613 0 1.59333 0 1.00754 0.585786ZM4.00266 2.75C3.45037 2.75 3.00266 3.19772 3.00266 3.75C3.00266 4.30229 3.45037 4.75 4.00266 4.75H6.38992C6.94221 4.75 7.38992 4.30229 7.38992 3.75C7.38992 3.19772 6.94221 2.75 6.38992 2.75H4.00266ZM17.3263 13.75C17.3263 13.1977 17.774 12.75 18.3263 12.75H20.7135C21.2658 12.75 21.7135 13.1977 21.7135 13.75C21.7135 14.3023 21.2658 14.75 20.7135 14.75H18.3263C17.774 14.75 17.3263 14.3023 17.3263 13.75ZM13.939 8.75C13.939 9.80447 13.1453 10.5 12.3581 10.5C11.571 10.5 10.7772 9.80447 10.7772 8.75C10.7772 7.69554 11.571 7 12.3581 7C13.1453 7 13.939 7.69554 13.939 8.75ZM15.939 8.75C15.939 10.8211 14.3358 12.5 12.3581 12.5C10.3804 12.5 8.77721 10.8211 8.77721 8.75C8.77721 6.67894 10.3804 5 12.3581 5C14.3358 5 15.939 6.67894 15.939 8.75Z"
-                                fill="#FC7F09"></path>
-                        </svg>
-                    </div>
-                    <div class="flex flex-col gap-[9px]">
-                        <p class="text-sm font-medium  text-[#343a40]">
-                            Your deposit is 100 $
-                        </p>
-                        <p class="text-xs  text-[#fc7f09]">
-                            Please pay within 30 minutes. If not, your reservation will be canceled
-                            automatically.
-                        </p>
-                    </div>
 
-                </div>
             </div>
             <button type="submit" form="reservationForm"
                 class="w-full h-11 rounded-[10px] bg-gradient-to-br from-[#ffcd01] to-[#fc7f09] text-xl font-semibold text-center text-white"

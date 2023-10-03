@@ -11,18 +11,20 @@ use Illuminate\Support\Facades\Storage;
 
 class PromotionController extends Controller
 {
-    public function create(Request $request) :View
+    public function create(Request $request): View
     {
-        $restaurant = Restaurant::findOrFail($request->route('restaurant'));
+        $restaurantId = $request->route('restaurant');
+        $restaurant = Restaurant::findOrFail($restaurantId);
 
-        return view('restaurant.promotioncreate', compact('restaurant'));
+        return view('restaurant.promotioncreate', compact('restaurant', 'restaurantId'));
     }
+
     public function store(Request $request, Restaurant $restaurant)
     {
         // Validate the request data
         $request->validate([
-            'title' => 'required',
-            'description' => 'required',
+            'title' => 'varchars|nullable',
+            'description' => 'varchars|nullable',
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust image validation as needed
         ]);
 
@@ -37,6 +39,9 @@ class PromotionController extends Controller
             'description' => $request->input('description'),
             'image' => isset($imagePath) ? $imagePath : null,
             'restaurant_id' => $restaurant->id,
+            'active' => true,
+            // 'approved' => false
+            'approved' => false
         ]);
 
         return redirect()->route('restaurant.settings.index', ['restaurant' => $restaurant->id])
@@ -52,8 +57,8 @@ class PromotionController extends Controller
     {
         // Validate the request data
         $request->validate([
-            'title' => 'required',
-            'description' => 'required',
+            'title' => 'varchars|nullable',
+            'description' => 'varchars|nullable',
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust image validation as needed
         ]);
 

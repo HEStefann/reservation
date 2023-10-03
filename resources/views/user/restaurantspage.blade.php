@@ -54,13 +54,9 @@
                     </linearGradient>
                 </defs>
             </svg>
-            @php
-                $totalRestaurantCount = count($restaurants); // Assuming $restaurants contains all your restaurants
-            @endphp
-
             <a href="{{ route('user.restaurantspage') }}">
                 <div class="px-4 py-1 rounded-[14px] bg-[#2d6adc]/[0.08] border border-[#2d6adc]">
-                    <p class="text-sm w-max text-[#005fa4]">All ({{ $totalRestaurantCount }})</p>
+                    <p class="text-sm w-max text-[#005fa4]">All ({{ $allRestaurantsNumber }})</p>
                 </div>
             </a>
             @php
@@ -84,7 +80,7 @@
     <div class="mx-[26px] mt-[14px]">
         <p id="searchLocationDisplay" class="text-lg font-medium text-[#343a40] pb-[8px]">The best restaurants in
             Macedonia<span id="searchLocationValue"></span></p>
-            <p id="restaurantCount" class="text-xs font-light text-[#6b686b]"></p>
+        <p id="restaurantCount" class="text-xs font-light text-[#6b686b]"></p>
         <x-search-restaurant :restaurants="$restaurants" />
     </div>
 
@@ -105,11 +101,10 @@
         }
     </script>
     <script>
-                    @php
-                $totalRestaurantCount = count($restaurants); // Assuming $restaurants contains all your restaurants
-            @endphp
+        @php
+            $totalRestaurantCount = count($restaurants); // Assuming $restaurants contains all your restaurants
+        @endphp
         const totalRestaurantCount = {{ $totalRestaurantCount }};
-        console.log(totalRestaurantCount);
         document.addEventListener("DOMContentLoaded", function() {
             const searchInput = document.getElementById("searchRestaurant");
             const clearButton = document.getElementById("clearRestaurantButton");

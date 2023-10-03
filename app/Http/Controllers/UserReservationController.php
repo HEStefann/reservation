@@ -70,7 +70,6 @@ class UserReservationController extends Controller
         // return redirect()->route('payment.index', ['reservation' => $reservation->id]);
         return redirect()->route('user.home');
     }
-
     public function showReservationsForDate($restaurantId, $selectedDate)
     {
         // Extract date components using regular expressions
@@ -132,5 +131,17 @@ class UserReservationController extends Controller
         return response()->json([
             'reservedTables' => $restaurant->reservations()
         ]);
+      
+    public function delete(Request $request, Reservation $reservation)
+    {
+        $user = Auth::user();
+
+        if ($reservation) {
+            $reservation->delete();
+            return redirect()->route('user.reservations');
+        } else {
+            // Handle the case where the reservation is not found
+            return redirect()->route('user.reservations')->with('error', 'Reservation not found.');
+        }
     }
 }

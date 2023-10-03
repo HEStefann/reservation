@@ -18,8 +18,30 @@
             reserved by you</div>
     </div>
 
-    <form action="{{ route('user.restaurantspage') }}" method="GET" class="top-[46px] z-10">
-        <div class="px-[25px] pb-[24px] mb-[40px] flex flex-col gap-[10px] sticky top-[40px] z-10 bg-white">
+    <form action="{{ route('user.restaurantspage') }}" method="GET" class="z-10">
+        <div class="px-[25px] pb-[24px] mb-[40px] flex flex-col gap-[10px] z-10 bg-white">
+            {{-- Search Location --}}
+            <div class="flex items-center relative">
+                <svg viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    class="w-[23.31px] h-6 absolute ml-[14px]" preserveAspectRatio="none">
+                    <path
+                        d="M12.5798 1.17578C7.7261 1.17578 3.79138 4.88867 3.79138 9.46875C3.79138 11.0004 4.1091 12.5824 5.02084 13.7227L12.5798 23.1758L20.1387 13.7227C20.9668 12.687 21.3682 10.8561 21.3682 9.46875C21.3682 4.88867 17.4335 1.17578 12.5798 1.17578ZM12.5798 5.97888C14.622 5.97888 16.2781 7.54163 16.2781 9.46874C16.2781 11.3959 14.622 12.9586 12.5798 12.9586C10.5375 12.9586 8.88144 11.3959 8.88144 9.46875C8.88144 7.54163 10.5375 5.97888 12.5798 5.97888Z"
+                        fill="#343A40"></path>
+                    <rect x="1.42273" y="0.675781" width="22.3143" height="23" rx="9.5" stroke="white">
+                    </rect>
+                </svg>
+                <input id="searchLocation" type="text"
+                    class="w-full pl-[52px] h-12 rounded-[10px] bg-white border border-[#6b686b]"
+                    placeholder="3583 RJ Utrecht, Neth...">
+                <svg id="clearLocationButton" width="17" height="14" viewBox="0 0 17 14" fill="none"
+                    xmlns="http://www.w3.org/2000/svg" class="w-[14.57px] h-[12.02px] absolute mr-[18px] right-0"
+                    preserveAspectRatio="xMidYMid meet">
+                    <path d="M1.22168 0.941406L15.7929 12.9588" stroke="#343A40"></path>
+                    <path d="M15.793 0.941406L1.22176 12.9588" stroke="#343A40"></path>
+                </svg>
+            </div>
+            {{-- End search location --}}
+            {{-- Search restaurant --}}
             <div class="flex items-center relative">
                 <svg viewBox="0 0 29 23" fill="none" xmlns="http://www.w3.org/2000/svg"
                     class="w-[23.31px] h-6 absolute ml-[14px]" preserveAspectRatio="xMidYMid meet">
@@ -43,12 +65,16 @@
                 <input id="searchRestaurant" type="text" name="searchRestaurant"
                     class="w-full pl-[52px] h-12 rounded-[10px] bg-white border border-[#6b686b]" placeholder="Restaurant">
                 <svg id="clearRestaurantButton" width="17" height="14" viewBox="0 0 17 14" fill="none"
-                    xmlns="http://www.w3.org/2000/svg" class="w-[14.57px] h-[12.02px] absolute mr-[18px] right-0 hidden"
+                    xmlns="http://www.w3.org/2000/svg" class="w-[14.57px] h-[12.02px] absolute mr-[18px] right-0"
                     preserveAspectRatio="xMidYMid meet">
                     <path d="M1.22168 0.941406L15.7929 12.9588" stroke="#343A40"></path>
                     <path d="M15.793 0.941406L1.22176 12.9588" stroke="#343A40"></path>
                 </svg>
             </div>
+            <ul id="autocomplete-results" class="bg-white border border-gray-300 rounded-lg shadow-md  w-full hidden px-1">
+                <!-- Suggestions will be added here dynamically -->
+            </ul>
+
             {{-- End search restaurant --}}
             {{-- SEARCH BUTTON --}}
             <button type="submit"
@@ -61,24 +87,28 @@
 
     <div class="flex flex-col gap-[18px] items-center">
         <div id="image-scroll"
-        class="px-[26px] flex gap-[11px] overflow-x-scroll scrollbar-hide snap-x scroll-smooth snap-mandatory hide-scrollbar">
-        <img class="rounded-[28px] snap-center" src="https://i.ibb.co/Pj8dWmq/Group-3118-1.png" alt="" onclick="window.location.href = '{{ route('user.restaurant', 3) }}'">
-        <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="" onclick="window.location.href = '{{ route('user.restaurant', 1) }}'">
-        <img class="rounded-[28px] snap-center" src="https://i.ibb.co/Pj8dWmq/Group-3118-1.png" alt="" onclick="window.location.href = '{{ route('user.restaurant', 3) }}'">
-        <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="" onclick="window.location.href = '{{ route('user.restaurant', 1) }}'">
-        <img class="rounded-[28px] snap-center" src="https://i.ibb.co/Pj8dWmq/Group-3118-1.png" alt="" onclick="window.location.href = '{{ route('user.restaurant', 3) }}'">
-        <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="" onclick="window.location.href = '{{ route('user.restaurant', 1) }}'">
-        <img class="rounded-[28px] snap-center" src="https://i.ibb.co/Pj8dWmq/Group-3118-1.png" alt="" onclick="window.location.href = '{{ route('user.restaurant', 3) }}'">
-        <img class="rounded-[28px] snap-center" src="{{ asset('images\Group 3115.png') }}" alt="" onclick="window.location.href = '{{ route('user.restaurant', 1) }}'">
-    </div>
+            class="px-[26px] w-full flex gap-[11px] overflow-x-scroll scrollbar-hide snap-x scroll-smooth snap-mandatory hide-scrollbar">
+            @for ($i = 0; $i < 15; $i++)
+                @foreach ($promotions as $promotion)
+                    <div style="min-width: 277px; min-height: 120px;width: 277px; height: 120px">
+                        <img class="rounded-[28px] snap-center w-full h-full" style="width: 100%; height: 100%;"
+                            src="{{ asset('storage/' . $promotion->image) }}" alt=""
+                            onclick="window.location.href = '{{ route('user.restaurant', $promotion->restaurant_id) }}'">
+                    </div>
+                @endforeach
+            @endfor
+        </div>
         <svg width="35" height="9" viewBox="0 0 35 9" fill="none" xmlns="http://www.w3.org/2000/svg"
             class="w-[35px] h-[9px]" preserveAspectRatio="none">
             <circle id="circle1" class="dots-promotions" cx="4.5" cy="4.5" r="4.5"
-                fill="#005FA4"></circle>
+                fill="#005FA4">
+            </circle>
             <circle id="circle2" class="dots-promotions" cx="17.5" cy="4.5" r="4.5"
-                fill="#E2E2E2"></circle>
+                fill="#E2E2E2">
+            </circle>
             <circle id="circle3" class="dots-promotions" cx="30.5" cy="4.5" r="4.5"
-                fill="#E2E2E2"></circle>
+                fill="#E2E2E2">
+            </circle>
         </svg>
     </div>
     <div class="flex justify-between ml-[26px] mr-[14px] mt-[64px]">
@@ -87,7 +117,7 @@
             <p class="text-xs text-left text-gray-500">Check your city nearby restaurant</p>
         </div>
         <a href="#" onclick="getLocation()">
-        <div class="flex items-center">
+            <div class="flex items-center">
                 <p class=" text-xs font-medium text-left text-[#005fa4] mr-[5px]">
                     See All
                 </p>
@@ -108,7 +138,7 @@
             <p class="text-xs text-left text-gray-500">Check highly rated restaurants</p>
         </div>
         <a href="{{ route('user.highlyrated') }}">
-        <div class="flex items-center">
+            <div class="flex items-center">
                 <p class="text-xs font-medium text-left text-[#005fa4] mr-[5px]">
                     See All
                 </p>
@@ -143,7 +173,7 @@
             <p class="text-xs text-left text-gray-500">Check highly rated restaurants</p>
         </div>
         <a href="{{ route('user.recommended') }}">
-        <div class="flex items-center">
+            <div class="flex items-center">
                 <p class="text-xs font-medium text-left text-[#005fa4] mr-[5px]">
                     See All
                 </p>
@@ -376,11 +406,11 @@
                 console.log("Geolocation is not supported by this browser.");
             }
         }
-    
+
         function showPosition(position) {
             var latitude = position.coords.latitude;
             var longitude = position.coords.longitude;
-    
+
             // Redirect to the nearest restaurants page with query parameters
             window.location.href = "{{ route('user.nearest') }}?latitude=" + latitude + "&longitude=" + longitude;
         }
@@ -435,6 +465,42 @@
             event.preventDefault(); // Prevent the default behavior
             window.location.href = '/user/favorite/' + restaurantId;
         }
+    </script>
+    <script>
+        const searchInput = document.getElementById('searchRestaurant');
+        const autocompleteResults = document.getElementById('autocomplete-results');
+
+        searchInput.addEventListener('input', function() {
+            const term = searchInput.value;
+
+            // Make an AJAX request to the autocomplete route
+            fetch(`/searchByTermName?term=${term}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Clear previous results
+                    autocompleteResults.innerHTML = '';
+
+                    // Display the suggestions or "no results found" message
+                    if (data !== 'No results found') {
+                        const suggestion = data;
+                        const li = document.createElement('li');
+                        li.textContent = suggestion.title;
+                        // Add a click event listener to the suggestion
+                        li.addEventListener('click', function() {
+                            // Navigate to the restaurant page with the corresponding ID
+                            window.location.href = `/restaurant/${suggestion.id}`;
+                        });
+                        autocompleteResults.appendChild(li);
+                    } else {
+                        const li = document.createElement('li');
+                        li.textContent = 'No results found';
+                        autocompleteResults.appendChild(li);
+                    }
+
+                    // Show the autocomplete results
+                    autocompleteResults.classList.remove('hidden');
+                });
+        });
     </script>
 @endpush
 @section('footer', '')

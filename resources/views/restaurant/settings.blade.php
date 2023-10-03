@@ -745,13 +745,13 @@
 
                         document.getElementById("choosenDate").innerHTML = formattedDate;
                         if (data[0]['is_working'] == 0) {
-                document.getElementById("operatingStatusSvg").innerHTML = `
+                            document.getElementById("operatingStatusSvg").innerHTML = `
         <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-[42px] h-[42px]" preserveAspectRatio="xMidYMid meet">
             <path d="M12.25 29.75L29.75 29.75C34.58 29.75 38.5 25.83 38.5 21C38.5 16.17 34.58 12.25 29.75 12.25L12.25 12.25C7.42 12.25 3.5 16.17 3.5 21C3.5 25.83 7.42 29.75 12.25 29.75ZM12.25 15.75C15.155 15.75 17.5 18.095 17.5 21C17.5 23.905 15.155 26.25 12.25 26.25C9.345 26.25 7 23.905 7 21C7 18.095 9.345 15.75 12.25 15.75Z" fill="${value === 0 ? 'black' : '#B5BEC6'}" fill-opacity="0.54"></path>
         </svg>
     `;
-            } else {
-                document.getElementById("operatingStatusSvg").innerHTML = `
+                        } else {
+                            document.getElementById("operatingStatusSvg").innerHTML = `
     <svg width="42" height="42" viewBox="0 0 42 42" fill="none"
                                     xmlns="http://www.w3.org/2000/svg" class="w-[42px] h-[42px]"
                                     preserveAspectRatio="xMidYMid meet">
@@ -760,7 +760,7 @@
                                         fill="#B7DDBF"></path>
                                 </svg>
     `;
-            }
+                        }
 
                         openingTime = data[0]["opening_time"].split(":")[0];
                         closingTime = data[0]["closing_time"].split(":")[0];

@@ -128,16 +128,36 @@ class RestaurantController extends Controller
     public function searchByTag($tag)
     {
         $tags = Tag::all(); // Retrieve all tags
-
+        $allRestaurantsNumber = Restaurant::all()->count();
         // Query restaurants that have the selected tag
-        $restaurants = Restaurant::whereHas('tags', function ($query) use ($tag) {
+        $restaurants = Restaurant::with('tags')->whereHas('tags', function ($query) use ($tag) {
             $query->where('name', $tag);
         })->get();
 
         return view('user.restaurantspage', [
+            'allRestaurantsNumber' => $allRestaurantsNumber,
             'restaurants' => $restaurants,
             'searchQuery' => '', // You may want to clear the search query
             'tags' => $tags,
         ]);
+    }
+
+    public function autocomplete(Request $request)
+    {
+        $term = $request->input('term');
+
+        // Retrieve the restaurant based on the term
+        $restaurant = Restaurant::where('title', 'like', '%' . $term . '%')->first();
+
+        if ($restaurant) {
+            // If restaurant found, return the restaurant title and ID
+            return response()->json([
+                'title' => $restaurant->title,
+                'id' => $restaurant->id
+            ]);
+        } else {
+            // If no restaurant found, return an error message or empty response
+            return 'No results found';
+        }
     }
 }

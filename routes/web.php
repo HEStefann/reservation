@@ -205,3 +205,7 @@ Route::get('/edit-date/{selectedDate}', [RestaurantSettingsController::class,'ed
 // get working hours for selected date for restaurant UserReservationController
 Route::get('/workinghours/{restaurantId}/{selectedDate}', [UserReservationController::class, 'getWorkingHours'])->name('workinghours');
 Route::get('/tables/check-free', [UserReservationController::class, 'checkFreeTables'])->name('tables.check-free');
+Route::get('/calendar/search', [RestaurantCalendarController::class, 'search']);
+Route::get('/searchByTermName', [RestaurantController::class, 'autocomplete']);
+//user.reservations.destroy with usercontroller method delete
+Route::delete('/user/reservations/{reservation}/delete', [UserReservationController::class, 'delete'])->name('user.reservations.destroy');

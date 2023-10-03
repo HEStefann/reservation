@@ -72,7 +72,7 @@ class ReservationController extends Controller
         $reservation->delete();
 
         // Redirect back to the reservations page with a success message
-        return redirect()->route('history')->with('success', 'Reservation deleted successfully.');
+        return redirect()->route('user.reservations')->with('success', 'Reservation deleted successfully.');
     }
 
     public function history(Request $request)

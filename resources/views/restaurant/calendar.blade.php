@@ -320,13 +320,42 @@
     </script>
     <script>
         const searchInput = document.getElementById("search-input");
-        searchInput.addEventListener("input", performSearch);
+        searchInput.addEventListener("keydown", performSearch);
 
-        function performSearch() {
-            const searchText = searchInput.value;
-            // Call the method in the RestaurantCalendarController to perform the search and update the calendar
-            // You can use AJAX to send a request to the server and receive the search results
-            // Then, update the calendar based on the search results
+        function performSearch(event) {
+            if (event.key === "Enter") {
+                event.preventDefault(); // Prevent form submission
+
+                const searchText = searchInput.value;
+                sendSearchRequest(searchText);
+            }
+        }
+
+        function sendSearchRequest(searchText) {
+            // Make an AJAX GET request to the search route
+            fetch(`/calendar/search?term=${encodeURIComponent(searchText)}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Handle the search results
+                    updateCalendar(data.searchResults);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        function updateCalendar(searchResults) {
+            // Clear the existing calendar entries
+            const reservationsContainer = document.getElementById("reservations-container");
+            reservationsContainer.innerHTML = "";
+
+            // Iterate over each search result
+            searchResults.forEach(result => {
+                const fullName = result.full_name;
+                const date = result.date;
+                const number_of_people = result.number_of_people;
+                console.log(searchResults);
+            });
         }
     </script>
 @endsection

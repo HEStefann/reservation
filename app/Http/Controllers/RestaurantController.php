@@ -141,4 +141,23 @@ class RestaurantController extends Controller
             'tags' => $tags,
         ]);
     }
+
+    public function autocomplete(Request $request)
+    {
+        $term = $request->input('term');
+
+        // Retrieve the restaurant based on the term
+        $restaurant = Restaurant::where('title', 'like', '%' . $term . '%')->first();
+
+        if ($restaurant) {
+            // If restaurant found, return the restaurant title and ID
+            return response()->json([
+                'title' => $restaurant->title,
+                'id' => $restaurant->id
+            ]);
+        } else {
+            // If no restaurant found, return an error message or empty response
+            return 'No results found';
+        }
+    }
 }

@@ -1,7 +1,7 @@
 @foreach ($restaurants as $restaurant)
     <a href="{{ route('user.restaurant', $restaurant->id) }}">
         <div class="w-[148px] h-full rounded-2xl bg-white p-[10px] d-flex justify-center"
-            style="filter: drop-shadow(0px 20px 50px rgba(0,0,0,0.1)); box-shadow: 0px 2px 8px 0 rgba(0,0,0,0.04);">
+            style="filter: drop-shadow(0px 20px 24px rgba(0,0,0,0.1)); box-shadow: 0px 2px 8px 0 rgba(0,0,0,0.04);">
             <div class="w-32 h-[103.3px] rounded-tl-lg rounded-tr-lg bg-[#c4c4c4] relative">
                 @php
                     $imageUrl = $restaurant

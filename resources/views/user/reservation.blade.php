@@ -579,47 +579,46 @@
         }
     </script>
     <script>
+        let reservedTables = [];
         const floorButtons = document.querySelectorAll('button[id^="floor"]');
 
-        // Function to toggle table selection
-        function toggleTableSelection(table) {
-            table.classList.toggle('selected');
-
-            // Get the input element
-            const input = document.getElementById('selectedTablesInput');
-
-            // Get the table description
-            const tableDescription = table.getAttribute('data-table-id');
-
-            // Check if the table is selected
-            if (table.classList.contains('selected')) {
-                // Add the table description to the input
-                input.value += tableDescription + ', ';
-
-                // Change the background color
-                // table p element
-                const tableContent = table.querySelector('p');
-                tableContent.style.background = 'linear-gradient(to bottom right, #ffcd01 0%, #fc7f09 100%)';
-            } else {
-                // Remove the table description from the input
-                input.value = input.value.replace(tableDescription + ', ', '');
-
-                // Reset the background color
-                const tableContent = table.querySelector('p');
-                tableContent.style.background = '#979797';
-            }
-        }
-
-        function tablesToggleable() {
+        function tablesToggleable(reservedTables) {
             const tablesContainer = document.getElementById('tablesContainer');
             const tables = tablesContainer.querySelectorAll('#tablesContainer > div');
             tables.forEach(table => {
-                table.addEventListener('click', function() {
-                    toggleTableSelection(table);
-                });
+                if (!reservedTables.includes(parseInt(table.getAttribute('data-table-id')))) {
+                    table.addEventListener('click', function() {
+                        table.classList.toggle('selected');
+
+                        // Get the input element
+                        const input = document.getElementById('selectedTablesInput');
+
+                        // Get the table description
+                        const tableDescription = table.getAttribute('data-table-id');
+
+                        // Check if the table is selected
+                        if (table.classList.contains('selected')) {
+                            // Add the table description to the input
+                            input.value += tableDescription + ', ';
+
+                            // Change the background color
+                            // table p element
+                            const tableContent = table.querySelector('p');
+                            tableContent.style.background =
+                                'linear-gradient(to bottom right, #ffcd01 0%, #fc7f09 100%)';
+                        } else {
+                            // Remove the table description from the input
+                            input.value = input.value.replace(tableDescription + ', ', '');
+
+                            // Reset the background color
+                            const tableContent = table.querySelector('p');
+                            tableContent.style.background = '#979797';
+                        }
+                    });
+                }
             });
         }
-        tablesToggleable()
+        tablesToggleable(reservedTables);
         floorButtons.forEach(button => {
             button.addEventListener('click', function() {
                 floorButtons.forEach(btn => {
@@ -627,11 +626,12 @@
                 });
 
                 this.classList.add('activeFloorButton');
+                let floorIdInput = document.getElementById('floorIdInput');
+                floorIdInput.value = this.id.replace('floor', '');
                 printTables();
             });
         });
-    </script>
-    <script>
+
         const todayButton = document.getElementById('todayButton');
         const tomorrowButton = document.getElementById('tomorrowButton');
         const prevButton = document.getElementById('prevButton');
@@ -656,7 +656,6 @@
 
         // Get the current date
         const currentDate = new Date();
-
         // Update the calendar with the current date
         updateCalendar(currentDate);
 
@@ -721,8 +720,14 @@
                     'justify-center', 'items-center');
 
                 // Calculate the date for this day
-                const dayDate = new Date(year, date.getMonth(), i + 1);
-                dayElement.setAttribute('data-date', dayDate.toISOString());
+                const dayDate = new Date(year, date.getMonth(), i);
+                const options = {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit'
+                };
+                const formattedDate = dayDate.toLocaleDateString('en-US', options);
+                dayElement.setAttribute('data-date', formattedDate);
 
                 // Check if the day is expired
                 const today = new Date();
@@ -781,7 +786,6 @@
                 year: 'numeric'
             });
             printTimes(reservationDate.textContent);
-            printTables();
         }
 
         function selectTomorrow() {
@@ -857,8 +861,7 @@
                 reservationPeople.innerHTML = currentNumber;
             }
         });
-    </script>
-    <script>
+
         function handleButtonClick(event) {
             const clickedButton = event.target;
             if (selectedButton) {
@@ -912,13 +915,11 @@
                 });
             });
         }
-    </script>
-    <script>
+
         document.getElementById('note').addEventListener('change', () => {
             document.getElementById('reservationNote').innerHTML = document.getElementById('note').value;
         });
-    </script>
-    <script>
+
         function printTimes(date) {
             const timeSlotsContainer = document.getElementById('time-slots-container');
             timeSlotsContainer.innerHTML = '';
@@ -938,13 +939,14 @@
                         timeSlotsContainer.appendChild(button);
                     }
                 }
+                timeButtonsEvent();
             } else {
                 // current date is Friday, Oct 20, 2023 convert it to 2023-10-20
                 date = new Date(date);
-            const year = date.getFullYear();
-            const month = (date.getMonth() + 1).toString().padStart(2, '0');
-            const day = date.getDate().toString().padStart(2, '0');
-            date = `${year}-${month}-${day}`;
+                const year = date.getFullYear();
+                const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                const day = date.getDate().toString().padStart(2, '0');
+                date = `${year}-${month}-${day}`;
                 const restaurantId = {{ $restaurant->id }};
                 fetch(`/workinghours/${restaurantId}/${date}`)
                     .then(response => response.json())
@@ -964,23 +966,34 @@
                                 timeSlotsContainer.appendChild(button);
                             }
                         }
+                        timeButtonsEvent();
                     })
                     .catch(error => {
                         console.error('Error:', error);
                     });
             }
-            timeButtonsEvent();
+            printTables();
         }
 
         function printTables() {
-            const tablesContainer = document.getElementById('tablesContainer');
-            tablesContainer.innerHTML = '';
-            const activeFloorButton = document.querySelector('.activeFloorButton');
-            let floorId = activeFloorButton['attributes']['id'].value;
-            floorId = floorId.replace('floor', ''); // Get the ID without "floor" prefix
-            const floorIdInput = document.getElementById('floorIdInput');
-            floorIdInput.value = floorId;
-            // Make an AJAX request to fetch the tables data for the selected floor
+            let selectedDate = document.getElementById('selectedDateInput').value;
+            let selectedTime = document.getElementById('selectedTimeInput').value;
+            let floorId = document.getElementById('floorIdInput').value;
+            if (selectedDate !== '' && selectedTime !== '' && floorId !== '') {
+                fetch(`/tables/check-free?floorId=${floorId}&date=${selectedDate}&time=${selectedTime}`)
+                    .then(response => response.json())
+                    .then(freeTablesData => {
+                        reservedTables = freeTablesData['reservedTables'];
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            } else {
+                let tablesContainer = document.getElementById('tablesContainer');
+                tablesContainer.innerHTML = '';
+                let selectedTablesInput = document.getElementById('selectedTablesInput');
+                selectedTablesInput.innerHTML = '';
+            }
             fetch(`/api/tables/${floorId}`)
                 .then(response => response.json())
                 .then(tablesData => {
@@ -995,6 +1008,11 @@
                         tableElement.style.top = `${table.PositionTop}px`;
 
                         const tableContent = document.createElement('p');
+                        if (reservedTables.includes(table.id)) {
+                            tableContent.classList.add('bg-black/10')
+                        } else {
+                            tableContent.classList.add('bg-[#979797]')
+                        }
                         tableContent.classList.add('rounded-[10px]', 'bg-[#979797]',
                             'text-[8px]', 'font-semibold', 'text-white', 'flex',
                             'items-center', 'justify-center');
@@ -1006,12 +1024,13 @@
                         tableElement.appendChild(tableContent);
                         tablesContainer.appendChild(tableElement);
                     });
-                    tablesToggleable();
+                    tablesToggleable(reservedTables);
                 })
                 .catch(error => {
                     console.error('Error:', error);
                 });
         }
+
         const selectedDateInput = document.getElementById('selectedDateInput');
         const selectedTimeInput = document.getElementById('selectedTimeInput');
         const floorIdInput = document.getElementById('floorIdInput');

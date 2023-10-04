@@ -117,19 +117,23 @@ class UserReservationController extends Controller
         $selectedTime = $request->input('time');
 
         $floor = Floor::findOrFail($floorId);
-        $restaurantId = $floor->restaurant->first()->id;
-        $reservations = whereDate('date', $selectedDate)->get();
+        $restaurant = Restaurant::findOrFail($floor->restaurant->first()->id);
 
+        $reservations = Reservation::with('tables')
+        ->where('date', $selectedDate)
+        ->where('time', $selectedTime)
+        ->where('restaurant_id', $restaurant->id)
+        ->get();
         $reservedTables = [];
 
         foreach ($reservations as $reservation) {
-            $tables = $reservation->tables;
-            foreach ($tables as $table) {
+            foreach ($reservation->tables as $table) {
                 $reservedTables[] = $table->id;
             }
         }
+        
         return response()->json([
-            'reservedTables' => $restaurant->reservations()
+            'reservedTables' => $reservedTables
         ]);
     }
     public function delete(Request $request, Reservation $reservation)

@@ -223,7 +223,14 @@ class Restaurant extends Model
             return null;
         }
 
-        $products = $menu->products()->where('active', 1)->get();
+        // get all categories that are in menu
+        $categories = $menu->categories()->get();
+        // get all products from categories that are in menu
+        $products = collect();
+
+        foreach ($categories as $category) {
+            $products = $products->merge($category->products);
+        }
 
         if ($products->isEmpty()) {
             return null;

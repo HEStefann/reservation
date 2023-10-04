@@ -87,30 +87,32 @@
                         ?>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     <?php $maxReservations = max(array_map('count', $hourlyReservations)); ?>
-                    <?php for($y = 0; $y < $maxReservations; $y++): ?>
-                        <?php for($i = 0; $i < 24; $i++): ?>
-                            <?php if(isset($hourlyReservations[$i][$y])): ?>
-                                <?php
-                                    $reservation = $hourlyReservations[$i][$y];
-                                ?>
-                                <div onclick="openReservationInfoModal(<?php echo e($reservation->id); ?>)"
-                                    class="<?php if($reservation->status == 'accepted'): ?> bg-[#b7ddbf]
+                    <?php if($maxReservations != 0): ?>
+                        <?php for($y = 0; $y < $maxReservations; $y++): ?>
+                            <?php for($i = 0; $i < 24; $i++): ?>
+                                <?php if(isset($hourlyReservations[$i][$y])): ?>
+                                    <?php
+                                        $reservation = $hourlyReservations[$i][$y];
+                                    ?>
+                                    <div onclick="openReservationInfoModal(<?php echo e($reservation->id); ?>)"
+                                        class="<?php if($reservation->status == 'accepted'): ?> bg-[#b7ddbf]
                                 <?php elseif($reservation->status == 'pending'): ?> bg-[#ffffcb]
                                 <?php elseif($reservation->status == 'declined'): ?> bg-[#fd8175]/[0.88] <?php endif; ?>
                                 text-2xl text-left text-black/[0.87] w-[370px] h-[114px] max-h-max flex justify-center items-center border-b border-black/[0.12]">
-                                    <div>
-                                        <p> <?php echo e($reservation->full_name); ?> - Table 1 </p>
-                                        <p>
-                                            People: <?php echo e($reservation->number_of_people); ?>
+                                        <div>
+                                            <p> <?php echo e($reservation->full_name); ?> - Table 1 </p>
+                                            <p>
+                                                People: <?php echo e($reservation->number_of_people); ?>
 
-                                        </p>
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
-                            <?php else: ?>
-                                <div class="w-[370px] h-[114px] border-b border-black/[0.12]"></div>
-                            <?php endif; ?>
+                                <?php else: ?>
+                                    <div class="w-[370px] h-[114px] border-b border-black/[0.12]"></div>
+                                <?php endif; ?>
+                            <?php endfor; ?>
                         <?php endfor; ?>
-                    <?php endfor; ?>
+                    <?php endif; ?>
                 </div>
             </div>
             <div class="mr-[122px] h-[72px] flex items-center">
@@ -123,60 +125,62 @@
         </div>
         <div id="reservations-container"></div>
     </div>
-    <div id="reservationInfoModal" style="display: none;"
-        class="fixed z-10 left-0 top-0 w-full h-full bg-[rgba(0,0,0,0.5)] flex justify-center items-center">
-        <div class="rounded-lg bg-white w-[728px] flex flex-col items-center"
-            style="box-shadow: 0px 20px 50px 0 rgba(0,0,0,0.1);">
-            <p class="text-2xl text-center font-medium text-[#343a40] px-[30px] pt-[16px] mb-[16px]">
-                Reservation Info
-            </p>
-            <div class="w-full h-px bg-[#212121]/[0.08]">
-            </div>
-            <div class=" flex flex-col items-center gap-[18px] mt-[16px] mb-[40px]">
-                <p class="text-2xl text-center text-[#343a40]">
-                    <span class="font-semibold text-center text-[#343a40]">Full
-                        name:</span>
-                    <?php echo e($reservation->full_name); ?>
-
+    <?php if($maxReservations != 0): ?>
+        <div id="reservationInfoModal" style="display: none;"
+            class="fixed z-10 left-0 top-0 w-full h-full bg-[rgba(0,0,0,0.5)] flex justify-center items-center">
+            <div class="rounded-lg bg-white w-[728px] flex flex-col items-center"
+                style="box-shadow: 0px 20px 50px 0 rgba(0,0,0,0.1);">
+                <p class="text-2xl text-center font-medium text-[#343a40] px-[30px] pt-[16px] mb-[16px]">
+                    Reservation Info
                 </p>
-                <p class="text-2xl text-center text-[#343a40]">
-                    <span class="font-semibold text-center text-[#343a40]">Phone number:</span>
-                    <?php echo e($reservation->phone_number); ?>
+                <div class="w-full h-px bg-[#212121]/[0.08]">
+                </div>
+                <div class=" flex flex-col items-center gap-[18px] mt-[16px] mb-[40px]">
+                    <p class="text-2xl text-center text-[#343a40]">
+                        <span class="font-semibold text-center text-[#343a40]">Full
+                            name:</span>
+                        <?php echo e($reservation->full_name); ?>
 
-                </p>
-                <p class="text-2xl text-center text-[#343a40]">
-                    <span class="font-semibold text-center text-[#343a40]">Email:</span>
-                    <?php echo e($reservation->email); ?>
+                    </p>
+                    <p class="text-2xl text-center text-[#343a40]">
+                        <span class="font-semibold text-center text-[#343a40]">Phone number:</span>
+                        <?php echo e($reservation->phone_number); ?>
 
-                </p>
-                <p class="text-2xl text-center text-[#343a40]">
-                    <span class="font-semibold text-center text-[#343a40]">Deposit:</span>
-                    <?php echo e($reservation->deposit ?? 'N/A'); ?>
+                    </p>
+                    <p class="text-2xl text-center text-[#343a40]">
+                        <span class="font-semibold text-center text-[#343a40]">Email:</span>
+                        <?php echo e($reservation->email); ?>
 
-                </p>
-                <p class="text-2xl text-center text-[#343a40]">
-                    <span class="font-semibold text-center text-[#343a40]">Number of people:</span>
-                    <?php echo e($reservation->number_of_people); ?>
+                    </p>
+                    <p class="text-2xl text-center text-[#343a40]">
+                        <span class="font-semibold text-center text-[#343a40]">Deposit:</span>
+                        <?php echo e($reservation->deposit ?? 'N/A'); ?>
 
-                </p>
-                <p class="text-2xl text-center text-[#343a40]">
-                    <span class="font-semibold text-center text-[#343a40]">Note:</span>
-                    <?php echo e($reservation->note); ?>
+                    </p>
+                    <p class="text-2xl text-center text-[#343a40]">
+                        <span class="font-semibold text-center text-[#343a40]">Number of people:</span>
+                        <?php echo e($reservation->number_of_people); ?>
 
-                </p>
-                <div class="flex gap-[50px]">
-                    <button onclick="enableEdit()"
-                        class="w-[142px] h-10 rounded-[10px] bg-[#005fa4] text-base font-semibold text-white">
-                        Edit
-                    </button>
-                    <button type="button" onclick="hideReservationInfoModal()"
-                        class="w-[142px] h-10 rounded-[10px] text-base font-semibold text-[#005fa4] bg-white border border-[#005fa4]">
-                        Close
-                    </button>
+                    </p>
+                    <p class="text-2xl text-center text-[#343a40]">
+                        <span class="font-semibold text-center text-[#343a40]">Note:</span>
+                        <?php echo e($reservation->note); ?>
+
+                    </p>
+                    <div class="flex gap-[50px]">
+                        <button onclick="enableEdit()"
+                            class="w-[142px] h-10 rounded-[10px] bg-[#005fa4] text-base font-semibold text-white">
+                            Edit
+                        </button>
+                        <button type="button" onclick="hideReservationInfoModal()"
+                            class="w-[142px] h-10 rounded-[10px] text-base font-semibold text-[#005fa4] bg-white border border-[#005fa4]">
+                            Close
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    <?php endif; ?>
     <script>
         function openReservationInfoModal() {
             let reservationModal = document.getElementById("reservationInfoModal");

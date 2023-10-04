@@ -6,14 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <?php echo app('Illuminate\Foundation\Vite')(['resources/css/app.css', 'resources/js/app.js']); ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </head>
 
 
 <body class="h-full w-full bg-white">
-    <x-navbar />
+    <?php if (isset($component)) { $__componentOriginalb9eddf53444261b5c229e9d8b9f1298e = $component; } ?>
+<?php $component = App\View\Components\Navbar::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('navbar'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(App\View\Components\Navbar::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalb9eddf53444261b5c229e9d8b9f1298e)): ?>
+<?php $component = $__componentOriginalb9eddf53444261b5c229e9d8b9f1298e; ?>
+<?php unset($__componentOriginalb9eddf53444261b5c229e9d8b9f1298e); ?>
+<?php endif; ?>
 
     <div class="m-[26px] mt-[48.4px]">
         <div class="flex items-center space-x-4">
@@ -23,10 +37,11 @@
             </div>
             <div class="font-medium flex-grow">
                 <div class="text-[28px] text-[#343a40] flex items-center justify-between">
-                    <p class="flex">{{ $user->name }}</p>
+                    <p class="flex"><?php echo e($user->name); ?></p>
                 </div>
                 <p class="text-[15px] font-extralight text-[#343a40]">
-                    {{ $user->email }}
+                    <?php echo e($user->email); ?>
+
                 </p>
             </div>
         </div>
@@ -36,7 +51,7 @@
     <div class="mx-[26px] mt-[48.4px]">
         <h1 class="text-lg font-medium m-0 text-[#343a40]">Favourites</h1>
         <div class="mt-[28px]">
-            @foreach ($favorites as $favorite)
+            <?php $__currentLoopData = $favorites; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $favorite): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <div class="rounded-bl-2xl rounded-t-2xl rounded-br-2xl bg-white mt-[28px] pb-[8px] shadow-2xl">
                     <div class="relative">
                         <svg width="14" height="12" viewBox="0 0 14 12" fill="none"
@@ -54,12 +69,12 @@
                             </defs>
                         </svg>
                         <div class="h-[100px] w-full">
-                            <img class="w-full h-full object-fill" src="{{ asset('images/Rectangle 404.png') }}"
+                            <img class="w-full h-full object-fill" src="<?php echo e(asset('images/Rectangle 404.png')); ?>"
                                 alt="">
                         </div>
                     </div>
                     <div class="mt-[14px] flex mx-[25px] justify-between pr-[9px]">
-                        <p class="text-sm font-medium m-0 text-[#343a40]">{{ $favorite->title }}</p>
+                        <p class="text-sm font-medium m-0 text-[#343a40]"><?php echo e($favorite->title); ?></p>
                         <div class="flex">
                             <svg width="12" height="11" viewBox="0 0 12 11" fill="none"
                                 xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
@@ -67,7 +82,7 @@
                                     d="M6 0L7.34708 4.1459H11.7063L8.17963 6.7082L9.52671 10.8541L6 8.2918L2.47329 10.8541L3.82037 6.7082L0.293661 4.1459H4.65292L6 0Z"
                                     fill="#FC7F09" fill-opacity="0.74"></path>
                             </svg>
-                            <p class="text-[10px] font-medium m-0 text-[#6b686b]">{{ $favorite->rating }}</p>
+                            <p class="text-[10px] font-medium m-0 text-[#6b686b]"><?php echo e($favorite->rating); ?></p>
                         </div>
                     </div>
                     <div class="flex mt-[8px] relative">
@@ -78,12 +93,13 @@
                                 fill="#FC7F09"></path>
                         </svg>
                         <p class="w-[210px] text-[10px] font-light mb-0 text-[#343a40] mx-[25px]">
-                            {{ $favorite->address }}
+                            <?php echo e($favorite->address); ?>
+
                         </p>
                     </div>
-                    <p class="text-[10px] font-light text-[#343a40] my-0 mx-[25px]">{{ $favorite->title }}</p>
+                    <p class="text-[10px] font-light text-[#343a40] my-0 mx-[25px]"><?php echo e($favorite->title); ?></p>
                     <div class="flex justify-between ml-[25px] mr-[16px] items-center">
-                        <p class="text-[8px] font-light m-0 text-[#6b686b]">{{ $favorite->averagePrice() }}$ average
+                        <p class="text-[8px] font-light m-0 text-[#6b686b]"><?php echo e($favorite->averagePrice()); ?>$ average
                             price</p>
                         <div
                             class="flex justify-center items-center w-[88px] h-[29px] relative overflow-hidden gap-2.5 px-6 py-2.5 rounded-[10px] bg-[#005fa4]">
@@ -92,13 +108,28 @@
                         </div>
                     </div>
                 </div>
-            @endforeach
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
         </div>
     </div>
 
-    <x-footer />
+    <?php if (isset($component)) { $__componentOriginal99051027c5120c83a2f9a5ae7c4c3cfa = $component; } ?>
+<?php $component = App\View\Components\Footer::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('footer'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(App\View\Components\Footer::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal99051027c5120c83a2f9a5ae7c4c3cfa)): ?>
+<?php $component = $__componentOriginal99051027c5120c83a2f9a5ae7c4c3cfa; ?>
+<?php unset($__componentOriginal99051027c5120c83a2f9a5ae7c4c3cfa); ?>
+<?php endif; ?>
 
 </body>
 
 </html>
+<?php /**PATH C:\xampp\htdocs\reservation\resources\views/userfavourites.blade.php ENDPATH**/ ?>

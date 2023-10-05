@@ -1,5 +1,5 @@
 @foreach ($restaurants as $restaurant)
-    <a href="{{ route('user.restaurant', ['restaurant' => $restaurant->id]) }}">
+    <a href="{{ route('user.restaurant', ['restaurant' => $restaurant->title]) }}">
         <div class="rounded-bl-2xl rounded-t-2xl rounded-br-2xl bg-white mt-[28px] pb-[8px] shadow-2xl">
             <div class="relative">
                 @if (Auth::check())

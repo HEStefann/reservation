@@ -22,4 +22,3 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/tables/{floorId}', [TableController::class, 'show'])->name('table.show');
-Route::get('/reservations/{selectedDate}', [RestaurantCalendarController::class,'showReservationsForDate'])->name('showReservationsForDate');

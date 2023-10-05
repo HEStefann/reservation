@@ -17,10 +17,8 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-
         $restaurants = Restaurant::all();
-
-        $promotions = Promotion::all();
+        $promotions = Promotion::where('active', 1)->with('restaurant')->get();
 
         $highliyRated = Restaurant::where('rating', '>=', 4)->get();
         $recommendedRestaurants = Restaurant::where('recomended', '>', 0)->orderBy('recomended', 'asc')->get();

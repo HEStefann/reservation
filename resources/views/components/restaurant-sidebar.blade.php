@@ -2,10 +2,10 @@
     <div class="w-[154px] h-[53px] self-center">
         <img src="{{ asset('images/logo.png') }}" class="w-full h-full" alt="logo">
     </div>
-    <div class="flex flex-col gap-[16px] mt-[11px] pl-[16px] w-full h-full"
+    <div class="flex flex-col gap-[24px] mt-[11px] w-full h-full"
         style="box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0 rgba(0,0,0,0.14), 0px 1px 3px 0 rgba(0,0,0,0.12);">
         <a href="{{ route('restaurant.calendar') }}"
-            class="flex gap-[34px] @if (request()->routeIs('restaurant.calendar')) bg-[#1976d2]/[0.08] @endif">
+            class="flex gap-[34px] items-center pl-[16px] h-[46px] @if (request()->routeIs('restaurant.calendar')) bg-[#1976d2]/[0.08] @endif">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                 style="flex-grow: 0; flex-shrink: 0; width: 24px; height: 24px; position: relative;"
                 preserveAspectRatio="none">
@@ -18,7 +18,7 @@
             </p>
         </a>
         <a href="{{ route('restaurant.reservations') }}"
-            class="flex gap-[34px] @if (request()->routeIs('restaurant.reservations')) bg-[#1976d2]/[0.08] @endif">
+            class="flex gap-[34px] items-center pl-[16px] h-[46px] @if (request()->routeIs('restaurant.reservations')) bg-[#1976d2]/[0.08] @endif">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                 class="flex-grow-0 flex-shrink-0 w-6 h-6 relative" preserveAspectRatio="xMidYMid meet">
                 <path
@@ -30,7 +30,7 @@
             </p>
         </a>
         <a href="{{ route('restaurant.floor-plan') }}"
-            class="flex gap-[34px] @if (request()->routeIs('restaurant.floor-plan')) bg-[#1976d2]/[0.08] @endif">
+            class="flex gap-[34px] items-center pl-[16px] h-[46px] @if (request()->routeIs('restaurant.floor-plan')) bg-[#1976d2]/[0.08] @endif">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                 class="flex-grow-0 flex-shrink-0 w-6 h-6 relative" preserveAspectRatio="none">
                 <path
@@ -42,7 +42,7 @@
             </p>
         </a>
         <a href="{{ route('restaurant.settings') }}"
-            class="flex gap-[34px] @if (request()->routeIs('restaurant.settings')) bg-[#1976d2]/[0.08] @endif">
+            class="flex gap-[34px] items-center pl-[16px] h-[46px] @if (request()->routeIs('restaurant.settings')) bg-[#1976d2]/[0.08] @endif">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                 class="flex-grow-0 flex-shrink-0 w-6 h-6 relative" preserveAspectRatio="xMidYMid meet">
                 <path
@@ -53,9 +53,7 @@
                 Settings
             </p>
         </a>
-        {{-- <form class="cursor-pointer" action="{{ route('logout') }}" method="post">
-            @csrf --}}
-        <button onclick="showLogoutConfirmationModal()" class="flex gap-[34px]">
+        <button  onclick="showLogoutConfirmationModal()" class="flex h-[46px] items-center pl-[16px] gap-[34px]">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
                 class="flex-grow-0 flex-shrink-0 w-5 h-5 relative" preserveAspectRatio="xMidYMid meet">
                 <path
@@ -66,7 +64,6 @@
                 Log Out
             </p>
         </button>
-        {{-- </form> --}}
     </div>
 </div>
 <div id="logoutConfirmationModal" style="display: none;"

@@ -23,7 +23,7 @@
 <body>
     <div class="flex items-center justify-center flex-col">
         <div class="rounded-[50px] bg-white items-center mx-[127px] my-[127px] px-[100px] py-[48px]">
-            <div class="mt-[48px] mb-[58px]">
+            <div class="mb-[58px]">
                 <div class="flex flex-col gap-[10px]">
                     <p class="text-2xl font-medium text-center text-[#343a40]">
                         Welcome back 👋

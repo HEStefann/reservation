@@ -136,7 +136,7 @@
                 <p class="text-base text-center mt-[34px]">
                     <span class="text-base text-center text-[#313957]">Don’t you have an account?
                     </span>
-                    <a href="{{ route('register') }}">
+                    <a href="{{ route('restaurant.registerpage') }}">
                         <span class="text-base text-center text-[#005fa4]">Register</span>
                     </a>
                 </p>

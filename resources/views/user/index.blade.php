@@ -337,7 +337,7 @@
             Partner with us or log in to start managing your clients.
         </p>
         <div class="flex justify-between w-full">
-            <button class="w-full h-8 rounded-[10px] bg-[#005fa4] text-xs font-medium text-center text-white">Partner
+            <button onclick="location.href='{{ route('restaurant.login') }}'" class="w-full h-8 rounded-[10px] bg-[#005fa4] text-xs font-medium text-center text-white">Partner
                 with us</button>
         </div>
     </div>

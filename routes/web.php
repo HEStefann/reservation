@@ -21,6 +21,7 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserReservationController;
 use App\Http\Controllers\UserRestaurantsController;
+use App\Http\Controllers\Restaurant\RestaurantRegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +37,11 @@ use App\Http\Controllers\UserRestaurantsController;
 Route::get('/', [UserController::class, 'index'])->name('user.home');
 Route::get('/search', [UserController::class, 'search'])->name('user.restaurantspage');
 
+Route::get('/restaurant/registerpage', [RestaurantRegisterController::class, 'create'])
+->name('restaurant.registerpage');
+Route::post('restaurant/registerpage', [RestaurantRegisterController::class, 'store']);
+Route::get('/restaurant/loginpage', [RestaurantRegisterController::class, 'create'])
+->name('restaurant.login');
 
 Route::get('/dashboard', [RestaurantController::class, 'dashboard'])
     ->middleware(['auth', 'verified'])
@@ -50,6 +56,7 @@ Route::get('/dashboard', [RestaurantController::class, 'dashboard'])
 require __DIR__ . '/auth.php';
 
 Route::middleware(['auth', 'ModeratorOrOwnerRole'])->group(function () {
+    
     Route::get('/restaurant/register', [RestaurantController::class, 'create'])->name('restaurant.register');
     Route::post('/restaurant/register', [RestaurantController::class, 'store']);
 
@@ -149,11 +156,6 @@ Route::delete('/moderators/{moderator}', [AdminModeratorsController::class, 'des
 Route::put('/moderators/{moderator}', [AdminModeratorsController::class, 'update'])->name('admin.moderators.update');
 Route::post('/moderators', [AdminModeratorsController::class, 'store'])->name('admin.moderators.store');
 
-// ova e napraven dizajn za restaurant login
-Route::get('/loginviewrestaurant', function () {
-    return view('restaurant.loginpage');
-});
-
 Route::get('/userprofile', [UserController::class, 'show'])->name('user.profile');
 Route::get('/reservation/{restaurantName}', [UserReservationController::class, 'index'])->name('user.reservation');
 Route::post('/reservation', [UserReservationController::class, 'store'])->name('user.reservation.store');
@@ -209,3 +211,7 @@ Route::get('/searchByTermName', [RestaurantController::class, 'autocomplete']);
 //user.reservations.destroy with usercontroller method delete
 Route::delete('/user/reservations/{reservation}/delete', [UserReservationController::class, 'delete'])->name('user.reservations.destroy');
 Route::get('/showReservationsForDate/{restuarantId}/{selectedDate}', [RestaurantCalendarController::class,'showReservationsForDate']);
+
+
+// ova e napraven dizajn za restaurant login
+

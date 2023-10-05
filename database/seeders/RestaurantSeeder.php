@@ -13,6 +13,7 @@ use App\Models\Image;
 use App\Models\Menu;
 use App\Models\Moderator;
 use App\Models\Product;
+use App\Models\Promotion;
 use App\Models\Review;
 use App\Models\Reservation;
 use Illuminate\Support\Facades\Hash;
@@ -812,5 +813,23 @@ class RestaurantSeeder extends Seeder
         // $floorIds = [78, 77];
 
         // $restaurant->floors()->attach($floorIds);
+        $restaurants = Restaurant::all();
+
+        // Define sample promotion data
+        $promotionData = [
+            'image' => 'promotion_images/oH50H3GTiEZehhfoekrZewGXDc4OZCmKGQN7TaJ1.jpg',
+            'approved' => true,
+        ];
+
+        // Loop through each restaurant  
+        foreach ($restaurants as $restaurant) {
+
+            // Create promotion for this restaurant
+            $promotion = new Promotion;
+            $promotion->restaurant_id = $restaurant->id;
+            $promotion->image = $promotionData['image'];
+            $promotion->approved = $promotionData['approved'];
+            $promotion->save();
+        }
     }
 }

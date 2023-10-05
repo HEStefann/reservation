@@ -347,7 +347,7 @@
         </div>
     </div>
     <div class="fixed bottom-[73px] w-full">
-        <a href="<?php echo e(route('user.reservation', $restaurant->id)); ?>">
+        <a href="<?php echo e(route('user.reservation', $restaurant->title)); ?>">
             <div class="flex justify-center items-center h-10 relative overflow-hidden gap-2.5 mx-6 py-2.5 rounded-[10px]"
                 style="background: linear-gradient(143.6deg, #52d1ed -56.3%, #0f92cf 26.17%, #005fa4 83.39%);">
                 <p class="flex-grow-0 flex-shrink-0 text-xl font-semibold text-white">

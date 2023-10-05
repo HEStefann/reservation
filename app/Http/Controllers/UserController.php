@@ -121,7 +121,15 @@ class UserController extends Controller
         // Initialize a variable to store the displayed address
         $displayedAddress = '';
 
-        // Check if a search location is provided and not empty
+        // Query your database for restaurants based on various criteria
+        $restaurants = Restaurant::select('*');
+
+        // Add condition for title search
+        if (!empty($searchQuery)) {
+            $restaurants->where('title', 'LIKE', '%' . $searchQuery . '%');
+        }
+
+        // Add condition for location-based search
         if (!empty($searchLocation)) {
             // Check if the search location can be geocoded
             $coordinates = $this->getCoordinatesFromGoogleMaps($searchLocation);
@@ -133,28 +141,17 @@ class UserController extends Controller
 
                 // Set the displayed address to the searched address
                 $displayedAddress = $searchLocation;
+
+                // Calculate the bounding box coordinates for the 2 km radius
+                $minLatitude = $latitude - (2 / $earthRadius) * (180 / pi());
+                $maxLatitude = $latitude + (2 / $earthRadius) * (180 / pi());
+
+                $minLongitude = $longitude - (2 / $earthRadius) * (180 / pi()) / cos($latitude * (pi() / 180));
+                $maxLongitude = $longitude + (2 / $earthRadius) * (180 / pi()) / cos($latitude * (pi() / 180));
+
+                $restaurants->whereBetween('lat', [$minLatitude, $maxLatitude])
+                    ->whereBetween('lng', [$minLongitude, $maxLongitude]);
             }
-        }
-
-        // Query your database for restaurants based on various criteria
-        $restaurants = Restaurant::select('*');
-
-        // Add condition for title search
-        if (!empty($searchQuery)) {
-            $restaurants->where('title', 'LIKE', '%' . $searchQuery . '%');
-        }
-
-        // Add condition for location-based search
-        if (!is_null($latitude) && !is_null($longitude)) {
-            // Calculate the bounding box coordinates for the 2 km radius
-            $minLatitude = $latitude - (2 / $earthRadius) * (180 / pi());
-            $maxLatitude = $latitude + (2 / $earthRadius) * (180 / pi());
-
-            $minLongitude = $longitude - (2 / $earthRadius) * (180 / pi()) / cos($latitude * (pi() / 180));
-            $maxLongitude = $longitude + (2 / $earthRadius) * (180 / pi()) / cos($latitude * (pi() / 180));
-
-            $restaurants->whereBetween('lat', [$minLatitude, $maxLatitude])
-                ->whereBetween('lng', [$minLongitude, $maxLongitude]);
         }
 
         $restaurants = $restaurants->get();

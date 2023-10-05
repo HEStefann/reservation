@@ -97,4 +97,11 @@ class RestaurantReservationController extends Controller
         $reservation->save();
         return redirect()->back()->with('success', 'Reservation created successfully');
     }
+
+    public function updateReservation(Request $request)
+    {
+        $reservation = Reservation::find($request->input('reservation_id'));
+        $reservation->update($request->all());
+        return redirect()->back()->with('success', 'Reservation updated!');
+    }
 }

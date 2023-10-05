@@ -156,7 +156,7 @@
                     <span id="noteModal"></span>
                 </p>
                 <div class="flex gap-[50px]">
-                    <button onclick="enableEdit()"
+                    <button id="editReservationModalButton" type="button"
                         class="w-[142px] h-10 rounded-[10px] bg-[#005fa4] text-base font-semibold text-white">
                         Edit
                     </button>
@@ -168,11 +168,79 @@
             </div>
         </div>
     </div>
+
+    <div id="editReservationModal" style="display: none;"
+        class="fixed z-10 left-0 top-0 w-full h-full bg-[rgba(0,0,0,0.5)] flex justify-center items-center">
+        <div class="rounded-lg bg-white w-[728px] flex flex-col items-center"
+            style="box-shadow: 0px 20px 50px 0 rgba(0,0,0,0.1);">
+            <p class="text-2xl text-left font-medium text-[#343a40] px-[30px] pt-[16px] mb-[16px]">
+                Edit Reservation
+            </p>
+            <div class="w-full h-px bg-[#212121]/[0.08]">
+            </div>
+            <div class="flex flex-col gap-[18px] mt-[38px]">
+                <p class="text-[#343a40] text-base" id="createdAtModal"></p>
+                <p class="text-[#343a40] text-base" id="updatedAtModal"></p>
+            </div>
+            <form action="{{ route('restaurant.reservation.update') }}" method="post">
+                @csrf
+                @method('PUT')
+                <input type="hidden" name="reservation_id" id="reservation_id">
+                <div class=" flex flex-col items-center gap-[18px] mt-[30px] mb-[40px]">
+                    <div class="text-2xl text-center text-[#343a40]">
+                        <label class="font-semibold text-center text-[#343a40]">Full name:</label>
+                        <input name="full_name" class="rounded-xl bg-transparent border-[1.5px] border-[#d4d7e3]"
+                            type="text" id="fullNameEditModal">
+                    </div>
+
+                    <div class="text-2xl text-center text-[#343a40]">
+                        <label class="font-semibold text-center text-[#343a40]">Phone number:</label>
+                        <input name="phone_number" class="rounded-xl bg-transparent border-[1.5px] border-[#d4d7e3]"
+                            type="text" id="phoneNumberEditModal">
+                    </div>
+
+                    <div class="text-2xl text-center text-[#343a40]">
+                        <label class="font-semibold text-center text-[#343a40]">Email:</label>
+                        <input name="email" class="rounded-xl bg-transparent border-[1.5px] border-[#d4d7e3]"
+                            type="email" id="emailEditModal">
+                    </div>
+                    <div class="text-2xl text-center text-[#343a40]">
+                        <label class="font-semibold text-center text-[#343a40]">Note:</label>
+                        <textarea name="note" class="rounded-xl bg-transparent border-[1.5px] border-[#d4d7e3]" id="noteEditModal"></textarea>
+                    </div>
+                    <div class="text-2xl text-center text-[#343a40]">
+                        <label class="font-semibold text-center text-[#343a40]">Date:</label>
+                        <input name="date" class="rounded-xl bg-transparent border-[1.5px] border-[#d4d7e3]"
+                            type="date" id="dateEditModal">
+                    </div>
+                    <div class="text-2xl text-center text-[#343a40]">
+                        <label class="font-semibold text-center text-[#343a40]">Time:</label>
+                        <input name="time" class="rounded-xl bg-transparent border-[1.5px] border-[#d4d7e3]"
+                            type="time" id="timeEditModal">
+                    </div>
+                    <div class="text-2xl text-center text-[#343a40]">
+                        <label class="font-semibold text-center text-[#343a40]">Number of people:</label>
+                        <input name="number_of_people" class="rounded-xl bg-transparent border-[1.5px] border-[#d4d7e3]"
+                            type="number" id="number_of_peopleEditModal">
+                    </div>
+                    <div class="flex gap-[50px]">
+                        <button type="submit"
+                            class="w-[142px] h-10 rounded-[10px] bg-[#005fa4] text-base font-semibold text-white">
+                            Save
+                        </button>
+                        <button type="button" onclick="hideeditReservationModal()"
+                            class="w-[142px] h-10 rounded-[10px] text-base font-semibold text-[#005fa4] bg-white border border-[#005fa4]">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
     <script>
         let dataReservations;
 
         function openReservationInfoModal(reservation) {
-
             let reservationModal = document.getElementById("reservationInfoModal");
             reservationModal.style.display = "flex";
             console.log(reservation)
@@ -181,7 +249,48 @@
             document.getElementById("emailModal").innerHTML = reservation.email;
             document.getElementById("number_of_peopleModal").innerHTML = reservation.number_of_people;
             document.getElementById("noteModal").innerHTML = reservation.note;
+            document.getElementById("editReservationModalButton").addEventListener("click", function() {
+                let editReservationModal = document.getElementById("editReservationModal");
+                editReservationModal.style.display = "flex";
+                hideReservationInfoModal();
 
+                function formatDate(dateString) {
+                    const date = new Date(dateString);
+                    return date.toLocaleDateString('en-US', {
+                            month: '2-digit',
+                            day: '2-digit',
+                            year: 'numeric'
+                        }) +
+                        ' ' +
+                        date.toLocaleTimeString('en-US', {
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        });
+                }
+                const createdAt = formatDate(reservation.created_at);
+                document.getElementById("createdAtModal").innerHTML =
+                    '<span style="text-decoration: underline; text-decoration-color: #FC7F09;">Created at:</span> ' +
+                    createdAt;
+                const updatedAt = formatDate(reservation.updated_at);
+                document.getElementById("updatedAtModal").innerHTML =
+                    '<span style="text-decoration: underline; text-decoration-color: #FC7F09;">Updated at:</span> ' +
+                    updatedAt;
+                document.getElementById("fullNameEditModal").value = reservation.full_name;
+                document.getElementById("phoneNumberEditModal").value = reservation.phone_number;
+                document.getElementById("emailEditModal").value = reservation.email;
+                document.getElementById("number_of_peopleEditModal").value = reservation.number_of_people;
+                document.getElementById("noteEditModal").value = reservation.note;
+                document.getElementById("reservation_id").value = reservation.id;
+                document.getElementById("dateEditModal").value = reservation.date;
+                document.getElementById("timeEditModal").value = reservation.time;
+
+
+            })
+        }
+
+        function hideeditReservationModal() {
+            let reservationModal = document.getElementById("editReservationModal");
+            reservationModal.style.display = "none";
         }
 
         function hideReservationInfoModal() {
@@ -194,20 +303,6 @@
             if (event.target == reservationModal) {
                 hideReservationInfoModal();
             }
-        }
-
-        function enableEdit() {
-            // Get the elements containing the reservation information
-            const infoElements = document.querySelectorAll('.reservation-info');
-
-            // Convert the info elements to input elements for editing
-            infoElements.forEach((element) => {
-                const inputValue = element.textContent;
-                const input = document.createElement('input');
-                input.value = inputValue;
-                element.innerHTML = '';
-                element.appendChild(input);
-            });
         }
 
         const currentTime = new Date();
@@ -338,7 +433,8 @@
                                         tableParagraph.textContent =
                                             `Tables: ${reservation.table.map(table => table.TableDescription).join(', ')}`;
                                     } else {
-                                        tableParagraph.textContent = `Table: ${reservation.table[0].TableDescription}`;
+                                        tableParagraph.textContent =
+                                            `Table: ${reservation.table[0].TableDescription}`;
                                     }
                                 } else {
                                     tableParagraph.textContent = 'Table: No tables reserved';

@@ -1,5 +1,5 @@
 <?php $__currentLoopData = $restaurants; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $restaurant): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-    <a href="<?php echo e(route('user.restaurant', ['restaurant' => $restaurant->id])); ?>">
+    <a href="<?php echo e(route('user.restaurant', ['restaurant' => $restaurant->title])); ?>">
         <div class="rounded-bl-2xl rounded-t-2xl rounded-br-2xl bg-white mt-[28px] pb-[8px] shadow-2xl">
             <div class="relative">
                 <?php if(Auth::check()): ?>

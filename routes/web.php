@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Controllers\AdminModeratorsController;
 use App\Http\Controllers\AdminReservationController;
 use App\Http\Controllers\AdminRestaurantController;
@@ -202,7 +203,7 @@ Route::post('/settings/update', [RestaurantSettingsController::class, 'update'])
 Route::put('/settings/updateTablePosition', [RestaurantSettingsController::class, 'updateTablePosition'])->name('restaurant.settings.updateTablePosition');
 Route::post('/restaurant/reservation', [RestaurantReservationController::class, 'create'])->name('restaurant.reservation.create');
 Route::delete('/restaurant-images/{imageId}', [RestaurantSettingsController::class, 'removeRestaurantImage'])->name('restaurant-images.remove');
-Route::get('/edit-date/{selectedDate}', [RestaurantSettingsController::class,'editDate'])->name('editDate');
+Route::get('/edit-date/{selectedDate}', [RestaurantSettingsController::class, 'editDate'])->name('editDate');
 // Route::get('/showReservationsForDate/{restaurantId}/{selectedDate}', [UserReservationController::class, 'showReservationsForDate']);
 Route::get('/workinghours/{restaurantId}/{selectedDate}', [UserReservationController::class, 'getWorkingHours'])->name('workinghours');
 Route::get('/tables/check-free', [UserReservationController::class, 'checkFreeTables'])->name('tables.check-free');
@@ -210,8 +211,7 @@ Route::get('/tables/check-free', [UserReservationController::class, 'checkFreeTa
 Route::get('/searchByTermName', [RestaurantController::class, 'autocomplete']);
 //user.reservations.destroy with usercontroller method delete
 Route::delete('/user/reservations/{reservation}/delete', [UserReservationController::class, 'delete'])->name('user.reservations.destroy');
-Route::get('/showReservationsForDate/{restuarantId}/{selectedDate}', [RestaurantCalendarController::class,'showReservationsForDate']);
+Route::get('/showReservationsForDate/{restuarantId}/{selectedDate}', [RestaurantCalendarController::class, 'showReservationsForDate']);
 
-
-// ova e napraven dizajn za restaurant login
-
+//update reservation with restaurntcontroller with updateReservation method
+Route::put('/restaurant/reservation/update', [RestaurantReservationController::class, 'updateReservation'])->name('restaurant.reservation.update');

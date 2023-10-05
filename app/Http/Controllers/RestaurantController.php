@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RestaurantRegisterRequest;
 use App\Http\Requests\RestaurantRequest;
 use App\Models\Moderator;
+use App\Models\Reservation;
 use App\Models\Restaurant;
 use App\Models\Tag;
 use App\Services\RestaurantService;

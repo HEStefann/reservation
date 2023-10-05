@@ -74,7 +74,7 @@ class RestaurantController extends Controller
             ->where('id', $user->id)
             ->update(['role' => 'owner']);
 
-        return redirect()->route('restaurant.settings', ['restaurant' => $restaurant->id]);
+        return redirect()->route('restaurant.settings');
     }
 
     public function getNearestRestaurants(Request $request)

@@ -12,6 +12,7 @@ class RestaurantService
     public function createRestaurant(array $data): Restaurant
     {
         $restaurant = Restaurant::create($data);
+        $restaurant->user_id = auth()->user()->id;
         $daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
         foreach ($daysOfWeek as $day) {
             $restaurant->workingHours()->create([
@@ -21,7 +22,7 @@ class RestaurantService
                 'default_working_time' => 1,
             ]);
         }
-
+        $restaurant->save();
         return $restaurant;
     }
 

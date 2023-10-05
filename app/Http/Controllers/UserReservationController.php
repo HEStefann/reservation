@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserStoreReservationRequest;
 use App\Models\Floor;
+use App\Models\Moderator;
 use App\Models\Reservation;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Restaurant;
@@ -15,9 +16,9 @@ use Illuminate\Support\Facades\Session;
 
 class UserReservationController extends Controller
 {
-    public function index($restaurantId)
+    public function index($restaurantName)
     {
-        $restaurant = Restaurant::findOrFail($restaurantId);
+        $restaurant = Restaurant::where('title', $restaurantName)->firstOrFail();
         return view('user.reservation', compact('restaurant'));
     }
 
@@ -120,10 +121,10 @@ class UserReservationController extends Controller
         $restaurant = Restaurant::findOrFail($floor->restaurant->first()->id);
 
         $reservations = Reservation::with('tables')
-        ->where('date', $selectedDate)
-        ->where('time', $selectedTime)
-        ->where('restaurant_id', $restaurant->id)
-        ->get();
+            ->where('date', $selectedDate)
+            ->where('time', $selectedTime)
+            ->where('restaurant_id', $restaurant->id)
+            ->get();
         $reservedTables = [];
 
         foreach ($reservations as $reservation) {
@@ -131,7 +132,7 @@ class UserReservationController extends Controller
                 $reservedTables[] = $table->id;
             }
         }
-        
+
         return response()->json([
             'reservedTables' => $reservedTables
         ]);

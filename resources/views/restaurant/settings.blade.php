@@ -6,70 +6,155 @@
         <div class="mt-[36px] ml-[140px] mr-[339px] mb-[95px]">
             <div class="flex">
                 <div class="flex flex-col flex-grow margin-auto">
-                    <p class="text-[32px] text-[#343a40] border-b-[0.5px] border-solid w-[477px]">Primary</p>
-                    <div class="flex flex-col gap-[24px]">
-                        {{-- <div class="flex gap-[50px] mt-[41px]">
-                            <p class="text-sm font-semibold text-[#343a40] w-36">
-                                Available number of floors:
-                            </p>
-                            <input value="{{ $restaurant->available_people }}" type="number" name="available_people"
-                                class="rounded w-[110px] border-0" style="box-shadow: 0px 8px 10px 0 rgba(0,0,0,0.1);"
-                                min="1" max="1000">
-                        </div> --}}
-                        @php
-                            // Convert opening and closing times to hours
+                    <div class="flex relative">
+                        <p class="text-[32px] text-[#343a40] w-[477px]">Primary</p>
+                        <svg width="165" height="2" viewBox="0 0 165 2" fill="none"
+                            xmlns="http://www.w3.org/2000/svg" class="w-[477px] absolute top-[41px]"
+                            preserveAspectRatio="none">
+                            <path d="M1 1H164" stroke="url(#paint0_linear_1721_8799)" stroke-linecap="round"></path>
+                            <defs>
+                                <linearGradient id="paint0_linear_1721_8799" x1="1" y1="1" x2="1.01227"
+                                    y2="2.99992" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#46A6FF"></stop>
+                                    <stop offset="0.489583" stop-color="#52C5DF"></stop>
+                                    <stop offset="1" stop-color="#005FA4"></stop>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                    @php
+                        if ($restaurant->workingHours->count() != 0) {
                             $openingTime = (int) substr($restaurant->workingHours->first()->opening_time, 0, 2);
                             $closingTime = (int) substr($restaurant->workingHours->first()->closing_time, 0, 2);
-                        @endphp
+                        } else {
+                            $openingTime = 0;
+                            $closingTime = 0;
+                        }
+                    @endphp
 
-                        <div class="flex gap-[50px] mt-[41px]">
-                            <p class="text-sm font-semibold text-[#343a40] w-36">
-                                Available number of tables:
-                            </p>
-                            <select class="rounded w-[110px] border-0" style="box-shadow: 0px 8px 10px 0 rgba(0,0,0,0.1);">
-                                @for ($i = 1; $i <= 100; $i++)
-                                    <option value="{{ $i }}">{{ $i }}</option>
-                                @endfor
-                            </select>
+                    <div class="flex gap-[50px] mt-[41px]">
+                        <p class="text-sm font-semibold text-[#343a40] w-36">
+                            Available number of people:
+                        </p>
+                        <div class="flex items-center relative">
+                            <input type="text" name="available_people" value="{{ $restaurant->available_people }}"
+                                class="rounded-lg border border-[#79747e] pr-[26px] w-[97px] h-[32px]">
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
+                                xmlns="http://www.w3.org/2000/svg" id="svg-icon"
+                                class="w-[18px] h-[18px] absolute right-[8px] hidden cursor-pointer"
+                                preserveAspectRatio="xMidYMid meet">
+                                <path
+                                    d="M14.25 4.8075L13.1925 3.75L9 7.9425L4.8075 3.75L3.75 4.8075L7.9425 9L3.75 13.1925L4.8075 14.25L9 10.0575L13.1925 14.25L14.25 13.1925L10.0575 9L14.25 4.8075Z"
+                                    fill="#49454F"></path>
+                            </svg>
                         </div>
+                    </div>
+                    <div class="flex gap-[50px] mt-[24px]">
+                        <p class="text-sm font-semibold text-[#343a40] w-36">
+                            Session lasting time:
+                        </p>
+                        <div class="flex items-center relative">
+                            <input type="text" name="reservation_lasting_time"
+                                value="{{ $restaurant->reservation_lasting_time }}"
+                                class="rounded-lg border border-[#79747e] pr-[26px] w-[97px] h-[32px]">
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
+                                xmlns="http://www.w3.org/2000/svg" id="svg-icon2"
+                                class="w-[18px] h-[18px] absolute right-[8px] hidden cursor-pointe"
+                                preserveAspectRatio="xMidYMid meet">
+                                <path
+                                    d="M14.25 4.8075L13.1925 3.75L9 7.9425L4.8075 3.75L3.75 4.8075L7.9425 9L3.75 13.1925L4.8075 14.25L9 10.0575L13.1925 14.25L14.25 13.1925L10.0575 9L14.25 4.8075Z"
+                                    fill="#49454F"></path>
+                            </svg>
+                        </div>
+                    </div>
 
-                        @if ($restaurant->workingHours->isNotEmpty())
-                            <div class="mt-[18px]">
-                                <p class="text-[32px] font-semibold text-[#343a40]">Working Hours</p>
-                                <x-input-error :messages="$errors->get('working_hours')" class="mt-2" />
-                                <div class="flex flex-col  gap-[60px]">
-                                    @php
-                                        $daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-                                    @endphp
+                    <div class="mt-[36px]">
+                        <p class="text-base font-semibold text-[#343a40]">Operating hours:</p>
+                        <x-input-error :messages="$errors->get('working_hours')" class="mt-2" />
+                        <div class="flex flex-col gap-[22px]">
+                            @php
+                                $daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+                            @endphp
 
-                                    @foreach ($daysOfWeek as $day)
+                            @foreach ($daysOfWeek as $index => $day)
+                                @if ($index % 2 === 0)
+                                    <div class="flex gap-[76px]">
                                         <div>
-                                            <div>
-                                                <p class="text-2xl text-[#343a40]">{{ $day }}</p>
-                                                <div>
+                                            <p class="text-2xl text-[#343a40]">{{ $day }}</p>
+                                            <div class="w-[200px]">
+                                                @if ($restaurant->workingHours->count() != 0)
                                                     @foreach ($restaurant->workingHours as $workingHour)
                                                         @if ($workingHour->day_of_week === $day)
                                                             <input name="working_hours[{{ $day }}][opening_time]"
-                                                                class="w-[330px] mt-[8px]" type="time"
+                                                                class="w-full mt-[12px]" type="time"
                                                                 value="{{ $workingHour->opening_time }}"
                                                                 style="border: 1px solid rgba(0, 0, 0,0.12);">
                                                             <input name="working_hours[{{ $day }}][closing_time]"
-                                                                class="w-[330px] mt-[5px]" type="time"
+                                                                class="w-full mt-[7px]" type="time"
                                                                 value="{{ $workingHour->closing_time }}"
                                                                 style="border: 1px solid rgba(0, 0, 0,0.12);">
                                                         @endif
                                                     @endforeach
-                                                </div>
+                                                @else
+                                                    <input name="working_hours[{{ $day }}][opening_time]"
+                                                        class="w-full mt-[12px]" type="time" value=""
+                                                        style="border: 1px solid rgba(0, 0, 0,0.12);">
+                                                    <input name="working_hours[{{ $day }}][closing_time]"
+                                                        class="w-full mt-[7px]" type="time" value=""
+                                                        style="border: 1px solid rgba(0, 0, 0,0.12);">
+                                                @endif
                                             </div>
                                         </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        @endif
+                                    </div>
+                                @else
+                                    <div>
+                                        <p class="text-2xl text-[#343a40]">{{ $day }}</p>
+                                        <div class="w-[200px]">
+                                            @if ($restaurant->workingHours->count() != 0)
+                                                @foreach ($restaurant->workingHours as $workingHour)
+                                                    @if ($workingHour->day_of_week === $day)
+                                                        <input name="working_hours[{{ $day }}][opening_time]"
+                                                            class="w-full mt-[12px]" type="time"
+                                                            value="{{ $workingHour->opening_time }}"
+                                                            style="border: 1px solid rgba(0, 0, 0,0.12);">
+                                                        <input name="working_hours[{{ $day }}][closing_time]"
+                                                            class="w-full mt-[7px]" type="time"
+                                                            value="{{ $workingHour->closing_time }}"
+                                                            style="border: 1px solid rgba(0, 0, 0,0.12);">
+                                                    @endif
+                                                @endforeach
+                                            @else
+                                                <input name="working_hours[{{ $day }}][opening_time]"
+                                                    class="w-full mt-[12px]" type="time" value=""
+                                                    style="border: 1px solid rgba(0, 0, 0,0.12);">
+                                                <input name="working_hours[{{ $day }}][closing_time]"
+                                                    class="w-full mt-[7px]" type="time" value=""
+                                                    style="border: 1px solid rgba(0, 0, 0,0.12);">
+                                            @endif
+                                        </div>
+                                    </div>
+                                @endif
+                            @endforeach
+                        </div>
                     </div>
                 </div>
                 <div class="flex flex-col flex-grow">
-                    <p class="text-[32px] text-[#343a40] border-b-[0.5px] border-solid w-[477px]">Temporary</p>
+                    <div class="flex relative">
+                        <p class="text-[32px] text-[#343a40] w-[477px]">Temporary</p>
+                        <svg width="165" height="2" viewBox="0 0 165 2" fill="none"
+                            xmlns="http://www.w3.org/2000/svg" class="w-[477px] absolute top-[41px]"
+                            preserveAspectRatio="none">
+                            <path d="M1 1H164" stroke="url(#paint0_linear_1721_8799)" stroke-linecap="round"></path>
+                            <defs>
+                                <linearGradient id="paint0_linear_1721_8799" x1="1" y1="1"
+                                    x2="1.01227" y2="2.99992" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#46A6FF"></stop>
+                                    <stop offset="0.489583" stop-color="#52C5DF"></stop>
+                                    <stop offset="1" stop-color="#005FA4"></stop>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
                     <div class="flex gap-[94px] mt-[31px]">
                         <p class="text-base font-semibold text-[#343a40]">Calendar:</p>
                         <div class="flex flex-col gap-[18px] px-6 py-[18px] rounded-lg w-[306px] h-[310px] border border-[#6b686b]"
@@ -134,8 +219,9 @@
                                     Thursday, 19th of September, 2023
                                 </span>
                             </p>
-                            <svg class="cursor-pointer" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" preserveAspectRatio="xMidYMid meet">
+                            <svg class="cursor-pointer" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6"
+                                preserveAspectRatio="xMidYMid meet">
                                 <path
                                     d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z"
                                     fill="black" fill-opacity="0.54"></path>
@@ -225,9 +311,23 @@
                 </div>
             </div>
             <div class="mt-[48px]">
-                <p class="text-[32px] text-[#343a40] mb-[41px]">Content</p>
+                <div class="relative">
+                    <p class="text-[32px] text-[#343a40] mb-[41px]">Content</p>
+                    <svg width="165" height="2" viewBox="0 0 165 2" fill="none"
+                        xmlns="http://www.w3.org/2000/svg" class="w-full absolute top-[41px]" preserveAspectRatio="none">
+                        <path d="M1 1H164" stroke="url(#paint0_linear_1721_8799)" stroke-linecap="round"></path>
+                        <defs>
+                            <linearGradient id="paint0_linear_1721_8799" x1="1" y1="1" x2="1.01227"
+                                y2="2.99992" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#46A6FF"></stop>
+                                <stop offset="0.489583" stop-color="#52C5DF"></stop>
+                                <stop offset="1" stop-color="#005FA4"></stop>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
                 <div class="flex">
-                    <div class="flex flex-col grow gap-[24px]">
+                    <div class="flex flex-col gap-[24px]">
                         <div class="flex w-[459px]">
                             <p class="w-[125px] text-base font-semibold text-[#343a40] mr-auto">
                                 Short description
@@ -455,7 +555,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex flex-col grow">
+                    <div class="flex flex-col">
                         <div class="flex">
                             <p class="text-base font-semibold text-[#343a40] mr-[60px]">Primary tags</p>
                             <select class="rounded w-[110px] border-0 mr-[34px]"
@@ -499,6 +599,7 @@
                 <button class="text-[28px] font-semibold rounded-[10px] bg-[#005fa4] text-white w-[195px] h-14"
                     type="submit">Save</button>
             </div>
+        </div>
     </form>
 
     <div id="deleteImageConfirmationModal" style="display: none;"
@@ -781,8 +882,34 @@
         });
 
 
-        function openEditModal() {
-            // Code to open the edit modal or form
+        function handleInput(inputName, svgClassName) {
+            const inputField = document.querySelector(`input[name="${inputName}"]`);
+            const removeIcon = document.querySelector(`#${svgClassName}`);
+
+            if (inputField.value.trim() !== '') {
+                removeIcon.classList.remove('hidden');
+            } else {
+                removeIcon.classList.add('hidden');
+            }
+
+            inputField.addEventListener('input', function() {
+                if (inputField.value.trim() !== '') {
+                    removeIcon.classList.remove('hidden');
+                } else {
+                    removeIcon.classList.add('hidden');
+                }
+            });
+
+            removeIcon.addEventListener('click', function() {
+                inputField.value = '';
+                removeIcon.classList.add('hidden');
+            });
         }
+
+        // Call the function for the "Available number of people" section
+        handleInput('available_people', 'svg-icon');
+
+        // Call the function for the "Session lasting time" section
+        handleInput('reservation_lasting_time', 'svg-icon2');
     </script>
 @endsection

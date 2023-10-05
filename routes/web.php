@@ -155,7 +155,7 @@ Route::get('/loginviewrestaurant', function () {
 });
 
 Route::get('/userprofile', [UserController::class, 'show'])->name('user.profile');
-Route::get('/reservation/{restaurantId}', [UserReservationController::class, 'index'])->name('user.reservation');
+Route::get('/reservation/{restaurantName}', [UserReservationController::class, 'index'])->name('user.reservation');
 Route::post('/reservation', [UserReservationController::class, 'store'])->name('user.reservation.store');
 
 // ova e napraven dizajn za forgot password
@@ -204,7 +204,8 @@ Route::get('/edit-date/{selectedDate}', [RestaurantSettingsController::class,'ed
 // Route::get('/showReservationsForDate/{restaurantId}/{selectedDate}', [UserReservationController::class, 'showReservationsForDate']);
 Route::get('/workinghours/{restaurantId}/{selectedDate}', [UserReservationController::class, 'getWorkingHours'])->name('workinghours');
 Route::get('/tables/check-free', [UserReservationController::class, 'checkFreeTables'])->name('tables.check-free');
-Route::get('/calendar/search', [RestaurantCalendarController::class, 'search']);
+// Route::get('/calendar/search', [RestaurantCalendarController::class, 'search']);
 Route::get('/searchByTermName', [RestaurantController::class, 'autocomplete']);
 //user.reservations.destroy with usercontroller method delete
 Route::delete('/user/reservations/{reservation}/delete', [UserReservationController::class, 'delete'])->name('user.reservations.destroy');
+Route::get('/showReservationsForDate/{restuarantId}/{selectedDate}', [RestaurantCalendarController::class,'showReservationsForDate']);

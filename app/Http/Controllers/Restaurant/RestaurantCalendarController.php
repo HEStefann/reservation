@@ -9,24 +9,16 @@ use App\Models\Moderator;
 use App\Models\Reservation;
 use App\Models\Restaurant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RestaurantCalendarController extends Controller
 {
     public function index(Request $request)
     {
         $user = auth()->user();
-        // check for getter choosenDate if is set then give only reservations for that day
-        // if(request()->has('choosenDate')) {
-        //     $choosenDate = request()->choosenDate;
-        //     $restaurant = Moderator::where('user_id', $user->id)->first()->restaurant->with(['reservations' => function($query) use ($choosenDate) {
-        //         $query->whereDate('date', $choosenDate);
-        //     }])->first();
-        //     return view('restaurant.calendar', compact('restaurant'));
-        // }
-        $reservation = Reservation::where('user_id', $user->id)->first();
         $moderator = Moderator::where('user_id', $user->id)->first();
-        $restaurant = Restaurant::with('reservations')->find($moderator->restaurant_id);
-        return view('restaurant.calendar', compact('restaurant', 'reservation'));
+        $restaurant = Restaurant::find($moderator->restaurant_id);
+        return view('restaurant.calendar', compact('restaurant'));
     }
 
     public function search(Request $request)
@@ -49,12 +41,22 @@ class RestaurantCalendarController extends Controller
         ]);
     }
 
-    public function showReservationsForDate($selectedDate)
+    public function showReservationsForDate($restaurantId, $selectedDate)
     {
-        $user = auth()->user();
-        $restaurant = Moderator::where('user_id', $user->id)->first()->restaurant->with(['reservations' => function ($query) use ($selectedDate) {
-            $query->whereDate('date', $selectedDate);
-        }])->get();
-        return response()->json($restaurant);
+        // check auth user id does exist in moderators
+        $user = Auth::user();
+        $restaurant = Restaurant::findOrFail($restaurantId);
+        $moderators = $restaurant->moderators->pluck('user_id')->toArray();
+
+        if (!in_array($user->id, $moderators)) {
+            return response()->json([
+                'error' => 'Unauthorized'
+            ], 401);
+        }
+
+        $reservations = $restaurant->reservations()->whereDate('date', $selectedDate)->with('tables:TableDescription')->get();
+        return response()->json([
+            'reservations' => $reservations
+        ]);
     }
 }

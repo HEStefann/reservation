@@ -87,15 +87,13 @@
     <div class="flex flex-col gap-[18px] items-center">
         <div id="image-scroll"
             class="px-[26px] w-full flex gap-[11px] overflow-x-scroll scrollbar-hide snap-x scroll-smooth snap-mandatory hide-scrollbar">
-            <?php for($i = 0; $i < 15; $i++): ?>
-                <?php $__currentLoopData = $promotions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $promotion): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <div style="min-width: 277px; min-height: 120px;width: 277px; height: 120px">
-                        <img class="rounded-[28px] snap-center w-full h-full" style="width: 100%; height: 100%;"
-                            src="<?php echo e(asset('storage/' . $promotion->image)); ?>" alt=""
-                            onclick="window.location.href = '<?php echo e(route('user.restaurant', $promotion->restaurant_id)); ?>'">
-                    </div>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-            <?php endfor; ?>
+            <?php $__currentLoopData = $promotions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $promotion): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <div style="min-width: 277px; min-height: 120px;width: 277px; height: 120px">
+                    <img class="rounded-[28px] snap-center w-full h-full" style="width: 100%; height: 100%;"
+                        src="<?php echo e(asset('storage/' . $promotion->image)); ?>" alt=""
+                        onclick="window.location.href = '<?php echo e(route('user.restaurant', $promotion->restaurant->title)); ?>'">
+                </div>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </div>
         <svg width="35" height="9" viewBox="0 0 35 9" fill="none" xmlns="http://www.w3.org/2000/svg"
             class="w-[35px] h-[9px]" preserveAspectRatio="none">
@@ -515,7 +513,7 @@
                         // Add a click event listener to the suggestion
                         li.addEventListener('click', function() {
                             // Navigate to the restaurant page with the corresponding ID
-                            window.location.href = `/restaurant/${suggestion.id}`;
+                            window.location.href = `/restaurant/${suggestion.title}`;
                         });
                         autocompleteResults.appendChild(li);
                     } else {

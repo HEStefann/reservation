@@ -113,7 +113,7 @@
                             </p>
                             <div
                                 class="flex justify-center items-center w-[88px] h-[29px] relative overflow-hidden gap-2.5 px-6 py-2.5 rounded-[10px] bg-[#005fa4]">
-                                <a href="{{ route('user.restaurant', ['restaurant' => $restaurant->id]) }}"
+                                <a href="{{ route('user.restaurant', ['restaurant' => $restaurant->title]) }}"
                                     class="flex-grow-0 flex-shrink-0 text-sm font-medium text-left text-white">Reserve</a>
                             </div>
                         </div>

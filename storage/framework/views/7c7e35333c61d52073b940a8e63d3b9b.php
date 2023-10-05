@@ -8,7 +8,7 @@
         <?php if($highliyRated->count() > 0): ?>
             <div class="space-y-[28px]">
                 <?php $__currentLoopData = $highliyRated; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $restaurant): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <div class="rounded-bl-2xl rounded-t-2xl rounded-br-2xl bg-white pb-[8px] shadow-2xl">
+                    <a href="<?php echo e(route('user.restaurant', ['restaurant' => $restaurant->title])); ?>" class="flex flex-col rounded-bl-2xl rounded-t-2xl rounded-br-2xl bg-white pb-[8px] shadow-2xl">
                         <div class="relative">
                             <?php if(Auth::check()): ?>
                                 <button class="absolute right-[8px] top-[8px]"
@@ -114,11 +114,10 @@
                             </p>
                             <div
                                 class="flex justify-center items-center w-[88px] h-[29px] relative overflow-hidden gap-2.5 px-6 py-2.5 rounded-[10px] bg-[#005fa4]">
-                                <a href="<?php echo e(route('user.restaurant', ['restaurant' => $restaurant->id])); ?>"
-                                    class="flex-grow-0 flex-shrink-0 text-sm font-medium text-left text-white">Reserve</a>
+                                <span class="flex-grow-0 flex-shrink-0 text-sm font-medium text-left text-white">Reserve</span>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
         <?php else: ?>

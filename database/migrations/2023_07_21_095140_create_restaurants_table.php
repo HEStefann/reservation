@@ -22,6 +22,7 @@ return new class extends Migration
             $table->boolean('approved')->default(false);
             $table->unsignedBigInteger('approved_by')->nullable();
             $table->boolean('active')->default(true);
+            $table->integer('reservation_lasting_time')->default(1)->nullable();    
             $table->timestamps();
             $table->softDeletes();
         });

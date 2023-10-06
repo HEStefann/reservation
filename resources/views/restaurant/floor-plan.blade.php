@@ -1,6 +1,6 @@
 @extends('layouts.restaurant')
 @section('content')
-    <div class="mt-[36px] mx-[70px] mb-[120px]">
+    <div class="mt-[46px] mx-[70px] mb-[120px]">
         <p class="text-4xl font-semibold text-[#343a40] mb-[31px]">{{ $restaurant->title }}</p>
         <div class="flex mb-[24px]">
             @for ($i = 1; $i <= $restaurant->floors->count(); $i++)
@@ -25,8 +25,10 @@
         <button id="editButton">Edit</button>
         <button id="saveButton" style="display: none;">Save</button>
         <button id="newTableButton">New Table</button>
-        <div class="rounded-lg bg-[#fff5ec] px-[9px] py-[11px] relative" id="tablesContainer"
-            style="height: calc(111vh - 172px);">
+        <div class="w-[420px] h-[364px] rounded-lg overflow-auto">
+            <div class="rounded-lg bg-[#d9d9d9] px-[9px] py-[11px] relative w-[1200px] h-[1200px]" id="tablesContainer"
+                style="height: calc(111vh - 172px);">
+            </div>
         </div>
         <style>
             .activeFloorButton {
@@ -188,94 +190,101 @@
         let floorId;
         // Initialize the editable state
         var isEditable = false;
-        floorButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                if (isEditable) {
-                    alert('Cannot change floor in edit mode');
-                    return; // Prevent floor button click when in edit mode
-                }
-                floorButtons.forEach(btn => {
-                    btn.classList.remove('activeFloorButton');
-                });
-                this.classList.add('activeFloorButton');
-
-                floorId = this.id.replace('floor', ''); // Get the ID without "floor" prefix
-
-                // Make an AJAX request to fetch the tables data for the selected floor
-                fetch(`/api/tables/${floorId}`)
-                    .then(response => response.json())
-                    .then(tablesData => {
-                        // Clear the existing tables in the tablesContainer
-                        tablesContainer.innerHTML = '';
-                        // Add the new tables to the tablesContainer
-                        tablesData.forEach(table => {
-                            const tableElement = document.createElement('div');
-                            tableElement.classList.add('flex', 'flex-col', 'items-center',
-                                'justify-center', 'gap-[1px]', 'absolute',
-                                'tableElements');
-                            tableElement.style.width = `${table.Width}px`;
-                            tableElement.style.height = `${table.Height}px`;
-                            tableElement.style.left = `${table.PositionLeft}px`;
-                            tableElement.style.top = `${table.PositionTop}px`;
-                            tableElement.draggable =
-                                isEditable; // Make tables draggable only in editable mode
-                            tableElement.setAttribute('data-id', table.id);
-
-                            const tableContent = document.createElement('p');
-                            tableContent.classList.add('rounded-[10px]', 'bg-[#979797]',
-                                'text-[8px]', 'font-semibold', 'text-white', 'flex',
-                                'items-center', 'justify-center');
-                            tableContent.style.width = `100%`;
-                            tableContent.style.height = `100%`;
-                            tableContent.innerText = table.TableDescription;
-
-                            tableElement.appendChild(tableContent);
-
-                            tableElement.addEventListener('dblclick', function() {
-                                // Show the custom modal for editing
-                                const modal = document.getElementById('editTableModal');
-                                modal.classList.add('show');
-                                modal.style.display = 'block';
-
-                                // Set the table details in the modal for editing
-                                const tableId = table.id;
-                                const tableDescriptionInput = document.getElementById(
-                                    'tableDescriptionInput');
-                                const tableWidthInput = document.getElementById(
-                                    'tableWidthInput');
-                                const tableHeightInput = document.getElementById(
-                                    'tableHeightInput');
-
-                                // Set the current table details in the modal inputs
-                                tableDescriptionInput.value = table.TableDescription;
-                                tableWidthInput.value = table.Width;
-                                tableHeightInput.value = table.Height;
-
-                                // Add an event listener to the modal's save button to handle the save action
-                                const saveButton = document.getElementById(
-                                    'saveButton');
-                                saveButton.addEventListener('click', function() {
-                                    // Get the updated values from the modal inputs
-                                    const updatedDescription =
-                                        tableDescriptionInput.value;
-                                    const updatedWidth = tableWidthInput.value;
-                                    const updatedHeight = tableHeightInput
-                                        .value;
-
-                                    // Close the modal after saving
-                                    modal.classList.remove('show');
-                                    modal.style.display = 'none';
-                                });
-                            });
-
-                            tablesContainer.appendChild(tableElement);
-                        });
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
+        if (floorButtons.length != 0) {
+            floorButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    if (isEditable) {
+                        alert('Cannot change floor in edit mode');
+                        return; // Prevent floor button click when in edit mode
+                    }
+                    floorButtons.forEach(btn => {
+                        btn.classList.remove('activeFloorButton');
                     });
+                    this.classList.add('activeFloorButton');
+
+                    floorId = this.id.replace('floor', ''); // Get the ID without "floor" prefix
+
+                    // Make an AJAX request to fetch the tables data for the selected floor
+                    fetch(`/api/tables/${floorId}`)
+                        .then(response => response.json())
+                        .then(tablesData => {
+                            // Clear the existing tables in the tablesContainer
+                            tablesContainer.innerHTML = '';
+                            // Add the new tables to the tablesContainer
+                            tablesData.forEach(table => {
+                                const tableElement = document.createElement('div');
+                                tableElement.classList.add('flex', 'flex-col', 'items-center',
+                                    'justify-center', 'gap-[1px]', 'absolute',
+                                    'tableElements');
+                                tableElement.style.width = `${table.Width}px`;
+                                tableElement.style.height = `${table.Height}px`;
+                                tableElement.style.left = `${table.PositionLeft}px`;
+                                tableElement.style.top = `${table.PositionTop}px`;
+                                tableElement.draggable =
+                                    isEditable; // Make tables draggable only in editable mode
+                                tableElement.setAttribute('data-id', table.id);
+
+                                const tableContent = document.createElement('p');
+                                tableContent.classList.add('rounded-[10px]', 'bg-[#979797]',
+                                    'text-[8px]', 'font-semibold', 'text-white', 'flex',
+                                    'items-center', 'justify-center');
+                                tableContent.style.width = `100%`;
+                                tableContent.style.height = `100%`;
+                                tableContent.innerText = table.TableDescription;
+
+                                tableElement.appendChild(tableContent);
+
+                                tableElement.addEventListener('dblclick', function() {
+                                    // Show the custom modal for editing
+                                    const modal = document.getElementById(
+                                        'editTableModal');
+                                    modal.classList.add('show');
+                                    modal.style.display = 'block';
+
+                                    // Set the table details in the modal for editing
+                                    const tableId = table.id;
+                                    const tableDescriptionInput = document
+                                        .getElementById(
+                                            'tableDescriptionInput');
+                                    const tableWidthInput = document.getElementById(
+                                        'tableWidthInput');
+                                    const tableHeightInput = document.getElementById(
+                                        'tableHeightInput');
+
+                                    // Set the current table details in the modal inputs
+                                    tableDescriptionInput.value = table
+                                    .TableDescription;
+                                    tableWidthInput.value = table.Width;
+                                    tableHeightInput.value = table.Height;
+
+                                    // Add an event listener to the modal's save button to handle the save action
+                                    const saveButton = document.getElementById(
+                                        'saveButton');
+                                    saveButton.addEventListener('click', function() {
+                                        // Get the updated values from the modal inputs
+                                        const updatedDescription =
+                                            tableDescriptionInput.value;
+                                        const updatedWidth = tableWidthInput
+                                            .value;
+                                        const updatedHeight = tableHeightInput
+                                            .value;
+
+                                        // Close the modal after saving
+                                        modal.classList.remove('show');
+                                        modal.style.display = 'none';
+                                    });
+                                });
+
+                                tablesContainer.appendChild(tableElement);
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                });
             });
-        });
+        floorButtons[0].click(); // Programmatically click the default floor button
+        }
 
         // Function to disable draggable for all table elements
         function disableTableDraggable() {
@@ -488,8 +497,6 @@
 
         // Initialize the view with the default floor (you can change this to the desired default floor)
         // Replace defaultFloorId with the actual default floor ID
-        const defaultFloorId = 1; // Set the initial default floor ID
-        floorButtons[defaultFloorId - 1].click(); // Programmatically click the default floor button
         saveButton.addEventListener('click', updateTablePositions);
     </script>
     <script>

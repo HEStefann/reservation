@@ -34,6 +34,7 @@ return new class extends Migration
             $table->integer('Capacity')->default(4);
             $table->integer('RotationSide')->nullable();
             $table->integer('InteriorShapeType')->nullable();
+            $table->integer('Sits')->nullable();
 
             $table->unsignedBigInteger('IdTableSize')->nullable();
             $table->foreign('IdFloor')->references('id')->on('floors');

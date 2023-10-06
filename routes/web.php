@@ -201,7 +201,7 @@ Route::get('/calendar', [RestaurantCalendarController::class, 'index'])->name('r
 Route::get('/floor-plan', [RestaurantSettingsController::class, 'floorPlan'])->name('restaurant.floor-plan');
 Route::post('/settings/update', [RestaurantSettingsController::class, 'update'])->name('restaurant.settings.update');
 // updateTablePosition
-Route::put('/settings/updateTablePosition', [RestaurantSettingsController::class, 'updateTablePosition'])->name('restaurant.settings.updateTablePosition');
+Route::put('/settings/updateTables', [RestaurantSettingsController::class, 'updateTables'])->name('restaurant.settings.updateTables');
 Route::post('/restaurant/reservation', [RestaurantReservationController::class, 'create'])->name('restaurant.reservation.create');
 Route::delete('/restaurant-images/{imageId}', [RestaurantSettingsController::class, 'removeRestaurantImage'])->name('restaurant-images.remove');
 Route::get('/edit-date/{selectedDate}', [RestaurantSettingsController::class, 'editDate'])->name('editDate');

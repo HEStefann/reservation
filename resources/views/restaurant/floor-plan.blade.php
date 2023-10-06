@@ -1,7 +1,7 @@
 @extends('layouts.restaurant')
 @section('content')
-    <div class="mt-[46px] mx-[70px] mb-[120px]">
-        <p class="text-4xl font-semibold text-[#343a40] mb-[31px]">{{ $restaurant->title }}</p>
+    <div class="mt-[36px] mx-[70px] mb-[120px]">
+        <p class="text-4xl font-semibold text-[#343a40] mb-[32px]">{{ $restaurant->title }}</p>
         <div class="flex mb-[24px]">
             @for ($i = 1; $i <= $restaurant->floors->count(); $i++)
                 @if ($i == 1)
@@ -22,12 +22,107 @@
                 @endif
             @endfor
         </div>
-        <button id="editButton">Edit</button>
-        <button id="saveButton" style="display: none;">Save</button>
-        <button id="newTableButton">New Table</button>
-        <div class="w-[420px] h-[364px] rounded-lg overflow-auto">
-            <div class="rounded-lg bg-[#d9d9d9] px-[9px] py-[11px] relative w-[1200px] h-[1200px]" id="tablesContainer"
-                style="height: calc(111vh - 172px);">
+
+        <button
+            class="flex items-center justify-center rounded-lg bg-white border border-[#005fa4] w-[117px] h-[36px] text-sm font-medium text-left text-[#005fa4]"
+            id="editButton">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                class="w-6 h-6" preserveAspectRatio="none">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M3 17.2496V20.9996H6.75L17.81 9.93957L14.06 6.18957L3 17.2496ZM20.71 7.03957C21.1 6.64957 21.1 6.01957 20.71 5.62957L18.37 3.28957C17.98 2.89957 17.35 2.89957 16.96 3.28957L15.13 5.11957L18.88 8.86957L20.71 7.03957Z"
+                    fill="#005FA4"></path>
+            </svg>
+            Edit Floor
+        </button>
+        <div class="flex mt-[36px] gap-[280px]">
+            {{-- <div class="flex items-center justify-center flex-col">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    preserveAspectRatio="none">
+                    <ellipse cx="8.78978" cy="9.09564" rx="8.43333" ry="8.23333" fill="#979797"></ellipse>
+                </svg>
+                <div class="flex items-center">
+                    <svg width="18" height="17" viewBox="0 0 18 17" fill="none"
+                        xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                        <ellipse cx="8.67161" cy="8.48138" rx="8.43333" ry="8.23333" fill="#979797"></ellipse>
+                    </svg>
+                    <div class="w-[42.17px] h-[35.29px] rounded-[10px] bg-[#979797]">
+                        <p class="rounded-[10px] bg-[#979797] text-[8px] font-semibold text-white flex items-center justify-center">
+                            ${table.TableDescription}
+                        </p>
+                    </div>
+                    <svg width="18" height="17" viewBox="0 0 18 17" fill="none"
+                        xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                        <ellipse cx="9.114" cy="8.48138" rx="8.43333" ry="8.23333" fill="#979797"></ellipse>
+                    </svg>
+                </div>
+                <svg width="18" height="17" viewBox="0 0 18 17" fill="none"
+                    xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                    <ellipse cx="8.78978" cy="8.53314" rx="8.43333" ry="8.23333" fill="#979797"></ellipse>
+                </svg>
+            </div> --}}
+            <div class="w-[420px] h-[364px] rounded-lg overflow-auto min-w-[420px] min-h-[364px]">
+                <div class="rounded-lg bg-[#d9d9d9] px-[9px] py-[11px] relative w-[1200px] h-[1200px]" id="tablesContainer"
+                    style="height: calc(111vh - 172px);">
+                </div>
+            </div>
+            <div class="flex flex-col">
+                <div id="addNewTableBox" class="flex flex-col gap-[11px] w-[445px] h-64 bg-white pt-[28px] pl-[32px]"
+                    style="box-shadow: 0px 1px 8px 0 rgba(0,0,0,0.05); display: none;">
+                    <div class="flex gap-[10px]">
+                        <p class="text-lg font-semibold text-[#343a40]">Table number:</p>
+                        <div class="flex relative h-full items-center">
+                            <input type="number" value="6" id="tableNumber"
+                                class="rounded-lg border border-[#79747e] text-sm font-medium text-center text-[#49454f] w-[97px] h-[32px]">
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
+                                xmlns="http://www.w3.org/2000/svg" class="w-[18px] h-[18px] absolute right-[7px]"
+                                preserveAspectRatio="xMidYMid meet">
+                                <path
+                                    d="M14.25 4.8075L13.1925 3.75L9 7.9425L4.8075 3.75L3.75 4.8075L7.9425 9L3.75 13.1925L4.8075 14.25L9 10.0575L13.1925 14.25L14.25 13.1925L10.0575 9L14.25 4.8075Z"
+                                    fill="#49454F"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="flex gap-[10px]">
+                        <p class="text-lg font-semibold text-[#343a40]">Number of people::</p>
+                        <div class="flex relative h-full items-center">
+                            <input type="number" value="4" id="tableNumberOfPeople"
+                                class="rounded-lg border border-[#79747e] text-sm font-medium text-center text-[#49454f] w-[97px] h-[32px]">
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
+                                xmlns="http://www.w3.org/2000/svg" class="w-[18px] h-[18px] absolute right-[7px]"
+                                preserveAspectRatio="xMidYMid meet">
+                                <path
+                                    d="M14.25 4.8075L13.1925 3.75L9 7.9425L4.8075 3.75L3.75 4.8075L7.9425 9L3.75 13.1925L4.8075 14.25L9 10.0575L13.1925 14.25L14.25 13.1925L10.0575 9L14.25 4.8075Z"
+                                    fill="#49454F"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-[10px]">
+                        <p class="text-lg font-semibold text-[#343a40]">Available status:</p>
+                        <svg width="43" height="43" viewBox="0 0 43 43" fill="none"
+                            xmlns="http://www.w3.org/2000/svg" class="w-[43px] h-[43px]"
+                            preserveAspectRatio="xMidYMid meet">
+                            <path
+                                d="M30.4587 10.75H12.542C6.61158 10.75 1.79199 15.5696 1.79199 21.5C1.79199 27.4304 6.61158 32.25 12.542 32.25H30.4587C36.3891 32.25 41.2087 27.4304 41.2087 21.5C41.2087 15.5696 36.3891 10.75 30.4587 10.75ZM30.4587 28.6667H12.542C8.58241 28.6667 5.37533 25.4596 5.37533 21.5C5.37533 17.5404 8.58241 14.3333 12.542 14.3333H30.4587C34.4182 14.3333 37.6253 17.5404 37.6253 21.5C37.6253 25.4596 34.4182 28.6667 30.4587 28.6667ZM12.542 16.125C9.56782 16.125 7.16699 18.5258 7.16699 21.5C7.16699 24.4742 9.56782 26.875 12.542 26.875C15.5162 26.875 17.917 24.4742 17.917 21.5C17.917 18.5258 15.5162 16.125 12.542 16.125Z"
+                                fill="black" fill-opacity="0.54"></path>
+                        </svg>
+                        <input type="hidden" value="true">
+                    </div>
+                    <button
+                        class="flex items-center justify-center rounded-lg bg-white border border-[#005fa4] w-[121px] h-[36px] text-sm font-medium text-left text-[#005fa4] mt-[26px] mr-[61px] self-end"
+                        id="newTableButton">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" preserveAspectRatio="none">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z"
+                                fill="#005FA4"></path>
+                        </svg>
+                        Add table
+                    </button>
+                </div>
+                <button
+                    class="flex items-center justify-center w-[228px] h-14 rounded-xl bg-[#005fa4] text-[28px] font-semibold text-white self-end mt-[300px]"
+                    id="saveButton" style="display: none;">
+                    Save
+                </button>
             </div>
         </div>
         <style>
@@ -48,7 +143,8 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="editTableModalLabel">Edit Table</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close xEditModal" data-bs-dismiss="modal"
+                            aria-label="Close">X</button>
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
@@ -65,7 +161,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-secondary cancelEditModal"
+                            data-bs-dismiss="modal">Cancel</button>
                         <button type="button" class="btn btn-primary" id="saveButton">Save</button>
                     </div>
                 </div>
@@ -178,6 +275,13 @@
                 background-color: #007bff;
                 /* You can change the color */
             }
+
+            .edit {
+                position: absolute;
+                top: 13px;
+                right: 14px;
+                cursor: pointer;
+            }
         </style>
 
     </div>
@@ -212,70 +316,32 @@
                             tablesContainer.innerHTML = '';
                             // Add the new tables to the tablesContainer
                             tablesData.forEach(table => {
-                                const tableElement = document.createElement('div');
-                                tableElement.classList.add('flex', 'flex-col', 'items-center',
-                                    'justify-center', 'gap-[1px]', 'absolute',
-                                    'tableElements');
-                                tableElement.style.width = `${table.Width}px`;
-                                tableElement.style.height = `${table.Height}px`;
-                                tableElement.style.left = `${table.PositionLeft}px`;
-                                tableElement.style.top = `${table.PositionTop}px`;
-                                tableElement.draggable =
-                                    isEditable; // Make tables draggable only in editable mode
-                                tableElement.setAttribute('data-id', table.id);
-
-                                const tableContent = document.createElement('p');
-                                tableContent.classList.add('rounded-[10px]', 'bg-[#979797]',
-                                    'text-[8px]', 'font-semibold', 'text-white', 'flex',
-                                    'items-center', 'justify-center');
-                                tableContent.style.width = `100%`;
-                                tableContent.style.height = `100%`;
-                                tableContent.innerText = table.TableDescription;
-
-                                tableElement.appendChild(tableContent);
-
-                                tableElement.addEventListener('dblclick', function() {
-                                    // Show the custom modal for editing
-                                    const modal = document.getElementById(
-                                        'editTableModal');
-                                    modal.classList.add('show');
-                                    modal.style.display = 'block';
-
-                                    // Set the table details in the modal for editing
-                                    const tableId = table.id;
-                                    const tableDescriptionInput = document
-                                        .getElementById(
-                                            'tableDescriptionInput');
-                                    const tableWidthInput = document.getElementById(
-                                        'tableWidthInput');
-                                    const tableHeightInput = document.getElementById(
-                                        'tableHeightInput');
-
-                                    // Set the current table details in the modal inputs
-                                    tableDescriptionInput.value = table
-                                    .TableDescription;
-                                    tableWidthInput.value = table.Width;
-                                    tableHeightInput.value = table.Height;
-
-                                    // Add an event listener to the modal's save button to handle the save action
-                                    const saveButton = document.getElementById(
-                                        'saveButton');
-                                    saveButton.addEventListener('click', function() {
-                                        // Get the updated values from the modal inputs
-                                        const updatedDescription =
-                                            tableDescriptionInput.value;
-                                        const updatedWidth = tableWidthInput
-                                            .value;
-                                        const updatedHeight = tableHeightInput
-                                            .value;
-
-                                        // Close the modal after saving
-                                        modal.classList.remove('show');
-                                        modal.style.display = 'none';
-                                    });
-                                });
-
-                                tablesContainer.appendChild(tableElement);
+                                const tableElement = `<div data-active='${table.Active}' data-Capacity='${table.Capacity}' data-id='${table.id}' ${isEditable ? 'draggable: "true"' : ''} class="flex items-center justify-center flex-col absolute tableElements" style="left: ${table.PositionLeft}px; top: ${table.PositionTop}px;">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    preserveAspectRatio="none">
+                    <ellipse cx="8.78978" cy="9.09564" rx="8.43333" ry="8.23333" fill="#979797"></ellipse>
+                </svg>
+                <div class="flex items-center">
+                    <svg width="18" height="17" viewBox="0 0 18 17" fill="none"
+                        xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                        <ellipse cx="8.67161" cy="8.48138" rx="8.43333" ry="8.23333" fill="#979797"></ellipse>
+                    </svg>
+                    <div class="w-[42.17px] h-[35.29px] rounded-[10px] bg-[#979797]">
+                        <p class="rounded-[10px] bg-[#979797] text-[8px] font-semibold text-white flex items-center justify-center w-full h-full">
+                            ${table.TableDescription}
+                        </p>
+                    </div>
+                    <svg width="18" height="17" viewBox="0 0 18 17" fill="none"
+                        xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                        <ellipse cx="9.114" cy="8.48138" rx="8.43333" ry="8.23333" fill="#979797"></ellipse>
+                    </svg>
+                </div>
+                <svg width="18" height="17" viewBox="0 0 18 17" fill="none"
+                    xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                    <ellipse cx="8.78978" cy="8.53314" rx="8.43333" ry="8.23333" fill="#979797"></ellipse>
+                </svg>
+            </div>`;
+                                tablesContainer.innerHTML += tableElement;
                             });
                         })
                         .catch(error => {
@@ -283,14 +349,15 @@
                         });
                 });
             });
-        floorButtons[0].click(); // Programmatically click the default floor button
+            floorButtons[0].click(); // Programmatically click the default floor button
         }
 
         // Function to disable draggable for all table elements
         function disableTableDraggable() {
             isEditable = false;
-            editButton.style.display = isEditable ? 'none' : 'inline-block';
-            saveButton.style.display = !isEditable ? 'none' : 'inline-block';
+            addNewTableBox.style.display = isEditable ? 'flex' : 'none';
+            editButton.style.display = isEditable ? 'none' : 'flex';
+            saveButton.style.display = !isEditable ? 'none' : 'flex';
             const tables = document.querySelectorAll('.tableElements');
 
             tables.forEach(table => {
@@ -305,8 +372,9 @@
         // Function to enable draggable for all table elements
         function enableTableDraggable() {
             isEditable = true;
-            editButton.style.display = isEditable ? 'none' : 'inline-block';
-            saveButton.style.display = !isEditable ? 'none' : 'inline-block';
+            addNewTableBox.style.display = isEditable ? 'flex' : 'none';
+            editButton.style.display = isEditable ? 'none' : 'flex';
+            saveButton.style.display = !isEditable ? 'none' : 'flex';
             const tables = document.querySelectorAll('.tableElements');
 
             tables.forEach(table => {
@@ -324,8 +392,8 @@
             let pos3 = 0;
             let pos4 = 0;
             let isResizing = false; // Track if resizing is active
-            let resizeWidth = elmnt.clientWidth; // Variable to store the resized width
-            let resizeHeight = elmnt.clientHeight; // Variable to store the resized height
+            // let resizeWidth = elmnt.clientWidth; // Variable to store the resized width
+            // let resizeHeight = elmnt.clientHeight; // Variable to store the resized height
 
             elmnt.onmouseover = function() {
                 elmnt.style.cursor = 'move';
@@ -337,11 +405,76 @@
                 elmnt.onmousedown = dragMouseDown;
             }
 
-            const resizeElement = document.createElement("div");
-            resizeElement.className = "resize";
-            elmnt.appendChild(resizeElement);
+            // const resizeElement = document.createElement("div");
+            // resizeElement.className = "resize";
+            const editElement = document.createElement("div");
+            editElement.className = "edit";
 
-            resizeElement.onmousedown = resizeMouseDown;
+            editElement.innerHTML = `
+                                        <svg
+                                        width="14"
+                                        height="14"
+                                        viewBox="0 0 14 14"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="w-3.5 h-3.5 editIcon"
+                                        preserveAspectRatio="xMidYMid meet"
+                                        >
+                                        <path
+                                            fill-rule="evenodd"
+                                            clip-rule="evenodd"
+                                            d="M11.1183 2.09418L11.9058 2.88168C12.3667 3.33668 12.3667 4.07751 11.9058 4.53251L4.18833 12.25H1.75V9.81168L7.81667 3.73918L9.4675 2.09418C9.9225 1.63918 10.6633 1.63918 11.1183 2.09418ZM2.91667 11.0833L3.73917 11.1183L9.4675 5.38418L8.645 4.56168L2.91667 10.29V11.0833Z"
+                                            fill="#FFF5EC"
+                                        ></path>
+                                        </svg>
+                                    `;
+
+            // elmnt.appendChild(resizeElement);
+            elmnt.appendChild(editElement);
+            // editElement.addEventListener click function 
+            editElement.addEventListener('click', () => {
+                // tableElement.addEventListener('dblclick', function() {
+                //     // Show the custom modal for editing
+                //     const modal = document.getElementById(
+                //         'editTableModal');
+                //     modal.classList.add('show');
+                //     modal.style.display = 'block';
+
+                //     // Set the table details in the modal for editing
+                //     const tableId = table.id;
+                //     const tableDescriptionInput = document
+                //         .getElementById(
+                //             'tableDescriptionInput');
+                //     const tableWidthInput = document.getElementById(
+                //         'tableWidthInput');
+                //     const tableHeightInput = document.getElementById(
+                //         'tableHeightInput');
+
+                //     // Set the current table details in the modal inputs
+                //     tableDescriptionInput.value = table
+                //         .TableDescription;
+                //     tableWidthInput.value = table.Width;
+                //     tableHeightInput.value = table.Height;
+
+                //     // Add an event listener to the modal's save button to handle the save action
+                //     const saveButton = document.getElementById(
+                //         'saveButton');
+                //     saveButton.addEventListener('click', function() {
+                //         // Get the updated values from the modal inputs
+                //         const updatedDescription =
+                //             tableDescriptionInput.value;
+                //         const updatedWidth = tableWidthInput
+                //             .value;
+                //         const updatedHeight = tableHeightInput
+                //             .value;
+
+                //         // Close the modal after saving
+                //         modal.classList.remove('show');
+                //         modal.style.display = 'none';
+                //     });
+                // });
+            });
+            // resizeElement.onmousedown = resizeMouseDown;
 
             function dragMouseDown(e) {
                 e = e || window.event;
@@ -355,23 +488,23 @@
                 document.onmousemove = elementDrag;
             }
 
-            function resizeMouseDown(e) {
-                e = e || window.event;
-                e.preventDefault();
+            // function resizeMouseDown(e) {
+            //     e = e || window.event;
+            //     e.preventDefault();
 
-                isResizing = true;
+            //     isResizing = true;
 
-                // Get the mouse cursor position at startup
-                pos3 = e.clientX;
-                pos4 = e.clientY;
+            //     // Get the mouse cursor position at startup
+            //     pos3 = e.clientX;
+            //     pos4 = e.clientY;
 
-                // Store the current width and height
-                resizeWidth = elmnt.clientWidth;
-                resizeHeight = elmnt.clientHeight;
+            //     // Store the current width and height
+            //     resizeWidth = elmnt.clientWidth;
+            //     resizeHeight = elmnt.clientHeight;
 
-                document.onmouseup = closeDragElement;
-                document.onmousemove = elementDrag;
-            }
+            //     document.onmouseup = closeDragElement;
+            //     document.onmousemove = elementDrag;
+            // }
 
             function elementDrag(e) {
                 e = e || window.event;
@@ -379,16 +512,16 @@
 
                 if (isResizing) {
                     // Resize the element
-                    const minWidth = 50; // define the minimum width for the element
-                    const minHeight = 50; // define the minimum height for the element
+                    // const minWidth = 50; // define the minimum width for the element
+                    // const minHeight = 50; // define the minimum height for the element
 
-                    const newWidth = resizeWidth + (e.clientX - pos3);
-                    const newHeight = resizeHeight + (e.clientY - pos4);
+                    // const newWidth = resizeWidth + (e.clientX - pos3);
+                    // const newHeight = resizeHeight + (e.clientY - pos4);
 
-                    if (newWidth >= minWidth && newHeight >= minHeight) {
-                        elmnt.style.width = newWidth + 'px';
-                        elmnt.style.height = newHeight + 'px';
-                    }
+                    // if (newWidth >= minWidth && newHeight >= minHeight) {
+                    //     elmnt.style.width = newWidth + 'px';
+                    //     elmnt.style.height = newHeight + 'px';
+                    // }
                 } else {
                     // Move the element
                     const container = elmnt.parentElement;
@@ -422,27 +555,28 @@
                 document.onmouseup = null;
                 document.onmousemove = null;
 
-                isResizing = false;
+                // isResizing = false;
             }
         }
 
         function updateTablePositions() {
             const tableElements = document.querySelectorAll('.tableElements');
+            const editIcon = document.querySelectorAll('.editIcon');
+            editIcon.forEach(icon => {
+                icon.parentElement.remove();
+            });
             const tablePositions = [];
 
             tableElements.forEach(table => {
 
                 const id = table.getAttribute('data-id');
+                const Capacity = table.getAttribute('data-Capacity');
+                const Active = table.getAttribute('data-active');
                 const left = table.offsetLeft;
                 const top = table.offsetTop;
                 const Height = table.clientHeight;
                 const Width = table.clientWidth;
                 const TableDescription = table.querySelector('p').innerText;
-                const Shape = 1;
-                const Active = 1;
-                const Reserved = 0;
-                const Lock = 0;
-                const Capacity = 4;
                 const IdFloor = floorId;
                 tablePositions.push({
                     id,
@@ -451,16 +585,14 @@
                     Height,
                     Width,
                     TableDescription,
-                    Shape,
                     Active,
-                    Reserved,
-                    Lock,
                     Capacity,
-                    IdFloor
+                    IdFloor,
+                    Capacity
                 });
             });
 
-            fetch('/settings/updateTablePosition', {
+            fetch('/settings/updateTables', {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -486,7 +618,7 @@
                 })
                 .then(data => {
                     // Handle the response data or update UI as needed
-                    // console.log(data);
+                    console.log(data);
                 })
                 .catch(error => {
                     console.error('Error saving table positions:', error);
@@ -505,44 +637,34 @@
 
         // Function to create a new table element
         function createNewTable() {
-            const tableElement = document.createElement('div');
-            tableElement.classList.add(
-                'flex',
-                'flex-col',
-                'items-center',
-                'justify-center',
-                'gap-[1px]',
-                'absolute',
-                'cursor-move',
-                'tableElements'
-            );
-            tableElement.style.left = '0px'; // Set initial position
-            tableElement.style.top = '0px'; // Set initial position
-            tableElement.draggable = isEditable; // Make the table draggable only in editable mode
-            tableElement.setAttribute('data-id', 'new'); // Set a temporary ID
+            let numberOfPeople = document.getElementById('tableNumberOfPeople').value;
+            const tableElement = `<div data-id='new' data-numberOfPeople='${numberOfPeople}' ${isEditable ? 'draggable: "true"' : ''} class="flex items-center justify-center flex-col absolute tableElements" style="left: 0px; top: 0px;">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    preserveAspectRatio="none">
+                    <ellipse cx="8.78978" cy="9.09564" rx="8.43333" ry="8.23333" fill="#979797"></ellipse>
+                </svg>
+                <div class="flex items-center">
+                    <svg width="18" height="17" viewBox="0 0 18 17" fill="none"
+                        xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                        <ellipse cx="8.67161" cy="8.48138" rx="8.43333" ry="8.23333" fill="#979797"></ellipse>
+                    </svg>
+                    <div class="w-[42.17px] h-[35.29px] rounded-[10px] bg-[#979797]">
+                        <p class="rounded-[10px] bg-[#979797] text-[8px] font-semibold text-white flex items-center justify-center w-full h-full">
+                            ${document.getElementById('tableNumber').value}
+                        </p>
+                    </div>
+                    <svg width="18" height="17" viewBox="0 0 18 17" fill="none"
+                        xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                        <ellipse cx="9.114" cy="8.48138" rx="8.43333" ry="8.23333" fill="#979797"></ellipse>
+                    </svg>
+                </div>
+                <svg width="18" height="17" viewBox="0 0 18 17" fill="none"
+                    xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                    <ellipse cx="8.78978" cy="8.53314" rx="8.43333" ry="8.23333" fill="#979797"></ellipse>
+                </svg>
+            </div>`;
 
-            const tableContent = document.createElement('p');
-            tableContent.classList.add(
-                'rounded-[10px]',
-                'bg-[#979797]',
-                'text-[8px]',
-                'font-semibold',
-                'text-white',
-                'flex',
-                'items-center',
-                'justify-center'
-            );
-            tableContent.style.width = '100px'; // Set initial width
-            tableContent.style.height = '60px'; // Set initial height
-            tableContent.innerText = 'New Table';
-
-            // Create the resize indicator element
-            const resizeElement = document.createElement('div');
-            resizeElement.className = 'resize';
-            tableElement.appendChild(resizeElement);
-
-            tableElement.appendChild(tableContent);
-            tablesContainer.appendChild(tableElement);
+            tablesContainer.innerHTML += tableElement;
 
             // Make the newly created table draggable
             if (isEditable) {
@@ -558,11 +680,14 @@
         const modal = document.getElementById('editTableModal');
 
         // Close the modal on cancel button click
-        const cancelButton = document.querySelector('.modal-footer .btn-secondary');
+        const cancelButton = document.querySelector('.cancelEditModal');
         cancelButton.addEventListener('click', function() {
             closeModal();
         });
-
+        const xEditModal = document.querySelector('.xEditModal');
+        xEditModal.addEventListener('click', function() {
+            closeModal();
+        });
         // Close the modal on click outside the modal
         window.addEventListener('click', function(event) {
             if (event.target === modal) {

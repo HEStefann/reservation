@@ -152,43 +152,34 @@ class RestaurantSettingsController extends Controller
         return response()->json(['error' => 'Restaurant image not found.'], 404);
     }
 
-    public function updateTablePosition(Request $request)
+    public function updateTables(Request $request)
     {
         $user = Auth::user();
         $requestTables = $request->json()->all();
+        
+        // return json
 
         foreach ($requestTables as $requestTable) {
-            Log::debug($requestTable['TableDescription']);
-            if ($requestTable['id'] == 'new') {
-                $table = new Table();
-                $table->PositionLeft = $requestTable['left'];
-                $table->PositionTop = $requestTable['top'];
-                $table->IdFloor = $requestTable['IdFloor'];
-                $table->Shape = $requestTable['Shape'];
-                $table->Active = $requestTable['Active'];
-                $table->Reserved = $requestTable['Reserved'];
-                $table->Lock = $requestTable['Lock'];
-                $table->Capacity = $requestTable['Capacity'];
-                $table->TableDescription = $requestTable['TableDescription'];
-                $table->TableShortDescription = '/';
-                $table->Height = $requestTable['Height'];
-                $table->Width = $requestTable['Width'];
-                $table->CreatedBy = $user->id;
-
-                $table->save();
-                continue;
-            } else {
+            if ($requestTable['id'] != 'new') {
                 $table = Table::find($requestTable['id']); // Find the table by its ID  
-                if ($table) {
-                    // Update the table's position properties
-                    $table->PositionLeft = $requestTable['left'];
-                    $table->PositionTop = $requestTable['top'];
-                    $table->Height = $requestTable['Height'];
-                    $table->Width = $requestTable['Width'];
-                    $table->save(); // Save the changes to the database
-                }
+            } else {
+                $table = new Table();
+                $table->TableShortDescription = '/';
+                $table->CreatedBy = $user->id;
+                $table->IdFloor = $requestTable['IdFloor'];
+                $table->Shape = 1;
+                $table->Reserved = 0;
+                $table->Lock = 0;
             }
-        }
+            $table->Capacity = $requestTable['Capacity'];
+            $table->Active = $requestTable['Active'];
+            $table->TableDescription = $requestTable['TableDescription'];
+            $table->PositionLeft = $requestTable['left'];
+            $table->PositionTop = $requestTable['top'];
+            $table->Height = $requestTable['Height'];
+            $table->Width = $requestTable['Width'];
+            $table->save();
+        }   
         return response('Position saved');
     }
 

@@ -17,7 +17,7 @@ use Illuminate\Validation\Rules;
 class RestaurantRegisterController extends Controller
 {
     public function create(){
-        return view('restaurant.registerpage');
+        return view('restaurant.loginpage');
     }
     public function store(Request $request): RedirectResponse
     {
@@ -27,6 +27,7 @@ class RestaurantRegisterController extends Controller
         ]);
 
         $user = User::create([
+            'name' => $request->email,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);

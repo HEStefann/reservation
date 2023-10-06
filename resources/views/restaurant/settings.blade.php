@@ -83,7 +83,10 @@
                                             <p class="text-2xl text-[#343a40]">{{ $day }}</p>
                                             <div class="w-[200px]">
                                                 @if ($restaurant->workingHours->count() != 0)
-                                                    @foreach ($restaurant->workingHours as $workingHour)
+                                                    @php
+                                                        $workingHours = $restaurant->workingHours->where('default_working_time', 1);
+                                                    @endphp
+                                                    @foreach ($workingHours as $workingHour)
                                                         @if ($workingHour->day_of_week === $day)
                                                             <input name="working_hours[{{ $day }}][opening_time]"
                                                                 class="w-full mt-[12px]" type="time"
@@ -234,7 +237,7 @@
                                         fill="#B7DDBF"></path>
                                 </svg>
                             </div>
-                            <input id="operatingStatus" type="hidden" name="status" value="1">
+                            <input id="operatingStatusDay" type="hidden" name="operatingStatusDay" value="1">
                         </div>
                         {{-- <div class="flex gap-[50px]">
                             <p class="flex-grow-0 flex-shrink-0 w-36 text-sm font-semibold text-[#343a40]">
@@ -269,8 +272,8 @@
                             <div class="flex gap-[6px]">
                                 <p class="text-xs text-[#343a40]">from</p>
                                 <select class="rounded border-0 w-[99px]"
-                                    style="box-shadow: 0px 8px 10px 0 rgba(0,0,0,0.1);" name="opening_time"
-                                    id="opening_time">
+                                    style="box-shadow: 0px 8px 10px 0 rgba(0,0,0,0.1);" name="opening_timeDay"
+                                    id="opening_timeDay">
                                     @for ($i = 0; $i <= 23; $i++)
                                         @php
                                             $time = sprintf('%02d:00', $i);
@@ -284,8 +287,8 @@
                             <div class="flex gap-[6px]">
                                 <p class="text-xs text-[#343a40]">to</p>
                                 <select class="rounded border-0 w-[99px]"
-                                    style="box-shadow: 0px 8px 10px 0 rgba(0,0,0,0.1);" name="closing_time"
-                                    id="closing_time">
+                                    style="box-shadow: 0px 8px 10px 0 rgba(0,0,0,0.1);" name="closing_timeDay"
+                                    id="closing_timeDay">
                                     @for ($i = 0; $i <= 23; $i++)
                                         @php
                                             $time = sprintf('%02d:00', $i);
@@ -297,7 +300,7 @@
                                 </select>
                             </div>
                         </div>
-                        <button
+                        <button onclick="updateTempSettings(event)"
                             class="w-[104px] h-[42px] rounded-xl bg-[#005fa4] text-base font-semibold text-white self-end">Submit</button>
                     </div>
                 </div>
@@ -318,7 +321,8 @@
                         </defs>
                     </svg>
                 </div>
-                <div class="flex">
+                <div class="flex"
+                    style="display: flex;/* flex-grow: 1; */ display: flex;justify-content: space-between;">
                     <div class="flex flex-col gap-[24px]">
                         <div class="flex w-[459px]">
                             <p class="w-[125px] text-base font-semibold text-[#343a40] mr-auto">
@@ -376,7 +380,9 @@
                                                     d="M18 16V2C18 0.9 17.1 0 16 0H2C0.9 0 0 0.9 0 2V16C0 17.1 0.9 18 2 18H16C17.1 18 18 17.1 18 16ZM5.5 10.5L8 13.51L11.5 9L16 15H2L5.5 10.5Z"
                                                     fill="black" fill-opacity="0.54"></path>
                                             </svg>
-                                            <p style="font-size: 16px; font-weight: 500; color: #343a40;">
+                                            <p
+                                                style="  text-overflow: ellipsis;   overflow: hidden; 
+width: 180px; white-space: nowrap; font-size: 16px; font-weight: 500; color: #343a40;">
                                                 {{ $image->image_url }}</p>
                                             <div class="flex justify-start items-center w-max relative p-1 rounded border-[0.5px] border-[#005fa4] mx-[69px]"
                                                 onclick="document.getElementById('file-input1').click()">
@@ -481,7 +487,9 @@
                                                         d="M18 16V2C18 0.9 17.1 0 16 0H2C0.9 0 0 0.9 0 2V16C0 17.1 0.9 18 2 18H16C17.1 18 18 17.1 18 16ZM5.5 10.5L8 13.51L11.5 9L16 15H2L5.5 10.5Z"
                                                         fill="black" fill-opacity="0.54"></path>
                                                 </svg>
-                                                <p style="font-size: 16px; font-weight: 500; color: #343a40;">
+                                                <p
+                                                    style="  text-overflow: ellipsis;   overflow: hidden; 
+width: 180px; white-space: nowrap; font-size: 16px; font-weight: 500; color: #343a40;">
                                                     {{ $image->image_url }}</p>
                                                 <div class="flex justify-center items-center w-max h-8 relative p-1 rounded border-[0.5px] border-[#005fa4] mx-[69px]"
                                                     onclick="document.getElementById('file-input2').click()"><svg
@@ -593,9 +601,17 @@
             </div>
         </div>
     </form>
-<form action="">
+    {{-- <form action="{{ route('restaurant.updateWorkingHours') }}" id="updateDay" method="POST">
+        @csrf
+        @method('PUT')
+        <input type="hidden" name="restaurant_id" value="{{ $restaurant->id }}">
+        <input type="hidden" name="work_date" id="temporaryWorkDate">
+        <input type="hidden" name="is_working" id="temporaryStatus">
+        <input type="hidden" name="available_people" id="temporaryAvailablePeople">
+        <input type="hidden" name="opening_time" id="temporaryOpeningTime">
+        <input type="hidden" name="closing_time" id="temporaryClosingTime">
 
-</form>
+    </form> --}}
     <div id="deleteImageConfirmationModal" style="display: none;"
         class="display-none fixed z-10 left-0 top-0 w-full h-full bg-[rgba(0,0,0,0.5)] flex justify-center items-center">
         <div class="rounded-lg bg-white px-[82px] pt-[56px] pb-[76px] w-[470px] h-[274px]"
@@ -791,7 +807,7 @@
         operatingStatusSvg.addEventListener('click', function() {
             // Toggle value between 0 and 1
             value = value === 0 ? 1 : 0;
-            const operatingStatusElement = document.getElementById('operatingStatus');
+            const operatingStatusElement = document.getElementById('operatingStatusDay');
             operatingStatusElement.value = value;
             if (value === 0) {
                 operatingStatusSvg.innerHTML = `
@@ -839,7 +855,8 @@
                             month: 'long',
                             day: 'numeric'
                         });
-                        document.getElementById('operatingStatus').value = data.workingHours.is_working;
+                        document.getElementById('operatingStatusDay').value = data.workingHours
+                            .is_working;
                         document.getElementById("choosenDate").innerHTML = formattedDate;
                         if (data.workingHours.is_working == 0) {
                             document.getElementById("operatingStatusSvg").innerHTML = `
@@ -867,11 +884,13 @@
                         if (closingTime[0] == 0) {
                             closingTime = closingTime[1];
                         }
-                        document.getElementById("opening_time").value = openingTime;
-                        document.getElementById("closing_time").value = closingTime;
-                        let available_people = data.workingHours["available_people"] == '0' ? data.restaurant.available_people : data.workingHours["available_people"];
-                        document.getElementById("available_peopleDay").value = parseInt(available_people);
-
+                        document.getElementById("opening_timeDay").value = openingTime;
+                        document.getElementById("closing_timeDay").value = closingTime;
+                        let available_people = data.workingHours.available_people == '0' ? data
+                            .restaurant.available_people : data.workingHours.available_people;
+                        document.getElementById("available_peopleDay").value = parseInt(
+                            available_people);
+                        document.getElementById("temporaryWorkDate").value = workDate;
                     })
                     .catch(error => console.error("Error fetching date information:", error));
             });
@@ -907,5 +926,16 @@
 
         // Call the function for the "Session lasting time" section
         handleInput('reservation_lasting_time', 'svg-icon2');
+    </script>
+    <script>
+        function updateTempSettings() {
+            event.preventDefault();
+            document.getElementById('temporaryStatus').value = document.getElementById('operatingStatusDay').value;
+            document.getElementById('temporaryAvailablePeople').value = document.getElementById('available_peopleDay')
+                .value;
+            document.getElementById('temporaryOpeningTime').value = document.getElementById('opening_timeDay').value;
+            document.getElementById('temporaryClosingTime').value = document.getElementById('closing_timeDay').value;
+            document.getElementById('updateDay').submit();
+        }
     </script>
 @endsection

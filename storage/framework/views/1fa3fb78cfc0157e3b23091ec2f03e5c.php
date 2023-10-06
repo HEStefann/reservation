@@ -619,7 +619,17 @@ unset($__errorArgs, $__bag); ?>
             </div>
         </div>
     </form>
-    
+    <form action="<?php echo e(route('restaurant.updateWorkingHours')); ?>" id="updateDay" method="POST">
+        <?php echo csrf_field(); ?>
+        <?php echo method_field('PUT'); ?>
+        <input type="hidden" name="restaurant_id" value="<?php echo e($restaurant->id); ?>">
+        <input type="hidden" name="work_date" id="temporaryWorkDate">
+        <input type="hidden" name="is_working" id="temporaryStatus">
+        <input type="hidden" name="available_people" id="temporaryAvailablePeople">
+        <input type="hidden" name="opening_time" id="temporaryOpeningTime">
+        <input type="hidden" name="closing_time" id="temporaryClosingTime">
+
+    </form>
     <div id="deleteImageConfirmationModal" style="display: none;"
         class="display-none fixed z-10 left-0 top-0 w-full h-full bg-[rgba(0,0,0,0.5)] flex justify-center items-center">
         <div class="rounded-lg bg-white px-[82px] pt-[56px] pb-[76px] w-[470px] h-[274px]"

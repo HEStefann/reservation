@@ -601,7 +601,7 @@ width: 180px; white-space: nowrap; font-size: 16px; font-weight: 500; color: #34
             </div>
         </div>
     </form>
-    {{-- <form action="{{ route('restaurant.updateWorkingHours') }}" id="updateDay" method="POST">
+    <form action="{{ route('restaurant.updateWorkingHours') }}" id="updateDay" method="POST">
         @csrf
         @method('PUT')
         <input type="hidden" name="restaurant_id" value="{{ $restaurant->id }}">
@@ -611,7 +611,7 @@ width: 180px; white-space: nowrap; font-size: 16px; font-weight: 500; color: #34
         <input type="hidden" name="opening_time" id="temporaryOpeningTime">
         <input type="hidden" name="closing_time" id="temporaryClosingTime">
 
-    </form> --}}
+    </form>
     <div id="deleteImageConfirmationModal" style="display: none;"
         class="display-none fixed z-10 left-0 top-0 w-full h-full bg-[rgba(0,0,0,0.5)] flex justify-center items-center">
         <div class="rounded-lg bg-white px-[82px] pt-[56px] pb-[76px] w-[470px] h-[274px]"

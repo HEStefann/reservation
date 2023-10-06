@@ -198,11 +198,13 @@ class RestaurantSettingsController extends Controller
         $user = Auth::user();
         $restaurant = Moderator::where('user_id', $user->id)->first()->restaurant;
         $workingHours = $restaurant->workingHours->where('work_date', $selectedDate)->first();
+
         if (!$workingHours) {
             $dayOfWeek = Carbon::parse($selectedDate)->englishDayOfWeek;
             $workingHours = $restaurant->workingHours->where('day_of_week', $dayOfWeek)->first();
         }
         $workingHours->work_date = $selectedDate;
+
         return response()->json(['workingHours' => $workingHours, 'restaurant' => $restaurant]);
     }
 

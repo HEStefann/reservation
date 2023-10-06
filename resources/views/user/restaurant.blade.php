@@ -147,22 +147,29 @@
     <div class="mx-[26px] mb-[24px] flex flex-col">
         <p class="text-lg font-medium text-[#343a40]">Menu</p>
         <p class="text-xs font-light text-[#343a40] mt-[16px]">
-            {{ $restaurant->activeMenu->description }}
+
+            {{ $restaurant->activeMenu->description ?? '' }}
         </p>
         <div class="flex flex-col gap-3 p-3 rounded-[10px] bg-[#fff5ec]"
             style="box-shadow: 0px 20px 50px 0 rgba(0,0,0,0.1);">
-            @foreach ($fourProducts as $product)
-                <div>
-                    <div class="flex justify-between items-center">
-                        <p class="text-[10px] font-medium text-[#343a40] flex"><b>{{ $product->name }}</b></p>
-                        <div class="grow text-[10px] font-medium border-b-2 border-[#343a40] border-dotted h-[11px]">
+            @if ($fourProducts != null)
+                @foreach ($fourProducts as $product)
+                    <div>
+                        <div class="flex justify-between items-center">
+                            <p class="text-[10px] font-medium text-[#343a40] flex"><b>{{ $product->name }}</b></p>
+                            <div
+                                class="grow text-[10px] font-medium border-b-2 border-[#343a40] border-dotted h-[11px]">
+                            </div>
+                            <p class="flex text-[10px] text-[#343a40]"><b>{{ $product->price }}$</b></p>
                         </div>
-                        <p class="flex text-[10px] text-[#343a40]"><b>{{ $product->price }}$</b></p>
+                        <p class="text-[10px] font-light text-[#343a40]">{{ $product->description }}</p>
                     </div>
-                    <p class="text-[10px] font-light text-[#343a40]">{{ $product->description }}</p>
-                </div>
-            @endforeach
-
+                @endforeach
+            @else
+                <p>
+                    {{ $restaurant->menu }}
+                </p>
+            @endif
         </div>
         <button id="menuModalBtn"
             class="inline-flex self-center justify-center items-center gap-2.5 px-6 py-2.5 rounded-[10px] bg-gradient-to-br from-[#ffcd01] to-[#fc7f09] mt-[14px]">
@@ -432,25 +439,30 @@
                 </svg>
             </div>
             <div class="leading-[14px]">
-                @foreach ($restaurant->activeMenu->categories as $category)
-                    <div class="">
-                        <p class="text-[11px] font-medium text-[#fc7f09]">
-                            {{ $category->name }}
-                        </p>
-                        @foreach ($category->products as $product)
-                            <b>
+                @if ($fourProducts != null)
+                    @foreach ($restaurant->activeMenu->categories as $category)
+                        <div class="">
+                            <p class="text-[11px] font-medium text-[#fc7f09]">
+                                {{ $category->name }}
+                            </p>
+                            @foreach ($category->products as $product)
+                                <b>
 
-                                <div class="text-[10px] text-[#343a40] flex">
-                                    <p>{{ $product->name }}</p>
-                                    <div class="grow border-b-[1px] border-[#343a40] h-[11px] border-dotted"></div>
-                                    <p>{{ $product->price }} MKD.</p>
-                                </div>
-                            </b>
-                            <p class="text-[10px] text-[#343a40] leading-[120%]">{{ $product->description }}</p>
-                            <br>
-                        @endforeach
-                    </div>
-                @endforeach
+                                    <div class="text-[10px] text-[#343a40] flex">
+                                        <p>{{ $product->name }}</p>
+                                        <div class="grow border-b-[1px] border-[#343a40] h-[11px] border-dotted"></div>
+                                        <p>{{ $product->price }} MKD.</p>
+                                    </div>
+                                </b>
+                                <p class="text-[10px] text-[#343a40] leading-[120%]">{{ $product->description }}</p>
+                                <br>
+                            @endforeach
+                        </div>
+                    @endforeach
+                @else
+                    {{ $restaurant->menu }}
+
+                @endif
             </div>
         </div>
     </div>

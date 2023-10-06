@@ -262,8 +262,7 @@ class Restaurant extends Model
 
     public function parking()
     {
-        // check for parking tag return true or false
-        return $this->tags->where('tag', 'parking')->first() ? true : false;
+        return $this->tags->contains('name', 'Parking');
     }
 
     public function floors()

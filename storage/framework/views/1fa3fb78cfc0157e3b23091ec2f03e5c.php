@@ -338,7 +338,7 @@
                             <p class="text-base font-semibold text-[#343a40] mr-auto">
                                 Menu
                             </p>
-                            <textarea class="w-[300px] h-[153px] rounded-xl border-[1.5px] border-[#d4d7e3]"></textarea>
+                            <textarea maxlength="255" name="menu" class="w-[300px] h-[153px] rounded-xl border-[1.5px] border-[#d4d7e3]"><?php echo e($restaurant->menu); ?></textarea>
                         </div>
                         <div class="flex w-[459px]">
                             <p class="text-base font-semibold text-[#343a40] mr-auto">
@@ -578,16 +578,40 @@ unset($__errorArgs, $__bag); ?>
                             <p class="text-base font-semibold text-[#343a40] mr-[60px]">Primary tags</p>
                             <select class="rounded w-[110px] border-0 mr-[34px]"
                                 style="box-shadow: 0px 8px 10px 0 rgba(0,0,0,0.1);">
-                                <option value="French">French</option>
-                                <option value="Italian">Italian</option>
-                                <option value="Chinese">Chinese</option>
+                                <?php
+                                    $mainCuisines = \App\Models\RestaurantTag::where('main_cuisine', true)
+                                        ->pluck('tag_id')
+                                        ->toArray();
+                                ?>
+                                <?php if(count($mainCuisines) > 0): ?>
+                                    <?php $__currentLoopData = $tags; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $tag): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <?php if(in_array($tag->id, $mainCuisines) && $tag->tag_type_id == 2): ?>
+                                            <option value="<?php echo e($tag->name); ?>"><?php echo e($tag->name); ?></option>
+                                        <?php endif; ?>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    <optgroup label="Other tags">
+                                        <?php $__currentLoopData = $tags; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $tag): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <?php if($tag->tag_type_id != 1): ?>
+                                                <option value="<?php echo e($tag->name); ?>"><?php echo e($tag->name); ?></option>
+                                            <?php endif; ?>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    </optgroup>
+                                <?php else: ?>
+                                    <?php $__currentLoopData = $tags; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $tag): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <?php if($tag->tag_type_id == 2): ?>
+                                            <option value="<?php echo e($tag->name); ?>"><?php echo e($tag->name); ?></option>
+                                        <?php endif; ?>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                <?php endif; ?>
                             </select>
                             <select class="rounded w-[110px] border-0"
                                 style="box-shadow: 0px 8px 10px 0 rgba(0,0,0,0.1);">
-                                <option value="Parking">Parking</option>
-                                <option value="No parking">No parking</option>
+                                <option value="Parking" <?php echo e($restaurant->parking() ? 'selected' : ''); ?>>Parking</option>
+                                <option value="No parking" <?php echo e(!$restaurant->parking() ? 'selected' : ''); ?>>No parking
+                                </option>
                             </select>
                         </div>
+                        <input type="hidden" name="main_cuisine" id="main_cuisine_input" value="">
                         <div class="flex gap-[35px] mt-[16px] mb-[24px]">
                             <p class="text-base font-semibold text-[#343a40]">
                                 Secondary tags
@@ -955,6 +979,15 @@ unset($__errorArgs, $__bag); ?>
             document.getElementById('temporaryClosingTime').value = document.getElementById('closing_timeDay').value;
             document.getElementById('updateDay').submit();
         }
+    </script>
+    <script>
+        const selectElement = document.querySelector('[name="selected_tag_id"]');
+        const mainCuisineInput = document.getElementById('main_cuisine_input');
+
+        selectElement.addEventListener('change', function() {
+            const selectedTagId = this.value;
+            mainCuisineInput.value = selectedTagId;
+        });
     </script>
 <?php $__env->stopSection(); ?>
 

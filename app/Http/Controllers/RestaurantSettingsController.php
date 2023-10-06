@@ -9,6 +9,7 @@ use App\Models\Moderator;
 use App\Models\Reservation;
 use App\Models\Restaurant;
 use App\Models\RestaurantImage;
+use App\Models\RestaurantTag;
 use App\Models\Table;
 use App\Models\Tag;
 use App\Services\RestaurantService;
@@ -25,7 +26,7 @@ class RestaurantSettingsController extends Controller
 
     public function index(Restaurant $restaurant)
     {
-
+        $tags = Tag::all();
         $user = Auth::user();
         // restaurant with working hours
         $restaurant = Moderator::where('user_id', $user->id)
@@ -35,7 +36,8 @@ class RestaurantSettingsController extends Controller
         $restaurantImage = $restaurant->images;
         return view('restaurant.settings', [
             'restaurant' => $restaurant,
-            'restaurantImage' => $restaurantImage
+            'restaurantImage' => $restaurantImage,
+            'tags' => $tags
         ]);
     }
 
@@ -116,6 +118,50 @@ class RestaurantSettingsController extends Controller
             ]);
             $restaurantImage->save();
         }
+
+        $user = Auth::user();
+
+        if ($user) {
+            $restaurantId = $user->restaurants->first()->id;
+            $tagName = $request->input('main_cuisine');
+            $tag = Tag::where('name', $tagName)->first();
+
+            if ($tag) {
+                $tagId = $tag->id;
+
+                // Check if the restaurant already has a main_cuisine
+                $existingMainCuisine = RestaurantTag::where('restaurant_id', $restaurantId)
+                    ->where('main_cuisine', true)
+                    ->first();
+
+                if ($existingMainCuisine) {
+                    // Update the existing main_cuisine tag_id
+                    $existingMainCuisine->tag_id = $tagId;
+                    $existingMainCuisine->save(); // Add this line to save the changes
+                } else {
+                    // Create a new main_cuisine entry
+                    $restaurantTag = new RestaurantTag();
+                    $restaurantTag->restaurant_id = $restaurantId;
+                    $restaurantTag->tag_id = $tagId;
+                    $restaurantTag->main_cuisine = true;
+                    $restaurantTag->save();
+                }
+            }
+        }
+
+
+
+        if ($request->has('menu')) {
+            $restaurant->menu = $request->menu;
+            $restaurant->save();
+        }
+
+
+
+
+        // Create new Menu which is table restaurants or check for existing and update
+
+
 
         return redirect()->back()->with('success', 'Restaurant updated successfully!');
     }

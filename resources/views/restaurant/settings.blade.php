@@ -334,7 +334,7 @@
                             <p class="text-base font-semibold text-[#343a40] mr-auto">
                                 Menu
                             </p>
-                            <textarea class="w-[300px] h-[153px] rounded-xl border-[1.5px] border-[#d4d7e3]"></textarea>
+                            <textarea maxlength="255" name="menu" class="w-[300px] h-[153px] rounded-xl border-[1.5px] border-[#d4d7e3]">{{ $restaurant->menu }}</textarea>
                         </div>
                         <div class="flex w-[459px]">
                             <p class="text-base font-semibold text-[#343a40] mr-auto">
@@ -560,16 +560,40 @@ width: 180px; white-space: nowrap; font-size: 16px; font-weight: 500; color: #34
                             <p class="text-base font-semibold text-[#343a40] mr-[60px]">Primary tags</p>
                             <select class="rounded w-[110px] border-0 mr-[34px]"
                                 style="box-shadow: 0px 8px 10px 0 rgba(0,0,0,0.1);">
-                                <option value="French">French</option>
-                                <option value="Italian">Italian</option>
-                                <option value="Chinese">Chinese</option>
+                                @php
+                                    $mainCuisines = \App\Models\RestaurantTag::where('main_cuisine', true)
+                                        ->pluck('tag_id')
+                                        ->toArray();
+                                @endphp
+                                @if (count($mainCuisines) > 0)
+                                    @foreach ($tags as $tag)
+                                        @if (in_array($tag->id, $mainCuisines) && $tag->tag_type_id == 2)
+                                            <option value="{{ $tag->name }}">{{ $tag->name }}</option>
+                                        @endif
+                                    @endforeach
+                                    <optgroup label="Other tags">
+                                        @foreach ($tags as $tag)
+                                            @if ($tag->tag_type_id != 1)
+                                                <option value="{{ $tag->name }}">{{ $tag->name }}</option>
+                                            @endif
+                                        @endforeach
+                                    </optgroup>
+                                @else
+                                    @foreach ($tags as $tag)
+                                        @if ($tag->tag_type_id == 2)
+                                            <option value="{{ $tag->name }}">{{ $tag->name }}</option>
+                                        @endif
+                                    @endforeach
+                                @endif
                             </select>
                             <select class="rounded w-[110px] border-0"
                                 style="box-shadow: 0px 8px 10px 0 rgba(0,0,0,0.1);">
-                                <option value="Parking">Parking</option>
-                                <option value="No parking">No parking</option>
+                                <option value="Parking" {{ $restaurant->parking() ? 'selected' : '' }}>Parking</option>
+                                <option value="No parking" {{ !$restaurant->parking() ? 'selected' : '' }}>No parking
+                                </option>
                             </select>
                         </div>
+                        <input type="hidden" name="main_cuisine" id="main_cuisine_input" value="">
                         <div class="flex gap-[35px] mt-[16px] mb-[24px]">
                             <p class="text-base font-semibold text-[#343a40]">
                                 Secondary tags
@@ -937,5 +961,14 @@ width: 180px; white-space: nowrap; font-size: 16px; font-weight: 500; color: #34
             document.getElementById('temporaryClosingTime').value = document.getElementById('closing_timeDay').value;
             document.getElementById('updateDay').submit();
         }
+    </script>
+    <script>
+        const selectElement = document.querySelector('[name="selected_tag_id"]');
+        const mainCuisineInput = document.getElementById('main_cuisine_input');
+
+        selectElement.addEventListener('change', function() {
+            const selectedTagId = this.value;
+            mainCuisineInput.value = selectedTagId;
+        });
     </script>
 @endsection

@@ -287,7 +287,7 @@
                     font-weight: 500;
                 }
             </style>
-            <div class="rounded-lg bg-[#fff5ec] px-[9px] py-[11px] relative w-full h-[364px]" id="tablesContainer">
+            <div class="rounded-lg bg-[#fff5ec] px-[9px] py-[11px] relative w-full h-[364px] overflow-auto" id="tablesContainer">
                 @php
                     $firstShapeType = DB::table('shape_types')
                         ->where('IdShapeGroup', 1)

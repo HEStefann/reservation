@@ -96,7 +96,10 @@
                                             <p class="text-2xl text-[#343a40]"><?php echo e($day); ?></p>
                                             <div class="w-[200px]">
                                                 <?php if($restaurant->workingHours->count() != 0): ?>
-                                                    <?php $__currentLoopData = $restaurant->workingHours; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $workingHour): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <?php
+                                                        $workingHours = $restaurant->workingHours->where('default_working_time', 1);
+                                                    ?>
+                                                    <?php $__currentLoopData = $workingHours; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $workingHour): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                         <?php if($workingHour->day_of_week === $day): ?>
                                                             <input name="working_hours[<?php echo e($day); ?>][opening_time]"
                                                                 class="w-full mt-[12px]" type="time"
@@ -224,24 +227,18 @@
                                 id="selectedDateInput">
                         </div>
                     </div>
-                    <div id="editDate" class="mt-40 pt-[24px] pl-[22px] pr-[37px] pb-[25px] flex flex-col gap-[12px]">
+                    <div id="editDate" class="mt-40 pt-[24px] pl-[22px] pr-[37px] pb-[25px] flex-col gap-[12px] hidden">
                         <div class="flex justify-between">
                             <p class="text-sm text-[#343a40]">
-                                <span class="text-sm font-semibold text-center text-[#343a40]">Selected date: </span>
+                                <span class="text-sm font-medium text-[#343a40]">Selected date:
+                                </span>
                                 <span id="choosenDate">
                                     Thursday, 19th of September, 2023
                                 </span>
                             </p>
-                            <svg class="cursor-pointer" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6"
-                                preserveAspectRatio="xMidYMid meet">
-                                <path
-                                    d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z"
-                                    fill="black" fill-opacity="0.54"></path>
-                            </svg>
                         </div>
                         <div class="flex gap-[6px] items-center">
-                            <p class="text-sm font-semibold text-center text-[#343a40]">
+                            <p class="text-sm font-medium text-center text-[#343a40]">
                                 Operating Status:
                             </p>
                             <div id="operatingStatusSvg">
@@ -253,33 +250,18 @@
                                         fill="#B7DDBF"></path>
                                 </svg>
                             </div>
-                            <input id="operatingStatus" type="hidden" name="status" value="1">
+                            <input id="operatingStatusDay" type="hidden" name="operatingStatusDay" value="1">
                         </div>
+                        
                         <div class="flex gap-[50px]">
-                            <p class="flex-grow-0 flex-shrink-0 w-36 text-sm font-semibold text-[#343a40]">
-                                Available number of floors:
-                            </p>
-                            
-                            <select class="rounded border-0 w-[99px]" style="box-shadow: 0px 8px 10px 0 rgba(0,0,0,0.1);"
-                                name="floors_number" id="floors_number">
-                                <?php for($i = 1; $i <= 10; $i++): ?>
-                                    <option value="<?php echo e($i); ?>"
-                                        <?php echo e($restaurant->floors_number == $i ? 'selected' : ''); ?>><?php echo e($i); ?>
-
-                                    </option>
-                                <?php endfor; ?>
-                            </select>
-                        </div>
-                        <div class="flex gap-[50px]">
-                            <p class="flex-grow-0 flex-shrink-0 w-36 text-sm font-semibold text-[#343a40]">
+                            <p class="w-[147px] text-sm font-medium text-[#343a40]">
                                 Available number of people:
                             </p>
                             
                             <select class="rounded border-0 w-[99px]" style="box-shadow: 0px 8px 10px 0 rgba(0,0,0,0.1);"
-                                name="available_people" id="available_people">
+                                name="available_peopleDay" id="available_peopleDay">
                                 <?php for($i = 1; $i <= 300; $i++): ?>
-                                    <option value="<?php echo e($i); ?>"
-                                        <?php echo e($restaurant->available_people == $i ? 'selected' : ''); ?>><?php echo e($i); ?>
+                                    <option value="<?php echo e($i); ?>"><?php echo e($i); ?>
 
                                     </option>
                                 <?php endfor; ?>
@@ -292,8 +274,8 @@
                             <div class="flex gap-[6px]">
                                 <p class="text-xs text-[#343a40]">from</p>
                                 <select class="rounded border-0 w-[99px]"
-                                    style="box-shadow: 0px 8px 10px 0 rgba(0,0,0,0.1);" name="opening_time"
-                                    id="opening_time">
+                                    style="box-shadow: 0px 8px 10px 0 rgba(0,0,0,0.1);" name="opening_timeDay"
+                                    id="opening_timeDay">
                                     <?php for($i = 0; $i <= 23; $i++): ?>
                                         <?php
                                             $time = sprintf('%02d:00', $i);
@@ -308,8 +290,8 @@
                             <div class="flex gap-[6px]">
                                 <p class="text-xs text-[#343a40]">to</p>
                                 <select class="rounded border-0 w-[99px]"
-                                    style="box-shadow: 0px 8px 10px 0 rgba(0,0,0,0.1);" name="closing_time"
-                                    id="closing_time">
+                                    style="box-shadow: 0px 8px 10px 0 rgba(0,0,0,0.1);" name="closing_timeDay"
+                                    id="closing_timeDay">
                                     <?php for($i = 0; $i <= 23; $i++): ?>
                                         <?php
                                             $time = sprintf('%02d:00', $i);
@@ -322,7 +304,7 @@
                                 </select>
                             </div>
                         </div>
-                        <button
+                        <button onclick="updateTempSettings(event)"
                             class="w-[104px] h-[42px] rounded-xl bg-[#005fa4] text-base font-semibold text-white self-end">Submit</button>
                     </div>
                 </div>
@@ -343,7 +325,8 @@
                         </defs>
                     </svg>
                 </div>
-                <div class="flex">
+                <div class="flex"
+                    style="display: flex;/* flex-grow: 1; */ display: flex;justify-content: space-between;">
                     <div class="flex flex-col gap-[24px]">
                         <div class="flex w-[459px]">
                             <p class="w-[125px] text-base font-semibold text-[#343a40] mr-auto">
@@ -401,7 +384,9 @@
                                                     d="M18 16V2C18 0.9 17.1 0 16 0H2C0.9 0 0 0.9 0 2V16C0 17.1 0.9 18 2 18H16C17.1 18 18 17.1 18 16ZM5.5 10.5L8 13.51L11.5 9L16 15H2L5.5 10.5Z"
                                                     fill="black" fill-opacity="0.54"></path>
                                             </svg>
-                                            <p style="font-size: 16px; font-weight: 500; color: #343a40;">
+                                            <p
+                                                style="  text-overflow: ellipsis;   overflow: hidden; 
+width: 180px; white-space: nowrap; font-size: 16px; font-weight: 500; color: #343a40;">
                                                 <?php echo e($image->image_url); ?></p>
                                             <div class="flex justify-start items-center w-max relative p-1 rounded border-[0.5px] border-[#005fa4] mx-[69px]"
                                                 onclick="document.getElementById('file-input1').click()">
@@ -513,7 +498,9 @@ unset($__errorArgs, $__bag); ?>
                                                         d="M18 16V2C18 0.9 17.1 0 16 0H2C0.9 0 0 0.9 0 2V16C0 17.1 0.9 18 2 18H16C17.1 18 18 17.1 18 16ZM5.5 10.5L8 13.51L11.5 9L16 15H2L5.5 10.5Z"
                                                         fill="black" fill-opacity="0.54"></path>
                                                 </svg>
-                                                <p style="font-size: 16px; font-weight: 500; color: #343a40;">
+                                                <p
+                                                    style="  text-overflow: ellipsis;   overflow: hidden; 
+width: 180px; white-space: nowrap; font-size: 16px; font-weight: 500; color: #343a40;">
                                                     <?php echo e($image->image_url); ?></p>
                                                 <div class="flex justify-center items-center w-max h-8 relative p-1 rounded border-[0.5px] border-[#005fa4] mx-[69px]"
                                                     onclick="document.getElementById('file-input2').click()"><svg
@@ -632,7 +619,17 @@ unset($__errorArgs, $__bag); ?>
             </div>
         </div>
     </form>
+    <form action="<?php echo e(route('restaurant.updateWorkingHours')); ?>" id="updateDay" method="POST">
+        <?php echo csrf_field(); ?>
+        <?php echo method_field('PUT'); ?>
+        <input type="hidden" name="restaurant_id" value="<?php echo e($restaurant->id); ?>">
+        <input type="hidden" name="work_date" id="temporaryWorkDate">
+        <input type="hidden" name="is_working" id="temporaryStatus">
+        <input type="hidden" name="available_people" id="temporaryAvailablePeople">
+        <input type="hidden" name="opening_time" id="temporaryOpeningTime">
+        <input type="hidden" name="closing_time" id="temporaryClosingTime">
 
+    </form>
     <div id="deleteImageConfirmationModal" style="display: none;"
         class="display-none fixed z-10 left-0 top-0 w-full h-full bg-[rgba(0,0,0,0.5)] flex justify-center items-center">
         <div class="rounded-lg bg-white px-[82px] pt-[56px] pb-[76px] w-[470px] h-[274px]"
@@ -642,7 +639,7 @@ unset($__errorArgs, $__bag); ?>
                 Are you sure you want to delete this picture?
             </p>
             <div class="flex gap-[65px] justify-center">
-                <button onclick="removeRestaurantImage(<?php echo e($image->id); ?>)" type="button"
+                <button onclick="removeRestaurantImage(<?php echo e($image->id ?? null); ?>)" type="button"
                     class="image-button rounded-xl bg-[#005fa4] text-base font-semibold text-white w-[104px] h-[42px]">Delete</button>
                 </form>
                 <button onclick="hidedeleteImageConfirmationModal()"
@@ -738,7 +735,8 @@ unset($__errorArgs, $__bag); ?>
 
                 // Calculate the date for this day
                 const dayDate = new Date(year, date.getMonth(), i + 1);
-                dayElement.setAttribute('data-date', dayDate.toISOString());
+                const formattedDate = dayDate.toISOString().substring(0, 10);
+                dayElement.setAttribute('data-date', formattedDate);
 
                 // Check if the day is expired
                 const today = new Date();
@@ -827,7 +825,7 @@ unset($__errorArgs, $__bag); ?>
         operatingStatusSvg.addEventListener('click', function() {
             // Toggle value between 0 and 1
             value = value === 0 ? 1 : 0;
-            const operatingStatusElement = document.getElementById('operatingStatus');
+            const operatingStatusElement = document.getElementById('operatingStatusDay');
             operatingStatusElement.value = value;
             if (value === 0) {
                 operatingStatusSvg.innerHTML = `
@@ -867,16 +865,18 @@ unset($__errorArgs, $__bag); ?>
                     })
                     .then(response => response.json())
                     .then(data => {
-                        const workDate = data[0]['work_date'];
+                        document.getElementById('editDate').style.display = "flex";
+                        const workDate = data.workingHours.work_date;
                         const formattedDate = new Date(workDate).toLocaleDateString('en-US', {
                             weekday: 'long',
                             year: 'numeric',
                             month: 'long',
                             day: 'numeric'
                         });
-
+                        document.getElementById('operatingStatusDay').value = data.workingHours
+                            .is_working;
                         document.getElementById("choosenDate").innerHTML = formattedDate;
-                        if (data[0]['is_working'] == 0) {
+                        if (data.workingHours.is_working == 0) {
                             document.getElementById("operatingStatusSvg").innerHTML = `
         <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-[42px] h-[42px]" preserveAspectRatio="xMidYMid meet">
             <path d="M12.25 29.75L29.75 29.75C34.58 29.75 38.5 25.83 38.5 21C38.5 16.17 34.58 12.25 29.75 12.25L12.25 12.25C7.42 12.25 3.5 16.17 3.5 21C3.5 25.83 7.42 29.75 12.25 29.75ZM12.25 15.75C15.155 15.75 17.5 18.095 17.5 21C17.5 23.905 15.155 26.25 12.25 26.25C9.345 26.25 7 23.905 7 21C7 18.095 9.345 15.75 12.25 15.75Z" fill="${value === 0 ? 'black' : '#B5BEC6'}" fill-opacity="0.54"></path>
@@ -894,19 +894,21 @@ unset($__errorArgs, $__bag); ?>
     `;
                         }
 
-                        openingTime = data[0]["opening_time"].split(":")[0];
-                        closingTime = data[0]["closing_time"].split(":")[0];
-                        console.log(data)
+                        openingTime = data.workingHours.opening_time.split(":")[0];
+                        closingTime = data.workingHours.closing_time.split(":")[0];
                         if (openingTime[0] == 0) {
                             openingTime = openingTime[1];
                         }
                         if (closingTime[0] == 0) {
                             closingTime = closingTime[1];
                         }
-                        document.getElementById("opening_time").value = openingTime;
-                        document.getElementById("closing_time").value = closingTime;
-                        document.getElementById("available_people").value = data[0]["available_people"];
-
+                        document.getElementById("opening_timeDay").value = openingTime;
+                        document.getElementById("closing_timeDay").value = closingTime;
+                        let available_people = data.workingHours.available_people == '0' ? data
+                            .restaurant.available_people : data.workingHours.available_people;
+                        document.getElementById("available_peopleDay").value = parseInt(
+                            available_people);
+                        document.getElementById("temporaryWorkDate").value = workDate;
                     })
                     .catch(error => console.error("Error fetching date information:", error));
             });
@@ -942,6 +944,17 @@ unset($__errorArgs, $__bag); ?>
 
         // Call the function for the "Session lasting time" section
         handleInput('reservation_lasting_time', 'svg-icon2');
+    </script>
+    <script>
+        function updateTempSettings() {
+            event.preventDefault();
+            document.getElementById('temporaryStatus').value = document.getElementById('operatingStatusDay').value;
+            document.getElementById('temporaryAvailablePeople').value = document.getElementById('available_peopleDay')
+                .value;
+            document.getElementById('temporaryOpeningTime').value = document.getElementById('opening_timeDay').value;
+            document.getElementById('temporaryClosingTime').value = document.getElementById('closing_timeDay').value;
+            document.getElementById('updateDay').submit();
+        }
     </script>
 <?php $__env->stopSection(); ?>
 

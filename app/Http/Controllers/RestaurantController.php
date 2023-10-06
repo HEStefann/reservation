@@ -38,7 +38,10 @@ class RestaurantController extends Controller
     {
         // $restaurant = Restaurant::with('reviews', 'activeMenu.categories.products')->findOrFail($id);
         $restaurant = Restaurant::with('reviews', 'activeMenu.categories.products')->where('title', $restaurantName)->firstOrFail();
-        $fourProducts = $restaurant->activeMenu->categories->pluck('products')->flatten(1)->take(4);
+        $fourProducts = null;
+        if ($restaurant->activeMenu) {
+            $fourProducts = $restaurant->activeMenu->categories->pluck('products')->flatten(1)->take(4);
+        }
         return view('user.restaurant', ['restaurant' => $restaurant, 'fourProducts' => $fourProducts]);
     }
 

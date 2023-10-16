@@ -29,4 +29,9 @@ class Table extends Model
     {
         return $this->belongsToMany(Reservation::class);
     }
+    
+    public function floor()
+    {
+        return $this->belongsTo(Floor::class, 'IdFloor');
+    }
 }

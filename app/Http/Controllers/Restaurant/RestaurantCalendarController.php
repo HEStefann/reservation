@@ -54,7 +54,11 @@ class RestaurantCalendarController extends Controller
             ], 401);
         }
 
-        $reservations = $restaurant->reservations()->whereDate('date', $selectedDate)->with('tables:TableDescription')->get();
+        // $reservations = $restaurant->reservations()->whereDate('date', $selectedDate)->with('tables:TableDescription')->get();
+        $reservations = $restaurant->reservations()
+            ->whereDate('date', $selectedDate)
+            ->with('tables:TableDescription,IdFloor')
+            ->get();
         return response()->json([
             'reservations' => $reservations
         ]);

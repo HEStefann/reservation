@@ -36,14 +36,15 @@
                     <option value="lunch">Lunch</option>
                     <option value="dinner">Dinner</option>
                 </select> --}}
-                <select id="floorSelect" class="w-[140px] h-10 rounded-xl bg-[#005fa4] text-sm font-medium text-center text-white ml-[64px]"
+                <select id="floorSelect" onchange="filterReservations(document.getElementById('search-input').value, this.value)"
+                class="w-[140px] h-10 rounded-xl bg-[#005fa4] text-sm font-medium text-center text-white ml-[64px]"
                 style="filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.05));">
                 <option value="all">All</option>
                 {{-- @foreach ($restaurant->activeFloors as $floor)
-                    <option value="{{ $floor->id }}">{{ $floor->Description }}</option>
+                <option value="{{ $floor->id }}">{{ $floor->Description }}</option>
                 @endforeach --}}
                 @for ($i = 0; $i < $restaurant->activeFloors->count(); $i++)
-                <option value="{{ $restaurant->activeFloors[$i]->id }}">Floor {{ $i+1 }}</option>
+                    <option value="{{ $restaurant->activeFloors[$i]->id }}">Floor {{ $i + 1 }}</option>
                 @endfor
             </select>
             </div>
@@ -54,9 +55,9 @@
                         d="M11.8164 10.6914H11.2239L11.0139 10.4889C11.7489 9.63391 12.1914 8.52391 12.1914 7.31641C12.1914 4.62391 10.0089 2.44141 7.31641 2.44141C4.62391 2.44141 2.44141 4.62391 2.44141 7.31641C2.44141 10.0089 4.62391 12.1914 7.31641 12.1914C8.52391 12.1914 9.63391 11.7489 10.4889 11.0139L10.6914 11.2239V11.8164L14.4414 15.5589L15.5589 14.4414L11.8164 10.6914ZM7.31641 10.6914C5.44891 10.6914 3.94141 9.18391 3.94141 7.31641C3.94141 5.44891 5.44891 3.94141 7.31641 3.94141C9.18391 3.94141 10.6914 5.44891 10.6914 7.31641C10.6914 9.18391 9.18391 10.6914 7.31641 10.6914Z"
                         fill="black" fill-opacity="0.54"></path>
                 </svg>
-                <input type="text" id="search-input" onkeyup="filterReservations(this.value)"
-                    class="pl-[44px] w-[260px] h-[42px] rounded-xl text-base font-extralight text-left text-[#343a40]"
-                    placeholder="Search">
+                <input type="text" id="search-input" onkeyup="filterReservations(this.value, document.getElementById('floorSelect').value)"
+                class="pl-[44px] w-[260px] h-[42px] rounded-xl text-base font-extralight text-left text-[#343a40]"
+                placeholder="Search">
             </div>
         </div>
         <div class="mt-[60px] flex">
@@ -244,8 +245,7 @@
     <script>
         let dataReservations;
         let searchInput = false;
-        let floorSelect = false;
-        
+        let floorSelect = document.getElementById("floorSelect").value;
         let filteredReservations;
 
         function openReservationInfoModal(reservation) {
@@ -468,8 +468,9 @@
         }
 
 
-        function filterReservations(searchQuery) {
-            const filteredReservations = dataReservations.filter((reservation) => {
+        function filterReservations(searchQuery, floor) {
+            console.log(dataReservations)
+            let filteredReservations = dataReservations.filter((reservation) => {
                 const reservationValues = Object.values(reservation);
                 for (const value of reservationValues) {
                     if (typeof value === 'string' && value.toLowerCase().includes(searchQuery.toLowerCase())) {
@@ -478,7 +479,13 @@
                 }
                 return false;
             });
-
+            if (floor !== 'all') {
+                filteredReservations = filteredReservations.filter((reservation) => {
+                    if (reservation.tables.length > 0) {
+                        return reservation.tables.some((table) => table.IdFloor == floor);
+                    }
+                });
+            }
             const reservationsContainer = document.getElementById("reservations-container");
             // Clear any existing reservations
             reservationsContainer.innerHTML = "";

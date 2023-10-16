@@ -17,7 +17,7 @@ use Illuminate\Validation\Rules;
 class RestaurantRegisterController extends Controller
 {
     public function create(){
-        return view('restaurant.loginpage');
+        return view('restaurant.registerpage');
     }
     public function store(Request $request): RedirectResponse
     {

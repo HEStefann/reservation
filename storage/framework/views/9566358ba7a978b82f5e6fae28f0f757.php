@@ -163,23 +163,31 @@
     <div class="mx-[26px] mb-[24px] flex flex-col">
         <p class="text-lg font-medium text-[#343a40]">Menu</p>
         <p class="text-xs font-light text-[#343a40] mt-[16px]">
-            <?php echo e($restaurant->activeMenu->description); ?>
+
+            <?php echo e($restaurant->activeMenu->description ?? ''); ?>
 
         </p>
         <div class="flex flex-col gap-3 p-3 rounded-[10px] bg-[#fff5ec]"
             style="box-shadow: 0px 20px 50px 0 rgba(0,0,0,0.1);">
-            <?php $__currentLoopData = $fourProducts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <div>
-                    <div class="flex justify-between items-center">
-                        <p class="text-[10px] font-medium text-[#343a40] flex"><b><?php echo e($product->name); ?></b></p>
-                        <div class="grow text-[10px] font-medium border-b-2 border-[#343a40] border-dotted h-[11px]">
+            <?php if($fourProducts != null): ?>
+                <?php $__currentLoopData = $fourProducts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <div>
+                        <div class="flex justify-between items-center">
+                            <p class="text-[10px] font-medium text-[#343a40] flex"><b><?php echo e($product->name); ?></b></p>
+                            <div
+                                class="grow text-[10px] font-medium border-b-2 border-[#343a40] border-dotted h-[11px]">
+                            </div>
+                            <p class="flex text-[10px] text-[#343a40]"><b><?php echo e($product->price); ?>$</b></p>
                         </div>
-                        <p class="flex text-[10px] text-[#343a40]"><b><?php echo e($product->price); ?>$</b></p>
+                        <p class="text-[10px] font-light text-[#343a40]"><?php echo e($product->description); ?></p>
                     </div>
-                    <p class="text-[10px] font-light text-[#343a40]"><?php echo e($product->description); ?></p>
-                </div>
-            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            <?php else: ?>
+                <p>
+                    <?php echo e($restaurant->menu); ?>
 
+                </p>
+            <?php endif; ?>
         </div>
         <button id="menuModalBtn"
             class="inline-flex self-center justify-center items-center gap-2.5 px-6 py-2.5 rounded-[10px] bg-gradient-to-br from-[#ffcd01] to-[#fc7f09] mt-[14px]">
@@ -451,26 +459,32 @@
                 </svg>
             </div>
             <div class="leading-[14px]">
-                <?php $__currentLoopData = $restaurant->activeMenu->categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <div class="">
-                        <p class="text-[11px] font-medium text-[#fc7f09]">
-                            <?php echo e($category->name); ?>
+                <?php if($fourProducts != null): ?>
+                    <?php $__currentLoopData = $restaurant->activeMenu->categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <div class="">
+                            <p class="text-[11px] font-medium text-[#fc7f09]">
+                                <?php echo e($category->name); ?>
 
-                        </p>
-                        <?php $__currentLoopData = $category->products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <b>
+                            </p>
+                            <?php $__currentLoopData = $category->products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <b>
 
-                                <div class="text-[10px] text-[#343a40] flex">
-                                    <p><?php echo e($product->name); ?></p>
-                                    <div class="grow border-b-[1px] border-[#343a40] h-[11px] border-dotted"></div>
-                                    <p><?php echo e($product->price); ?> MKD.</p>
-                                </div>
-                            </b>
-                            <p class="text-[10px] text-[#343a40] leading-[120%]"><?php echo e($product->description); ?></p>
-                            <br>
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                    </div>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    <div class="text-[10px] text-[#343a40] flex">
+                                        <p><?php echo e($product->name); ?></p>
+                                        <div class="grow border-b-[1px] border-[#343a40] h-[11px] border-dotted"></div>
+                                        <p><?php echo e($product->price); ?> MKD.</p>
+                                    </div>
+                                </b>
+                                <p class="text-[10px] text-[#343a40] leading-[120%]"><?php echo e($product->description); ?></p>
+                                <br>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </div>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                <?php else: ?>
+                    <?php echo e($restaurant->menu); ?>
+
+
+                <?php endif; ?>
             </div>
         </div>
     </div>

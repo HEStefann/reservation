@@ -117,9 +117,7 @@
                 </div>
                 <div class="flex justify-between">
                     <label for="note" class="text-base text-[#343a40]">Note</label>
-                    <textarea value="<?php echo e(old('note')); ?>" name="note" id="note" cols="30" rows="10"
-                        class="w-[300px] h-[117px] rounded-lg bg-transparent border-[1.5px] border-[#d4d7e3]">
-                </textarea>
+                    <textarea name="note" id="note" cols="30" rows="10" class="w-[300px] h-[117px] rounded-lg bg-transparent border-[1.5px] border-[#d4d7e3]"><?php echo e(old('note')); ?></textarea>
                 </div>
                 
                 <button

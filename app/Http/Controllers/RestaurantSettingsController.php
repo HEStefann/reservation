@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RestaurantRequest; // Import the RestaurantRequest class
 
 use App\Http\Requests\RestaurantSettingsRequest;
+use App\Models\Floor;
 use App\Models\Moderator;
 use App\Models\Reservation;
 use App\Models\Restaurant;
@@ -203,8 +204,20 @@ class RestaurantSettingsController extends Controller
         $user = Auth::user();
         $requestTables = $request->json()->all();
         
-        // return json
-
+        // return json requestTables
+        // return response()->json($requestTables[0]['IdFloor']);
+        // if one of requestTables have idFloor == 'New' then create a new floor
+        if ($requestTables[0]['IdFloor'] == 'New') {
+            $floor = Floor::create([
+                'Description' => 'New Floor',
+                'DisplayOrder' => 1,
+                'Active' => 1,
+                'CreatedBy' => $user->id,
+            ]);
+            $floorId = $floor->id;
+            $restaurant = Moderator::where('user_id', $user->id)->first()->restaurant;
+            $restaurant->floors()->attach($floor->id);
+        }
         foreach ($requestTables as $requestTable) {
             if ($requestTable['id'] != 'new') {
                 $table = Table::find($requestTable['id']); // Find the table by its ID  
@@ -212,7 +225,7 @@ class RestaurantSettingsController extends Controller
                 $table = new Table();
                 $table->TableShortDescription = '/';
                 $table->CreatedBy = $user->id;
-                $table->IdFloor = $requestTable['IdFloor'];
+                $table->IdFloor = $requestTable['IdFloor'] == "New" ? $floorId : $requestTable['IdFloor'];
                 $table->Shape = 1;
                 $table->Reserved = 0;
                 $table->Lock = 0;
@@ -225,7 +238,7 @@ class RestaurantSettingsController extends Controller
             $table->Height = $requestTable['Height'];
             $table->Width = $requestTable['Width'];
             $table->save();
-        }   
+        }
         return response('Position saved');
     }
 

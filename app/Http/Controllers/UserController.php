@@ -64,8 +64,11 @@ class UserController extends Controller
         // Find the nearest restaurants within the bounding box coordinates
         $nearestRestaurants = Restaurant::whereBetween('lat', [$minLatitude, $maxLatitude])
             ->whereBetween('lng', [$minLongitude, $maxLongitude])
+            ->whereNull('deleted_at')
+            ->where('approved', 1)
+            ->where('active', 1)
+            ->with(['tags', 'restaurant_tags', 'restaurant_images'])
             ->get();
-
         return view('user.nearest', compact('nearestRestaurants'));
     }
 

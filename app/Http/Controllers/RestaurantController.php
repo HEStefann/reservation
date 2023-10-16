@@ -80,11 +80,44 @@ class RestaurantController extends Controller
         return redirect()->route('restaurant.settings');
     }
 
+    // public function getNearestRestaurants(Request $request)
+    // {
+    //     $latitude = $request->input('latitude');
+    //     $longitude = $request->input('longitude');
+
+    //     // Calculate the bounding box coordinates for the 2km radius
+    //     $earthRadius = 6371; // Earth's radius in kilometers
+    //     $radius = 2; // Radius in kilometers
+
+    //     $minLatitude = $latitude - ($radius / $earthRadius) * (180 / pi());
+    //     $maxLatitude = $latitude + ($radius / $earthRadius) * (180 / pi());
+
+    //     $minLongitude = $longitude - ($radius / $earthRadius) * (180 / pi()) / cos($latitude * (pi() / 180));
+    //     $maxLongitude = $longitude + ($radius / $earthRadius) * (180 / pi()) / cos($latitude * (pi() / 180));
+
+    //     // Find the nearest restaurants within the bounding box coordinates
+    //     $nearestRestaurants = Restaurant::whereBetween('lat', [$minLatitude, $maxLatitude])
+    //         ->whereBetween('lng', [$minLongitude, $maxLongitude])
+    //         ->get();
+
+    //     // Check if any restaurants were found
+    //     if ($nearestRestaurants->isEmpty()) {
+    //         // Handle the scenario when no restaurants are found
+    //         return $response = [
+    //             'message' => '<div class=\'inline-flex items-center\'><svg class=\'w-5 h-5 mr-1 text-gray-500\' fill=\'none\' xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 22 22\'><path d=\'M10.0835 6.41732H11.9168V8.25065H10.0835V6.41732ZM10.0835 10.084H11.9168V15.584H10.0835V10.084ZM11.0002 1.83398C5.94016 1.83398 1.8335 5.94065 1.8335 11.0007C1.8335 16.0607 5.94016 20.1673 11.0002 20.1673C16.0602 20.1673 20.1668 16.0607 20.1668 11.0007C20.1668 5.94065 16.0602 1.83398 11.0002 1.83398ZM11.0002 18.334C6.95766 18.334 3.66683 15.0431 3.66683 11.0007C3.66683 6.95815 6.95766 3.66732 11.0002 3.66732C15.0427 3.66732 18.3335 6.95815 18.3335 11.0007C18.3335 15.0431 15.0427 18.334 11.0002 18.334Z\' fill=\'#938F99\'></path></svg><p class=\'text-xs font-light text-left text-gray-500\'>No restaurants found</p></div>'
+    //         ];
+    //     }
+    //     // Calculate the distance for each restaurant
+    //     $nearestRestaurants->each(function ($restaurant) use ($latitude, $longitude) {
+    //         $restaurant->distance = $this->calculateDistance($latitude, $longitude, $restaurant->lat, $restaurant->lng);
+    //     });
+    //     // return json from rendered shownearestrestaurants component
+    //     return response()->json(['html' => view('components.show-nearest-restaurants', ['restaurants' => $nearestRestaurants])->render()]);
+    // }
     public function getNearestRestaurants(Request $request)
     {
         $latitude = $request->input('latitude');
         $longitude = $request->input('longitude');
-
         // Calculate the bounding box coordinates for the 2km radius
         $earthRadius = 6371; // Earth's radius in kilometers
         $radius = 2; // Radius in kilometers
@@ -96,25 +129,22 @@ class RestaurantController extends Controller
         $maxLongitude = $longitude + ($radius / $earthRadius) * (180 / pi()) / cos($latitude * (pi() / 180));
 
         // Find the nearest restaurants within the bounding box coordinates
-        $nearestRestaurants = Restaurant::whereBetween('lat', [$minLatitude, $maxLatitude])
+        $nearestRestaurants = Restaurant::with(['tags', 'images'])
+            ->whereBetween('lat', [$minLatitude, $maxLatitude])
             ->whereBetween('lng', [$minLongitude, $maxLongitude])
+            ->whereNull('deleted_at')
+            ->where('approved', 1)
+            ->where('active', 1)
             ->get();
 
-        // Check if any restaurants were found
-        if ($nearestRestaurants->isEmpty()) {
-            // Handle the scenario when no restaurants are found
-            return $response = [
-                'message' => '<div class=\'inline-flex items-center\'><svg class=\'w-5 h-5 mr-1 text-gray-500\' fill=\'none\' xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 22 22\'><path d=\'M10.0835 6.41732H11.9168V8.25065H10.0835V6.41732ZM10.0835 10.084H11.9168V15.584H10.0835V10.084ZM11.0002 1.83398C5.94016 1.83398 1.8335 5.94065 1.8335 11.0007C1.8335 16.0607 5.94016 20.1673 11.0002 20.1673C16.0602 20.1673 20.1668 16.0607 20.1668 11.0007C20.1668 5.94065 16.0602 1.83398 11.0002 1.83398ZM11.0002 18.334C6.95766 18.334 3.66683 15.0431 3.66683 11.0007C3.66683 6.95815 6.95766 3.66732 11.0002 3.66732C15.0427 3.66732 18.3335 6.95815 18.3335 11.0007C18.3335 15.0431 15.0427 18.334 11.0002 18.334Z\' fill=\'#938F99\'></path></svg><p class=\'text-xs font-light text-left text-gray-500\'>No restaurants found</p></div>'
-            ];
-        }
         // Calculate the distance for each restaurant
         $nearestRestaurants->each(function ($restaurant) use ($latitude, $longitude) {
             $restaurant->distance = $this->calculateDistance($latitude, $longitude, $restaurant->lat, $restaurant->lng);
         });
-        // return json from rendered shownearestrestaurants component
+
+        // return json from rendered show-nearest-restaurants component
         return response()->json(['html' => view('components.show-nearest-restaurants', ['restaurants' => $nearestRestaurants])->render()]);
     }
-
     private function calculateDistance($lat1, $lon1, $lat2, $lon2)
     {
         $earthRadius = 6371; // Radius of the earth in kilometers

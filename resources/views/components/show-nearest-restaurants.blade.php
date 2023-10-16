@@ -4,14 +4,12 @@
             style="filter: drop-shadow(0px 20px 24px rgba(0,0,0,0.1)); box-shadow: 0px 2px 8px 0 rgba(0,0,0,0.04);">
             <div class="w-32 h-[103.3px] rounded-tl-lg rounded-tr-lg bg-[#c4c4c4] relative">
                 @php
-                    $imageUrl = $restaurant
-                        ->images()
-                        ->where('display_order', 1)
-                        ->first()->image_url;
-                    $storageUrl = Storage::url($imageUrl);
-                    $isHttps = str_contains($storageUrl, 'https');
-                    $finalImageUrl = $isHttps ? url($imageUrl) : $storageUrl;
-                @endphp
+                $image = $restaurant->images()->where('display_order', 1)->firstOrFail();
+                $imageUrl = $image->image_url;
+                $isHttps = str_contains($imageUrl, 'https');
+                $finalImageUrl = $isHttps ? url($imageUrl) : Storage::url($imageUrl);
+            @endphp
+            
                 <img src="{{ $finalImageUrl }}" class="w-full h-full rounded-tl-lg rounded-tr-lg  object-cover" />
                 @if (Auth::check())
                     <button class="absolute right-[3.32px] top-[6.87px]"

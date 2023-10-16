@@ -23,6 +23,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserReservationController;
 use App\Http\Controllers\UserRestaurantsController;
 use App\Http\Controllers\Restaurant\RestaurantRegisterController;
+use App\Http\Controllers\Restaurant\RestaurantLoginController;
 use App\Http\Controllers\Restaurant\RestaurantWorkingHoursController;
 
 /*
@@ -42,7 +43,7 @@ Route::get('/search', [UserController::class, 'search'])->name('user.restaurants
 Route::get('/restaurant/registerpage', [RestaurantRegisterController::class, 'create'])
     ->name('restaurant.registerpage');
 Route::post('restaurant/registerpage', [RestaurantRegisterController::class, 'store']);
-Route::get('/restaurant/loginpage', [RestaurantRegisterController::class, 'create'])
+Route::get('/restaurant/loginpage', [RestaurantLoginController::class, 'create'])
     ->name('restaurant.login');
 
 Route::get('/dashboard', [RestaurantController::class, 'dashboard'])

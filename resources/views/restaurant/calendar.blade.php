@@ -22,7 +22,7 @@
                 </div>
                 <div class="relative flex">
                     <svg id="calendar-icon" width="34" height="34" viewBox="0 0 34 34" fill="none"
-                        xmlns="http://www.w3.org/2000/svg" class="cursor-pointer w-[34px] h-[34px] mr-[40px]"
+                        xmlns="http://www.w3.org/2000/svg" class="cursor-pointer w-[34px] h-[34px]"
                         preserveAspectRatio="xMidYMid meet">
                         <path fill-rule="evenodd" clip-rule="evenodd"
                             d="M26.9167 5.66634H25.5V2.83301H22.6667V5.66634H11.3333V2.83301H8.5V5.66634H7.08333C5.51083 5.66634 4.25 6.94134 4.25 8.49967V28.333C4.25 29.8913 5.51083 31.1663 7.08333 31.1663H26.9167C28.475 31.1663 29.75 29.8913 29.75 28.333V8.49967C29.75 6.94134 28.475 5.66634 26.9167 5.66634ZM26.9167 28.333H7.08333V12.7497H26.9167V28.333ZM9.20833 18.4163C9.20833 16.4613 10.795 14.8747 12.75 14.8747C14.705 14.8747 16.2917 16.4613 16.2917 18.4163C16.2917 20.3713 14.705 21.958 12.75 21.958C10.795 21.958 9.20833 20.3713 9.20833 18.4163Z"
@@ -30,18 +30,22 @@
                     </svg>
                     <input type="date" id="calendar-input" class="absolute w-[34px] h-[34px] opacity-0 -z-10">
                 </div>
-                <select class="w-[140px] h-10 rounded-xl bg-[#005fa4] text-sm font-medium text-center text-white"
+                {{-- <select class="w-[140px] h-10 rounded-xl bg-[#005fa4] text-sm font-medium text-center text-white"
                     style="filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.05));">
                     <option value="breakfast">Breakfast</option>
                     <option value="lunch">Lunch</option>
                     <option value="dinner">Dinner</option>
-                </select>
-                {{-- select floor 1 floor 2 --}}
-                <select class="w-[140px] h-10 rounded-xl bg-[#005fa4] text-sm font-medium text-center text-white ml-[24px]"
-                    style="filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.05));">
-                    <option value="breakfast">Floor 1</option>
-                    <option value="lunch">Floor 2</option>
-                </select>
+                </select> --}}
+                <select id="floorSelect" class="w-[140px] h-10 rounded-xl bg-[#005fa4] text-sm font-medium text-center text-white ml-[64px]"
+                style="filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.05));">
+                <option value="all">All</option>
+                {{-- @foreach ($restaurant->activeFloors as $floor)
+                    <option value="{{ $floor->id }}">{{ $floor->Description }}</option>
+                @endforeach --}}
+                @for ($i = 0; $i < $restaurant->activeFloors->count(); $i++)
+                <option value="{{ $restaurant->activeFloors[$i]->id }}">Floor {{ $i+1 }}</option>
+                @endfor
+            </select>
             </div>
             <div class="relative flex items-center">
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -80,7 +84,7 @@
                         @endif
                     @endfor
                 </div>
-                <div id="reservations-container" class="grid h-[570px] w-fit"
+                <div id="reservations-container" class="grid h-[570px] w-fit h-auto"
                     style="grid-template-columns: repeat(24, minmax(auto, auto));">
 
                 </div>
@@ -239,11 +243,14 @@
     </div>
     <script>
         let dataReservations;
+        let searchInput = false;
+        let floorSelect = false;
+        
+        let filteredReservations;
 
         function openReservationInfoModal(reservation) {
             let reservationModal = document.getElementById("reservationInfoModal");
             reservationModal.style.display = "flex";
-            console.log(reservation)
             document.getElementById("fullNameModal").innerHTML = reservation.full_name;
             document.getElementById("phoneNumberModal").innerHTML = reservation.phone_number;
             document.getElementById("emailModal").innerHTML = reservation.email;
@@ -462,7 +469,6 @@
 
 
         function filterReservations(searchQuery) {
-            // dataReservations
             const filteredReservations = dataReservations.filter((reservation) => {
                 const reservationValues = Object.values(reservation);
                 for (const value of reservationValues) {

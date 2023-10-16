@@ -464,7 +464,6 @@
                         })
                         .then(response => response.json())
                         .then(data => {
-
                             // Display the nearest restaurants
                             var nearestRestaurantsDiv = document.getElementById('nearestRestaurants');
                             if (data.message) {
@@ -472,7 +471,6 @@
                             } else {
                                 nearestRestaurantsDiv.innerHTML = data.html;
                             }
-                            console.log(data)
                         })
                         .catch(error => {
                             console.error('Error fetching nearest restaurants:', error);

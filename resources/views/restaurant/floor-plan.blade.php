@@ -2,17 +2,12 @@
 @section('content')
     <div class="mt-[36px] mx-[70px] mb-[120px]">
         <p class="text-4xl font-semibold text-[#343a40] mb-[32px]">{{ $restaurant->title }}</p>
-        <div class="flex mb-[24px]">
+        <div class="flex mb-[24px]" id="floorsContainer">
             @for ($i = 1; $i <= $restaurant->floors->count(); $i++)
                 @if ($i == 1)
                     <button id="floor{{ $restaurant->floors[$i - 1]->id }}" type="button"
                         class="w-[101px] h-[35px] rounded-tl-lg rounded-bl-lg border-[0.5px] border-[#e0e0e0]/60 text-xs text-[#343a40] activeFloorButton">
                         Floor 1
-                    </button>
-                @elseif ($i == $restaurant->floors->count())
-                    <button id="floor{{ $restaurant->floors[$i - 1]->id }}" type="button"
-                        class="w-[101px] h-[35px] border-[0.5px] border-[#e0e0e0]/60 text-xs text-[#343a40] rounded-tr-lg rounded-br-lg">
-                        Floor {{ $i }}
                     </button>
                 @else
                     <button id="floor{{ $restaurant->floors[$i - 1]->id }}" type="button"
@@ -21,6 +16,25 @@
                     </button>
                 @endif
             @endfor
+            @if ($restaurant->floors->count() == 0)
+                <button id="floorNew" type="button"
+                    class="w-[101px] h-[35px] border-[0.5px] border-[#e0e0e0]/60 text-xs text-[#343a40] rounded-lg flex items-center justify-center">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"
+                        class="w-3 h-3" preserveAspectRatio="xMidYMid meet">
+                        <path d="M9.5 6.5H6.5V9.5H5.5V6.5H2.5V5.5H5.5V2.5H6.5V5.5H9.5V6.5Z" fill="#343A40"></path>
+                    </svg>
+                    Add
+                </button>
+            @else
+                <button id="floorNew" type="button"
+                    class="w-[101px] h-[35px] border-[0.5px] border-[#e0e0e0]/60 text-xs text-[#343a40] rounded-tr-lg rounded-br-lg flex items-center justify-center">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"
+                        class="w-3 h-3" preserveAspectRatio="xMidYMid meet">
+                        <path d="M9.5 6.5H6.5V9.5H5.5V6.5H2.5V5.5H5.5V2.5H6.5V5.5H9.5V6.5Z" fill="#343A40"></path>
+                    </svg>
+                    Add
+                </button>
+            @endif
         </div>
 
         <button
@@ -61,8 +75,7 @@
                 </svg>
             </div> --}}
             <div class="w-[420px] h-[364px] rounded-lg overflow-auto min-w-[420px] min-h-[364px]">
-                <div class="rounded-lg bg-[#d9d9d9] px-[9px] py-[11px] relative w-[1200px] h-[1200px]" id="tablesContainer"
-                    style="height: calc(111vh - 172px);">
+                <div class="rounded-lg bg-[#d9d9d9] px-[9px] py-[11px] relative w-[1200px] h-[1200px]" id="tablesContainer">
                 </div>
             </div>
             <div class="flex flex-col">
@@ -72,7 +85,7 @@
                         <p class="text-lg font-semibold text-[#343a40]">Table number:</p>
                         <div class="flex relative h-full items-center">
                             <input type="number" value="6" id="tableNumber"
-                                class="rounded-lg border border-[#79747e] text-sm font-medium text-center text-[#49454f] w-[97px] h-[32px]">
+                                class="rounded-lg border border-[#79747e] text-sm font-medium text-center text-[#49454f] pr-[25px] w-[97px] h-[32px]">
                             <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                 xmlns="http://www.w3.org/2000/svg" class="w-[18px] h-[18px] absolute right-[7px]"
                                 preserveAspectRatio="xMidYMid meet">
@@ -86,7 +99,7 @@
                         <p class="text-lg font-semibold text-[#343a40]">Number of people::</p>
                         <div class="flex relative h-full items-center">
                             <input type="number" value="4" id="tableNumberOfPeople"
-                                class="rounded-lg border border-[#79747e] text-sm font-medium text-center text-[#49454f] w-[97px] h-[32px]">
+                                class="rounded-lg border border-[#79747e] text-sm font-medium text-center text-[#49454f] pr-[25px] w-[97px] h-[32px]">
                             <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                 xmlns="http://www.w3.org/2000/svg" class="w-[18px] h-[18px] absolute right-[7px]"
                                 preserveAspectRatio="xMidYMid meet">
@@ -98,14 +111,17 @@
                     </div>
                     <div class="flex items-center gap-[10px]">
                         <p class="text-lg font-semibold text-[#343a40]">Available status:</p>
-                        <svg width="43" height="43" viewBox="0 0 43 43" fill="none"
-                            xmlns="http://www.w3.org/2000/svg" class="w-[43px] h-[43px]"
-                            preserveAspectRatio="xMidYMid meet">
-                            <path
-                                d="M30.4587 10.75H12.542C6.61158 10.75 1.79199 15.5696 1.79199 21.5C1.79199 27.4304 6.61158 32.25 12.542 32.25H30.4587C36.3891 32.25 41.2087 27.4304 41.2087 21.5C41.2087 15.5696 36.3891 10.75 30.4587 10.75ZM30.4587 28.6667H12.542C8.58241 28.6667 5.37533 25.4596 5.37533 21.5C5.37533 17.5404 8.58241 14.3333 12.542 14.3333H30.4587C34.4182 14.3333 37.6253 17.5404 37.6253 21.5C37.6253 25.4596 34.4182 28.6667 30.4587 28.6667ZM12.542 16.125C9.56782 16.125 7.16699 18.5258 7.16699 21.5C7.16699 24.4742 9.56782 26.875 12.542 26.875C15.5162 26.875 17.917 24.4742 17.917 21.5C17.917 18.5258 15.5162 16.125 12.542 16.125Z"
-                                fill="black" fill-opacity="0.54"></path>
-                        </svg>
-                        <input type="hidden" value="true">
+                        <div id="activeIcon" class="cursor-pointer">
+                            <svg width="43" height="43" viewBox="0 0 43 43" fill="none"
+                                xmlns="http://www.w3.org/2000/svg" class="w-[43px] h-[43px]"
+                                preserveAspectRatio="xMidYMid meet">
+                                <path
+                                    d="M12.5404 32.25H30.457C36.3874 32.25 41.207 27.4304 41.207 21.5C41.207 15.5696 36.3874 10.75 30.457 10.75H12.5404C6.60995 10.75 1.79037 15.5696 1.79037 21.5C1.79037 27.4304 6.60995 32.25 12.5404 32.25ZM12.5404 14.3333H30.457C34.4166 14.3333 37.6237 17.5404 37.6237 21.5C37.6237 25.4596 34.4166 28.6667 30.457 28.6667H12.5404C8.58079 28.6667 5.3737 25.4596 5.3737 21.5C5.3737 17.5404 8.58079 14.3333 12.5404 14.3333ZM30.457 26.875C33.4312 26.875 35.832 24.4742 35.832 21.5C35.832 18.5258 33.4312 16.125 30.457 16.125C27.4829 16.125 25.082 18.5258 25.082 21.5C25.082 24.4742 27.4829 26.875 30.457 26.875Z"
+                                    fill="#B7DDBF"></path>
+                            </svg>
+                        </div>
+
+                        <input id="tableActive" type="hidden" value='1'>
                     </div>
                     <button
                         class="flex items-center justify-center rounded-lg bg-white border border-[#005fa4] w-[121px] h-[36px] text-sm font-medium text-left text-[#005fa4] mt-[26px] mr-[61px] self-end"
@@ -430,50 +446,50 @@
                                     `;
 
             // elmnt.appendChild(resizeElement);
-            elmnt.appendChild(editElement);
+            // elmnt.innerHTML += editElement;
             // editElement.addEventListener click function 
-            editElement.addEventListener('click', () => {
-                // tableElement.addEventListener('dblclick', function() {
-                //     // Show the custom modal for editing
-                //     const modal = document.getElementById(
-                //         'editTableModal');
-                //     modal.classList.add('show');
-                //     modal.style.display = 'block';
+            // editElement.addEventListener('click', () => {
+            // tableElement.addEventListener('dblclick', function() {
+            //     // Show the custom modal for editing
+            //     const modal = document.getElementById(
+            //         'editTableModal');
+            //     modal.classList.add('show');
+            //     modal.style.display = 'block';
 
-                //     // Set the table details in the modal for editing
-                //     const tableId = table.id;
-                //     const tableDescriptionInput = document
-                //         .getElementById(
-                //             'tableDescriptionInput');
-                //     const tableWidthInput = document.getElementById(
-                //         'tableWidthInput');
-                //     const tableHeightInput = document.getElementById(
-                //         'tableHeightInput');
+            //     // Set the table details in the modal for editing
+            //     const tableId = table.id;
+            //     const tableDescriptionInput = document
+            //         .getElementById(
+            //             'tableDescriptionInput');
+            //     const tableWidthInput = document.getElementById(
+            //         'tableWidthInput');
+            //     const tableHeightInput = document.getElementById(
+            //         'tableHeightInput');
 
-                //     // Set the current table details in the modal inputs
-                //     tableDescriptionInput.value = table
-                //         .TableDescription;
-                //     tableWidthInput.value = table.Width;
-                //     tableHeightInput.value = table.Height;
+            //     // Set the current table details in the modal inputs
+            //     tableDescriptionInput.value = table
+            //         .TableDescription;
+            //     tableWidthInput.value = table.Width;
+            //     tableHeightInput.value = table.Height;
 
-                //     // Add an event listener to the modal's save button to handle the save action
-                //     const saveButton = document.getElementById(
-                //         'saveButton');
-                //     saveButton.addEventListener('click', function() {
-                //         // Get the updated values from the modal inputs
-                //         const updatedDescription =
-                //             tableDescriptionInput.value;
-                //         const updatedWidth = tableWidthInput
-                //             .value;
-                //         const updatedHeight = tableHeightInput
-                //             .value;
+            //     // Add an event listener to the modal's save button to handle the save action
+            //     const saveButton = document.getElementById(
+            //         'saveButton');
+            //     saveButton.addEventListener('click', function() {
+            //         // Get the updated values from the modal inputs
+            //         const updatedDescription =
+            //             tableDescriptionInput.value;
+            //         const updatedWidth = tableWidthInput
+            //             .value;
+            //         const updatedHeight = tableHeightInput
+            //             .value;
 
-                //         // Close the modal after saving
-                //         modal.classList.remove('show');
-                //         modal.style.display = 'none';
-                //     });
-                // });
-            });
+            //         // Close the modal after saving
+            //         modal.classList.remove('show');
+            //         modal.style.display = 'none';
+            //     });
+            // });
+            // });
             // resizeElement.onmousedown = resizeMouseDown;
 
             function dragMouseDown(e) {
@@ -608,6 +624,10 @@
                         if (response.headers.get('content-type') === 'application/json') {
                             return response.json();
                         } else {
+                            if (floorId == 'New') {
+                            alert('New floor created!');
+                            return window.location.reload();
+                            }
                             alert('Table positions saved!');
                             disableTableDraggable(); // Disable draggable after saving
                             return null;
@@ -632,13 +652,53 @@
         saveButton.addEventListener('click', updateTablePositions);
     </script>
     <script>
+        const activeIcon = document.getElementById('activeIcon');
+        const tableActive = document.getElementById('tableActive');
+
+        // Set default values
+        let isActive = true;
+        tableActive.value = 1;
+
+        // Add click handler to toggle status
+        activeIcon.addEventListener('click', () => {
+
+            // Toggle isActive value
+            isActive = !isActive;
+
+            // Update input value
+            tableActive.value = isActive ? 1 : 0;
+            // Update icon
+            if (isActive) {
+                activeIcon.innerHTML = `
+                                        <svg width="43" height="43" viewBox="0 0 43 43" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg" class="w-[43px] h-[43px]"
+                                            preserveAspectRatio="xMidYMid meet">
+                                            <path
+                                                d="M12.5404 32.25H30.457C36.3874 32.25 41.207 27.4304 41.207 21.5C41.207 15.5696 36.3874 10.75 30.457 10.75H12.5404C6.60995 10.75 1.79037 15.5696 1.79037 21.5C1.79037 27.4304 6.60995 32.25 12.5404 32.25ZM12.5404 14.3333H30.457C34.4166 14.3333 37.6237 17.5404 37.6237 21.5C37.6237 25.4596 34.4166 28.6667 30.457 28.6667H12.5404C8.58079 28.6667 5.3737 25.4596 5.3737 21.5C5.3737 17.5404 8.58079 14.3333 12.5404 14.3333ZM30.457 26.875C33.4312 26.875 35.832 24.4742 35.832 21.5C35.832 18.5258 33.4312 16.125 30.457 16.125C27.4829 16.125 25.082 18.5258 25.082 21.5C25.082 24.4742 27.4829 26.875 30.457 26.875Z"
+                                                fill="#B7DDBF"></path>
+                                        </svg>
+                                        `;
+            } else {
+                activeIcon.innerHTML = `
+                                        <svg width="43" height="43" viewBox="0 0 43 43" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg" class="w-[43px] h-[43px]"
+                                                    preserveAspectRatio="xMidYMid meet">
+                                                    <path
+                                                        d="M30.4587 10.75H12.542C6.61158 10.75 1.79199 15.5696 1.79199 21.5C1.79199 27.4304 6.61158 32.25 12.542 32.25H30.4587C36.3891 32.25 41.2087 27.4304 41.2087 21.5C41.2087 15.5696 36.3891 10.75 30.4587 10.75ZM30.4587 28.6667H12.542C8.58241 28.6667 5.37533 25.4596 5.37533 21.5C5.37533 17.5404 8.58241 14.3333 12.542 14.3333H30.4587C34.4182 14.3333 37.6253 17.5404 37.6253 21.5C37.6253 25.4596 34.4182 28.6667 30.4587 28.6667ZM12.542 16.125C9.56782 16.125 7.16699 18.5258 7.16699 21.5C7.16699 24.4742 9.56782 26.875 12.542 26.875C15.5162 26.875 17.917 24.4742 17.917 21.5C17.917 18.5258 15.5162 16.125 12.542 16.125Z"
+                                                        fill="black" fill-opacity="0.54"></path>
+                                        </svg>
+                                        `;
+            }
+
+        });
         // Add a reference to the "New Table" button
         const newTableButton = document.getElementById('newTableButton');
 
         // Function to create a new table element
         function createNewTable() {
             let numberOfPeople = document.getElementById('tableNumberOfPeople').value;
-            const tableElement = `<div data-id='new' data-numberOfPeople='${numberOfPeople}' ${isEditable ? 'draggable: "true"' : ''} class="flex items-center justify-center flex-col absolute tableElements" style="left: 0px; top: 0px;">
+            let tableActiveValue = document.getElementById('tableActive').value;
+            const tableElement = `<div data-id='new' data-active=${tableActiveValue} data-capacity=${numberOfPeople} ${isEditable ? 'draggable: "true"' : ''} class="flex items-center justify-center flex-col absolute tableElements" style="left: 0px; top: 0px;">
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"
                     preserveAspectRatio="none">
                     <ellipse cx="8.78978" cy="9.09564" rx="8.43333" ry="8.23333" fill="#979797"></ellipse>
@@ -667,9 +727,7 @@
             tablesContainer.innerHTML += tableElement;
 
             // Make the newly created table draggable
-            if (isEditable) {
-                dragElement(tableElement);
-            }
+            enableTableDraggable();
         }
 
         // Add a click event listener to the "New Table" button

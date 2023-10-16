@@ -270,6 +270,11 @@ class Restaurant extends Model
         return $this->belongsToMany(Floor::class, 'floor_restaurant');
     }
 
+    public function activeFloors()
+    {
+        return $this->floors()->where('active', 1);
+    }
+
     public function promotions()
     {
         return $this->hasMany(Promotion::class);

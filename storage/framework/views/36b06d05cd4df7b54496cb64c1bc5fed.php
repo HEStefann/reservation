@@ -30,26 +30,44 @@
                     <input type="date" id="calendar-input" class="absolute w-[34px] h-[34px] opacity-0 -z-10">
                 </div>
                 
-                <select id="floorSelect" onchange="filterReservations(document.getElementById('search-input').value, this.value)"
-                class="w-[140px] h-10 rounded-xl bg-[#005fa4] text-sm font-medium text-center text-white ml-[64px]"
-                style="filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.05));">
-                <option value="all">All</option>
-                
-                <?php for($i = 0; $i < $restaurant->activeFloors->count(); $i++): ?>
-                    <option value="<?php echo e($restaurant->activeFloors[$i]->id); ?>">Floor <?php echo e($i + 1); ?></option>
-                <?php endfor; ?>
-            </select>
+                <select id="floorSelect"
+                    onchange="filterReservations(document.getElementById('search-input').value, this.value)"
+                    class="w-[140px] h-10 rounded-xl bg-[#005fa4] text-sm font-medium text-center text-white ml-[64px]"
+                    style="filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.05));">
+                    <option value="all">All</option>
+                    
+                    <?php for($i = 0; $i < $restaurant->activeFloors->count(); $i++): ?>
+                        <option value="<?php echo e($restaurant->activeFloors[$i]->id); ?>">Floor <?php echo e($i + 1); ?></option>
+                    <?php endfor; ?>
+                </select>
             </div>
             <div class="relative flex items-center">
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    class="absolute w-[18px] h-[18px] ml-[18px]" preserveAspectRatio="xMidYMid meet">
+                    class="absolute w-[18px] h-[18px] ml-[18px] z-10" preserveAspectRatio="xMidYMid meet">
                     <path
                         d="M11.8164 10.6914H11.2239L11.0139 10.4889C11.7489 9.63391 12.1914 8.52391 12.1914 7.31641C12.1914 4.62391 10.0089 2.44141 7.31641 2.44141C4.62391 2.44141 2.44141 4.62391 2.44141 7.31641C2.44141 10.0089 4.62391 12.1914 7.31641 12.1914C8.52391 12.1914 9.63391 11.7489 10.4889 11.0139L10.6914 11.2239V11.8164L14.4414 15.5589L15.5589 14.4414L11.8164 10.6914ZM7.31641 10.6914C5.44891 10.6914 3.94141 9.18391 3.94141 7.31641C3.94141 5.44891 5.44891 3.94141 7.31641 3.94141C9.18391 3.94141 10.6914 5.44891 10.6914 7.31641C10.6914 9.18391 9.18391 10.6914 7.31641 10.6914Z"
                         fill="black" fill-opacity="0.54"></path>
                 </svg>
-                <input type="text" id="search-input" onkeyup="filterReservations(this.value, document.getElementById('floorSelect').value)"
-                class="pl-[44px] w-[260px] h-[42px] rounded-xl text-base font-extralight text-left text-[#343a40]"
-                placeholder="Search">
+                <style>
+                    .box {
+                        position: relative;
+                    }
+
+                    .box::before {
+                        content: "";
+                        position: absolute;
+                        inset: 0;
+                        border-radius: 12px;
+                        background: linear-gradient(to bottom right, #FFCD01 0%, #FC7F09 100%);
+                    }
+                </style>
+
+                <div class="box w-[261px] h-[42px] flex items-center justify-center">
+                    <input type="text" id="search-input"
+                        onkeyup="filterReservations(this.value, document.getElementById('floorSelect').value)"
+                        class="pl-[44px] w-[259px] h-[40px] relative rounded-[11px] text-base font-extralight text-left border-none text-[#343a40] outline-0"
+                        placeholder="Search">
+                </div>
             </div>
         </div>
         <div class="mt-[60px] flex">

@@ -128,10 +128,18 @@
                         <div class="data">{{ $reservation->number_of_people }}</div>
                         <div class="data">{{ $reservation->note }}</div>
                         <div class="data">{{ $reservation->restaurant->title }}</div>
-                        <div class="data-buttons flex items-center justify-center">
+                        <div class="data-buttons flex gap-[21px] items-center justify-center">
+                            {{-- if restaurant_id and user_id are == then print it --}}
+                            @if ($reservation->restaurant_id == $reservation->user_id)
+                                <button onclick="openReservationEditModal({{ $reservation }})"
+                                    class="w-[62.5px] h-8 rounded-[10px] bg-white border border-[#005fa4] text-sm font-semibold flex items-center justify-center text-[#005fa4]">
+                                    Edit
+                                </button>
+                            @endif
                             <p
-                                class="{{ $reservation->status == 'accepted' ? 'accepted  rounded-[10px] bg-[#b7ddbf] text-xs font-medium py-[10px] px-[24px] text-[#343a40]' : 'canceled  rounded-[10px] bg-[#fd8175]/[0.88] text-xs font-medium py-[10px] px-[24px] text-[#343a40]' }}">
-                                {{ $reservation->status }}</p>
+                                class="{{ $reservation->status == 'accepted' ? 'accepted  rounded-[10px] bg-[#b7ddbf] text-sm font-medium py-[10px] px-[24px] text-[#343a40]' : 'canceled  rounded-[10px] bg-[#fd8175]/[0.88] text-xs font-medium py-[10px] px-[24px] text-[#343a40]' }}">
+                                {{ Str::ucfirst($reservation->status) }}
+                            </p>
                         </div>
                     @endforeach
                 </div>
@@ -236,13 +244,103 @@
             }
         </style>
     </div>
-    <script>
-        function changePendingPerPage(value) {
-            window.location.href = window.location.pathname + '?pendingPerPage=' + value;
-        }
+    <div id="editReservationModal" style="display: none;"
+        class="fixed z-10 left-0 top-0 w-full h-full bg-[rgba(0,0,0,0.5)] flex justify-center items-center" onclick="hideEditReservationModal(event)">
+        <form action="{{ route('restaurant.reservation.update') }}" method="post" class="bg-white w-[563px]">
+            @csrf
+            @method('put')
+            <input type="hidden" name="reservation_id" id="reservation_id">
+            <div class="flex justify-between items-center py-[16px] pl-[30px] pr-[19px]">
+                <p class="text-2xl font-medium text-[#343a40]">Edit Reservation</p>
+                <svg onclick="hideEditReservationModal(event)" width="24" height="25" viewBox="0 0 24 25" fill="none"
+                    xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 cursor-pointer editReservationModalCloseButton" preserveAspectRatio="xMidYMid meet">
+                    <path
+                        d="M19 6.91L17.59 5.5L12 11.09L6.41 5.5L5 6.91L10.59 12.5L5 18.09L6.41 19.5L12 13.91L17.59 19.5L19 18.09L13.41 12.5L19 6.91Z"
+                        fill="black" fill-opacity="0.54"></path>
+                </svg>
+            </div>
+            <div class="w-full h-px bg-[#212121]/[0.08]"></div>
+            <div class="pt-[30px] pl-[30px] pr-[74px] pb-[48px] flex flex-col">
+                <div class="flex flex-col gap-[16px] mb-[30px]">
+                    <p class="text-base text-[#343a40]"><span class="border-b-[2px] border-[#FC7F09]">Created at</span>: 09/12/2023 10:10:45</p>
+                    <p class="text-base text-[#343a40]"><span class="border-b-[2px] border-[#FC7F09]">Updated at</span>: 09/12/2023 10:10:45</p>
+                </div>
+                <div class="flex flex-col gap-[12px]">
+                    <div class="flex w-[459px] justify-between items-center">
+                        <p class="text-base text-[#343a40]">Restaurant</p>
+                        <input disabled id="editReservationModalRestaurant" type="text"
+                            class="h-12 rounded-xl border-[1.5px] w-[300px] border-[#d4d7e3] disabled:opacity-50">
+                    </div>
+                    <div class="flex w-[459px] justify-between items-center">
+                        <p class="text-base text-[#343a40]">Full Name</p>
+                        <input name="full_name" id="editReservationModalFullName" type="text"
+                            class="h-12 rounded-xl border-[1.5px] w-[300px] border-[#d4d7e3]">
+                    </div>
+                    <div class="flex w-[459px] justify-between items-center">
+                        <p class="text-base text-[#343a40]">Phone number</p>
+                        <input name="phone_number" id="editReservationModalPhoneNumber" type="text"
+                            class="h-12 rounded-xl border-[1.5px] w-[300px] border-[#d4d7e3]">
+                    </div>
+                    <div class="flex w-[459px] justify-between items-center">
+                        <p class="text-base text-[#343a40]">Email</p>
+                        <input name="email" id="editReservationModalEmail" type="text"
+                            class="h-12 rounded-xl border-[1.5px] w-[300px] border-[#d4d7e3]">
+                    </div>
+                    {{-- <div class="flex w-[459px] justify-between items-center">
+                        <p class="text-base text-[#343a40]">Deposit</p>
+                        <input id="editReservationModalDeposit" type="text"
+                            class="h-12 rounded-xl border-[1.5px] w-[300px] border-[#d4d7e3]">
+                    </div> --}}
+                    <div class="flex w-[459px] justify-between items-center">
+                        <p class="text-base text-[#343a40]">Date/Time</p>
+                        <div class="flex gap-[10px] w-[300px]">
+                            <input id="editReservationModalDate" name="date" type="date" class="h-12 w-[151px] rounded-xl border-[1.5px] border-[#d4d7e3]">
+                            <input id="editReservationModalTime" name="time" type="time" class="h-12 w-[136px] rounded-xl border-[1.5px] border-[#d4d7e3]">
+                        </div>
+                    </div>
+                    <div class="flex w-[459px] justify-between items-center">
+                        <p class="text-base text-[#343a40]">Number of people</p>
+                        <input name="number" id="editReservationModalNumberOfPeople" type="text"
+                            class="h-12 rounded-xl border-[1.5px] w-[300px] border-[#d4d7e3]">
+                    </div>
+                    <div class="flex w-[459px] justify-between items-center">
+                        <p class="text-base text-[#343a40]">Note</p>
+                        <textarea name="note" id="editReservationModalNote" class="h-[117px] w-[300px] rounded-xl border-[1.5px] border-[#d4d7e3]" name="" id="" cols="30" rows="10"></textarea>
+                    </div>
+                </div>
+                <button type="submit" class="w-[168px] h-[40px] flex items-center justify-center rounded-[10px] bg-[#005fa4] text-base font-semibold text-left text-white mt-[40px] self-end">
+                    Submit
+                </button>
+            </div>
+        </form>
+        <script>
+            function openReservationEditModal(reservation) {
+                let editReservationModal = document.getElementById("editReservationModal");
+                editReservationModal.style.display = "flex";
+                document.getElementById("reservation_id").value = reservation.id;
+                document.getElementById("editReservationModalRestaurant").value = reservation.restaurant.title;
+                document.getElementById("editReservationModalFullName").value = reservation.full_name;
+                document.getElementById("editReservationModalPhoneNumber").value = reservation.phone_number;
+                document.getElementById("editReservationModalEmail").value = reservation.email;
+                // document.getElementById("editReservationModalDeposit").value = reservation.deposit;
+                document.getElementById("editReservationModalDate").value = reservation.date;
+                document.getElementById("editReservationModalTime").value = reservation.time;
+                document.getElementById("editReservationModalNumberOfPeople").value = reservation.number_of_people;
+                document.getElementById("editReservationModalNote").value = reservation.note;
+            }
+            function hideEditReservationModal(event) {
+    if (event.target === document.getElementById('editReservationModal') || event.target.classList.contains('editReservationModalCloseButton')) {
+        document.getElementById('editReservationModal').style.display = 'none';
+    }
+}
+        </script>
+        <script>
+            function changePendingPerPage(value) {
+                window.location.href = window.location.pathname + '?pendingPerPage=' + value;
+            }
 
-        function changeReservationsPerPage(value) {
-            window.location.href = window.location.pathname + '?reservationsPerPage=' + value;
-        }
-    </script>
-@endsection
+            function changeReservationsPerPage(value) {
+                window.location.href = window.location.pathname + '?reservationsPerPage=' + value;
+            }
+        </script>
+    @endsection

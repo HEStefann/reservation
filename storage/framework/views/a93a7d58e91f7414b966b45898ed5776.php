@@ -409,7 +409,7 @@
                                         viewBox="0 0 14 14"
                                         fill="none"
                                         xmlns="http://www.w3.org/2000/svg"
-                                        class="w-3.5 h-3.5 editIcon"
+                                        class="w-3.5 h-3.5 editIcon absolute top-[12px] right-[13px] cursor-pointer"
                                         preserveAspectRatio="xMidYMid meet"
                                         >
                                         <path
@@ -422,7 +422,7 @@
                                     `;
 
             // elmnt.appendChild(resizeElement);
-            // elmnt.innerHTML += editElement;
+            elmnt.innerHTML += editElement.innerHTML;
             // editElement.addEventListener click function 
             // editElement.addEventListener('click', () => {
             // tableElement.addEventListener('dblclick', function() {

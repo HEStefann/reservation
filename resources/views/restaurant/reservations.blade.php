@@ -325,7 +325,7 @@
         <script>
             function openReservationEditModal(reservation) {
                 let editReservationModal = document.getElementById("editReservationModal");
-                editReservationModal.style.display = "flex"; +
+                editReservationModal.style.display = "flex";
                 document.getElementById("reservation_id").value = reservation.id;
                 document.getElementById("editReservationModalRestaurant").value = reservation.restaurant.title;
                 document.getElementById("editReservationModalFullName").value = reservation.full_name;

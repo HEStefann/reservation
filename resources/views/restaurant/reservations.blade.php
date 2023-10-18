@@ -15,8 +15,26 @@
         <div class="flex justify-end">
             <div class="flex items-center relative mt-[20px]">
                 <form action="{{ route('restaurant.reservations') }}" method="get">
-                    <input type="text" name="search" class="rounded-[20px] w-[260px] h-[42px] pl-[44px]"
-                        placeholder="Search" value="{{ $searchQuery }}">
+                    <style>
+                        .box {
+                            position: relative;
+                        }
+    
+                        .box::before {
+                            content: "";
+                            position: absolute;
+                            inset: 0;
+                            border-radius: 12px;
+                            background: linear-gradient(to bottom right, #FFCD01 0%, #FC7F09 100%);
+                        }
+                    </style>
+    
+                    <div class="box w-[261px] h-[42px] flex items-center justify-center">
+                        <input type="text" name="search"
+                            onkeyup="filterReservations(this.value, document.getElementById('floorSelect').value)"
+                            class="pl-[44px] w-[259px] h-[40px] relative rounded-[11px] text-base font-extralight text-left border-none text-[#343a40] outline-0"
+                            placeholder="Search" value="{{ $searchQuery }}">
+                    </div>
                 </form>
                 <svg class="absolute left-[18px]" width="14" height="14" viewBox="0 0 14 14" fill="none"
                     xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
@@ -322,6 +340,7 @@
                 </button>
             </div>
         </form>
+    </div>
         <script>
             function openReservationEditModal(reservation) {
                 let editReservationModal = document.getElementById("editReservationModal");

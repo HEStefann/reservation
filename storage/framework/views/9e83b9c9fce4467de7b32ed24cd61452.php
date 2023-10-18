@@ -1,8 +1,8 @@
 <div class="min-h-screen min-w-[217px] flex flex-col">
-    <div class="w-[154px] h-[53px] self-center">
+    <div class="w-[154px] h-[53px] self-center mt-[14px] mb-[15px]">
         <img src="<?php echo e(asset('images/logo.png')); ?>" class="w-full h-full" alt="logo">
     </div>
-    <div class="flex flex-col gap-[24px] mt-[11px] w-full h-full"
+    <div class="flex flex-col gap-[24px] w-full h-full"
         style="box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0 rgba(0,0,0,0.14), 0px 1px 3px 0 rgba(0,0,0,0.12);">
         
         

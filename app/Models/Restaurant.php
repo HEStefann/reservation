@@ -98,10 +98,6 @@ class Restaurant extends Model
     {
         return $this->hasMany(Moderator::class);
     }
-    public function menu(): HasMany
-    {
-        return $this->hasMany(Menu::class);
-    }
 
     public function activeMenu(): HasOne
     {

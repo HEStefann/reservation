@@ -154,7 +154,7 @@
                 font-weight: 500;
             }
         </style>
-        <div id="editTableModal" class="modal">
+        {{-- <div id="editTableModal" class="modal">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -183,7 +183,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <style>
             .modal {
                 display: none;
@@ -301,7 +301,72 @@
         </style>
 
     </div>
-
+    {{-- modal for editing --}}
+    <div id="editTableModal" style="display: none;"
+        class="fixed z-10 left-0 top-0 w-full h-full bg-[rgba(0,0,0,0.5)] flex justify-center items-center"
+        onclick="hideEditTableModal(event)">
+        <div class="bg-white relative w-[445px] pt-[25px] pl-[32px] pb-[55px]">
+            <svg onclick="hideEditTableModal(event)" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-6 h-6 absolute top-[16px] right-[16px] editTableModalCloseButton cursor-pointer"
+                preserveAspectRatio="xMidYMid meet">
+                <path
+                    d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z"
+                    fill="#1F1F1F"></path>
+            </svg>
+            <div class="flex flex-col gap-[17px]">
+                <div class="flex gap-[10px]">
+                    <p class="text-lg font-semibold text-[#343a40]">Table number:</p>
+                    <div class="flex relative h-full items-center">
+                        <input type="number" id="tableNumberModal"
+                            class="rounded-lg border border-[#79747e] text-sm font-medium text-center text-[#49454f] pr-[25px] w-[97px] h-[32px]">
+                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
+                            xmlns="http://www.w3.org/2000/svg" class="w-[18px] h-[18px] absolute right-[7px]"
+                            preserveAspectRatio="xMidYMid meet">
+                            <path
+                                d="M14.25 4.8075L13.1925 3.75L9 7.9425L4.8075 3.75L3.75 4.8075L7.9425 9L3.75 13.1925L4.8075 14.25L9 10.0575L13.1925 14.25L14.25 13.1925L10.0575 9L14.25 4.8075Z"
+                                fill="#49454F"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="flex gap-[10px]">
+                    <p class="text-lg font-semibold text-[#343a40]">Number of people:</p>
+                    <div class="flex relative h-full items-center">
+                        <input type="number" id="numberOfPeopleModal"
+                            class="rounded-lg border border-[#79747e] text-sm font-medium text-center text-[#49454f] pr-[25px] w-[97px] h-[32px]">
+                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
+                            xmlns="http://www.w3.org/2000/svg" class="w-[18px] h-[18px] absolute right-[7px]"
+                            preserveAspectRatio="xMidYMid meet">
+                            <path
+                                d="M14.25 4.8075L13.1925 3.75L9 7.9425L4.8075 3.75L3.75 4.8075L7.9425 9L3.75 13.1925L4.8075 14.25L9 10.0575L13.1925 14.25L14.25 13.1925L10.0575 9L14.25 4.8075Z"
+                                fill="#49454F"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="flex items-center gap-[10px]">
+                    <p class="text-lg font-semibold text-[#343a40]">Available status:</p>
+                    <div id="activeIconModal" class="cursor-pointer">
+                        <svg width="43" height="43" viewBox="0 0 43 43" fill="none"
+                            xmlns="http://www.w3.org/2000/svg" class="w-[43px] h-[43px]"
+                            preserveAspectRatio="xMidYMid meet">
+                            <path
+                                d="M30.4587 10.75H12.542C6.61158 10.75 1.79199 15.5696 1.79199 21.5C1.79199 27.4304 6.61158 32.25 12.542 32.25H30.4587C36.3891 32.25 41.2087 27.4304 41.2087 21.5C41.2087 15.5696 36.3891 10.75 30.4587 10.75ZM30.4587 28.6667H12.542C8.58241 28.6667 5.37533 25.4596 5.37533 21.5C5.37533 17.5404 8.58241 14.3333 12.542 14.3333H30.4587C34.4182 14.3333 37.6253 17.5404 37.6253 21.5C37.6253 25.4596 34.4182 28.6667 30.4587 28.6667ZM12.542 16.125C9.56782 16.125 7.16699 18.5258 7.16699 21.5C7.16699 24.4742 9.56782 26.875 12.542 26.875C15.5162 26.875 17.917 24.4742 17.917 21.5C17.917 18.5258 15.5162 16.125 12.542 16.125Z"
+                                fill="black" fill-opacity="0.54"></path>
+                        </svg>
+                    </div>
+                    <input id="statusTableModal" type="hidden">
+                </div>
+            </div>
+            <div class="flex gap-[16px] justify-center mt-[27px]">
+                <button id="saveTableModal"
+                    class="flex justify-center items-center h-8 w-[136px] rounded-[10px] bg-[#fc7f09] text-sm font-medium text-white">Save
+                    changes</button>
+                <button id="deleteTableModal"
+                    class="flex justify-center items-center h-8 w-[124px] rounded-[10px] border border-[#fc7f09] text-sm font-medium text-[#fc7f09]">Delete
+                    table</button>
+            </div>
+        </div>
+    </div>
     <script>
         const floorButtons = document.querySelectorAll('button[id^="floor"]');
         const tablesContainer = document.getElementById('tablesContainer');
@@ -375,7 +440,10 @@
             editButton.style.display = isEditable ? 'none' : 'flex';
             saveButton.style.display = !isEditable ? 'none' : 'flex';
             const tables = document.querySelectorAll('.tableElements');
-
+            const editIcon = document.querySelectorAll('.editIcon');
+            editIcon.forEach(icon => {
+                icon.remove();
+            });
             tables.forEach(table => {
                 table.draggable = false;
                 // remove event listnerers for tables
@@ -402,6 +470,80 @@
         // Toggle the editable state and button text when the "Edit" button is clicked
         editButton.addEventListener('click', enableTableDraggable);
 
+        function hideEditTableModal(event) {
+            if (event.target === document.getElementById('editTableModal') || event.target.classList.contains(
+                    'editTableModalCloseButton')) {
+                document.getElementById('editTableModal').style.display = 'none';
+            }
+        }
+
+        function editTableFunction(elmnt) {
+            document.getElementById('editTableModal').style.display = 'flex';
+            document.getElementById('tableNumberModal').value = elmnt.children[1].children[1].children[0].innerHTML.replace(
+                /\D/g, '');
+            document.getElementById('numberOfPeopleModal').value = elmnt.dataset.capacity;
+            document.getElementById('statusTableModal').value = elmnt.dataset.active;
+
+            const activeIconModal = document.querySelector('#activeIconModal');
+            if (elmnt.dataset.active == '1') {
+                document.getElementById('activeIconModal').innerHTML = `<svg width="43" height="43" viewBox="0 0 43 43" fill="none"
+                    xmlns="http://www.w3.org/2000/svg" class="w-[43px] h-[43px]"
+                    preserveAspectRatio="xMidYMid meet">
+                    <path
+                        d="M12.5404 32.25H30.457C36.3874 32.25 41.207 27.4304 41.207 21.5C41.207 15.5696 36.3874 10.75 30.457 10.75H12.5404C6.60995 10.75 1.79037 15.5696 1.79037 21.5C1.79037 27.4304 6.60995 32.25 12.5404 32.25ZM12.5404 14.3333H30.457C34.4166 14.3333 37.6237 17.5404 37.6237 21.5C37.6237 25.4596 34.4166 28.6667 30.457 28.6667H12.5404C8.58079 28.6667 5.3737 25.4596 5.3737 21.5C5.3737 17.5404 8.58079 14.3333 12.5404 14.3333ZM30.457 26.875C33.4312 26.875 35.832 24.4742 35.832 21.5C35.832 18.5258 33.4312 16.125 30.457 16.125C27.4829 16.125 25.082 18.5258 25.082 21.5C25.082 24.4742 27.4829 26.875 30.457 26.875Z"
+                        fill="#B7DDBF"></path>
+                </svg>`;
+                document.getElementById('statusTableModal').value = '1';
+            } else {
+                document.getElementById('activeIconModal').innerHTML = `<svg width="43" height="43" viewBox="0 0 43 43" fill="none"
+                    xmlns="http://www.w3.org/2000/svg" class="w-[43px] h-[43px]"
+                    preserveAspectRatio="xMidYMid meet">
+                    <path
+                        d="M30.4587 10.75H12.542C6.61158 10.75 1.79199 15.5696 1.79199 21.5C1.79199 27.4304 6.61158 32.25 12.542 32.25H30.4587C36.3891 32.25 41.2087 27.4304 41.2087 21.5C41.2087 15.5696 36.3891 10.75 30.4587 10.75ZM30.4587 28.6667H12.542C8.58241 28.6667 5.37533 25.4596 5.37533 21.5C5.37533 17.5404 8.58241 14.3333 12.542 14.3333H30.4587C34.4182 14.3333 37.6253 17.5404 37.6253 21.5C37.6253 25.4596 34.4182 28.6667 30.4587 28.6667ZM12.542 16.125C9.56782 16.125 7.16699 18.5258 7.16699 21.5C7.16699 24.4742 9.56782 26.875 12.542 26.875C15.5162 26.875 17.917 24.4742 17.917 21.5C17.917 18.5258 15.5162 16.125 12.542 16.125Z"
+                        fill="black" fill-opacity="0.54"></path>
+                </svg>`;
+                document.getElementById('statusTableModal').value = '0';
+            }
+            // document.getElementById('activeIconModal') on click change value of input and change svg icon
+            document.getElementById('activeIconModal').addEventListener('click', () => {
+                statusTableModal = document.getElementById('statusTableModal');
+                statusTableModal.value = statusTableModal.value == '1' ? '0' : '1';
+                if (statusTableModal.value == '1') {
+                    document.getElementById('activeIconModal').innerHTML = `<svg width="43" height="43" viewBox="0 0 43 43" fill="none"
+                    xmlns="http://www.w3.org/2000/svg" class="w-[43px] h-[43px]"
+                    preserveAspectRatio="xMidYMid meet">
+                    <path
+                        d="M12.5404 32.25H30.457C36.3874 32.25 41.207 27.4304 41.207 21.5C41.207 15.5696 36.3874 10.75 30.457 10.75H12.5404C6.60995 10.75 1.79037 15.5696 1.79037 21.5C1.79037 27.4304 6.60995 32.25 12.5404 32.25ZM12.5404 14.3333H30.457C34.4166 14.3333 37.6237 17.5404 37.6237 21.5C37.6237 25.4596 34.4166 28.6667 30.457 28.6667H12.5404C8.58079 28.6667 5.3737 25.4596 5.3737 21.5C5.3737 17.5404 8.58079 14.3333 12.5404 14.3333ZM30.457 26.875C33.4312 26.875 35.832 24.4742 35.832 21.5C35.832 18.5258 33.4312 16.125 30.457 16.125C27.4829 16.125 25.082 18.5258 25.082 21.5C25.082 24.4742 27.4829 26.875 30.457 26.875Z"
+                        fill="#B7DDBF"></path>
+                </svg>`;
+                    document.getElementById('statusTableModal').value = '1';
+                } else {
+                    document.getElementById('activeIconModal').innerHTML = `<svg width="43" height="43" viewBox="0 0 43 43" fill="none"
+                    xmlns="http://www.w3.org/2000/svg" class="w-[43px] h-[43px]"
+                    preserveAspectRatio="xMidYMid meet">
+                    <path
+                        d="M30.4587 10.75H12.542C6.61158 10.75 1.79199 15.5696 1.79199 21.5C1.79199 27.4304 6.61158 32.25 12.542 32.25H30.4587C36.3891 32.25 41.2087 27.4304 41.2087 21.5C41.2087 15.5696 36.3891 10.75 30.4587 10.75ZM30.4587 28.6667H12.542C8.58241 28.6667 5.37533 25.4596 5.37533 21.5C5.37533 17.5404 8.58241 14.3333 12.542 14.3333H30.4587C34.4182 14.3333 37.6253 17.5404 37.6253 21.5C37.6253 25.4596 34.4182 28.6667 30.4587 28.6667ZM12.542 16.125C9.56782 16.125 7.16699 18.5258 7.16699 21.5C7.16699 24.4742 9.56782 26.875 12.542 26.875C15.5162 26.875 17.917 24.4742 17.917 21.5C17.917 18.5258 15.5162 16.125 12.542 16.125Z"
+                        fill="black" fill-opacity="0.54"></path>
+                </svg>`;
+                    document.getElementById('statusTableModal').value = '0';
+                }
+            })
+            // document.getElementById('saveTableModal') on click data-active, data-capacity, and innerHtml change by inputs
+            document.getElementById('saveTableModal').addEventListener('click', () => {
+                elmnt.dataset.active = document.getElementById('statusTableModal').value;
+                elmnt.dataset.capacity = document.getElementById('numberOfPeopleModal').value;
+                elmnt.children[1].children[1].children[0].innerHTML = document.getElementById('tableNumberModal')
+                    .value;
+                document.getElementById('editTableModal').style.display = 'none';
+            });
+            // delete add data-delete='true' and display none
+            document.getElementById('deleteTableModal').addEventListener('click', () => {
+                elmnt.dataset.delete = 'true';
+                elmnt.style.display = 'none';
+                document.getElementById('editTableModal').style.display = 'none';
+            });
+        }
+
         function dragElement(elmnt) {
             let pos1 = 0;
             let pos2 = 0;
@@ -424,8 +566,7 @@
             // const resizeElement = document.createElement("div");
             // resizeElement.className = "resize";
             const editElement = document.createElement("div");
-            editElement.className = "edit";
-
+            // editElement.className = "edit";
             editElement.innerHTML = `
                                         <svg
                                         width="14"
@@ -433,6 +574,7 @@
                                         viewBox="0 0 14 14"
                                         fill="none"
                                         xmlns="http://www.w3.org/2000/svg"
+                                        onclick="editTableFunction(this.parentElement)"
                                         class="w-3.5 h-3.5 editIcon absolute top-[12px] right-[13px] cursor-pointer"
                                         preserveAspectRatio="xMidYMid meet"
                                         >
@@ -447,7 +589,8 @@
 
             // elmnt.appendChild(resizeElement);
             elmnt.innerHTML += editElement.innerHTML;
-            // editElement.addEventListener click function 
+            // editElement.addEventListener click function and open modal for editing current table info
+
             // editElement.addEventListener('click', () => {
             // tableElement.addEventListener('dblclick', function() {
             //     // Show the custom modal for editing
@@ -577,17 +720,13 @@
 
         function updateTablePositions() {
             const tableElements = document.querySelectorAll('.tableElements');
-            const editIcon = document.querySelectorAll('.editIcon');
-            editIcon.forEach(icon => {
-                icon.parentElement.remove();
-            });
             const tablePositions = [];
 
             tableElements.forEach(table => {
-
                 const id = table.getAttribute('data-id');
                 const Capacity = table.getAttribute('data-Capacity');
                 const Active = table.getAttribute('data-active');
+                const Delete = table.getAttribute('data-delete') ?? false;
                 const left = table.offsetLeft;
                 const top = table.offsetTop;
                 const Height = table.clientHeight;
@@ -604,7 +743,7 @@
                     Active,
                     Capacity,
                     IdFloor,
-                    Capacity
+                    Delete
                 });
             });
 
@@ -625,8 +764,8 @@
                             return response.json();
                         } else {
                             if (floorId == 'New') {
-                            alert('New floor created!');
-                            return window.location.reload();
+                                alert('New floor created!');
+                                return window.location.reload();
                             }
                             alert('Table positions saved!');
                             disableTableDraggable(); // Disable draggable after saving
@@ -733,7 +872,7 @@
         // Add a click event listener to the "New Table" button
         newTableButton.addEventListener('click', createNewTable);
     </script>
-    <script>
+    {{-- <script>
         // Declare the modal variable
         const modal = document.getElementById('editTableModal');
 
@@ -758,5 +897,5 @@
             modal.classList.remove('show');
             modal.style.display = 'none';
         }
-    </script>
+    </script> --}}
 @endsection

@@ -27,18 +27,17 @@ class RestaurantSettingsController extends Controller
 
     public function index(Restaurant $restaurant)
     {
-        $tags = Tag::all();
-        $user = Auth::user();
-        // restaurant with working hours
-        $restaurant = Moderator::where('user_id', $user->id)
-            ->withoutGlobalScope('approved_active')
-            ->first()
-            ->restaurant;
-        $restaurantImage = $restaurant->images;
+        $restaurant = Restaurant::with(['workingHours', 'images', 'tags'])->where('user_id', Auth::user()->id)->first();
+        $tags = $restaurant->tags;
+        $workingHours = $restaurant->workingHours;
+        $coverPhoto = $restaurant->images->where('display_order', 1)->first();
+        $restaurantImages = $restaurant->images->whereNotIn('display_order', 1);
         return view('restaurant.settings', [
             'restaurant' => $restaurant,
-            'restaurantImage' => $restaurantImage,
-            'tags' => $tags
+            'restaurantImages' => $restaurantImages,
+            'tags' => $tags,
+            'workingHours' => $workingHours,
+            'coverPhoto' => $coverPhoto,
         ]);
     }
 
@@ -205,8 +204,7 @@ class RestaurantSettingsController extends Controller
         $requestTables = $request->json()->all();
         
         // return json requestTables
-        // return response()->json($requestTables[0]['IdFloor']);
-        // if one of requestTables have idFloor == 'New' then create a new floor
+        // return response()->json($requestTables);
         if ($requestTables[0]['IdFloor'] == 'New') {
             $floor = Floor::create([
                 'Description' => 'New Floor',
@@ -237,7 +235,11 @@ class RestaurantSettingsController extends Controller
             $table->PositionTop = $requestTable['top'];
             $table->Height = $requestTable['Height'];
             $table->Width = $requestTable['Width'];
-            $table->save();
+            if($requestTable['Delete'] == 'true'){
+                $table->delete();
+            } else {
+                $table->save();
+            }
         }
         return response('Position saved');
     }

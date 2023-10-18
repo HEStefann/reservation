@@ -1,8 +1,6 @@
-<div class="flex h-[70px] py-[14px] mr-[48px] self-end items-center">
-    
-
+<div class="flex my-[20px] mr-[48px] self-end items-center">
     <button onclick="showReservationModal()"
-        class="flex gap-[8px] items-center text-white rounded-[20px] bg-gradient-to-br from-[#ffcd01] to-[#fc7f09] px-[18px] py-2.5">
+        class="flex justify-center gap-[8px] items-center text-white rounded-[20px] bg-gradient-to-br from-[#ffcd01] to-[#fc7f09] w-[205px] h-[42px]">
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"
             class="flex-grow-0 flex-shrink-0 w-[18px] h-[18px]" preserveAspectRatio="xMidYMid meet">
             <path d="M15 9.75H9.75V15H8.25V9.75H3V8.25H8.25V3H9.75V8.25H15V9.75Z" fill="white"></path>
@@ -117,7 +115,8 @@
                 </div>
                 <div class="flex justify-between">
                     <label for="note" class="text-base text-[#343a40]">Note</label>
-                    <textarea name="note" id="note" cols="30" rows="10" class="w-[300px] h-[117px] rounded-lg bg-transparent border-[1.5px] border-[#d4d7e3]"><?php echo e(old('note')); ?></textarea>
+                    <textarea name="note" id="note" cols="30" rows="10"
+                        class="w-[300px] h-[117px] rounded-lg bg-transparent border-[1.5px] border-[#d4d7e3]"><?php echo e(old('note')); ?></textarea>
                 </div>
                 
                 <button

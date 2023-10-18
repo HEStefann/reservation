@@ -22,9 +22,9 @@
                         </svg>
                     </div>
                     <?php
-                        if ($restaurant->workingHours->count() != 0) {
-                            $openingTime = (int) substr($restaurant->workingHours->first()->opening_time, 0, 2);
-                            $closingTime = (int) substr($restaurant->workingHours->first()->closing_time, 0, 2);
+                        if ($workingHours->count() != 0) {
+                            $openingTime = (int) substr($workingHours->first()->opening_time, 0, 2);
+                            $closingTime = (int) substr($workingHours->first()->closing_time, 0, 2);
                         } else {
                             $openingTime = 0;
                             $closingTime = 0;
@@ -68,7 +68,7 @@
                     </div>
 
                     <div class="mt-[36px]">
-                        <p class="text-base font-semibold text-[#343a40]">Operating hours:</p>
+                        <p class="text-base font-semibold text-[#343a40] mb-[32px]">Operating hours:</p>
                         <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.input-error','data' => ['messages' => $errors->get('working_hours'),'class' => 'mt-2']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('input-error'); ?>
@@ -89,231 +89,53 @@
                                 $daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
                             ?>
 
-                            <?php $__currentLoopData = $daysOfWeek; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $day): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <?php if($index % 2 === 0): ?>
+                            <?php $__currentLoopData = $daysOfWeek; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $day): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <?php if($key % 2 === 0): ?>
                                     <div class="flex gap-[76px]">
-                                        <div>
-                                            <p class="text-2xl text-[#343a40]"><?php echo e($day); ?></p>
-                                            <div class="w-[200px]">
-                                                <?php if($restaurant->workingHours->count() != 0): ?>
-                                                    <?php
-                                                        $workingHours = $restaurant->workingHours->where('default_working_time', 1);
-                                                    ?>
-                                                    <?php $__currentLoopData = $workingHours; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $workingHour): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                        <?php if($workingHour->day_of_week === $day): ?>
-                                                            <input name="working_hours[<?php echo e($day); ?>][opening_time]"
-                                                                class="w-full mt-[12px]" type="time"
-                                                                value="<?php echo e($workingHour->opening_time); ?>"
-                                                                style="border: 1px solid rgba(0, 0, 0,0.12);">
-                                                            <input name="working_hours[<?php echo e($day); ?>][closing_time]"
-                                                                class="w-full mt-[7px]" type="time"
-                                                                value="<?php echo e($workingHour->closing_time); ?>"
-                                                                style="border: 1px solid rgba(0, 0, 0,0.12);">
-                                                        <?php endif; ?>
-                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                <?php else: ?>
+                                <?php endif; ?>
+
+                                <div>
+                                    <p class="text-base text-left text-[#343a40]"><?php echo e($day); ?></p>
+                                    <div class="w-[200px]">
+                                        <?php if($workingHours->count() != 0): ?>
+                                            <?php
+                                                $workingHours = $workingHours->where('default_working_time', 1);
+                                            ?>
+                                            <?php $__currentLoopData = $workingHours; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $workingHour): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <?php if($workingHour->day_of_week === $day): ?>
                                                     <input name="working_hours[<?php echo e($day); ?>][opening_time]"
-                                                        class="w-full mt-[12px]" type="time" value=""
+                                                        class="w-full mt-[12px]" type="time"
+                                                        value="<?php echo e($workingHour->opening_time); ?>"
                                                         style="border: 1px solid rgba(0, 0, 0,0.12);">
                                                     <input name="working_hours[<?php echo e($day); ?>][closing_time]"
-                                                        class="w-full mt-[7px]" type="time" value=""
+                                                        class="w-full mt-[7px]" type="time"
+                                                        value="<?php echo e($workingHour->closing_time); ?>"
                                                         style="border: 1px solid rgba(0, 0, 0,0.12);">
                                                 <?php endif; ?>
-                                            </div>
-                                        </div>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        <?php else: ?>
+                                            <input name="working_hours[<?php echo e($day); ?>][opening_time]"
+                                                class="w-full mt-[12px]" type="time" value=""
+                                                style="border: 1px solid rgba(0, 0, 0,0.12);">
+                                            <input name="working_hours[<?php echo e($day); ?>][closing_time]"
+                                                class="w-full mt-[7px]" type="time" value=""
+                                                style="border: 1px solid rgba(0, 0, 0,0.12);">
+                                        <?php endif; ?>
                                     </div>
-                                <?php else: ?>
-                                    <div>
-                                        <p class="text-2xl text-[#343a40]"><?php echo e($day); ?></p>
-                                        <div class="w-[200px]">
-                                            <?php if($restaurant->workingHours->count() != 0): ?>
-                                                <?php $__currentLoopData = $restaurant->workingHours; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $workingHour): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                    <?php if($workingHour->day_of_week === $day): ?>
-                                                        <input name="working_hours[<?php echo e($day); ?>][opening_time]"
-                                                            class="w-full mt-[12px]" type="time"
-                                                            value="<?php echo e($workingHour->opening_time); ?>"
-                                                            style="border: 1px solid rgba(0, 0, 0,0.12);">
-                                                        <input name="working_hours[<?php echo e($day); ?>][closing_time]"
-                                                            class="w-full mt-[7px]" type="time"
-                                                            value="<?php echo e($workingHour->closing_time); ?>"
-                                                            style="border: 1px solid rgba(0, 0, 0,0.12);">
-                                                    <?php endif; ?>
-                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                            <?php else: ?>
-                                                <input name="working_hours[<?php echo e($day); ?>][opening_time]"
-                                                    class="w-full mt-[12px]" type="time" value=""
-                                                    style="border: 1px solid rgba(0, 0, 0,0.12);">
-                                                <input name="working_hours[<?php echo e($day); ?>][closing_time]"
-                                                    class="w-full mt-[7px]" type="time" value=""
-                                                    style="border: 1px solid rgba(0, 0, 0,0.12);">
-                                            <?php endif; ?>
-                                        </div>
-                                    </div>
-                                <?php endif; ?>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                </div>
+                                <?php if(($key + 1) % 2 === 0 || $key === count($daysOfWeek) - 1): ?>
                         </div>
-                    </div>
-                </div>
-                <div class="flex flex-col flex-grow">
-                    <div class="flex relative">
-                        <p class="text-[32px] text-[#343a40] w-[477px]">Temporary</p>
-                        <svg width="165" height="2" viewBox="0 0 165 2" fill="none"
-                            xmlns="http://www.w3.org/2000/svg" class="w-[477px] absolute top-[41px]"
-                            preserveAspectRatio="none">
-                            <path d="M1 1H164" stroke="url(#paint0_linear_1721_8799)" stroke-linecap="round"></path>
-                            <defs>
-                                <linearGradient id="paint0_linear_1721_8799" x1="1" y1="1"
-                                    x2="1.01227" y2="2.99992" gradientUnits="userSpaceOnUse">
-                                    <stop stop-color="#46A6FF"></stop>
-                                    <stop offset="0.489583" stop-color="#52C5DF"></stop>
-                                    <stop offset="1" stop-color="#005FA4"></stop>
-                                </linearGradient>
-                            </defs>
-                        </svg>
-                    </div>
-                    <div class="flex gap-[94px] mt-[31px]">
-                        <p class="text-base font-semibold text-[#343a40]">Calendar:</p>
-                        <div class="flex flex-col gap-[18px] px-6 py-[18px] rounded-lg w-[306px] h-[310px] border border-[#6b686b]"
-                            style="box-shadow: 0px 20px 50px 0 rgba(0,0,0,0.1);">
-                            <div class="flex items-center justify-between">
-                                <button type="button" id="prevButton">
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-                                        <path
-                                            d="M10.1831 4.175L6.35811 8L10.1831 11.825L8.99977 13L3.99977 8L8.99977 3L10.1831 4.175Z"
-                                            fill="#B5BEC6"></path>
-                                    </svg>
-                                </button>
-                                <p class="flex text-sm text-center text-[#4a5660]" id="monthYear"></p>
-                                <button type="button" id="nextButton">
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-                                        <path d="M5 11.825L8.825 8L5 4.175L6.18333 3L11.1833 8L6.18333 13L5 11.825Z"
-                                            fill="#B5BEC6">
-                                        </path>
-                                    </svg>
-                                </button>
-                            </div>
-                            <div id="calendar" class="calendar flex flex-col gap-[18px]">
-                            </div>
-                            <style>
-                                .expired-day {
-                                    color: #979797;
-                                }
+                        <?php endif; ?>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-                                .selectable-button.selected {
-                                    background: linear-gradient(to bottom right, #ffcd01 0%, #fc7f09 100%);
-                                }
-
-                                .selectable-day.selected-day {
-                                    background-color: #fc7f09;
-                                    /* Change to your desired color */
-                                    color: white;
-                                    /* Change to your desired text color */
-                                    border-radius: 50%;
-                                    /* Add a circular border */
-                                    width: 30px;
-                                    /* Set the width to the desired size */
-                                    height: 30px;
-                                    /* Set the height to the desired size */
-                                    display: flex;
-                                    align-items: center;
-                                    justify-content: center;
-                                    cursor: pointer;
-                                    /* Add this line to set the cursor to pointer */
-                                }
-                            </style>
-                            <input type="date" name="date" class="hidden" value="<?php echo e(old('date')); ?>"
-                                id="selectedDateInput">
-                        </div>
-                    </div>
-                    <div id="editDate" class="mt-40 pt-[24px] pl-[22px] pr-[37px] pb-[25px] flex-col gap-[12px] hidden">
-                        <div class="flex justify-between">
-                            <p class="text-sm text-[#343a40]">
-                                <span class="text-sm font-medium text-[#343a40]">Selected date:
-                                </span>
-                                <span id="choosenDate">
-                                    Thursday, 19th of September, 2023
-                                </span>
-                            </p>
-                        </div>
-                        <div class="flex gap-[6px] items-center">
-                            <p class="text-sm font-medium text-center text-[#343a40]">
-                                Operating Status:
-                            </p>
-                            <div id="operatingStatusSvg">
-                                <svg width="42" height="42" viewBox="0 0 42 42" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg" class="w-[42px] h-[42px]"
-                                    preserveAspectRatio="xMidYMid meet">
-                                    <path
-                                        d="M29.75 12.25H12.25C7.42 12.25 3.5 16.17 3.5 21C3.5 25.83 7.42 29.75 12.25 29.75H29.75C34.58 29.75 38.5 25.83 38.5 21C38.5 16.17 34.58 12.25 29.75 12.25ZM29.75 26.25C26.845 26.25 24.5 23.905 24.5 21C24.5 18.095 26.845 15.75 29.75 15.75C32.655 15.75 35 18.095 35 21C35 23.905 32.655 26.25 29.75 26.25Z"
-                                        fill="#B7DDBF"></path>
-                                </svg>
-                            </div>
-                            <input id="operatingStatusDay" type="hidden" name="operatingStatusDay" value="1">
-                        </div>
-                        
-                        <div class="flex gap-[50px]">
-                            <p class="w-[147px] text-sm font-medium text-[#343a40]">
-                                Available number of people:
-                            </p>
-                            
-                            <select class="rounded border-0 w-[99px]" style="box-shadow: 0px 8px 10px 0 rgba(0,0,0,0.1);"
-                                name="available_peopleDay" id="available_peopleDay">
-                                <?php for($i = 1; $i <= 300; $i++): ?>
-                                    <option value="<?php echo e($i); ?>"><?php echo e($i); ?>
-
-                                    </option>
-                                <?php endfor; ?>
-                            </select>
-                        </div>
-                        <div class="flex gap-[18px] pb-[26px]">
-                            <p class="text-sm font-semibold text-[#343a40]">
-                                Operating hours:
-                            </p>
-                            <div class="flex gap-[6px]">
-                                <p class="text-xs text-[#343a40]">from</p>
-                                <select class="rounded border-0 w-[99px]"
-                                    style="box-shadow: 0px 8px 10px 0 rgba(0,0,0,0.1);" name="opening_timeDay"
-                                    id="opening_timeDay">
-                                    <?php for($i = 0; $i <= 23; $i++): ?>
-                                        <?php
-                                            $time = sprintf('%02d:00', $i);
-                                        ?>
-                                        <option value="<?php echo e($i); ?>" <?php echo e($openingTime == $i ? 'selected' : ''); ?>>
-                                            <?php echo e($time); ?>
-
-                                        </option>
-                                    <?php endfor; ?>
-                                </select>
-                            </div>
-                            <div class="flex gap-[6px]">
-                                <p class="text-xs text-[#343a40]">to</p>
-                                <select class="rounded border-0 w-[99px]"
-                                    style="box-shadow: 0px 8px 10px 0 rgba(0,0,0,0.1);" name="closing_timeDay"
-                                    id="closing_timeDay">
-                                    <?php for($i = 0; $i <= 23; $i++): ?>
-                                        <?php
-                                            $time = sprintf('%02d:00', $i);
-                                        ?>
-                                        <option value="<?php echo e($i); ?>" <?php echo e($closingTime == $i ? 'selected' : ''); ?>>
-                                            <?php echo e($time); ?>
-
-                                        </option>
-                                    <?php endfor; ?>
-                                </select>
-                            </div>
-                        </div>
-                        <button onclick="updateTempSettings(event)"
-                            class="w-[104px] h-[42px] rounded-xl bg-[#005fa4] text-base font-semibold text-white self-end">Submit</button>
                     </div>
                 </div>
             </div>
-            <div class="mt-[48px]">
-                <div class="relative">
-                    <p class="text-[32px] text-[#343a40] mb-[41px]">Content</p>
-                    <svg width="165" height="2" viewBox="0 0 165 2" fill="none"
-                        xmlns="http://www.w3.org/2000/svg" class="w-full absolute top-[41px]" preserveAspectRatio="none">
+            <div class="flex flex-col flex-grow">
+                <div class="flex relative">
+                    <p class="text-[32px] text-[#343a40] w-[477px]">Temporary</p>
+                    <svg width="165" height="2" viewBox="0 0 165 2" fill="none" xmlns="http://www.w3.org/2000/svg"
+                        class="w-[477px] absolute top-[41px]" preserveAspectRatio="none">
                         <path d="M1 1H164" stroke="url(#paint0_linear_1721_8799)" stroke-linecap="round"></path>
                         <defs>
                             <linearGradient id="paint0_linear_1721_8799" x1="1" y1="1" x2="1.01227"
@@ -325,322 +147,341 @@
                         </defs>
                     </svg>
                 </div>
-                <div class="flex"
-                    style="display: flex;/* flex-grow: 1; */ display: flex;justify-content: space-between;">
-                    <div class="flex flex-col gap-[24px]">
-                        <div class="flex w-[459px]">
-                            <p class="w-[125px] text-base font-semibold text-[#343a40] mr-auto">
-                                Short description
-                            </p>
-                            <textarea name="description" class="w-[300px] h-28 rounded-xl border-[1.5px] border-[#d4d7e3]"><?php echo e($restaurant->description); ?></textarea>
+                <div class="flex gap-[94px] mt-[31px]">
+                    <p class="text-base font-semibold text-[#343a40]">Calendar:</p>
+                    <div class="flex flex-col gap-[18px] px-6 py-[18px] rounded-lg w-[306px] h-[310px] border border-[#6b686b]"
+                        style="box-shadow: 0px 20px 50px 0 rgba(0,0,0,0.1);">
+                        <div class="flex items-center justify-between">
+                            <button type="button" id="prevButton">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+                                    <path
+                                        d="M10.1831 4.175L6.35811 8L10.1831 11.825L8.99977 13L3.99977 8L8.99977 3L10.1831 4.175Z"
+                                        fill="#B5BEC6"></path>
+                                </svg>
+                            </button>
+                            <p class="flex text-sm text-center text-[#4a5660]" id="monthYear"></p>
+                            <button type="button" id="nextButton">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+                                    <path d="M5 11.825L8.825 8L5 4.175L6.18333 3L11.1833 8L6.18333 13L5 11.825Z"
+                                        fill="#B5BEC6">
+                                    </path>
+                                </svg>
+                            </button>
                         </div>
-                        <div class="flex w-[459px]">
-                            <p class="text-base font-semibold text-[#343a40] mr-auto">
-                                Menu
-                            </p>
-                            <textarea maxlength="255" name="menu" class="w-[300px] h-[153px] rounded-xl border-[1.5px] border-[#d4d7e3]"><?php echo e($restaurant->menu); ?></textarea>
+                        <div id="calendar" class="calendar flex flex-col gap-[18px]">
                         </div>
-                        <div class="flex w-[459px]">
-                            <p class="text-base font-semibold text-[#343a40] mr-auto">
-                                Contact info
-                            </p>
-                            <textarea class="w-[300px] h-[94px] rounded-xl border-[1.5px] border-[#d4d7e3]"></textarea>
+                        <style>
+                            .expired-day {
+                                color: #979797;
+                            }
+
+                            .selectable-button.selected {
+                                background: linear-gradient(to bottom right, #ffcd01 0%, #fc7f09 100%);
+                            }
+
+                            .selectable-day.selected-day {
+                                background-color: #fc7f09;
+                                /* Change to your desired color */
+                                color: white;
+                                /* Change to your desired text color */
+                                border-radius: 50%;
+                                /* Add a circular border */
+                                width: 30px;
+                                /* Set the width to the desired size */
+                                height: 30px;
+                                /* Set the height to the desired size */
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                cursor: pointer;
+                                /* Add this line to set the cursor to pointer */
+                            }
+                        </style>
+                        <input type="date" name="date" class="hidden" value="<?php echo e(old('date')); ?>"
+                            id="selectedDateInput">
+                    </div>
+                </div>
+                <div id="editDate" class="mt-40 pt-[24px] pl-[22px] pr-[37px] pb-[25px] flex-col gap-[12px] hidden">
+                    <div class="flex justify-between">
+                        <p class="text-sm text-[#343a40]">
+                            <span class="text-sm font-medium text-[#343a40]">Selected date:
+                            </span>
+                            <span id="choosenDate">
+                                Thursday, 19th of September, 2023
+                            </span>
+                        </p>
+                    </div>
+                    <div class="flex gap-[6px] items-center">
+                        <p class="text-sm font-medium text-center text-[#343a40]">
+                            Operating Status:
+                        </p>
+                        <div id="operatingStatusSvg">
+                            <svg width="42" height="42" viewBox="0 0 42 42" fill="none"
+                                xmlns="http://www.w3.org/2000/svg" class="w-[42px] h-[42px]"
+                                preserveAspectRatio="xMidYMid meet">
+                                <path
+                                    d="M29.75 12.25H12.25C7.42 12.25 3.5 16.17 3.5 21C3.5 25.83 7.42 29.75 12.25 29.75H29.75C34.58 29.75 38.5 25.83 38.5 21C38.5 16.17 34.58 12.25 29.75 12.25ZM29.75 26.25C26.845 26.25 24.5 23.905 24.5 21C24.5 18.095 26.845 15.75 29.75 15.75C32.655 15.75 35 18.095 35 21C35 23.905 32.655 26.25 29.75 26.25Z"
+                                    fill="#B7DDBF"></path>
+                            </svg>
                         </div>
-                        <div class="form-group">
-                            <label for="current_images">Photos:</label>
-                            <div>
-                                <?php
-                                    $images = $restaurant
-                                        ->images()
-                                        ->where('display_order', 1)
-                                        ->get();
-                                ?>
-                                <?php $__currentLoopData = $images; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <input id="operatingStatusDay" type="hidden" name="operatingStatusDay" value="1">
+                    </div>
+                    
+                    <div class="flex gap-[50px]">
+                        <p class="w-[147px] text-sm font-medium text-[#343a40]">
+                            Available number of people:
+                        </p>
+                        
+                        <select class="rounded border-0 w-[99px]" style="box-shadow: 0px 8px 10px 0 rgba(0,0,0,0.1);"
+                            name="available_peopleDay" id="available_peopleDay">
+                            <?php for($i = 1; $i <= 300; $i++): ?>
+                                <option value="<?php echo e($i); ?>"><?php echo e($i); ?>
+
+                                </option>
+                            <?php endfor; ?>
+                        </select>
+                    </div>
+                    <div class="flex gap-[18px] pb-[26px]">
+                        <p class="text-sm font-semibold text-[#343a40]">
+                            Operating hours:
+                        </p>
+                        <div class="flex gap-[6px]">
+                            <p class="text-xs text-[#343a40]">from</p>
+                            <select class="rounded border-0 w-[99px]" style="box-shadow: 0px 8px 10px 0 rgba(0,0,0,0.1);"
+                                name="opening_timeDay" id="opening_timeDay">
+                                <?php for($i = 0; $i <= 23; $i++): ?>
                                     <?php
-                                        $imageUrl = $image->image_url;
-                                        $storageUrl = asset('storage/images/' . $imageUrl);
-                                        $isHttps = str_contains($storageUrl, 'https');
-                                        $finalImageUrl = $isHttps ? $imageUrl : $storageUrl;
+                                        $time = sprintf('%02d:00', $i);
                                     ?>
-                                    <div>
-                                        <div class="w-[300px] h-full" style="position: relative;">
-                                            <img class="w-[300px] h-full" src="<?php echo e($finalImageUrl); ?>"
-                                                alt="Restaurant Image">
-                                            <button style="position: absolute; top: 8px; right: 8px;"
-                                                onclick="showdeleteImageConfirmationModal(<?php echo e($image->id); ?>)"
-                                                type="button" class="image-button">
-                                                <svg width="18" height="18" viewBox="0 0 12 12" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M8.00033 0V0.666667H11.3337V2H10.667V10.6667C10.667 11.4 10.067 12 9.33366 12H2.66699C1.93366 12 1.33366 11.4 1.33366 10.6667V2H0.666992V0.666667H4.00033V0H8.00033ZM2.66699 10.6667H9.33366V2H2.66699V10.6667ZM4.00033 3.33333H5.33366V9.33333H4.00033V3.33333ZM8.00033 3.33333H6.66699V9.33333H8.00033V3.33333Z"
-                                                        fill="#FC7F09"></path>
-                                                </svg>
-                                            </button>
-                                        </div>
-                                        <div class="flex gap-[11px] mt-[13px] items-center">
-                                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-                                                <path
-                                                    d="M18 16V2C18 0.9 17.1 0 16 0H2C0.9 0 0 0.9 0 2V16C0 17.1 0.9 18 2 18H16C17.1 18 18 17.1 18 16ZM5.5 10.5L8 13.51L11.5 9L16 15H2L5.5 10.5Z"
-                                                    fill="black" fill-opacity="0.54"></path>
-                                            </svg>
-                                            <p
-                                                style="  text-overflow: ellipsis;   overflow: hidden; 
-width: 180px; white-space: nowrap; font-size: 16px; font-weight: 500; color: #343a40;">
-                                                <?php echo e($image->image_url); ?></p>
-                                            <div class="flex justify-start items-center w-max relative p-1 rounded border-[0.5px] border-[#005fa4] mx-[69px]"
-                                                onclick="document.getElementById('file-input1').click()">
-                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    class="flex-grow-0 flex-shrink-0 w-6 h-6 relative"
-                                                    preserveAspectRatio="none">
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z" fill="#6B686B">
-                                                    </path>
-                                                </svg>
-                                                <div
-                                                    class="flex justify-between items-center self-stretch flex-grow relative pl-1.5 pr-2 py-1">
-                                                    <p
-                                                        class="flex-grow-0 flex-shrink-0 text-[10px] text-left text-[#005fa4]">
-                                                        Upload Cover
-                                                        photo</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                <?php if($images->isEmpty()): ?>
-                                    <div class="flex gap-[11px] mt-[13px] items-center">
-                                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-                                            <path
-                                                d="M18 16V2C18 0.9 17.1 0 16 0H2C0.9 0 0 0.9 0 2V16C0 17.1 0.9 18 2 18H16C17.1 18 18 17.1 18 16ZM5.5 10.5L8 13.51L11.5 9L16 15H2L5.5 10.5Z"
-                                                fill="black" fill-opacity="0.54"></path>
-                                        </svg>
-                                        <p style="font-size: 16px; font-weight: 500; color: #343a40;">No images available
-                                        </p>
-                                        <div class="flex justify-center items-center w-max h-8 relative p-1 rounded border-[0.5px] border-[#005fa4] mx-[69px]"
-                                            onclick="document.getElementById('file-input2').click()">
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                class="flex-grow-0 flex-shrink-0 w-6 h-6 relative"
-                                                preserveAspectRatio="none">
-                                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                                    d="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z" fill="#6B686B">
-                                                </path>
-                                            </svg>
-                                            <div
-                                                class="flex justify-center items-center self-stretch flex-grow relative pl-1.5 pr-2 py-1">
-                                                <p class="flex-grow-0 flex-shrink-0 text-[10px] text-left text-[#005fa4]">
-                                                    Upload more photos</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <?php endif; ?>
-                            </div>
+                                    <option value="<?php echo e($i); ?>" <?php echo e($openingTime == $i ? 'selected' : ''); ?>>
+                                        <?php echo e($time); ?>
+
+                                    </option>
+                                <?php endfor; ?>
+                            </select>
                         </div>
-
-                        <!-- Add input for uploading new images -->
-                        <div class="form-group">
-                            <input name="first_image" type="file" id="file-input1" accept="image/*"
-                                style="display: none;">
-
-                            <?php $__errorArgs = ['first_image'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                <p class="text-red-500 text-sm mt-2"><?php echo e($message); ?></p>
-                            <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                        </div>
-
-                        <div>
-                            <div class="form-group">
-                                <label for="current_images">Other Images:</label>
-                                <div>
+                        <div class="flex gap-[6px]">
+                            <p class="text-xs text-[#343a40]">to</p>
+                            <select class="rounded border-0 w-[99px]" style="box-shadow: 0px 8px 10px 0 rgba(0,0,0,0.1);"
+                                name="closing_timeDay" id="closing_timeDay">
+                                <?php for($i = 0; $i <= 23; $i++): ?>
                                     <?php
-                                        $images = $restaurant
-                                            ->images()
-                                            ->where('display_order', '!=', 1)
-                                            ->get(); // Get all images with display_order not equal to 1
+                                        $time = sprintf('%02d:00', $i);
                                     ?>
+                                    <option value="<?php echo e($i); ?>" <?php echo e($closingTime == $i ? 'selected' : ''); ?>>
+                                        <?php echo e($time); ?>
 
-                                    <?php $__currentLoopData = $images; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <?php
-                                            $imageUrl = $image->image_url;
-                                            $storageUrl = asset('storage/images/' . $imageUrl);
-                                            $isHttps = str_contains($storageUrl, 'https');
-                                            $finalImageUrl = $isHttps ? $imageUrl : $storageUrl;
-                                        ?>
-                                        <div>
-                                            <div class="w-[300px] h-full" style="position: relative;">
-                                                <img class="w-[300px] h-full mt-[38px]" src="<?php echo e($finalImageUrl); ?>"
-                                                    alt="Restaurant Image">
-                                                <button style="position: absolute; top: 8px; right: 8px;"
-                                                    onclick="showdeleteImageConfirmationModal(<?php echo e($image->id); ?>)"
-                                                    type="button" class="image-button">
-                                                    <svg width="18" height="18" viewBox="0 0 12 12"
-                                                        fill="none" xmlns="http://www.w3.org/2000/svg"
-                                                        preserveAspectRatio="none">
-                                                        <path fill-rule="evenodd" clip-rule="evenodd"
-                                                            d="M8.00033 0V0.666667H11.3337V2H10.667V10.6667C10.667 11.4 10.067 12 9.33366 12H2.66699C1.93366 12 1.33366 11.4 1.33366 10.6667V2H0.666992V0.666667H4.00033V0H8.00033ZM2.66699 10.6667H9.33366V2H2.66699V10.6667ZM4.00033 3.33333H5.33366V9.33333H4.00033V3.33333ZM8.00033 3.33333H6.66699V9.33333H8.00033V3.33333Z"
-                                                            fill="#FC7F09"></path>
-                                                    </svg>
-                                                </button>
-                                            </div>
-                                            <div class="flex gap-[11px] mt-[13px] items-center">
-                                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-                                                    <path
-                                                        d="M18 16V2C18 0.9 17.1 0 16 0H2C0.9 0 0 0.9 0 2V16C0 17.1 0.9 18 2 18H16C17.1 18 18 17.1 18 16ZM5.5 10.5L8 13.51L11.5 9L16 15H2L5.5 10.5Z"
-                                                        fill="black" fill-opacity="0.54"></path>
-                                                </svg>
-                                                <p
-                                                    style="  text-overflow: ellipsis;   overflow: hidden; 
-width: 180px; white-space: nowrap; font-size: 16px; font-weight: 500; color: #343a40;">
-                                                    <?php echo e($image->image_url); ?></p>
-                                                <div class="flex justify-center items-center w-max h-8 relative p-1 rounded border-[0.5px] border-[#005fa4] mx-[69px]"
-                                                    onclick="document.getElementById('file-input2').click()"><svg
-                                                        width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        class="flex-grow-0 flex-shrink-0 w-6 h-6 relative"
-                                                        preserveAspectRatio="none">
-                                                        <path fill-rule="evenodd" clip-rule="evenodd"
-                                                            d="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z" fill="#6B686B">
-                                                        </path>
-                                                    </svg>
-                                                    <div
-                                                        class="flex justify-center items-center self-stretch flex-grow relative pl-1.5 pr-2 py-1">
-                                                        <p id="uploadText"
-                                                            class="flex-grow-0 flex-shrink-0 text-[10px] text-left text-[#005fa4]">
-                                                            Upload more photos
-                                                        </p>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                    <?php if($images->isEmpty()): ?>
-                                        <div class="flex gap-[11px] mt-[13px] items-center">
-                                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-                                                <path
-                                                    d="M18 16V2C18 0.9 17.1 0 16 0H2C0.9 0 0 0.9 0 2V16C0 17.1 0.9 18 2 18H16C17.1 18 18 17.1 18 16ZM5.5 10.5L8 13.51L11.5 9L16 15H2L5.5 10.5Z"
-                                                    fill="black" fill-opacity="0.54"></path>
-                                            </svg>
-                                            <p style="font-size: 16px; font-weight: 500; color: #343a40;">No images
-                                                available</p>
-                                            <div class="flex justify-center items-center w-max h-8 relative p-1 rounded border-[0.5px] border-[#005fa4] mx-[69px]"
-                                                onclick="document.getElementById('file-input2').click()">
-                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    class="flex-grow-0 flex-shrink-0 w-6 h-6 relative"
-                                                    preserveAspectRatio="none">
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z" fill="#6B686B">
-                                                    </path>
-                                                </svg>
-                                                <div
-                                                    class="flex justify-center items-center self-stretch flex-grow relative pl-1.5 pr-2 py-1">
-                                                    <p
-                                                        class="flex-grow-0 flex-shrink-0 text-[10px] text-left text-[#005fa4]">
-                                                        Upload more photos</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    <?php endif; ?>
-                                </div>
-                                <div class="form-group">
-                                    <input name="other_image" type="file" id="file-input2" accept="image/*"
-                                        style="display: none;">
-
-                                    <?php $__errorArgs = ['other_image'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                        <p class="text-red-500 text-sm mt-2"><?php echo e($message); ?></p>
-                                    <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                                </div>
-
-                            </div>
+                                    </option>
+                                <?php endfor; ?>
+                            </select>
                         </div>
                     </div>
-                    <div class="flex flex-col">
-                        <div class="flex">
-                            <p class="text-base font-semibold text-[#343a40] mr-[60px]">Primary tags</p>
-                            <select class="rounded w-[110px] border-0 mr-[34px]"
-                                style="box-shadow: 0px 8px 10px 0 rgba(0,0,0,0.1);">
-                                <?php
-                                    $mainCuisines = \App\Models\RestaurantTag::where('main_cuisine', true)
-                                        ->pluck('tag_id')
-                                        ->toArray();
-                                ?>
-                                <?php if(count($mainCuisines) > 0): ?>
-                                    <?php $__currentLoopData = $tags; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $tag): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <?php if(in_array($tag->id, $mainCuisines) && $tag->tag_type_id == 2): ?>
-                                            <option value="<?php echo e($tag->name); ?>"><?php echo e($tag->name); ?></option>
-                                        <?php endif; ?>
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                    <optgroup label="Other tags">
-                                        <?php $__currentLoopData = $tags; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $tag): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <?php if($tag->tag_type_id != 1): ?>
-                                                <option value="<?php echo e($tag->name); ?>"><?php echo e($tag->name); ?></option>
-                                            <?php endif; ?>
-                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                    </optgroup>
-                                <?php else: ?>
-                                    <?php $__currentLoopData = $tags; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $tag): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <?php if($tag->tag_type_id == 2): ?>
-                                            <option value="<?php echo e($tag->name); ?>"><?php echo e($tag->name); ?></option>
-                                        <?php endif; ?>
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                <?php endif; ?>
-                            </select>
-                            <select class="rounded w-[110px] border-0"
-                                style="box-shadow: 0px 8px 10px 0 rgba(0,0,0,0.1);">
-                                <option value="Parking" <?php echo e($restaurant->parking() ? 'selected' : ''); ?>>Parking</option>
-                                <option value="No parking" <?php echo e(!$restaurant->parking() ? 'selected' : ''); ?>>No parking
-                                </option>
-                            </select>
-                        </div>
-                        <input type="hidden" name="main_cuisine" id="main_cuisine_input" value="">
-                        <div class="flex gap-[35px] mt-[16px] mb-[24px]">
-                            <p class="text-base font-semibold text-[#343a40]">
-                                Secondary tags
+                    <button onclick="updateTempSettings(event)"
+                        class="w-[104px] h-[42px] rounded-xl bg-[#005fa4] text-base font-semibold text-white self-end">Submit</button>
+                </div>
+            </div>
+        </div>
+        <div class="mt-[73px]">
+            <div class="relative">
+                <p class="text-[32px] text-[#343a40] mb-[41px]">Content</p>
+                <svg width="165" height="2" viewBox="0 0 165 2" fill="none"
+                    xmlns="http://www.w3.org/2000/svg" class="w-full absolute top-[41px]" preserveAspectRatio="none">
+                    <path d="M1 1H164" stroke="url(#paint0_linear_1721_8799)" stroke-linecap="round"></path>
+                    <defs>
+                        <linearGradient id="paint0_linear_1721_8799" x1="1" y1="1" x2="1.01227"
+                            y2="2.99992" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#46A6FF"></stop>
+                            <stop offset="0.489583" stop-color="#52C5DF"></stop>
+                            <stop offset="1" stop-color="#005FA4"></stop>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+            <div class="flex" style="display: flex;/* flex-grow: 1; */ display: flex;justify-content: space-between;">
+                <div class="flex flex-col gap-[24px]">
+                    <div class="flex w-[459px]">
+                        <p class="w-[125px] text-base font-semibold text-[#343a40] mr-auto">
+                            Short description
+                        </p>
+                        <textarea name="description" class="w-[300px] h-28 rounded-xl border-[1.5px] border-[#d4d7e3]"><?php echo e($restaurant->description); ?></textarea>
+                    </div>
+                    <div class="flex w-[459px]">
+                        <p class="text-base font-semibold text-[#343a40] mr-auto">
+                            Menu
+                        </p>
+                        <textarea maxlength="255" name="menu" class="w-[300px] h-[153px] rounded-xl border-[1.5px] border-[#d4d7e3]"><?php echo e($restaurant->menu); ?></textarea>
+                    </div>
+                    <div class="flex w-[459px]">
+                        <p class="text-base font-semibold text-[#343a40] mr-auto">
+                            Contact info
+                        </p>
+                        <textarea class="w-[300px] h-[94px] rounded-xl border-[1.5px] border-[#d4d7e3]"></textarea>
+                    </div>
+                    <div class="flex flex-col gap-[38px]">
+                        <div class="flex gap-[102px] items-center">
+                            <p class="flex-grow-0 flex-shrink-0 text-base font-medium text-left text-[#343a40]">Photos
                             </p>
-                            <input type="text" class="w-[218px] h-[36px] rounded-xl border-[1.5px] border-[#d4d7e3]">
-                        </div>
-                        
-                        <div class="grid gap-[22px] gap-y-[8px] ml-[161px]">
-                            <?php $__currentLoopData = $restaurant->tags; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $tag): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <div class="flex gap-[8px] p-1 rounded-2xl bg-[#212121]/[0.08] w-fit">
-                                    <p class="text-xs text-black/[0.87]"><?php echo e($tag->name); ?></p>
-                                    <svg width="19" height="18" viewBox="0 0 19 18" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        class="flex-grow-0 flex-shrink-0 w-[18px] h-[18px] relative"
-                                        preserveAspectRatio="none">
-                                        <path fill-rule="evenodd" clip-rule="evenodd"
-                                            d="M9.5 1.5C5.3525 1.5 2 4.8525 2 9C2 13.1475 5.3525 16.5 9.5 16.5C13.6475 16.5 17 13.1475 17 9C17 4.8525 13.6475 1.5 9.5 1.5ZM13.25 11.6925L12.1925 12.75L9.5 10.0575L6.8075 12.75L5.75 11.6925L8.4425 9L5.75 6.3075L6.8075 5.25L9.5 7.9425L12.1925 5.25L13.25 6.3075L10.5575 9L13.25 11.6925Z"
-                                            fill="#FC7F09"></path>
-                                    </svg>
+                            <div class="flex flex-col gap-[6px]">
+                                <div class="w-[300px] h-[145px] object-cover relative">
+                                    <?php if($coverPhoto): ?>
+                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            class="w-4 h-4 absolute top-[6px] right-[6px]"
+                                            preserveAspectRatio="xMidYMid meet">
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                d="M10.0003 2V2.66667H13.3337V4H12.667V12.6667C12.667 13.4 12.067 14 11.3337 14H4.66699C3.93366 14 3.33366 13.4 3.33366 12.6667V4H2.66699V2.66667H6.00033V2H10.0003ZM4.66699 12.6667H11.3337V4H4.66699V12.6667ZM6.00033 5.33333H7.33366V11.3333H6.00033V5.33333ZM10.0003 5.33333H8.66699V11.3333H10.0003V5.33333Z"
+                                                fill="#FC7F09"></path>
+                                        </svg>
+                                        <?php if(str_starts_with($coverPhoto->image_url, 'https')): ?>
+                                            <img src="<?php echo e($coverPhoto->image_url); ?>" class="object-cover w-full h-full">
+                                        <?php else: ?>
+                                            <img src="<?php echo e(asset('storage/' . $coverPhoto->image_url)); ?>"
+                                                class="object-cover w-full h-full">
+                                        <?php endif; ?>
+                                    <?php else: ?>
+                                        <p>No cover photo</p>
+                                    <?php endif; ?>
                                 </div>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                <div class="flex justify-between items-center">
+                                    <div class="flex gap-[8px] items-center">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 relative"
+                                            preserveAspectRatio="xMidYMid meet">
+                                            <path
+                                                d="M21 19V5C21 3.9 20.1 3 19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19ZM8.5 13.5L11 16.51L14.5 12L19 18H5L8.5 13.5Z"
+                                                fill="black" fill-opacity="0.54"></path>
+                                        </svg>
+                                        <p class="text-base font-medium text-[#343a40]">img.57</p>
+                                    </div>
+                                    <button
+                                        class="flex items-center justify-center w-[134px] h-[32px] rounded border-[0.5px] border-[#005fa4] text-[10px] text-[#005fa4]">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg" class="w-6 h-6"
+                                            preserveAspectRatio="none">
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                d="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z" fill="#6B686B"></path>
+                                        </svg>
+                                        Upload Cover photo
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-[6px] min-w-[300px] self-end">
+                            <?php if($restaurantImages->count()): ?>
+                                <?php $__currentLoopData = $restaurantImages; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <div class="w-[300px] h-[145px] object-cover relative">
+                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            class="w-4 h-4 absolute top-[6px] right-[6px]"
+                                            preserveAspectRatio="xMidYMid meet">
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                d="M10.0003 2V2.66667H13.3337V4H12.667V12.6667C12.667 13.4 12.067 14 11.3337 14H4.66699C3.93366 14 3.33366 13.4 3.33366 12.6667V4H2.66699V2.66667H6.00033V2H10.0003ZM4.66699 12.6667H11.3337V4H4.66699V12.6667ZM6.00033 5.33333H7.33366V11.3333H6.00033V5.33333ZM10.0003 5.33333H8.66699V11.3333H10.0003V5.33333Z"
+                                                fill="#FC7F09"></path>
+                                        </svg>
+                                        <?php if(str_starts_with($image->image_url, 'https')): ?>
+                                            <img src="<?php echo e($image->image_url); ?>" class="object-cover w-full h-full">
+                                        <?php else: ?>
+                                            <img src="<?php echo e(asset('storage/' . $image->image_url)); ?>"
+                                                class="object-cover w-full h-full">
+                                        <?php endif; ?>
+                                    </div>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            <?php else: ?>
+                                <p>No photos</p>
+                            <?php endif; ?>
+                            <div class="flex justify-between items-center">
+                                <div class="flex gap-[8px] items-center">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 relative"
+                                        preserveAspectRatio="xMidYMid meet">
+                                        <path
+                                            d="M21 19V5C21 3.9 20.1 3 19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19ZM8.5 13.5L11 16.51L14.5 12L19 18H5L8.5 13.5Z"
+                                            fill="black" fill-opacity="0.54"></path>
+                                    </svg>
+                                    <p class="text-base font-medium text-[#343a40]">img.57</p>
+                                </div>
+                                <button
+                                    class="flex items-center justify-center w-[134px] h-[32px] rounded border-[0.5px] border-[#005fa4] text-[10px] text-[#005fa4]">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" preserveAspectRatio="none">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z" fill="#6B686B"></path>
+                                    </svg>
+                                    Upload more photos
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div class="flex flex-col">
+                    <div class="flex">
+                        <p class="text-base font-semibold text-[#343a40] mr-[60px]">Primary tags</p>
+                        <select class="rounded w-[110px] border-0 mr-[34px]"
+                            style="box-shadow: 0px 8px 10px 0 rgba(0,0,0,0.1);">
+                            <?php
+                                $mainCuisines = $restaurant->tags
+                                    ->where('main_cuisine', true)
+                                    ->pluck('tag_id')
+                                    ->toArray();
+                            ?>
+                            <?php if(count($mainCuisines) > 0): ?>
+                                <?php $__currentLoopData = $tags; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $tag): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <?php if(in_array($tag->id, $mainCuisines) && $tag->tag_type_id == 2): ?>
+                                        <option value="<?php echo e($tag->name); ?>"><?php echo e($tag->name); ?></option>
+                                    <?php endif; ?>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                <optgroup label="Other tags">
+                                    <?php $__currentLoopData = $tags; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $tag): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <?php if($tag->tag_type_id != 1): ?>
+                                            <option value="<?php echo e($tag->name); ?>"><?php echo e($tag->name); ?></option>
+                                        <?php endif; ?>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                </optgroup>
+                            <?php else: ?>
+                                <?php $__currentLoopData = $tags; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $tag): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <?php if($tag->tag_type_id == 2): ?>
+                                        <option value="<?php echo e($tag->name); ?>"><?php echo e($tag->name); ?></option>
+                                    <?php endif; ?>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            <?php endif; ?>
+                        </select>
+                        <select class="rounded w-[110px] border-0" style="box-shadow: 0px 8px 10px 0 rgba(0,0,0,0.1);">
+                            <option value="Parking" <?php echo e($restaurant->parking() ? 'selected' : ''); ?>>Parking</option>
+                            <option value="No parking" <?php echo e(!$restaurant->parking() ? 'selected' : ''); ?>>No parking
+                            </option>
+                        </select>
+                    </div>
+                    <input type="hidden" name="main_cuisine" id="main_cuisine_input" value="">
+                    <div class="flex gap-[35px] mt-[16px] mb-[24px]">
+                        <p class="text-base font-semibold text-[#343a40]">
+                            Secondary tags
+                        </p>
+                        <input type="text" class="w-[218px] h-[36px] rounded-xl border-[1.5px] border-[#d4d7e3]">
+                    </div>
+                    <div class="grid gap-[22px] gap-y-[8px] ml-[161px]">
+                        <?php $__currentLoopData = $restaurant->tags; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $tag): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <div class="flex gap-[8px] p-1 rounded-2xl bg-[#212121]/[0.08] w-fit">
+                                <p class="text-xs text-black/[0.87]"><?php echo e($tag->name); ?></p>
+                                <svg width="19" height="18" viewBox="0 0 19 18" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="flex-grow-0 flex-shrink-0 w-[18px] h-[18px] relative"
+                                    preserveAspectRatio="none">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M9.5 1.5C5.3525 1.5 2 4.8525 2 9C2 13.1475 5.3525 16.5 9.5 16.5C13.6475 16.5 17 13.1475 17 9C17 4.8525 13.6475 1.5 9.5 1.5ZM13.25 11.6925L12.1925 12.75L9.5 10.0575L6.8075 12.75L5.75 11.6925L8.4425 9L5.75 6.3075L6.8075 5.25L9.5 7.9425L12.1925 5.25L13.25 6.3075L10.5575 9L13.25 11.6925Z"
+                                        fill="#FC7F09"></path>
+                                </svg>
+                            </div>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    </div>
+                </div>
             </div>
-            <div class="mt-[28px] flex justify-end">
-                <button class="text-[28px] font-semibold rounded-[10px] bg-[#005fa4] text-white w-[195px] h-14"
-                    type="submit">Save</button>
-            </div>
+        </div>
+        <div class="mt-[28px] flex justify-end">
+            <button class="text-[28px] font-semibold rounded-[10px] bg-[#005fa4] text-white w-[195px] h-14"
+                type="submit">Save</button>
+        </div>
         </div>
     </form>
     <form action="<?php echo e(route('restaurant.updateWorkingHours')); ?>" id="updateDay" method="POST">
@@ -981,13 +822,13 @@ unset($__errorArgs, $__bag); ?>
         }
     </script>
     <script>
-        const selectElement = document.querySelector('[name="selected_tag_id"]');
-        const mainCuisineInput = document.getElementById('main_cuisine_input');
+        // const selectElement = document.querySelector('[name="selected_tag_id"]');
+        // const mainCuisineInput = document.getElementById('main_cuisine_input');
 
-        selectElement.addEventListener('change', function() {
-            const selectedTagId = this.value;
-            mainCuisineInput.value = selectedTagId;
-        });
+        // selectElement.addEventListener('change', function() {
+        //     const selectedTagId = this.value;
+        //     mainCuisineInput.value = selectedTagId;
+        // });
     </script>
 <?php $__env->stopSection(); ?>
 
